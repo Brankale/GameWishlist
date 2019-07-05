@@ -2,6 +2,7 @@ package com.fermimn.gamewishlist.data_types;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GamePreview {
 
@@ -341,4 +342,31 @@ public class GamePreview {
         }
         return !m_olderPreorderPrices.isEmpty();
     }
+
+    /**
+     * @param o a GamePreview object
+     * @return true if two GamePreview are identical, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
+
+        GamePreview that = (GamePreview) o;
+        return m_id.equals(that.m_id);
+    }
+
+    /**
+     * @return the hashCode of the GamePreview object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(m_id);
+    }
+
 }
