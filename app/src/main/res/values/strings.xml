@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">GameWishlist</string>
+    <string name="app_name">Game Wishlist</string>
+
+    <string name="no_info">n/a</string>
+
+    <string name="newPrice">"NUOVO: "</string>
+    <string name="usedPrice">"USATO: "</string>
+    <string name="digitalPrice">"DIGITALE: "</string>
+    <string name="preorderPrice">"PREORDINE: "</string>
+    <string name="validForPromotions">"VALIDO PER LE PROMOZIONI"</string>
 </resources>
