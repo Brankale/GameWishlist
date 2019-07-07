@@ -12,12 +12,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.fermimn.gamewishlist.R;
 
-public class SearchBox extends Fragment {
+public class SearchBoxFragment extends Fragment {
 
-    private Context mContext;
-
-    public SearchBox(Context context) {
-        mContext = context;
+    public SearchBoxFragment() {
     }
 
     @Override

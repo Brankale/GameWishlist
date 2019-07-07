@@ -75,11 +75,11 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/priceNew"
+                android:id="@+id/category_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/redGamestop"
+                android:background="@color/colorAccent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="3dp">
@@ -92,7 +92,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/newPrice"
+                    android:id="@+id/new_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_info"
@@ -100,7 +100,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/oldNewPrice"
+                    android:id="@+id/older_new_prices"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -111,11 +111,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/priceUsed"
+                android:id="@+id/category_used"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/redGamestop"
+                android:background="@color/colorAccent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="3dp">
@@ -128,7 +128,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/usedPrice"
+                    android:id="@+id/used_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_info"
@@ -136,7 +136,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/oldUsedPrice"
+                    android:id="@+id/older_used_prices"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -147,11 +147,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/priceDigital"
+                android:id="@+id/category_digital"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/redGamestop"
+                android:background="@color/colorAccent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="3dp"
@@ -165,23 +165,30 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/digitalPrice"
+                    android:id="@+id/digital_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_info"
                     android:textColor="#FFF"
                     android:textStyle="bold" />
 
-                <!-- TODO: add olderDigitalPrices -->
+                <TextView
+                    android:id="@+id/older_digital_prices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/no_info"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/pricePreorder"
+                android:id="@+id/category_preorder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/redGamestop"
+                android:background="@color/colorAccent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="3dp"
@@ -195,14 +202,21 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/preorderPrice"
+                    android:id="@+id/preorder_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_info"
                     android:textColor="#FFF"
                     android:textStyle="bold" />
 
-                <!-- TODO: add olderPreorderPrices -->
+                <TextView
+                    android:id="@+id/older_preorder_prices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/no_info"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

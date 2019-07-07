@@ -4,7 +4,7 @@
     android:shape="rectangle">
 
     <stroke
-        android:color="@color/redGamestop"
+        android:color="@color/colorAccent"
         android:width="2dp" />
 
     <corners
