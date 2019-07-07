@@ -6,62 +6,62 @@ import java.util.List;
 
 public class Game extends GamePreview {
 
-    private List<String> m_genres;
-    private String m_description;
-    private String m_officialSite;
-    private String m_players;
-    private boolean m_validForPromotions;
-    private List<Promo> m_promos;
+    private List<String> mGenres;
+    private String mDescription;
+    private String mOfficialSite;
+    private String mPlayers;
+    private boolean mValidForPromotions;
+    private List<Promo> mPromos;
 
     public Game() {
     }
 
     public List<String> getGenres() {
-        return m_genres;
+        return mGenres;
     }
 
     public void setGenres(List<String> genres) {
-        m_genres = genres;
+        mGenres = genres;
     }
 
     public String getDescription() {
-        return m_description;
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        m_description = description;
+        mDescription = description;
     }
 
     public String getOfficialSite() {
-        return m_officialSite;
+        return mOfficialSite;
     }
 
     public void setOfficialSite(String officialSite) {
-        m_officialSite = officialSite;
+        mOfficialSite = officialSite;
     }
 
     public String getPlayers() {
-        return m_players;
+        return mPlayers;
     }
 
     public void setPlayers(String players) {
-        m_players = players;
+        mPlayers = players;
     }
 
     public boolean isValidForPromotions() {
-        return m_validForPromotions;
+        return mValidForPromotions;
     }
 
     public void setValidForPromotions(boolean validForPromotions) {
-        m_validForPromotions = validForPromotions;
+        mValidForPromotions = validForPromotions;
     }
 
     public List<Promo> getPromo() {
-        return m_promos;
+        return mPromos;
     }
 
     public void setPromo(List<Promo> promo) {
-        m_promos = promo;
+        mPromos = promo;
     }
 
 }

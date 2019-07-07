@@ -6,20 +6,20 @@ import java.util.Objects;
 
 public class GamePreview {
 
-    private String m_id;
-    private String m_title;
-    private String m_publisher;
-    private String m_platform;
+    private String mId;
+    private String mTitle;
+    private String mPublisher;
+    private String mPlatform;
 
-    private Double m_newPrice;
-    private Double m_usedPrice;
-    private Double m_preorderPrice;
-    private Double m_digitalPrice;
+    private Double mNewPrice;
+    private Double mUsedPrice;
+    private Double mPreorderPrice;
+    private Double mDigitalPrice;
 
-    private List<Double> m_olderNewPrices;
-    private List<Double> m_olderUsedPrices;
-    private List<Double> m_olderDigitalPrices;
-    private List<Double> m_olderPreorderPrices;
+    private List<Double> mOlderNewPrices;
+    private List<Double> mOlderUsedPrices;
+    private List<Double> mOlderDigitalPrices;
+    private List<Double> mOlderPreorderPrices;
 
     /**
      * Create a GamePreview object
@@ -33,7 +33,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public String getId() {
-        return m_id;
+        return mId;
     }
 
     /**
@@ -41,7 +41,7 @@ public class GamePreview {
      * @param id of the game
      */
     public void setId(String id) {
-        m_id = id;
+        mId = id;
     }
 
     /**
@@ -50,7 +50,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public String getTitle() {
-        return m_title;
+        return mTitle;
     }
 
     /**
@@ -58,7 +58,7 @@ public class GamePreview {
      * @param title of the game
      */
     public void setTitle(String title) {
-        m_title = title;
+        mTitle = title;
     }
 
     /**
@@ -67,7 +67,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public String getPublisher() {
-        return m_publisher;
+        return mPublisher;
     }
 
     /**
@@ -75,7 +75,7 @@ public class GamePreview {
      * @param publisher of the game
      */
     public void setPublisher(String publisher) {
-        m_publisher = publisher;
+        mPublisher = publisher;
     }
 
     /**
@@ -84,7 +84,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public String getPlatform() {
-        return m_platform;
+        return mPlatform;
     }
 
     /**
@@ -92,7 +92,7 @@ public class GamePreview {
      * @param platform of the game
      */
     public void setPlatform(String platform) {
-        m_platform = platform;
+        mPlatform = platform;
     }
 
     /**
@@ -101,7 +101,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public Double getNewPrice() {
-        return m_newPrice;
+        return mNewPrice;
     }
 
     /**
@@ -109,7 +109,7 @@ public class GamePreview {
      * @param newPrice of the game
      */
     public void setNewPrice(Double newPrice) {
-        m_newPrice = newPrice;
+        mNewPrice = newPrice;
     }
 
     /**
@@ -118,7 +118,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public Double getUsedPrice() {
-        return m_usedPrice;
+        return mUsedPrice;
     }
 
     /**
@@ -126,7 +126,7 @@ public class GamePreview {
      * @param usedPrice o the game
      */
     public void setUsedPrice(Double usedPrice) {
-        m_usedPrice = usedPrice;
+        mUsedPrice = usedPrice;
     }
 
     /**
@@ -135,7 +135,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public Double getPreorderPrice() {
-        return m_preorderPrice;
+        return mPreorderPrice;
     }
 
     /**
@@ -143,7 +143,7 @@ public class GamePreview {
      * @param preorderPrice of the game
      */
     public void setPreorderPrice(Double preorderPrice) {
-        m_preorderPrice = preorderPrice;
+        mPreorderPrice = preorderPrice;
     }
 
     /**
@@ -152,7 +152,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null
     public Double getDigitalPrice() {
-        return m_digitalPrice;
+        return mDigitalPrice;
     }
 
     /**
@@ -160,7 +160,7 @@ public class GamePreview {
      * @param digitalPrice of the game
      */
     public void setDigitalPrice(Double digitalPrice) {
-        m_digitalPrice = digitalPrice;
+        mDigitalPrice = digitalPrice;
     }
 
     /**
@@ -169,7 +169,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderNewPrices() {
-        return m_olderNewPrices;
+        return mOlderNewPrices;
     }
 
     /**
@@ -177,7 +177,7 @@ public class GamePreview {
      * @param olderNewPrices of the game
      */
     public void setOlderNewPrices(List<Double> olderNewPrices) {
-        m_olderNewPrices = olderNewPrices;
+        mOlderNewPrices = olderNewPrices;
     }
 
     /**
@@ -186,7 +186,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderUsedPrices() {
-        return m_olderUsedPrices;
+        return mOlderUsedPrices;
     }
 
     /**
@@ -194,7 +194,7 @@ public class GamePreview {
      * @param olderUsedPrices of teh game
      */
     public void setOlderUsedPrices(List<Double> olderUsedPrices) {
-        m_olderUsedPrices = olderUsedPrices;
+        mOlderUsedPrices = olderUsedPrices;
     }
 
     /**
@@ -203,7 +203,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderDigitalPrices() {
-        return m_olderDigitalPrices;
+        return mOlderDigitalPrices;
     }
 
     /**
@@ -211,7 +211,7 @@ public class GamePreview {
      * @param olderDigitalPrices of the game
      */
     public void setOlderDigitalPrices(List<Double> olderDigitalPrices) {
-        m_olderDigitalPrices = olderDigitalPrices;
+        mOlderDigitalPrices = olderDigitalPrices;
     }
 
     /**
@@ -220,7 +220,7 @@ public class GamePreview {
      */
     // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderPreorderPrices() {
-        return m_olderPreorderPrices;
+        return mOlderPreorderPrices;
     }
 
     /**
@@ -228,7 +228,7 @@ public class GamePreview {
      * @param olderPreorderPrices of the game
      */
     public void setOlderPreorderPrices(List<Double> olderPreorderPrices) {
-        m_olderPreorderPrices = olderPreorderPrices;
+        mOlderPreorderPrices = olderPreorderPrices;
     }
 
     /**
@@ -236,10 +236,10 @@ public class GamePreview {
      * @param olderNewPrice
      */
     public void addOlderNewPrice(double olderNewPrice) {
-        if (m_olderNewPrices == null){
-            m_olderNewPrices = new ArrayList<>();
+        if (mOlderNewPrices == null){
+            mOlderNewPrices = new ArrayList<>();
         }
-        m_olderNewPrices.add(olderNewPrice);
+        mOlderNewPrices.add(olderNewPrice);
     }
 
     /**
@@ -247,10 +247,10 @@ public class GamePreview {
      * @param olderUsedPrice
      */
     public void addOlderUsedPrice(double olderUsedPrice) {
-        if (m_olderUsedPrices == null){
-            m_olderUsedPrices = new ArrayList<>();
+        if (mOlderUsedPrices == null){
+            mOlderUsedPrices = new ArrayList<>();
         }
-        m_olderUsedPrices.add(olderUsedPrice);
+        mOlderUsedPrices.add(olderUsedPrice);
     }
 
     /**
@@ -258,10 +258,10 @@ public class GamePreview {
      * @param olderDigitalPrice
      */
     public void addOlderDigitalPrice(double olderDigitalPrice) {
-        if (m_olderDigitalPrices == null){
-            m_olderDigitalPrices = new ArrayList<>();
+        if (mOlderDigitalPrices == null){
+            mOlderDigitalPrices = new ArrayList<>();
         }
-        m_olderDigitalPrices.add(olderDigitalPrice);
+        mOlderDigitalPrices.add(olderDigitalPrice);
     }
 
     /**
@@ -269,78 +269,78 @@ public class GamePreview {
      * @param olderPreorderPrice
      */
     public void addOlderPreorderPrice(double olderPreorderPrice) {
-        if (m_olderPreorderPrices == null){
-            m_olderPreorderPrices = new ArrayList<>();
+        if (mOlderPreorderPrices == null){
+            mOlderPreorderPrices = new ArrayList<>();
         }
-        m_olderPreorderPrices.add(olderPreorderPrice);
+        mOlderPreorderPrices.add(olderPreorderPrice);
     }
 
     /**
      * @return true if there's a new price, false otherwise
      */
     public boolean hasNewPrice() {
-        return m_newPrice != null;
+        return mNewPrice != null;
     }
 
     /**
      * @return true if there's a used price, false otherwise
      */
     public boolean hasUsedPrice() {
-        return m_usedPrice != null;
+        return mUsedPrice != null;
     }
 
     /**
      * @return true if there's a digital price, false otherwise
      */
     public boolean hasDigitalPrice() {
-        return m_digitalPrice != null;
+        return mDigitalPrice != null;
     }
 
     /**
      * @return true if there's a preorder price, false otherwise
      */
     public boolean hasPreorderPrice() {
-        return m_preorderPrice != null;
+        return mPreorderPrice != null;
     }
 
     /**
      * @return true if there are a older new prices, false otherwise
      */
     public boolean hasOlderNewPrices() {
-        if (m_olderNewPrices == null){
+        if (mOlderNewPrices == null){
             return false;
         }
-        return !m_olderNewPrices.isEmpty();
+        return !mOlderNewPrices.isEmpty();
     }
 
     /**
      * @return true if there are a older used prices, false otherwise
      */
     public boolean hasOlderUsedPrices() {
-        if (m_olderUsedPrices == null){
+        if (mOlderUsedPrices == null){
             return false;
         }
-        return !m_olderUsedPrices.isEmpty();
+        return !mOlderUsedPrices.isEmpty();
     }
 
     /**
      * @return true if there are a older digital prices, false otherwise
      */
     public boolean hasOlderDigitalPrices() {
-        if (m_olderDigitalPrices == null){
+        if (mOlderDigitalPrices == null){
             return false;
         }
-        return !m_olderDigitalPrices.isEmpty();
+        return !mOlderDigitalPrices.isEmpty();
     }
 
     /**
      * @return true if there are a older preorder prices, false otherwise
      */
     public boolean hasOlderPreorderPrices() {
-        if (m_olderPreorderPrices == null){
+        if (mOlderPreorderPrices == null){
             return false;
         }
-        return !m_olderPreorderPrices.isEmpty();
+        return !mOlderPreorderPrices.isEmpty();
     }
 
     /**
@@ -358,7 +358,7 @@ public class GamePreview {
         }
 
         GamePreview that = (GamePreview) o;
-        return m_id.equals(that.m_id);
+        return mId.equals(that.mId);
     }
 
     /**
@@ -366,7 +366,7 @@ public class GamePreview {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(m_id);
+        return Objects.hash(mId);
     }
 
 }

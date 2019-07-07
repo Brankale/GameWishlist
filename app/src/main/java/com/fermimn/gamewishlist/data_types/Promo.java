@@ -5,44 +5,44 @@ package com.fermimn.gamewishlist.data_types;
 
 public class Promo {
 
-    private String m_header;
-    private String m_validity;
-    private String m_message;
-    private String m_messageURL;
+    private String mHeader;
+    private String mValidity;
+    private String mMessage;
+    private String mMessageURL;
 
     public Promo() {
     }
 
     public String getHeader() {
-        return m_header;
+        return mHeader;
     }
 
     public void setHeader(String header) {
-        m_header = header;
+        mHeader = header;
     }
 
     public String getValidity() {
-        return m_validity;
+        return mValidity;
     }
 
     public void setValidity(String validity) {
-        m_validity = validity;
+        mValidity = validity;
     }
 
     public String getMessage() {
-        return m_message;
+        return mMessage;
     }
 
     public void setMessage(String message) {
-        m_message = message;
+        mMessage = message;
     }
 
     public String getMessageURL() {
-        return m_messageURL;
+        return mMessageURL;
     }
 
     public void setMessageURL(String messageURL) {
-        m_messageURL = messageURL;
+        mMessageURL = messageURL;
     }
 
 }

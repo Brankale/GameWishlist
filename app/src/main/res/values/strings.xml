@@ -1,11 +1,19 @@
 <resources>
+
     <string name="app_name">Game Wishlist</string>
 
+    <!-- fragment_game_preview -->
+    <string name="game_image">Immagine del gioco</string>
     <string name="no_info">n/a</string>
+    <string name="by"> &#032; by &#032; </string>
 
-    <string name="newPrice">"NUOVO: "</string>
-    <string name="usedPrice">"USATO: "</string>
-    <string name="digitalPrice">"DIGITALE: "</string>
-    <string name="preorderPrice">"PREORDINE: "</string>
-    <string name="validForPromotions">"VALIDO PER LE PROMOZIONI"</string>
+    <string name="new_price">"NUOVO: "</string>
+    <string name="used_price">"USATO: "</string>
+    <string name="digital_price">"DIGITALE: "</string>
+    <string name="preorder_price">"PREORDINE: "</string>
+    <string name="valid_for_promotions">"VALIDO PER LE PROMOZIONI"</string>
+
+    <!-- fragment_search_box -->
+    <string name="search_box">Cerca un gioco</string>
+
 </resources>
