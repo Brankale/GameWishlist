@@ -369,4 +369,21 @@ public class GamePreview {
         return Objects.hash(mId);
     }
 
+    @Override
+    public String toString() {
+        return "GamePreview{" +
+                "mId='" + mId + '\'' +
+                ", mTitle='" + mTitle + '\'' +
+                ", mPublisher='" + mPublisher + '\'' +
+                ", mPlatform='" + mPlatform + '\'' +
+                ", mNewPrice=" + mNewPrice +
+                ", mUsedPrice=" + mUsedPrice +
+                ", mPreorderPrice=" + mPreorderPrice +
+                ", mDigitalPrice=" + mDigitalPrice +
+                ", mOlderNewPrices=" + mOlderNewPrices +
+                ", mOlderUsedPrices=" + mOlderUsedPrices +
+                ", mOlderDigitalPrices=" + mOlderDigitalPrices +
+                ", mOlderPreorderPrices=" + mOlderPreorderPrices +
+                '}';
+    }
 }

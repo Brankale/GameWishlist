@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SearchBoxFragment">
+    android:orientation="vertical"
+    tools:context=".fragments.SearchGamesFragment">
 
     <SearchView
         android:id="@+id/search_box"
@@ -15,4 +16,10 @@
         android:queryHint="@string/search_box"
         android:iconifiedByDefault="false"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/search_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+</LinearLayout>

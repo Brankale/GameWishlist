@@ -5,7 +5,7 @@
     <!-- fragment_game_preview -->
     <string name="game_image">Immagine del gioco</string>
     <string name="no_info">n/a</string>
-    <string name="by"> &#032; by &#032; </string>
+    <string name="by">&#160;by&#160;</string>
 
     <string name="new_price">"NUOVO: "</string>
     <string name="used_price">"USATO: "</string>
@@ -13,7 +13,7 @@
     <string name="preorder_price">"PREORDINE: "</string>
     <string name="valid_for_promotions">"VALIDO PER LE PROMOZIONI"</string>
 
-    <!-- fragment_search_box -->
+    <!-- fragment_search_games -->
     <string name="search_box">Cerca un gioco</string>
 
 </resources>

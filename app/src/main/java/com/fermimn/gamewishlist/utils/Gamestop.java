@@ -6,6 +6,7 @@ import android.util.Pair;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviews;
+import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Gamestop implements Store {
+
+    private static final String TAG = Gamestop.class.getSimpleName();
 
     private static String WEBSITE_URL = "https://www.gamestop.it/SearchResult/QuickSearch?q=";
 

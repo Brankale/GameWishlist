@@ -1,11 +1,12 @@
 package com.fermimn.gamewishlist.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.fragments.SearchBoxFragment;
+import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,10 +15,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: this is just a test, you must remove it from here
-        // add the searchbox
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new SearchBoxFragment()).commit();
+        // add the search bar
+        if (savedInstanceState == null) {
+            SearchGamesFragment searchBox = new SearchGamesFragment(this);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.container, searchBox, "search_box");
+            transaction.commit();
+        }
+
     }
 
 }
