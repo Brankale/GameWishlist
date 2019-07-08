@@ -1,6 +1,7 @@
 package com.fermimn.gamewishlist.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,7 +16,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.data_types.GamePreviews;
+import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
 
@@ -38,7 +39,15 @@ public class SearchGamesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
         SearchView searchView = view.findViewById(R.id.search_box);
 
-        // Set the listeners of the SearchView
+        // remove the grey line in the SearchView
+        int searchPlateId = searchView.getContext().getResources()
+                .getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = searchView.findViewById(searchPlateId);
+        if (searchPlate != null) {
+            searchPlate.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+        // Set listeners of the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -63,10 +72,18 @@ public class SearchGamesFragment extends Fragment {
      * It shows the results on the screen
      * @param gamePreviews list of games of the searchResults
      */
-    public void showSearchResults(GamePreviews gamePreviews) {
+    public void showSearchResults(GamePreviewList gamePreviews) {
         if (gamePreviews != null) {
-            GamePreviewsFragment gamePreviewsFragment = new GamePreviewsFragment(mContext, gamePreviews);
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+
+            // remove the old fragment
+            Fragment oldFragment = getChildFragmentManager().findFragmentByTag("search_results");
+            if (oldFragment != null) {
+                transaction.remove(oldFragment);
+            }
+
+            // add the new fragment
+            GamePreviewListFragment gamePreviewsFragment = new GamePreviewListFragment(mContext, gamePreviews);
             transaction.add(R.id.search_results, gamePreviewsFragment, "search_results");
             transaction.commit();
         } else {
@@ -75,15 +92,15 @@ public class SearchGamesFragment extends Fragment {
     }
 
     // TODO: add documentation
-    private class Search extends AsyncTask<String, Integer, GamePreviews> {
+    private class Search extends AsyncTask<String, Integer, GamePreviewList> {
 
         @Override
-        protected GamePreviews doInBackground(String... strings) {
+        protected GamePreviewList doInBackground(String... strings) {
 
             Log.d(TAG, "Ricerca avviata");
 
             String gameSearched = strings[0];
-            GamePreviews searchResults = null;
+            GamePreviewList searchResults = null;
 
             // TODO: try/catch need revision
             // TODO: check if internet is available
@@ -99,7 +116,7 @@ public class SearchGamesFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(GamePreviews searchResults) {
+        protected void onPostExecute(GamePreviewList searchResults) {
             Log.d(TAG, "Ricerca conclusa");
             showSearchResults(searchResults);
         }

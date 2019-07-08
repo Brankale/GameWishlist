@@ -14,7 +14,8 @@
         android:background="@drawable/shape_search_box"
         android:layout_margin="10dp"
         android:queryHint="@string/search_box"
-        android:iconifiedByDefault="false"/>
+        android:iconifiedByDefault="false"
+        android:elevation="10dp"/>
 
     <LinearLayout
         android:id="@+id/search_results"

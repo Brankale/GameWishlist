@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.GamePreviews;
+import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
-public class GamePreviewsAdapter extends ArrayAdapter<GamePreview> {
+public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
 
-    private static final String TAG = GamePreviewsAdapter.class.getSimpleName();
+    private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
     private TextView mTitle;
     private TextView mPlatform;
@@ -38,9 +39,9 @@ public class GamePreviewsAdapter extends ArrayAdapter<GamePreview> {
     private LinearLayout mCategoryDigital;
     private LinearLayout mCategoryPreorder;
 
-    private ImageView image;
+    private ImageView mCover;
 
-    public GamePreviewsAdapter(Context context, GamePreviews gamePreviews) {
+    public GamePreviewListAdapter(Context context, GamePreviewList gamePreviews) {
         super(context, R.layout.fragment_game_preview, gamePreviews);
     }
 
@@ -72,7 +73,7 @@ public class GamePreviewsAdapter extends ArrayAdapter<GamePreview> {
         mOlderDigitalPrices = convertView.findViewById(R.id.older_digital_prices);
         mOlderPreorderPrices = convertView.findViewById(R.id.older_preorder_prices);
 
-        image = convertView.findViewById(R.id.image);
+        mCover = convertView.findViewById(R.id.cover);
 
         // sets Text
         GamePreview gamePreview = getItem(position);
@@ -162,6 +163,8 @@ public class GamePreviewsAdapter extends ArrayAdapter<GamePreview> {
         } else {
             mCategoryPreorder.setVisibility(View.GONE);
         }
+
+        Picasso.get().load(R.drawable.ic_image_not_available).into(mCover);
 
         return convertView;
     }

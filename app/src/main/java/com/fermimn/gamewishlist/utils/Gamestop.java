@@ -3,10 +3,8 @@ package com.fermimn.gamewishlist.utils;
 import android.util.Log;
 import android.util.Pair;
 
-import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.GamePreviews;
-import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
+import com.fermimn.gamewishlist.data_types.GamePreviewList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,9 +14,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Gamestop implements Store {
 
@@ -34,7 +30,7 @@ public class Gamestop implements Store {
      * @throws IOException if the searchedGame cannot be encoded
      */
     @Override
-    public GamePreviews searchGame(String searchedGame) throws IOException {
+    public GamePreviewList searchGame(String searchedGame) throws IOException {
 
         String url = WEBSITE_URL + URLEncoder.encode(searchedGame, "UTF-8");
 
@@ -50,7 +46,7 @@ public class Gamestop implements Store {
             return null;
         }
 
-        GamePreviews results = new GamePreviews();
+        GamePreviewList results = new GamePreviewList();
 
         // save the games in the array
         for (Element game : gamesList) {

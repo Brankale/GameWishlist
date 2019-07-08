@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
 
         // add the search bar
         if (savedInstanceState == null) {
-            SearchGamesFragment searchBox = new SearchGamesFragment(this);
+            SearchGamesFragment searchBar = new SearchGamesFragment(this);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.container, searchBox, "search_box");
+            transaction.add(R.id.container, searchBar, "search_bar");
             transaction.commit();
         }
 

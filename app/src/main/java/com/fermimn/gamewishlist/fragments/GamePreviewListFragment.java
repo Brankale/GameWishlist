@@ -10,29 +10,29 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.adapters.GamePreviewsAdapter;
-import com.fermimn.gamewishlist.data_types.GamePreviews;
+import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
+import com.fermimn.gamewishlist.data_types.GamePreviewList;
 
-public class GamePreviewsFragment extends Fragment {
+public class GamePreviewListFragment extends Fragment {
 
-    private static final String TAG = GamePreviewsFragment.class.getSimpleName();
+    private static final String TAG = GamePreviewListFragment.class.getSimpleName();
 
     private Context mContext;
-    private GamePreviews mGamePreviews;
+    private GamePreviewList mGamePreviews;
 
-    public GamePreviewsFragment(Context context, GamePreviews gamePreviews) {
+    public GamePreviewListFragment(Context context, GamePreviewList gamePreviewList) {
         mContext = context;
-        mGamePreviews = gamePreviews;
+        mGamePreviews = gamePreviewList;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_game_previews, container, false);
+        View view = inflater.inflate(R.layout.fragment_game_preview_list, container, false);
         ListView listView = view.findViewById(R.id.game_list);
 
-        GamePreviewsAdapter adapter = new GamePreviewsAdapter(mContext, mGamePreviews);
+        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, mGamePreviews);
         listView.setAdapter(adapter);
 
         return view;

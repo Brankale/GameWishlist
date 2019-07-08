@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // TODO: need documentation
 
-public class GamePreviews extends ArrayList<GamePreview> {
+public class GamePreviewList extends ArrayList<GamePreview> {
 
     @Override
     public boolean add(GamePreview gamePreview) {
@@ -14,7 +14,7 @@ public class GamePreviews extends ArrayList<GamePreview> {
         }
 
         // if the game is already present in the array
-        if (super.contains(gamePreview)){
+        if (super.contains(gamePreview)) {
             return false;
         }
 
