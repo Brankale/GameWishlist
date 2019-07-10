@@ -18,11 +18,11 @@ public class GamePreviewListFragment extends Fragment {
     private static final String TAG = GamePreviewListFragment.class.getSimpleName();
 
     private Context mContext;
-    private GamePreviewList mGamePreviews;
+    private GamePreviewList mGamePreviewList;
 
     public GamePreviewListFragment(Context context, GamePreviewList gamePreviewList) {
         mContext = context;
-        mGamePreviews = gamePreviewList;
+        mGamePreviewList = gamePreviewList;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class GamePreviewListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_game_preview_list, container, false);
         ListView listView = view.findViewById(R.id.game_list);
 
-        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, mGamePreviews);
+        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, mGamePreviewList);
         listView.setAdapter(adapter);
 
         return view;

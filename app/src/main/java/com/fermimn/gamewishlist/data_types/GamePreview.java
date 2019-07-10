@@ -386,4 +386,14 @@ public class GamePreview {
                 ", mOlderPreorderPrices=" + mOlderPreorderPrices +
                 '}';
     }
+
+    // TODO: remove this code
+    private String mCoverUrl;
+    public void setCoverUrl(String coverUrl) {
+        mCoverUrl = coverUrl;
+    }
+    public String getCoverUrl() {
+        return mCoverUrl;
+    }
+
 }

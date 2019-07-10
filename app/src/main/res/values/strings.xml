@@ -14,6 +14,6 @@
     <string name="valid_for_promotions">"VALIDO PER LE PROMOZIONI"</string>
 
     <!-- fragment_search_games -->
-    <string name="search_box">Cerca un gioco</string>
+    <string name="search_bar">Cerca un gioco</string>
 
 </resources>

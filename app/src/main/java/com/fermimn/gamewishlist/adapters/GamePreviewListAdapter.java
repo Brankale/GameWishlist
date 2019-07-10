@@ -20,151 +20,177 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
 
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
-    private TextView mTitle;
-    private TextView mPlatform;
-    private TextView mPublisher;
+    private Context mContext;
 
-    private TextView mNewPrice;
-    private TextView mUsedPrice;
-    private TextView mDigitalPrice;
-    private TextView mPreorderPrice;
+    /**
+     * This class is used to improve performance
+     * It avoids useless findViewById that makes the app laggy
+     * See "ViewHolder pattern" to learn more
+     */
+    private static class ViewHolder {
 
-    private TextView mOlderNewPrices;
-    private TextView mOlderUsedPrices;
-    private TextView mOlderDigitalPrices;
-    private TextView mOlderPreorderPrices;
+        public TextView mTitleView;
+        public TextView mPlatformView;
+        public TextView mPublisherView;
 
-    private LinearLayout mCategoryNew;
-    private LinearLayout mCategoryUsed;
-    private LinearLayout mCategoryDigital;
-    private LinearLayout mCategoryPreorder;
+        public TextView mNewPriceView;
+        public TextView mUsedPriceView;
+        public TextView mDigitalPriceView;
+        public TextView mPreorderPriceView;
 
-    private ImageView mCover;
+        public TextView mOlderNewPricesView;
+        public TextView mOlderUsedPricesView;
+        public TextView mOlderDigitalPricesView;
+        public TextView mOlderPreorderPricesView;
+
+        public LinearLayout mCategoryNewView;
+        public LinearLayout mCategoryUsedView;
+        public LinearLayout mCategoryDigitalView;
+        public LinearLayout mCategoryPreorderView;
+
+        public ImageView mCoverView;
+    }
 
     public GamePreviewListAdapter(Context context, GamePreviewList gamePreviews) {
         super(context, R.layout.fragment_game_preview, gamePreviews);
+        mContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) getContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null) {
 
-        convertView = inflater.inflate(R.layout.fragment_game_preview, null);
+            // inflate just when needed
+            LayoutInflater inflater = (LayoutInflater) getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // gets TextViews
-        mTitle = convertView.findViewById(R.id.title);
-        mPlatform = convertView.findViewById(R.id.platform);
-        mPublisher = convertView.findViewById(R.id.publisher);
+            convertView = inflater.inflate(R.layout.fragment_game_preview, null);
 
-        mNewPrice = convertView.findViewById(R.id.new_price);
-        mUsedPrice = convertView.findViewById(R.id.used_price);
-        mDigitalPrice = convertView.findViewById(R.id.digital_price);
-        mPreorderPrice = convertView.findViewById(R.id.preorder_price);
+            // get Views using ViewHolder pattern
+            ViewHolder viewHolder = new ViewHolder();
 
-        mCategoryNew = convertView.findViewById(R.id.category_new);
-        mCategoryUsed = convertView.findViewById(R.id.category_used);
-        mCategoryDigital = convertView.findViewById(R.id.category_digital);
-        mCategoryPreorder = convertView.findViewById(R.id.category_preorder);
+            viewHolder.mTitleView = convertView.findViewById(R.id.title);
+            viewHolder.mPlatformView = convertView.findViewById(R.id.platform);
+            viewHolder.mPublisherView = convertView.findViewById(R.id.publisher);
 
-        mOlderNewPrices = convertView.findViewById(R.id.older_new_prices);
-        mOlderUsedPrices = convertView.findViewById(R.id.older_used_prices);
-        mOlderDigitalPrices = convertView.findViewById(R.id.older_digital_prices);
-        mOlderPreorderPrices = convertView.findViewById(R.id.older_preorder_prices);
+            viewHolder.mNewPriceView = convertView.findViewById(R.id.new_price);
+            viewHolder.mUsedPriceView = convertView.findViewById(R.id.used_price);
+            viewHolder.mDigitalPriceView = convertView.findViewById(R.id.digital_price);
+            viewHolder.mPreorderPriceView = convertView.findViewById(R.id.preorder_price);
 
-        mCover = convertView.findViewById(R.id.cover);
+            viewHolder.mCategoryNewView = convertView.findViewById(R.id.category_new);
+            viewHolder.mCategoryUsedView = convertView.findViewById(R.id.category_used);
+            viewHolder.mCategoryDigitalView = convertView.findViewById(R.id.category_digital);
+            viewHolder.mCategoryPreorderView = convertView.findViewById(R.id.category_preorder);
+
+            viewHolder.mOlderNewPricesView = convertView.findViewById(R.id.older_new_prices);
+            viewHolder.mOlderUsedPricesView = convertView.findViewById(R.id.older_used_prices);
+            viewHolder.mOlderDigitalPricesView = convertView.findViewById(R.id.older_digital_prices);
+            viewHolder.mOlderPreorderPricesView = convertView.findViewById(R.id.older_preorder_prices);
+
+            viewHolder.mCoverView = convertView.findViewById(R.id.cover);
+
+            convertView.setTag(viewHolder);
+        }
+
+        ViewHolder viewHolder = (ViewHolder) convertView.getTag();
 
         // sets Text
         GamePreview gamePreview = getItem(position);
 
-        mTitle.setText( gamePreview.getTitle() );
-        mPlatform.setText( gamePreview.getPlatform() );
-        mPublisher.setText( gamePreview.getPublisher() );
+        viewHolder.mTitleView.setText( gamePreview.getTitle() );
+        viewHolder.mPlatformView.setText( gamePreview.getPlatform() );
+        viewHolder.mPublisherView.setText( gamePreview.getPublisher() );
 
         DecimalFormat df = new DecimalFormat("#.00");
 
         if (gamePreview.hasNewPrice()) {
-            mCategoryNew.setVisibility(View.VISIBLE);
-            mNewPrice.setVisibility(View.VISIBLE);
-            mNewPrice.setText( df.format( gamePreview.getNewPrice() ) + "€" );
+            viewHolder.mCategoryNewView.setVisibility(View.VISIBLE);
+            viewHolder.mNewPriceView.setVisibility(View.VISIBLE);
+            viewHolder.mNewPriceView.setText( df.format( gamePreview.getNewPrice() ) + "€" );
 
             if (gamePreview.hasOlderNewPrices()) {
-                mOlderNewPrices.setVisibility(View.VISIBLE);
+                viewHolder.mOlderNewPricesView.setVisibility(View.VISIBLE);
                 String str = new String();
                 for (Double price: gamePreview.getOlderNewPrices()) {
                     str += df.format(price) + "€ ";
                 }
-                mOlderNewPrices.setText(str);
+                viewHolder.mOlderNewPricesView.setText(str);
             } else {
-                mOlderNewPrices.setVisibility(View.GONE);
+                viewHolder.mOlderNewPricesView.setVisibility(View.GONE);
             }
 
         } else {
-            mCategoryNew.setVisibility(View.GONE);
+            viewHolder.mCategoryNewView.setVisibility(View.GONE);
         }
 
         if (gamePreview.hasUsedPrice()) {
-            mCategoryUsed.setVisibility(View.VISIBLE);
-            mUsedPrice.setVisibility(View.VISIBLE);
-            mUsedPrice.setText( df.format( gamePreview.getUsedPrice() ) + "€" );
+            viewHolder.mCategoryUsedView.setVisibility(View.VISIBLE);
+            viewHolder.mUsedPriceView.setVisibility(View.VISIBLE);
+            viewHolder.mUsedPriceView.setText( df.format( gamePreview.getUsedPrice() ) + "€" );
 
             if (gamePreview.hasOlderUsedPrices()) {
-                mOlderUsedPrices.setVisibility(View.VISIBLE);
+                viewHolder.mOlderUsedPricesView.setVisibility(View.VISIBLE);
                 String str = new String();
                 for (Double price: gamePreview.getOlderNewPrices()) {
                     str += df.format(price) + "€ ";
                 }
-                mOlderUsedPrices.setText(str);
+                viewHolder.mOlderUsedPricesView.setText(str);
             } else {
-                mOlderUsedPrices.setVisibility(View.GONE);
+                viewHolder.mOlderUsedPricesView.setVisibility(View.GONE);
             }
 
         } else {
-            mCategoryUsed.setVisibility(View.GONE);
+            viewHolder.mCategoryUsedView.setVisibility(View.GONE);
         }
 
         if (gamePreview.hasDigitalPrice()) {
-            mCategoryDigital.setVisibility(View.VISIBLE);
-            mDigitalPrice.setVisibility(View.VISIBLE);
-            mDigitalPrice.setText( df.format( gamePreview.getDigitalPrice() ) + "€" );
+            viewHolder.mCategoryDigitalView.setVisibility(View.VISIBLE);
+            viewHolder.mDigitalPriceView.setVisibility(View.VISIBLE);
+            viewHolder.mDigitalPriceView.setText( df.format( gamePreview.getDigitalPrice() ) + "€" );
 
             if (gamePreview.hasOlderDigitalPrices()) {
-                mOlderDigitalPrices.setVisibility(View.VISIBLE);
+                viewHolder.mOlderDigitalPricesView.setVisibility(View.VISIBLE);
                 String str = new String();
                 for (Double price: gamePreview.getOlderNewPrices()) {
                     str += df.format(price) + "€ ";
                 }
-                mOlderDigitalPrices.setText(str);
+                viewHolder.mOlderDigitalPricesView.setText(str);
             } else {
-                mOlderDigitalPrices.setVisibility(View.GONE);
+                viewHolder.mOlderDigitalPricesView.setVisibility(View.GONE);
             }
 
         } else {
-            mCategoryDigital.setVisibility(View.GONE);
+            viewHolder.mCategoryDigitalView.setVisibility(View.GONE);
         }
 
         if (gamePreview.hasPreorderPrice()) {
-            mCategoryPreorder.setVisibility(View.VISIBLE);
-            mPreorderPrice.setVisibility(View.VISIBLE);
-            mPreorderPrice.setText( df.format( gamePreview.getPreorderPrice() ) + "€" );
+            viewHolder.mCategoryPreorderView.setVisibility(View.VISIBLE);
+            viewHolder.mPreorderPriceView.setVisibility(View.VISIBLE);
+            viewHolder.mPreorderPriceView.setText( df.format( gamePreview.getPreorderPrice() ) + "€" );
 
             if (gamePreview.hasOlderPreorderPrices()) {
-                mOlderPreorderPrices.setVisibility(View.VISIBLE);
+                viewHolder.mOlderPreorderPricesView.setVisibility(View.VISIBLE);
                 String str = new String();
                 for (Double price: gamePreview.getOlderNewPrices()) {
                     str += df.format(price) + "€ ";
                 }
-                mOlderPreorderPrices.setText(str);
+                viewHolder.mOlderPreorderPricesView.setText(str);
             } else {
-                mOlderPreorderPrices.setVisibility(View.GONE);
+                viewHolder.mOlderPreorderPricesView.setVisibility(View.GONE);
             }
 
         } else {
-            mCategoryPreorder.setVisibility(View.GONE);
+            viewHolder.mCategoryPreorderView.setVisibility(View.GONE);
         }
 
-        Picasso.get().load(R.drawable.ic_image_not_available).into(mCover);
+        // TODO: this part of code should be removed
+        if (gamePreview.getCoverUrl() != null) {
+            Picasso.get().load( gamePreview.getCoverUrl() ).into(viewHolder.mCoverView);
+        } else {
+            Picasso.get().load(R.drawable.ic_image_not_available).into(viewHolder.mCoverView);
+        }
 
         return convertView;
     }

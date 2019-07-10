@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -12,11 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
 
@@ -27,8 +31,20 @@ public class SearchGamesFragment extends Fragment {
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
 
     private Context mContext;
+    private ProgressBar mProgressBar;
+    private LinearLayout mSearchResults;
 
-    public SearchGamesFragment(Context context) {
+    public SearchGamesFragment(){
+    }
+
+    /**
+     * This method is called by Android in the lifecycle of the Fragment.
+     * The context must be init here and not somewhere else to avoid crashes.
+     * @param context app context
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
         mContext = context;
     }
 
@@ -37,7 +53,9 @@ public class SearchGamesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
-        SearchView searchView = view.findViewById(R.id.search_box);
+        SearchView searchView = view.findViewById(R.id.search_bar);
+        mProgressBar = view.findViewById(R.id.indeterminateBar);
+        mSearchResults = view.findViewById(R.id.search_results);
 
         // remove the grey line in the SearchView
         int searchPlateId = searchView.getContext().getResources()
@@ -50,15 +68,43 @@ public class SearchGamesFragment extends Fragment {
         // Set listeners of the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
+            private AsyncTask mRunningTask;
+
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                // check if internet is available
+                Connectivity connectivity = Connectivity.getInstance();
+                if (connectivity.isNetworkAvailable(mContext) == false) {
+                    Toast.makeText(mContext, "Internet non disponibile", Toast.LENGTH_SHORT);
+                    return false;
+                }
+
+                // stop the old task if it exists
+                if (mRunningTask != null) {
+                    mRunningTask.cancel(true);
+                    mProgressBar.setVisibility(View.GONE);
+                }
+
                 // search the game (Search is a private class)
-                new Search().execute(query);
+                mRunningTask = new Search().execute(query);
+
+                // progress bar appears
+                mSearchResults.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
+                // stop the old task if it exists
+                if (mRunningTask != null) {
+                    mRunningTask.cancel(true);
+                    mProgressBar.setVisibility(View.GONE);
+                }
+
                 return false;
             }
 
@@ -68,25 +114,29 @@ public class SearchGamesFragment extends Fragment {
     }
 
     /**
-     * This method is called by the private class "Search" during the onPostExecute()
-     * It shows the results on the screen
+     * This method is called by the private class "Search" during the onPostExecute().
+     * It shows the results on the screen.
      * @param gamePreviews list of games of the searchResults
      */
     public void showSearchResults(GamePreviewList gamePreviews) {
+
         if (gamePreviews != null) {
+
+            // add fragment
+            GamePreviewListFragment gamePreviewListFragment =
+                    new GamePreviewListFragment(mContext, gamePreviews);
+
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-
-            // remove the old fragment
-            Fragment oldFragment = getChildFragmentManager().findFragmentByTag("search_results");
-            if (oldFragment != null) {
-                transaction.remove(oldFragment);
-            }
-
-            // add the new fragment
-            GamePreviewListFragment gamePreviewsFragment = new GamePreviewListFragment(mContext, gamePreviews);
-            transaction.add(R.id.search_results, gamePreviewsFragment, "search_results");
+            transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
             transaction.commit();
+
+            // progress bar disappears
+            mProgressBar.setVisibility(View.GONE);
+            mSearchResults.setVisibility(View.VISIBLE);
+
         } else {
+            // progress bar disappears
+            mProgressBar.setVisibility(View.GONE);
             Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
         }
     }
@@ -97,19 +147,17 @@ public class SearchGamesFragment extends Fragment {
         @Override
         protected GamePreviewList doInBackground(String... strings) {
 
-            Log.d(TAG, "Ricerca avviata");
-
-            String gameSearched = strings[0];
             GamePreviewList searchResults = null;
+            String gameSearched = strings[0];
 
-            // TODO: try/catch need revision
-            // TODO: check if internet is available
-            // TODO: crash if internet is not available
+            // retrieve info
             try {
+                Log.d(TAG, "Ricerca avviata");
                 Store store = new Gamestop();
                 searchResults = store.searchGame(gameSearched);
+                Log.d(TAG, "Ricerca conclusa");
             } catch (IOException e) {
-                Toast.makeText(mContext, "Qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
 
             return searchResults;
@@ -117,10 +165,8 @@ public class SearchGamesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(GamePreviewList searchResults) {
-            Log.d(TAG, "Ricerca conclusa");
             showSearchResults(searchResults);
         }
-
     }
 
 }

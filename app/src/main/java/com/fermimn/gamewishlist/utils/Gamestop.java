@@ -83,6 +83,12 @@ public class Gamestop implements Store {
             gamePreview.setDigitalPrice(categoryPrices.first);
             gamePreview.setOlderDigitalPrices(categoryPrices.second);
 
+            // TODO: remove this two lines of code
+            String imageUrl = game.getElementsByClass("prodImg").get(0)
+                    .getElementsByTag("img").get(0).attr("data-llsrc");
+
+            gamePreview.setCoverUrl(imageUrl);
+
             // add the game to the array
             results.add(gamePreview);
         }
