@@ -74,9 +74,8 @@ public class SearchGamesFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
 
                 // check if internet is available
-                Connectivity connectivity = Connectivity.getInstance();
-                if (connectivity.isNetworkAvailable(mContext) == false) {
-                    Toast.makeText(mContext, "Internet non disponibile", Toast.LENGTH_SHORT);
+                if (Connectivity.isNetworkAvailable(mContext) == false) {
+                    Toast.makeText(mContext, "Internet non disponibile", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 

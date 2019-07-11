@@ -6,22 +6,13 @@ import android.net.NetworkInfo;
 
 public class Connectivity {
 
-    private static Connectivity mInstance;
-
-    public static Connectivity getInstance() {
-        if (mInstance == null) {
-            mInstance = new Connectivity();
-        }
-        return mInstance;
-    }
-
     private Connectivity() {
     }
 
     // TODO: this method should be rewritten to satisfy APIs level 29 security levels
     // TODO: if you rewrite the method, remove also ACCESS_NETWORK_STATE permission in the manifest
     // TODO: it doesn't work
-    public boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

@@ -6,9 +6,12 @@
     android:layout_height="wrap_content"
     android:padding="20dp">
 
+    <!-- TODO: Check info about adjustViewBounds in ImageView,
+         TODO: it can be a cause of poor performance              -->
+
     <ImageView
         android:id="@+id/cover"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
@@ -17,7 +20,7 @@
         android:contentDescription="@string/game_image"/>
 
     <LinearLayout
-        android:layout_width="240dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="2"
