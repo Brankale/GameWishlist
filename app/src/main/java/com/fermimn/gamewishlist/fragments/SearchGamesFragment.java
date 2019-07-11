@@ -75,12 +75,13 @@ public class SearchGamesFragment extends Fragment {
 
                 // check if internet is available
                 if (Connectivity.isNetworkAvailable(mContext) == false) {
-                    Toast.makeText(mContext, "Internet non disponibile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Non sei connesso a Internet", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
                 // stop the old task if it exists
                 if (mRunningTask != null) {
+                    // TODO: implement isCancel() in Search private class
                     mRunningTask.cancel(true);
                     mProgressBar.setVisibility(View.GONE);
                 }
@@ -100,6 +101,7 @@ public class SearchGamesFragment extends Fragment {
 
                 // stop the old task if it exists
                 if (mRunningTask != null) {
+                    // TODO: implement isCancel() in Search private class
                     mRunningTask.cancel(true);
                     mProgressBar.setVisibility(View.GONE);
                 }
@@ -140,9 +142,12 @@ public class SearchGamesFragment extends Fragment {
         }
     }
 
-    // TODO: add documentation
+    /**
+     * Search is a private class used to search the game the user writes in the search bar
+     */
     private class Search extends AsyncTask<String, Integer, GamePreviewList> {
 
+        // TODO: implement isCancel()
         @Override
         protected GamePreviewList doInBackground(String... strings) {
 
