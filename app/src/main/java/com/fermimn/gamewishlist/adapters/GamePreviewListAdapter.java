@@ -56,7 +56,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
      * @param gamePreviewList the ArrayList of GamePreview
      */
     public GamePreviewListAdapter(Context context, GamePreviewList gamePreviewList) {
-        super(context, R.layout.fragment_game_preview, gamePreviewList);
+        super(context, R.layout.partial_game_preview, gamePreviewList);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView = inflater.inflate(R.layout.fragment_game_preview, null);
+            convertView = inflater.inflate(R.layout.partial_game_preview, null);
 
             // get Views using ViewHolder pattern
             ViewHolder viewHolder = new ViewHolder();

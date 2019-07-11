@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -32,7 +34,7 @@ public class SearchGamesFragment extends Fragment {
 
     private Context mContext;
     private ProgressBar mProgressBar;
-    private LinearLayout mSearchResults;
+    private FrameLayout mSearchResults;
 
     public SearchGamesFragment(){
     }
@@ -56,14 +58,6 @@ public class SearchGamesFragment extends Fragment {
         SearchView searchView = view.findViewById(R.id.search_bar);
         mProgressBar = view.findViewById(R.id.indeterminateBar);
         mSearchResults = view.findViewById(R.id.search_results);
-
-        // remove the grey line in the SearchView
-        int searchPlateId = searchView.getContext().getResources()
-                .getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = searchView.findViewById(searchPlateId);
-        if (searchPlate != null) {
-            searchPlate.setBackgroundColor(Color.TRANSPARENT);
-        }
 
         // Set listeners of the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
