@@ -181,14 +181,9 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
             viewHolder.mCategoryPreorderView.setVisibility(View.GONE);
         }
 
-        // TODO: this part of code should be removed
-        if (gamePreview.getCoverUrl() != null) {
-            // TODO: add a placeholder
-            // TODO: check for a "fade in" effect
-            Picasso.get().load( gamePreview.getCoverUrl() ).into(viewHolder.mCoverView);
-        } else {
-            Picasso.get().load(R.drawable.ic_image_not_available).into(viewHolder.mCoverView);
-        }
+        Picasso.get().load( gamePreview.getCover() )
+                .placeholder(R.drawable.ic_image_not_available)
+                .into(viewHolder.mCoverView);
 
         return convertView;
     }

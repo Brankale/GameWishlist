@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.utils;
 
+import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 
@@ -83,11 +84,10 @@ public class Gamestop implements Store {
             gamePreview.setDigitalPrice(categoryPrices.first);
             gamePreview.setOlderDigitalPrices(categoryPrices.second);
 
-            // TODO: remove this two lines of code
+            // set the Cover
             String imageUrl = game.getElementsByClass("prodImg").get(0)
                     .getElementsByTag("img").get(0).attr("data-llsrc");
-
-            gamePreview.setCoverUrl(imageUrl);
+            gamePreview.setCover( Uri.parse(imageUrl) );
 
             // add the game to the array
             results.add(gamePreview);
@@ -99,7 +99,7 @@ public class Gamestop implements Store {
     @Override
     public GamePreview downloadGame(String id) {
         // TODO: to implement
-        Log.w("NOT IMPLEMENTED", "Gamestop.downloadGame : not implemented");
+        Log.w(TAG, "Gamestop.downloadGame : not implemented");
         return null;
     }
 

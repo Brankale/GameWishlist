@@ -1,19 +1,53 @@
 <resources>
 
+    <!-- Generic strings -->
     <string name="app_name">Game Wishlist</string>
-
-    <!-- partial_game_preview -->
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </string>
     <string name="game_image">Immagine del gioco</string>
     <string name="no_info">n/a</string>
-    <string name="by">&#160;by&#160;</string>
-
     <string name="new_price">"NUOVO: "</string>
     <string name="used_price">"USATO: "</string>
     <string name="digital_price">"DIGITALE: "</string>
     <string name="preorder_price">"PREORDINE: "</string>
     <string name="valid_for_promotions">"VALIDO PER LE PROMOZIONI"</string>
 
+    <!-- partial_game_preview -->
+    <string name="by">&#160;by&#160;</string>
+
     <!-- fragment_search_games -->
     <string name="search_bar">Cerca un gioco</string>
+    
+    <!-- fragment_game_page -->
+    <string name="info">Informazioni</string>
+    <string name="gallery">Galleria</string>
+    <string name="description">Descrizione</string>
+
+    <string name="title">Titolo:</string>
+    <string name="publisher">Publisher:</string>
+    <string name="platform">Piattaforma:</string>
+    <string name="genres">Genere:</string>
+    <string name="release_date">Dato di Rilascio:</string>
+    <string name="players">Giocatori:</string>
+    <string name="official_site">Sito Ufficiale:</string>
+
+    <string name="pegi_pegi3">pegi 3</string>
+    <string name="pegi_pegi7">pegi 7</string>
+    <string name="pegi_pegi12">pegi 12</string>
+    <string name="pegi_pegi16">pegi 16</string>
+    <string name="pegi_pegi18">pegi 18</string>
+    <string name="pegi_online">pegi online</string>
+    <string name="pegi_bad_language">pegi bad language</string>
+    <string name="pegi_discrimination">pegi discrimination</string>
+    <string name="pegi_drugs">pegi drugs</string>
+    <string name="pegi_fear">pegi fear</string>
+    <string name="pegi_gambling">pegi gambling</string>
+    <string name="pegi_sex">pegi sex</string>
+    <string name="pegi_violence">pegi violence</string>
 
 </resources>

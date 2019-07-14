@@ -1,5 +1,7 @@
 package com.fermimn.gamewishlist.data_types;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +12,7 @@ public class GamePreview {
     private String mTitle;
     private String mPublisher;
     private String mPlatform;
+    private Uri mCover;
 
     private Double mNewPrice;
     private Double mUsedPrice;
@@ -22,13 +25,6 @@ public class GamePreview {
     private List<Double> mOlderPreorderPrices;
 
     /**
-     * Create a GamePreview object
-     */
-    public GamePreview() {
-    }
-
-    /**
-     * Get the ID of the game
      * @return the ID of the game
      */
     // TODO : check if it can return null
@@ -45,7 +41,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the title of the game
      * @return the title of the game
      */
     // TODO : check if it can return null
@@ -62,7 +57,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the publisher of the game
      * @return the publisher of the game
      */
     // TODO : check if it can return null
@@ -79,7 +73,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the platform of the game
      * @return the platform of the game
      */
     // TODO : check if it can return null
@@ -96,7 +89,24 @@ public class GamePreview {
     }
 
     /**
-     * Get the New Price of the game
+     * @return a Uri representing the cover. The Uri contains a link if anything is found
+     * offline, otherwise is an offline resource
+     */
+    public Uri getCover() {
+        // TODO: check if the image has been already downloaded
+        // TODO: if so, return the offline resource instead of the link
+        return mCover;
+    }
+
+    /**
+     * Set the cover with an Uri. The Uri must be a link to an online resource.
+     * @param cover a Uri containing a link to an online resource image
+     */
+    public void setCover(Uri cover) {
+        mCover = cover;
+    }
+
+    /**
      * @return the New Price of the game
      */
     // TODO : check if it can return null
@@ -113,7 +123,6 @@ public class GamePreview {
     }
 
     /**
-     * Get Used Price of the game
      * @return the Used Price of the game
      */
     // TODO : check if it can return null
@@ -130,7 +139,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the Preorder Price of the game
      * @return the Preorder Price of the game
      */
     // TODO : check if it can return null
@@ -147,7 +155,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the Digital Price of the game
      * @return the DigitalPrice of the game
      */
     // TODO : check if it can return null
@@ -164,7 +171,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the Older New Prices of the game
      * @return the Older New Prices of the game
      */
     // TODO : check if it can return null (pay attention to the init or set process)
@@ -181,7 +187,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the Older Used Prices of the game
      * @return the Older Used Prices of the game
      */
     // TODO : check if it can return null (pay attention to the init or set process)
@@ -198,7 +203,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the Older Digital Prices of the game
      * @return the Older Digital Prices of the game
      */
     // TODO : check if it can return null (pay attention to the init or set process)
@@ -215,7 +219,6 @@ public class GamePreview {
     }
 
     /**
-     * Get the Older Preorder Prices of the game
      * @return the Older Preorder Prices of the game
      */
     // TODO : check if it can return null (pay attention to the init or set process)
@@ -385,15 +388,6 @@ public class GamePreview {
                 ", mOlderDigitalPrices=" + mOlderDigitalPrices +
                 ", mOlderPreorderPrices=" + mOlderPreorderPrices +
                 '}';
-    }
-
-    // TODO: remove this code
-    private String mCoverUrl;
-    public void setCoverUrl(String coverUrl) {
-        mCoverUrl = coverUrl;
-    }
-    public String getCoverUrl() {
-        return mCoverUrl;
     }
 
 }

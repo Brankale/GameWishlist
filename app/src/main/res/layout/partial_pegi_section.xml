@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="43dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/pegi_pegi3"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_pegi3"
+            android:contentDescription="@string/pegi_pegi3" />
+
+        <ImageView
+            android:id="@+id/pegi_pegi7"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_pegi7"
+            android:contentDescription="@string/pegi_pegi7" />
+
+        <ImageView
+            android:id="@+id/pegi_pegi12"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_pegi12"
+            android:contentDescription="@string/pegi_pegi12" />
+
+        <ImageView
+            android:id="@+id/pegi_pegi16"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_pegi16"
+            android:contentDescription="@string/pegi_pegi16" />
+
+        <ImageView
+            android:id="@+id/pegi_pegi18"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_pegi18"
+            android:contentDescription="@string/pegi_pegi18" />
+
+        <ImageView
+            android:id="@+id/pegi_online"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_online"
+            android:contentDescription="@string/pegi_online" />
+
+        <ImageView
+            android:id="@+id/pegi_bad_language"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_bad_language"
+            android:contentDescription="@string/pegi_bad_language" />
+
+        <ImageView
+            android:id="@+id/pegi_discrimination"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_discrimination"
+            android:contentDescription="@string/pegi_discrimination" />
+
+        <ImageView
+            android:id="@+id/pegi_drugs"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_drugs"
+            android:contentDescription="@string/pegi_drugs" />
+
+        <ImageView
+            android:id="@+id/pegi_fear"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_fear"
+            android:contentDescription="@string/pegi_fear" />
+
+        <ImageView
+            android:id="@+id/pegi_gambling"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_gambling"
+            android:contentDescription="@string/pegi_gambling" />
+
+        <ImageView
+            android:id="@+id/pegi_sex"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_sex"
+            android:contentDescription="@string/pegi_sex" />
+
+        <ImageView
+            android:id="@+id/pegi_violence"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_pegi_violence"
+            android:contentDescription="@string/pegi_violence" />
+
+    </LinearLayout>
+
+</HorizontalScrollView>

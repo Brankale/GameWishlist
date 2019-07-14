@@ -1,5 +1,7 @@
 package com.fermimn.gamewishlist.data_types;
 
+import android.net.Uri;
+
 import java.util.List;
 
 // TODO: add documentation
@@ -12,9 +14,7 @@ public class Game extends GamePreview {
     private String mPlayers;
     private boolean mValidForPromotions;
     private List<Promo> mPromos;
-
-    public Game() {
-    }
+    private List<Uri> mGallery;
 
     public List<String> getGenres() {
         return mGenres;
@@ -64,4 +64,11 @@ public class Game extends GamePreview {
         mPromos = promo;
     }
 
+    public List<Uri> getGallery() {
+        return mGallery;
+    }
+
+    public void setGallery(List<Uri> mGallery) {
+        this.mGallery = mGallery;
+    }
 }
