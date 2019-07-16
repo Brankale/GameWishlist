@@ -59,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
             // show search section
             transaction.hide(mWishlistSection);
             transaction.show(mSearchSection);
-            mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
+            mImageButton.setImageResource(R.drawable.ic_home_black_24dp);
         } else {
             // show wishlist section
+            // TODO: interrupt search
             transaction.show(mWishlistSection);
             transaction.hide(mSearchSection);
-            mImageButton.setImageResource(R.drawable.ic_home_black_24dp);
+            mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
         }
 
         transaction.commit();
