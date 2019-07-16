@@ -2,12 +2,15 @@ package com.fermimn.gamewishlist.data_types;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO: add documentation
 
 public class Game extends GamePreview {
 
+    private List<String> mPegi;
+    private String mReleaseDate;
     private List<String> mGenres;
     private String mDescription;
     private String mOfficialSite;
@@ -16,12 +19,44 @@ public class Game extends GamePreview {
     private List<Promo> mPromos;
     private List<Uri> mGallery;
 
+    public List<String> getPegi() {
+        return mPegi;
+    }
+
+    public void setPegi(List<String> mPegi) {
+        this.mPegi = mPegi;
+    }
+
+    public void addPegi(String pegi) {
+        if (!hasPegi()) {
+            mPegi = new ArrayList<>();
+        }
+
+        mPegi.add(pegi);
+    }
+
+    public boolean hasPegi() {
+        return mPegi != null;
+    }
+
+    public String getReleaseDate() {
+        return mReleaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.mReleaseDate = releaseDate;
+    }
+
     public List<String> getGenres() {
         return mGenres;
     }
 
     public void setGenres(List<String> genres) {
         mGenres = genres;
+    }
+
+    public boolean hasGenres() {
+        return mGenres != null;
     }
 
     public String getDescription() {
@@ -32,6 +67,10 @@ public class Game extends GamePreview {
         mDescription = description;
     }
 
+    public boolean hasDescription() {
+        return mDescription != null;
+    }
+
     public String getOfficialSite() {
         return mOfficialSite;
     }
@@ -40,12 +79,20 @@ public class Game extends GamePreview {
         mOfficialSite = officialSite;
     }
 
+    public boolean hasOfficialSite() {
+        return mOfficialSite != null;
+    }
+
     public String getPlayers() {
         return mPlayers;
     }
 
     public void setPlayers(String players) {
         mPlayers = players;
+    }
+
+    public boolean hasPlayers() {
+        return mPlayers != null;
     }
 
     public boolean isValidForPromotions() {
@@ -62,6 +109,18 @@ public class Game extends GamePreview {
 
     public void setPromo(List<Promo> promo) {
         mPromos = promo;
+    }
+
+    public boolean hasPromo() {
+        return mPromos != null;
+    }
+
+    public void addPromo(Promo promo) {
+        if (!hasPromo()) {
+            mPromos = new ArrayList<>();
+        }
+
+        mPromos.add(promo);
     }
 
     public List<Uri> getGallery() {

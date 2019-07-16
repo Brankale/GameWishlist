@@ -10,9 +10,6 @@ public class Promo {
     private String mMessage;
     private String mMessageURL;
 
-    public Promo() {
-    }
-
     public String getHeader() {
         return mHeader;
     }
