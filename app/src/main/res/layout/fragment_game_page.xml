@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_image_not_available"
+        android:src="@drawable/ic_wallpaper_black_24dp"
         android:contentDescription="@string/game_image"/>
 
     <include layout="@layout/partial_info_section"/>

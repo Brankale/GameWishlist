@@ -182,7 +182,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         }
 
         Picasso.get().load( gamePreview.getCover() )
-                .placeholder(R.drawable.ic_image_not_available)
+                .placeholder(R.drawable.ic_wallpaper_black_24dp)
                 .into(viewHolder.mCoverView);
 
         return convertView;
