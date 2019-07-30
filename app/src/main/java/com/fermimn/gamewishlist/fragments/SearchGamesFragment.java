@@ -17,6 +17,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fermimn.gamewishlist.R;
+import com.fermimn.gamewishlist.data_types.Game;
+import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
@@ -107,15 +109,15 @@ public class SearchGamesFragment extends Fragment {
     /**
      * This method is called by the private class "Search" during the onPostExecute().
      * It shows the results on the screen.
-     * @param gamePreviews list of games of the searchResults
+     * @param gamePreviewList list of games of the searchResults
      */
-    public void showSearchResults(GamePreviewList gamePreviews) {
+    public void showSearchResults(GamePreviewList gamePreviewList) {
 
-        if (gamePreviews != null) {
+        if (gamePreviewList != null) {
 
             // add fragment
             GamePreviewListFragment gamePreviewListFragment =
-                    new GamePreviewListFragment(mContext, gamePreviews);
+                    new GamePreviewListFragment(mContext, gamePreviewList);
 
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");

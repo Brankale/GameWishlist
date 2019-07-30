@@ -42,4 +42,13 @@ public class Promo {
         mMessageURL = messageURL;
     }
 
+    @Override
+    public String toString() {
+        return "Promo{" +
+                "mHeader='" + mHeader + '\'' +
+                ", mValidity='" + mValidity + '\'' +
+                ", mMessage='" + mMessage + '\'' +
+                ", mMessageURL='" + mMessageURL + '\'' +
+                '}';
+    }
 }

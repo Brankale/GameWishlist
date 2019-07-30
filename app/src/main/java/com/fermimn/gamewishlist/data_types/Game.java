@@ -31,12 +31,14 @@ public class Game extends GamePreview {
         if (!hasPegi()) {
             mPegi = new ArrayList<>();
         }
-
         mPegi.add(pegi);
     }
 
     public boolean hasPegi() {
-        return mPegi != null;
+        if (mPegi == null) {
+            return false;
+        }
+        return !mPegi.isEmpty();
     }
 
     public String getReleaseDate() {
@@ -55,8 +57,18 @@ public class Game extends GamePreview {
         mGenres = genres;
     }
 
+    public void addGenre(String genre) {
+        if (mGenres == null) {
+            mGenres = new ArrayList<>();
+        }
+        mGenres.add(genre);
+    }
+
     public boolean hasGenres() {
-        return mGenres != null;
+        if (mGenres == null) {
+            return false;
+        }
+        return !mGenres.isEmpty();
     }
 
     public String getDescription() {
@@ -112,7 +124,10 @@ public class Game extends GamePreview {
     }
 
     public boolean hasPromo() {
-        return mPromos != null;
+        if (mPromos == null) {
+            return false;
+        }
+        return !mPromos.isEmpty();
     }
 
     public void addPromo(Promo promo) {
@@ -129,5 +144,35 @@ public class Game extends GamePreview {
 
     public void setGallery(List<Uri> mGallery) {
         this.mGallery = mGallery;
+    }
+
+    public void addToGallery(Uri image) {
+        if (mGallery == null) {
+            mGallery = new ArrayList<>();
+        }
+        mGallery.add(image);
+    }
+
+    public boolean hasGallery() {
+        if (mGallery == null) {
+            return false;
+        }
+        return !mGallery.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                super.toString() +
+                "mPegi=" + mPegi +
+                ", mReleaseDate='" + mReleaseDate + '\'' +
+                ", mGenres=" + mGenres +
+                ", mDescription='" + mDescription + '\'' +
+                ", mOfficialSite='" + mOfficialSite + '\'' +
+                ", mPlayers='" + mPlayers + '\'' +
+                ", mValidForPromotions=" + mValidForPromotions +
+                ", mPromos=" + mPromos +
+                ", mGallery=" + mGallery +
+                '}';
     }
 }

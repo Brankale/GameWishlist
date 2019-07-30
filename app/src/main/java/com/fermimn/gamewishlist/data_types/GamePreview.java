@@ -390,4 +390,8 @@ public class GamePreview {
                 '}';
     }
 
+    public static String getUrlById (String id) {
+        return "http://www.gamestop.it/Platform/Games/" + id;
+    }
+
 }
