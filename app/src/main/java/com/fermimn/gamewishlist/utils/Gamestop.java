@@ -1,7 +1,6 @@
 package com.fermimn.gamewishlist.utils;
 
 import android.net.Uri;
-import android.util.Log;
 import android.util.Pair;
 
 import com.fermimn.gamewishlist.data_types.Game;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO: searchGame() & downloadGame() must call use an AsyncTask
-//       otherwise you must do use AsyncTask in the caller class
+//       otherwise you must use AsyncTask in the caller class
 
 // TODO: try to make the class static
 
@@ -116,9 +115,12 @@ public class Gamestop implements Store {
 
             // Get the URL and enstablish the connection
             String url = GamePreview.getUrlById(id);
+
+            // Get the HTML
             Document html = Jsoup.connect(url).get();
 
             // Init the Game
+            // TODO: change methods name with something more significant
             Game game = new Game();
             game.setId(id);
             updateMainInfo(html.body(), game);
@@ -128,7 +130,7 @@ public class Gamestop implements Store {
             updateCover(html.body(), game);
             updateGallery(html.body(), game);
             updatePromos(html.body(), game);
-            // TODO: update Description
+            updateDescription(html.body(), game);
 
             return game;
 
@@ -508,6 +510,50 @@ public class Gamestop implements Store {
             // add the promo
             game.addPromo(promo);
         }
+    }
+
+    // TODO: Description sometimes is not accurate
+    // TODO: substitute italian comments
+    /**
+     * Used by downloadGame() method to set the description of a Game object
+     * @param prodDesc it's an Element containing a class called "prodDesc"
+     * @param game the object where the method store parameters
+     */
+    private void updateDescription(Element prodDesc, Game game) {
+
+        // if the element hasn't got the id name "addedDet"
+        if (!prodDesc.id().equals("prodDesc")) {
+            // search for a tag with this id name
+            prodDesc = prodDesc.getElementById("prodDesc");
+        }
+
+        String description = new String();
+
+        // remove uneccesary div
+        prodDesc.getElementsByClass("prodToTop").remove();
+        prodDesc.getElementsByClass("prodSecHead").remove();
+
+        // wholeText() crea artefatti nel testo
+        // per questo motivo suddivido i blocchi di testo e poi eseguo un trim()
+        String[] text = prodDesc.text().split("\n");
+        for ( int i=0; i<text.length; ++i ){
+            text[i] = text[i].trim();
+            description += text[i] + "\n";
+        }
+
+        // vado a capo ogni volta che c'è un .
+        description = description.replace(". ", ".\n");
+
+        // faccio un trim per rimuovere \n all'inizio o alla fine
+        description = description.trim();
+
+        // elimino tutti i \n in eccesso
+        while ( description.contains("\n\n\n") ) {
+            description = description.replace("\n\n\n", "\n\n");
+        }
+
+        // set description
+        game.setDescription(description);
     }
 
 }

@@ -43,7 +43,6 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:src="@drawable/ic_wallpaper_black_24dp"
                 android:contentDescription="@string/game_image"
                 android:padding="15dp"/>
 

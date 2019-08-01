@@ -17,8 +17,6 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.data_types.Game;
-import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
@@ -51,6 +49,8 @@ public class SearchGamesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // TODO: check what is savedInstance
 
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
         SearchView searchView = view.findViewById(R.id.search_bar);
@@ -85,6 +85,11 @@ public class SearchGamesFragment extends Fragment {
                 mSearchResults.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
 
+                // remove the old fragment to prevent ugly transitions
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.replace(R.id.search_results, new Fragment(), "game_list");
+                transaction.commitNow();
+
                 return false;
             }
 
@@ -104,34 +109,6 @@ public class SearchGamesFragment extends Fragment {
         });
 
         return view;
-    }
-
-    /**
-     * This method is called by the private class "Search" during the onPostExecute().
-     * It shows the results on the screen.
-     * @param gamePreviewList list of games of the searchResults
-     */
-    public void showSearchResults(GamePreviewList gamePreviewList) {
-
-        if (gamePreviewList != null) {
-
-            // add fragment
-            GamePreviewListFragment gamePreviewListFragment =
-                    new GamePreviewListFragment(mContext, gamePreviewList);
-
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
-            transaction.commit();
-
-            // progress bar disappears
-            mProgressBar.setVisibility(View.GONE);
-            mSearchResults.setVisibility(View.VISIBLE);
-
-        } else {
-            // progress bar disappears
-            mProgressBar.setVisibility(View.GONE);
-            Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
@@ -162,6 +139,37 @@ public class SearchGamesFragment extends Fragment {
         @Override
         protected void onPostExecute(GamePreviewList searchResults) {
             showSearchResults(searchResults);
+        }
+    }
+
+    /**
+     * This method is called by the private class "Search" during the onPostExecute().
+     * It shows the results on the screen.
+     * @param gamePreviewList list of games of the searchResults
+     */
+    public void showSearchResults(GamePreviewList gamePreviewList) {
+
+        if (gamePreviewList != null) {
+
+            // add the fragment
+            GamePreviewListFragment gamePreviewListFragment =
+                    new GamePreviewListFragment(mContext, gamePreviewList);
+
+            // set ListView padding in dp
+            gamePreviewListFragment.setPadding(56,0);
+
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
+            transaction.commit();
+
+            // make the fragment visible
+            mProgressBar.setVisibility(View.GONE);
+            mSearchResults.setVisibility(View.VISIBLE);
+
+        } else {
+            // progress bar disappears
+            mProgressBar.setVisibility(View.GONE);
+            Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -21,6 +21,8 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
 
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
+    private LayoutInflater mInflater;
+
     /**
      * This class is used to improve performance
      * It avoids useless findViewById that makes the app laggy
@@ -57,6 +59,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
      */
     public GamePreviewListAdapter(Context context, GamePreviewList gamePreviewList) {
         super(context, R.layout.partial_game_preview, gamePreviewList);
+        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -66,10 +69,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         if (convertView == null) {
 
             // inflate just when needed
-            LayoutInflater inflater = (LayoutInflater) getContext()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            convertView = inflater.inflate(R.layout.partial_game_preview, null);
+            convertView = mInflater.inflate(R.layout.partial_game_preview, null);
 
             // get Views using ViewHolder pattern
             ViewHolder viewHolder = new ViewHolder();
@@ -181,8 +181,9 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
             viewHolder.mCategoryPreorderView.setVisibility(View.GONE);
         }
 
+        // TODO: add placeholder
         Picasso.get().load( gamePreview.getCover() )
-                .placeholder(R.drawable.ic_wallpaper_black_24dp)
+                .placeholder(null)
                 .into(viewHolder.mCoverView);
 
         return convertView;
