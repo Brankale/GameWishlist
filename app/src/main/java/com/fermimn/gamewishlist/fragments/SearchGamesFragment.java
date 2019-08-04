@@ -86,9 +86,9 @@ public class SearchGamesFragment extends Fragment {
                 mProgressBar.setVisibility(View.VISIBLE);
 
                 // remove the old fragment to prevent ugly transitions
-                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                transaction.replace(R.id.search_results, new Fragment(), "game_list");
-                transaction.commitNow();
+//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                transaction.replace(R.id.search_results, new Fragment(), "game_list");
+//                transaction.commit();
 
                 return false;
             }
@@ -156,7 +156,7 @@ public class SearchGamesFragment extends Fragment {
                     new GamePreviewListFragment(mContext, gamePreviewList);
 
             // set ListView padding in dp
-            gamePreviewListFragment.setPadding(56,0);
+            //gamePreviewListFragment.setPadding(56,87);
 
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");

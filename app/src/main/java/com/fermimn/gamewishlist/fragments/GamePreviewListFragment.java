@@ -51,12 +51,9 @@ public class GamePreviewListFragment extends Fragment {
      * @param bottom padding bottom
      */
     public void setPadding(int top, int bottom) {
-
-        // TODO: the emulator doesn't want to collaborate
-        //       implement this method when the emulator become usable
-//        float scale = getResources().getDisplayMetrics().density;
-//        mPaddingBottom = (int) (bottom * scale + 0.5f);
-//        mPaddingTop = (int) (top * scale + 0.5f);
+        float scale = mContext.getResources().getDisplayMetrics().density;
+        mPaddingBottom = (int) (bottom * scale + 0.5f);
+        mPaddingTop = (int) (top * scale + 0.5f);
     }
 
 }

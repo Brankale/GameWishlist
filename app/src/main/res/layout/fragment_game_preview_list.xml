@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO: animateLayoutChanges is set to false because the app has problem with transitions -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="false">
 
     <!-- TODO: consider using RecyclerView instead of ListView -->
     <!-- TODO: https://developer.android.com/guide/topics/ui/layout/recyclerview -->
+    <!-- TODO: add scrollingCache & animationCache when you are sure of what they do -->
     <ListView
         android:id="@+id/game_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollingCache="false"
-        android:animationCache="false"
-        android:clipToPadding="false"/>
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
