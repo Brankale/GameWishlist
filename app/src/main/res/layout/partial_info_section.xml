@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:divider="@drawable/game_page_divider"
+    android:showDividers="middle|end">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,8 +15,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"/>
-
-    <View style="@style/Divider"/>
 
     <LinearLayout
         android:id="@+id/title_container"
@@ -41,8 +41,6 @@
 
     </LinearLayout>
 
-    <View style="@style/Divider"/>
-
     <LinearLayout
         android:id="@+id/publisher_container"
         android:layout_width="match_parent"
@@ -67,8 +65,6 @@
             android:gravity="end"/>
 
     </LinearLayout>
-
-    <View style="@style/Divider"/>
 
     <LinearLayout
         android:id="@+id/platform_container"
@@ -95,8 +91,6 @@
 
     </LinearLayout>
 
-    <View style="@style/Divider"/>
-
     <LinearLayout
         android:id="@+id/genres_container"
         android:layout_width="match_parent"
@@ -121,8 +115,6 @@
             android:gravity="end"/>
 
     </LinearLayout>
-
-    <View style="@style/Divider"/>
 
     <LinearLayout
         android:id="@+id/release_date_container"
@@ -149,8 +141,6 @@
 
     </LinearLayout>
 
-    <View style="@style/Divider"/>
-
     <LinearLayout
         android:id="@+id/players_container"
         android:layout_width="match_parent"
@@ -176,8 +166,6 @@
             android:gravity="end"/>
 
     </LinearLayout>
-
-    <View style="@style/Divider"/>
 
     <LinearLayout
         android:id="@+id/official_site_container"

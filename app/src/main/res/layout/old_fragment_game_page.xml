@@ -282,7 +282,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:paddingTop="30dp"
                     android:paddingBottom="10dp"
                     android:text="@string/info"
@@ -294,7 +294,7 @@
                     android:id="@+id/titleLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -321,7 +321,7 @@
                     android:id="@+id/publisherLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -348,7 +348,7 @@
                     android:id="@+id/platformLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -375,7 +375,7 @@
                     android:id="@+id/genresLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -402,7 +402,7 @@
                     android:id="@+id/releaseDateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -429,7 +429,7 @@
                     android:id="@+id/playersLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -457,7 +457,7 @@
                     android:id="@+id/officialSiteLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
@@ -495,7 +495,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/gallery"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:textSize="20sp"
@@ -536,7 +536,7 @@
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:textSize="20sp"
-                    android:background="@drawable/game_page_info_background"
+                    android:background="@drawable/game_page_divider"
                     android:paddingTop="30dp"
                     android:paddingBottom="10dp"/>
 
