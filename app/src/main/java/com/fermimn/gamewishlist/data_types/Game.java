@@ -49,6 +49,10 @@ public class Game extends GamePreview {
         this.mReleaseDate = releaseDate;
     }
 
+    public boolean hasReleaseDate() {
+        return mReleaseDate != null;
+    }
+
     public List<String> getGenres() {
         return mGenres;
     }

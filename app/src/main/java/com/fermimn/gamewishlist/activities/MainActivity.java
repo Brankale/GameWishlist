@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.fermimn.gamewishlist.R;
@@ -71,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
         return view;
+    }
+
+    public void showGamePageFragment(GamePageFragment gamePageFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, gamePageFragment, "gamePage")
+                .addToBackStack(null)
+                .commit();
     }
 
 }

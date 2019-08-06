@@ -182,6 +182,11 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         }
 
         // TODO: add placeholder
+        // TODO: I'm not sure but I think that if Picasso try to download an image
+        //       but in the mean time you do another research, Picasso lose the
+        //       reference to the ImageView and the app crash.
+        //       Try to put this thing in a try-catch, add a Log and then reproduce the problem
+        //       with a low speed network
         Picasso.get().load( gamePreview.getCover() )
                 .placeholder(null)
                 .into(viewHolder.mCoverView);

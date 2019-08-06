@@ -17,6 +17,7 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -29,6 +30,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"
@@ -42,6 +44,7 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/publisher_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -54,6 +57,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/publisher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"
@@ -67,6 +71,7 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/platform_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -79,6 +84,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/platform"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"
@@ -92,6 +98,7 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/genres_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -104,6 +111,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"
@@ -117,6 +125,7 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/release_date_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -129,6 +138,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/releaseDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"
@@ -142,10 +152,12 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/players_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -154,6 +166,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/players"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"
@@ -167,10 +180,12 @@
     <View style="@style/Divider"/>
 
     <LinearLayout
+        android:id="@+id/official_site_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -179,6 +194,7 @@
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/officialSite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_info"

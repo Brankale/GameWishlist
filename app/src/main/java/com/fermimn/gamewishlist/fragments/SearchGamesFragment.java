@@ -60,7 +60,7 @@ public class SearchGamesFragment extends Fragment {
         // Set listeners of the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-            private AsyncTask mRunningTask;
+            private Search mRunningTask;
 
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -79,7 +79,8 @@ public class SearchGamesFragment extends Fragment {
                 }
 
                 // search the game (Search is a private class)
-                mRunningTask = new Search().execute(query);
+                mRunningTask = new Search();
+                mRunningTask.execute(query);
 
                 // progress bar appears
                 mSearchResults.setVisibility(View.GONE);

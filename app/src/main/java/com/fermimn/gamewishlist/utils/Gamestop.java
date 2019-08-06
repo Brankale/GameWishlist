@@ -1,6 +1,7 @@
 package com.fermimn.gamewishlist.utils;
 
 import android.net.Uri;
+import android.util.Log;
 import android.util.Pair;
 
 import com.fermimn.gamewishlist.data_types.Game;
@@ -28,7 +29,9 @@ public class Gamestop implements Store {
 
     private static final String TAG = Gamestop.class.getSimpleName();
 
-    private static String WEBSITE_URL = "https://www.gamestop.it/SearchResult/QuickSearch?q=";
+    private static String WEBSITE_URL = "https://www.gamestop.it";
+    private static String SEARCH_URL = WEBSITE_URL + "/SearchResult/QuickSearch?q=";
+    private static String GAME_URL = WEBSITE_URL + "/Platform/Games/";
 
     /**
      * Search games on Gamestop website
@@ -40,9 +43,10 @@ public class Gamestop implements Store {
     @Override
     public GamePreviewList searchGame(String searchedGame) throws IOException {
 
-        String url = WEBSITE_URL + URLEncoder.encode(searchedGame, "UTF-8");
+        String url = SEARCH_URL + URLEncoder.encode(searchedGame, "UTF-8");
 
         // get the HTML
+        Log.d(TAG, "Downloading GamePreviews..." + url);
         Document doc = Jsoup.connect(url).get();
         Element body = doc.body();
 
@@ -114,22 +118,32 @@ public class Gamestop implements Store {
         try {
 
             // Get the URL and enstablish the connection
-            String url = GamePreview.getUrlById(id);
+            String url = GAME_URL + id;
 
             // Get the HTML
+            Log.d(TAG, "[" + id + "] - Downloading Game... [" + url + "]");
             Document html = Jsoup.connect(url).get();
 
             // Init the Game
             // TODO: change methods name with something more significant
             Game game = new Game();
             game.setId(id);
+
+            Log.d(TAG, "[" + id + "] - Fetching main info...");
             updateMainInfo(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching metadata...");
             updateMetadata(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching prices...");
             updatePrices(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching pegi...");
             updatePegi(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching cover...");
             updateCover(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching gallery...");
             updateGallery(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching promos...");
             updatePromos(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching description...");
             updateDescription(html.body(), game);
 
             return game;
@@ -554,6 +568,21 @@ public class Gamestop implements Store {
 
         // set description
         game.setDescription(description);
+    }
+
+    // TODO: add documentation
+    private class Downloader implements Runnable {
+
+        private GamePreviewList mGamePreviewList;
+
+        public Downloader(GamePreviewList gamePreviewList){
+            mGamePreviewList = gamePreviewList;
+        }
+
+        @Override
+        public void run() {
+
+        }
     }
 
 }
