@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.fermimn.gamewishlist.R;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      * @return
      */
-    public View sectionSwitch(View view) {
+    public void sectionSwitch(View view) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -70,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         transaction.commit();
-
-        return view;
     }
 
     public void showGamePageFragment(GamePageFragment gamePageFragment) {

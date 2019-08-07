@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,13 +93,11 @@ public class GamePageFragment extends Fragment {
             officialSite.setText( mGame.getOfficialSite() );
         }
 
-        Picasso.get().load( mGame.getCover() )
-                .placeholder(null)
-                .into(cover);
+        Picasso.get().load( mGame.getCover() ).into(cover);
 
         if (mGame.hasPegi()) {
 
-            LinearLayout pegiContainer = view.findViewById(R.id.pegi_container);
+            HorizontalScrollView pegiContainer = view.findViewById(R.id.pegi_container);
             pegiContainer.setVisibility(View.VISIBLE);
 
             for (String type : mGame.getPegi()) {

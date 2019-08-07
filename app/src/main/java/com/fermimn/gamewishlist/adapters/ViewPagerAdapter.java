@@ -1,18 +1,12 @@
 package com.fermimn.gamewishlist.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.fermimn.gamewishlist.R;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by reale on 13/07/2016.

@@ -83,8 +83,7 @@ public class GamePreviewListFragment extends Fragment {
         protected Game doInBackground(String... strings) {
             String id = strings[0];
             Gamestop gamestop = new Gamestop();
-            Game game = gamestop.downloadGame(id);
-            return game;
+            return gamestop.downloadGame(id);
         }
 
         @Override

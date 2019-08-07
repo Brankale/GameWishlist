@@ -508,7 +508,6 @@ public class Gamestop implements Store {
         }
 
         // init description
-        String description = new String();
 
         // remove uneccesary div
         prodDesc.getElementsByClass("prodToTop").remove();
@@ -517,10 +516,14 @@ public class Gamestop implements Store {
         // wholeText() creates artifacts in the text,
         // which is why I split the blocks of text and then trim()
         String[] text = prodDesc.wholeText().split("\n");
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < text.length; ++i){
             text[i] = text[i].trim();
-            description += text[i] + "\n";
+            stringBuilder.append(text[i]);
+            stringBuilder.append("\n");
         }
+
+        String description = stringBuilder.toString();
 
         // add \n very time there's a "."
         // TODO: "..." can be problematic

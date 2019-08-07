@@ -8,7 +8,7 @@ import java.io.IOException;
 // TODO: use a more significant interface name
 public interface Store {
 
-    public GamePreviewList searchGame(String game) throws IOException;
-    public Game downloadGame(String id);
+    GamePreviewList searchGame(String game) throws IOException;
+    Game downloadGame(String id);
 
 }

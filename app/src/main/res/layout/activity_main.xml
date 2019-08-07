@@ -18,6 +18,7 @@
         android:background="@drawable/shape_round_button"
         android:onClick="sectionSwitch"
         android:scaleType="fitCenter"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:contentDescription="@string/section_switch"/>
 
 </RelativeLayout>

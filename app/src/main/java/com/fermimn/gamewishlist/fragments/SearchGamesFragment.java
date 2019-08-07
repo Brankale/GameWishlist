@@ -50,7 +50,7 @@ public class SearchGamesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // TODO: check what is savedInstance
+        // TODO: check what is savedInstanceState
 
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
         SearchView searchView = view.findViewById(R.id.search_bar);
@@ -66,7 +66,7 @@ public class SearchGamesFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
 
                 // check if internet is available
-                if (Connectivity.isNetworkAvailable(mContext) == false) {
+                if (!Connectivity.isNetworkAvailable(mContext)) {
                     Toast.makeText(mContext, "Non sei connesso a Internet", Toast.LENGTH_SHORT).show();
                     return false;
                 }

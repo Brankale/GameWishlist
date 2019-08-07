@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.ViewPagerAdapter;
 
 public class ActivityGallery extends Activity {
