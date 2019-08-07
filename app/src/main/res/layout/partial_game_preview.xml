@@ -106,7 +106,8 @@
                         android:layout_marginStart="5dp"
                         android:text="@string/no_info"
                         android:textColor="#FFF"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -142,7 +143,8 @@
                         android:layout_marginStart="5dp"
                         android:text="@string/no_info"
                         android:textColor="#FFF"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -179,7 +181,8 @@
                         android:layout_marginStart="5dp"
                         android:text="@string/no_info"
                         android:textColor="#FFF"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -216,7 +219,8 @@
                         android:layout_marginStart="5dp"
                         android:text="@string/no_info"
                         android:textColor="#FFF"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
