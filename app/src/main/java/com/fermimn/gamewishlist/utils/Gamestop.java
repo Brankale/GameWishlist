@@ -20,9 +20,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: searchGame() & downloadGame() must call use an AsyncTask
-//       otherwise you must use AsyncTask in the caller class
-
 // TODO: try to make the class static
 
 public class Gamestop implements Store {
@@ -225,18 +222,13 @@ public class Gamestop implements Store {
      */
     private void updateMainInfo(Element prodTitle, Game game) {
 
-        // if the element hasn't got the class name "prodTitle"
-        if (!prodTitle.className().equals("prodTitle")) {
-            // search for a tag with this class name
-            if (prodTitle.getElementsByClass("prodTitle").isEmpty()) {
-                throw new GameException();
-            }
-
-            // TODO: improve this part of code
-            prodTitle = prodTitle.getElementsByClass("prodTitle").get(0);
+        // Check if there's a tag with a specific class inside the Element
+        prodTitle = getElementByClass(prodTitle, "prodTitle");
+        if (prodTitle == null) {
+            throw new GameException();
         }
 
-        // set parameters
+        // init main info
         game.setTitle( prodTitle.getElementsByTag("h1").text() );
         game.setPublisher( prodTitle.getElementsByTag("strong").text() );
         game.setPlatform( prodTitle.getElementsByTag("p").get(0)
@@ -251,17 +243,13 @@ public class Gamestop implements Store {
      */
     private void updateMetadata(Element addedDetInfo, Game game) {
 
-        // if the element hasn't got the class name "addedDetInfo"
-        if (!addedDetInfo.className().equals("addedDetInfo")) {
-            // search for a tag with this class name
-            if (addedDetInfo.getElementsByClass("addedDetInfo").isEmpty()) {
-                throw new GameException();
-            }
-
-            // TODO: improve this part of code
-            addedDetInfo = addedDetInfo.getElementsByClass("addedDetInfo").get(0);
+        // Check if there's a tag with a specific class inside the Element
+        addedDetInfo = getElementByClass(addedDetInfo, "addedDetInfo");
+        if (addedDetInfo == null) {
+            throw new GameException();
         }
 
+        // init metadata
         for (Element e : addedDetInfo.getElementsByTag("p")) {
 
             // important check to avoid IndexOutOfBound Exception
@@ -314,17 +302,13 @@ public class Gamestop implements Store {
      */
     private void updatePrices(Element buySection, Game game) {
 
-        // if the element hasn't got the class name "buySection"
-        if (!buySection.className().equals("buySection")) {
-            // search for a tag with this class name
-            if (buySection.getElementsByClass("buySection").isEmpty()) {
-                throw new GameException();
-            }
-
-            // TODO: improve this part of code
-            buySection = buySection.getElementsByClass("buySection").get(0);
+        // Check if there's a tag with a specific class inside the Element
+        buySection = getElementByClass(buySection, "buySection");
+        if (buySection == null) {
+            throw new GameException();
         }
 
+        // init prices
         for (Element svd : buySection.getElementsByClass("singleVariantDetails")) {
 
             // TODO: what is this?
@@ -403,17 +387,13 @@ public class Gamestop implements Store {
      */
     private void updatePegi(Element ageBlock, Game game) {
 
-        // if the element hasn't got the class name "ageBlock"
-        if (!ageBlock.className().equals("ageBlock")) {
-            // search for a tag with this class name
-            if (ageBlock.getElementsByClass("ageBlock").isEmpty()) {
-                return;
-            }
-
-            // TODO: improve this part of code
-            ageBlock = ageBlock.getElementsByClass("ageBlock").get(0);
+        // Check if there's a tag with a specific class inside the Element
+        ageBlock = getElementByClass(ageBlock, "ageBlock");
+        if (ageBlock == null) {
+            return;
         }
 
+        // init PEGI
         for (Element e : ageBlock.getAllElements()) {
 
             String variant = e.attr("class");
@@ -444,17 +424,13 @@ public class Gamestop implements Store {
      */
     private void updateCover(Element prodImgMax, Game game) {
 
-        // if the element hasn't got the class name "prodImg max"
-        if (!prodImgMax.className().equals("prodImg max")) {
-            // search for a tag with this class name
-            if (prodImgMax.getElementsByClass("prodImg max").isEmpty()) {
-                return;
-            }
-
-            // TODO: improve this part of code
-            prodImgMax = prodImgMax.getElementsByClass("prodImg max").get(0);
+        // Check if there's a tag with a specific class inside the Element
+        prodImgMax = getElementByClass(prodImgMax, "prodImgMax");
+        if (prodImgMax == null) {
+            return;
         }
 
+        // init cover
         String url = prodImgMax.attr("href");
         game.setCover( Uri.parse(url) );
     }
@@ -466,15 +442,10 @@ public class Gamestop implements Store {
      */
     private void updateGallery(Element mediaImages, Game game) {
 
-        // if the element hasn't got the class name "mediaImages"
-        if (!mediaImages.className().equals("mediaImages")) {
-            // search for a tag with this class name
-            if (mediaImages.getElementsByClass("mediaImages").isEmpty()) {
-                return;
-            }
-
-            // TODO: improve this part of code
-            mediaImages = mediaImages.getElementsByClass("mediaImages").get(0);
+        // Check if there's a tag with a specific class inside the Element
+        mediaImages = getElementByClass(mediaImages, "mediaImages");
+        if (mediaImages == null) {
+            return;
         }
 
         // init the gallery
@@ -491,15 +462,10 @@ public class Gamestop implements Store {
      */
     private void updatePromos(Element bonusBlock, Game game) {
 
-        // TODO: improve this part of code
-        // if the element hasn't got the id name "bonusBlock"
-        if (!bonusBlock.id().equals("bonusBlock")) {
-            // search for a tag with this id name
-            bonusBlock = bonusBlock.getElementById("bonusBlock");
-
-            if (bonusBlock == null) {
-                return;
-            }
+        // Check if there's a tag with a specific id inside the Element
+        bonusBlock = getElementById(bonusBlock, "bonusBlock");
+        if (bonusBlock == null) {
+            return;
         }
 
         // init the promotions
@@ -526,8 +492,8 @@ public class Gamestop implements Store {
         }
     }
 
-    // TODO: Description sometimes is not accurate
-    // TODO: substitute italian comments
+    // TODO: Gamestop descriptions are very hard to handle,
+    //       so they are not always accurate
     /**
      * Used by downloadGame() method to set the description of a Game object
      * @param prodDesc it's an Element containing a class called "prodDesc"
@@ -535,54 +501,68 @@ public class Gamestop implements Store {
      */
     private void updateDescription(Element prodDesc, Game game) {
 
-        // if the element hasn't got the id name "addedDet"
-        if (!prodDesc.id().equals("prodDesc")) {
-            // search for a tag with this id name
-            prodDesc = prodDesc.getElementById("prodDesc");
+        // Check if there's a tag with a specific id inside the Element
+        prodDesc = getElementById(prodDesc, "prodDesc");
+        if (prodDesc == null) {
+            return;
         }
 
+        // init description
         String description = new String();
 
         // remove uneccesary div
         prodDesc.getElementsByClass("prodToTop").remove();
         prodDesc.getElementsByClass("prodSecHead").remove();
 
-        // wholeText() crea artefatti nel testo
-        // per questo motivo suddivido i blocchi di testo e poi eseguo un trim()
-        String[] text = prodDesc.text().split("\n");
-        for ( int i=0; i<text.length; ++i ){
+        // wholeText() creates artifacts in the text,
+        // which is why I split the blocks of text and then trim()
+        String[] text = prodDesc.wholeText().split("\n");
+        for (int i = 0; i < text.length; ++i){
             text[i] = text[i].trim();
             description += text[i] + "\n";
         }
 
-        // vado a capo ogni volta che c'è un .
+        // add \n very time there's a "."
+        // TODO: "..." can be problematic
         description = description.replace(". ", ".\n");
 
-        // faccio un trim per rimuovere \n all'inizio o alla fine
+        // trim to remove \n at the beginning and at the end
         description = description.trim();
 
-        // elimino tutti i \n in eccesso
+        // delete \n in excess
         while ( description.contains("\n\n\n") ) {
             description = description.replace("\n\n\n", "\n\n");
         }
 
-        // set description
         game.setDescription(description);
     }
 
-    // TODO: add documentation
-    private class Downloader implements Runnable {
+    /**
+     * Used by update methods to work on the right Element object
+     * @param e Element object
+     * @param className the class of a tag inside the HTML
+     * @return the first tag found inside the Element which has the given className,
+     *         null if nothing was found
+     */
+    private Element getElementByClass(Element e, String className) {
 
-        private GamePreviewList mGamePreviewList;
-
-        public Downloader(GamePreviewList gamePreviewList){
-            mGamePreviewList = gamePreviewList;
+        if (e.className().equals(className)) {
+            return e;
         }
 
-        @Override
-        public void run() {
+        Elements elements = e.getElementsByClass(className);
+        return elements.isEmpty() ? null : elements.get(0);
+    }
 
-        }
+    /**
+     * Used by update methods to work on the right Element object
+     * @param e Element object
+     * @param idName the id of a tag inside the HTML
+     * @return the first tag found inside the Element which has the given id name,
+     *         null if nothing was found
+     */
+    private Element getElementById(Element e, String idName) {
+        return e.className().equals(idName) ? e : e.getElementById(idName);
     }
 
 }
