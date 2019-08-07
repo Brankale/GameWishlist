@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
+import com.fermimn.gamewishlist.data_types.Promo;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -27,7 +28,7 @@ public class GamePageFragment extends Fragment {
     private static final String TAG = GamePageFragment.class.getSimpleName();
 
     private Context mContext;
-    
+
     private Game mGame;
 
     public GamePageFragment(Game game) {
@@ -54,13 +55,9 @@ public class GamePageFragment extends Fragment {
         TextView genres = view.findViewById(R.id.genres);
         TextView releaseDate = view.findViewById(R.id.releaseDate);
 
-
-
         title.setText( mGame.getTitle() );
         publisher.setText( mGame.getPublisher() );
         platform.setText( mGame.getPlatform() );
-
-
 
         if (mGame.hasGenres()) {
             List<String> tmpGenres = mGame.getGenres();
@@ -186,6 +183,28 @@ public class GamePageFragment extends Fragment {
             validForPromotions.setVisibility(View.VISIBLE);
         }
 
+        // TODO: set URL to promo Message
+        // TODO: check if message is available
+        if (mGame.hasPromo()) {
+
+            LinearLayout promoContainer = view.findViewById(R.id.promo_container);
+
+            for (Promo promo : mGame.getPromo()) {
+                View promoView = inflater.inflate(R.layout.partial_section_promo,
+                        container, false);
+
+                TextView promoHeader = promoView.findViewById(R.id.promo_header);
+                TextView promoValidity = promoView.findViewById(R.id.promo_validity);
+                TextView promoMessage = promoView.findViewById(R.id.promo_message);
+
+                promoHeader.setText( promo.getHeader() );
+                promoValidity.setText( promo.getValidity() );
+                promoMessage.setText( promo.getMessage() );
+
+                promoContainer.addView(promoView);
+            }
+        }
+
         return view;
     }
 
@@ -209,6 +228,8 @@ public class GamePageFragment extends Fragment {
 
 
         // sets Text
+
+        // TODO: only one older price is displayed
 
         DecimalFormat df = new DecimalFormat("#.00");
 
@@ -283,7 +304,6 @@ public class GamePageFragment extends Fragment {
         } else {
             mCategoryPreorderView.setVisibility(View.GONE);
         }
-
     }
 
     private void openGallery(View view) {

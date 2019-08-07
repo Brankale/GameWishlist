@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gallery_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:divider="@drawable/game_page_divider"
+    android:showDividers="middle"
+    android:visibility="gone">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gallery"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:orientation="horizontal"/>
+
+    </HorizontalScrollView>
+
+</LinearLayout>
