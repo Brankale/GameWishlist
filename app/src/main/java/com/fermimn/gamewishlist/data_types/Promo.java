@@ -10,9 +10,6 @@ public class Promo {
     private String mMessage;
     private String mMessageURL;
 
-    public Promo() {
-    }
-
     public String getHeader() {
         return mHeader;
     }
@@ -45,4 +42,13 @@ public class Promo {
         mMessageURL = messageURL;
     }
 
+    @Override
+    public String toString() {
+        return "Promo{" +
+                "mHeader='" + mHeader + '\'' +
+                ", mValidity='" + mValidity + '\'' +
+                ", mMessage='" + mMessage + '\'' +
+                ", mMessageURL='" + mMessageURL + '\'' +
+                '}';
+    }
 }

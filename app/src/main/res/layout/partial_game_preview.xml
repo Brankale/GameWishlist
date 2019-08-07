@@ -3,25 +3,20 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:padding="20dp">
-
-    <!-- TODO: Check info about adjustViewBounds in ImageView,
-         TODO: it can be a cause of poor performance              -->
 
     <ImageView
         android:id="@+id/cover"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="135dp"
         android:layout_weight="1"
         android:layout_marginEnd="10dp"
-        android:adjustViewBounds="true"
         android:contentDescription="@string/game_image"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_weight="2"
         android:orientation="vertical">
 
@@ -29,12 +24,12 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
             android:text="@string/no_info"
             android:textColor="#000"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="2"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,7 +67,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom"
             android:orientation="vertical">
 
             <LinearLayout
@@ -107,7 +101,8 @@
                     android:layout_marginStart="5dp"
                     android:text="@string/no_info"
                     android:textColor="#FFF"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -143,7 +138,8 @@
                     android:layout_marginStart="5dp"
                     android:text="@string/no_info"
                     android:textColor="#FFF"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -180,7 +176,8 @@
                     android:layout_marginStart="5dp"
                     android:text="@string/no_info"
                     android:textColor="#FFF"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -217,7 +214,8 @@
                     android:layout_marginStart="5dp"
                     android:text="@string/no_info"
                     android:textColor="#FFF"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

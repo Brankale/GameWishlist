@@ -1,10 +1,14 @@
 package com.fermimn.gamewishlist.utils;
 
+import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 
+import com.fermimn.gamewishlist.data_types.Game;
+import com.fermimn.gamewishlist.data_types.GameException;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.data_types.Promo;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,11 +20,15 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: try to make the class static
+
 public class Gamestop implements Store {
 
     private static final String TAG = Gamestop.class.getSimpleName();
 
-    private static String WEBSITE_URL = "https://www.gamestop.it/SearchResult/QuickSearch?q=";
+    private static String WEBSITE_URL = "https://www.gamestop.it";
+    private static String SEARCH_URL = WEBSITE_URL + "/SearchResult/QuickSearch?q=";
+    private static String GAME_URL = WEBSITE_URL + "/Platform/Games/";
 
     /**
      * Search games on Gamestop website
@@ -32,9 +40,10 @@ public class Gamestop implements Store {
     @Override
     public GamePreviewList searchGame(String searchedGame) throws IOException {
 
-        String url = WEBSITE_URL + URLEncoder.encode(searchedGame, "UTF-8");
+        String url = SEARCH_URL + URLEncoder.encode(searchedGame, "UTF-8");
 
         // get the HTML
+        Log.d(TAG, "Downloading GamePreviews..." + url);
         Document doc = Jsoup.connect(url).get();
         Element body = doc.body();
 
@@ -83,11 +92,10 @@ public class Gamestop implements Store {
             gamePreview.setDigitalPrice(categoryPrices.first);
             gamePreview.setOlderDigitalPrices(categoryPrices.second);
 
-            // TODO: remove this two lines of code
+            // set the Cover
             String imageUrl = game.getElementsByClass("prodImg").get(0)
                     .getElementsByTag("img").get(0).attr("data-llsrc");
-
-            gamePreview.setCoverUrl(imageUrl);
+            gamePreview.setCover( Uri.parse(imageUrl) );
 
             // add the game to the array
             results.add(gamePreview);
@@ -96,11 +104,51 @@ public class Gamestop implements Store {
         return results;
     }
 
+    /**
+     * Download a Game from Gamestop given the id
+     * @param id of teh game
+     * @return a Game object if found, otherwise null
+     */
     @Override
-    public GamePreview downloadGame(String id) {
-        // TODO: to implement
-        Log.w("NOT IMPLEMENTED", "Gamestop.downloadGame : not implemented");
-        return null;
+    public Game downloadGame(String id) {
+
+        try {
+
+            // Get the URL and enstablish the connection
+            String url = GAME_URL + id;
+
+            // Get the HTML
+            Log.d(TAG, "[" + id + "] - Downloading Game... [" + url + "]");
+            Document html = Jsoup.connect(url).get();
+
+            // Init the Game
+            // TODO: change methods name with something more significant
+            Game game = new Game();
+            game.setId(id);
+
+            Log.d(TAG, "[" + id + "] - Fetching main info...");
+            updateMainInfo(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching metadata...");
+            updateMetadata(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching prices...");
+            updatePrices(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching pegi...");
+            updatePegi(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching cover...");
+            updateCover(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching gallery...");
+            updateGallery(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching promos...");
+            updatePromos(html.body(), game);
+            Log.d(TAG, "[" + id + "] - Fetching description...");
+            updateDescription(html.body(), game);
+
+            return game;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -155,13 +203,369 @@ public class Gamestop implements Store {
      */
     private static double stringToPrice(String price) {
 
-        // example "Nuovo 19.99€"
-        price = price.replaceAll("[^0-9.,]","");    // remove all the characters except for numbers, ',' and '.'
-        price = price.replace(".", "");             // to handle prices over 999,99€ like 1.249,99€
-        price = price.replace(',', '.');            // to convert the price in a string that can be parsed
+        // example string "Nuovo 19.99€"
+
+        // remove all the characters except for numbers, ',' and '.'
+        price = price.replaceAll("[^0-9.,]","");
+        // to handle prices over 999,99€ like 1.249,99€
+        price = price.replace(".", "");
+        // to convert the price in a string that can be parsed
+        price = price.replace(',', '.');
 
         return Double.parseDouble(price);
     }
 
+    /**
+     * Used by downloadGame() method to set: title, publisher & platform of a Game object
+     * @param prodTitle it's an Element containing a class called "prodTitle"
+     * @param game the object where the method store parameters
+     */
+    private void updateMainInfo(Element prodTitle, Game game) {
+
+        // Check if there's a tag with a specific class inside the Element
+        prodTitle = getElementByClass(prodTitle, "prodTitle");
+        if (prodTitle == null) {
+            throw new GameException();
+        }
+
+        // init main info
+        game.setTitle( prodTitle.getElementsByTag("h1").text() );
+        game.setPublisher( prodTitle.getElementsByTag("strong").text() );
+        game.setPlatform( prodTitle.getElementsByTag("p").get(0)
+                .getElementsByTag("span").text() );
+    }
+
+    /**
+     * Used by downloadGame() method to set: genre, official site,
+     * players and release date of a Game object
+     * @param addedDetInfo it's an Element containing a class called "addedDetInfo"
+     * @param game the object where the method store parameters
+     */
+    private void updateMetadata(Element addedDetInfo, Game game) {
+
+        // Check if there's a tag with a specific class inside the Element
+        addedDetInfo = getElementByClass(addedDetInfo, "addedDetInfo");
+        if (addedDetInfo == null) {
+            throw new GameException();
+        }
+
+        // init metadata
+        for (Element e : addedDetInfo.getElementsByTag("p")) {
+
+            // important check to avoid IndexOutOfBound Exception
+            // TODO: check why you need this if
+            if (e.childNodeSize() > 1) {
+
+                switch (e.child(0).text()) {
+
+                    // set Genre attribute
+                    case "Genere":
+                        String strGenres = e.child(1).text();    // return example: Action/Adventure
+                        for (String genre : strGenres.split("/")) {
+                            game.addGenre(genre);
+                        }
+                        break;
+
+                    // set Official Site attribute
+                    case "Sito Ufficiale":
+                        game.setOfficialSite( e.child(1).getElementsByTag("a")
+                                .attr("href") );
+                        break;
+
+                    // set Players attribute
+                    case "Giocatori":
+                        game.setPlayers( e.child(1).text() );
+                        break;
+
+                    // set ReleaseDate attribute
+                    case "Rilascio":
+                        // replace is used to make the date comparable
+                        game.setReleaseDate( e.child(1).text().replace(".", "/") );
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        // set ValidForPromotions attribute
+        if ( !addedDetInfo.getElementsByClass("ProdottoValido").isEmpty() ) {
+            game.setValidForPromotions(true);
+        }
+    }
+
+    /**
+     * Used by downloadGame() method to set prices of a Game object
+     * @param buySection it's an Element containing a class called "buySection"
+     * @param game the object where the method store parameters
+     */
+    private void updatePrices(Element buySection, Game game) {
+
+        // Check if there's a tag with a specific class inside the Element
+        buySection = getElementByClass(buySection, "buySection");
+        if (buySection == null) {
+            throw new GameException();
+        }
+
+        // init prices
+        for (Element svd : buySection.getElementsByClass("singleVariantDetails")) {
+
+            // TODO: what is this?
+            if (svd.getElementsByClass("singleVariantText").isEmpty()) {
+                throw new GameException();
+            }
+
+            Element svt = svd.getElementsByClass("singleVariantText").get(0);
+            String variant = svt.getElementsByClass("variantName").get(0).text();
+
+            switch (variant) {
+
+                // set NewPrice & OlderNewPrice
+                case "Nuovo":
+                    String price = svt.getElementsByClass("prodPriceCont").get(0).text();
+                    game.setNewPrice( stringToPrice(price) );
+
+                    for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
+                        price = olderPrice.text();
+                        game.addOlderNewPrice( stringToPrice(price) );
+                    }
+                    break;
+
+                // set UsedPrice & OlderUsedPrice
+                case "Usato":
+                    price = svt.getElementsByClass("prodPriceCont").get(0).text();
+                    game.setUsedPrice( stringToPrice(price) );
+
+                    for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
+                        price = olderPrice.text();
+                        game.addOlderUsedPrice( stringToPrice(price) );
+                    }
+                    break;
+
+                // set PreorderPrice & OlderPreorderPrice
+                case "Prenotazione":
+                    price = svt.getElementsByClass("prodPriceCont").get(0).text();
+                    game.setPreorderPrice( stringToPrice(price) );
+
+                    // TODO: this code can be wrong due to the absence of test cases.
+                    //       If the app crashes here, the error can be fixed.
+                    //       So leave this code UNCOMMENTED.
+                    for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
+                        price = olderPrice.text();
+                        game.addOlderPreorderPrice( stringToPrice(price) );
+                    }
+                    break;
+
+                // set DigitalPrice & OlderDigitalPrice
+                case "Contenuto Digitale":
+                    price = svt.getElementsByClass("prodPriceCont").get(0).text();
+                    game.setDigitalPrice( stringToPrice(price) );
+
+                    // TODO: this code can be wrong due to the absence of test cases.
+                    //       If the app crashes here, the error can be fixed.
+                    //       So leave this code UNCOMMENTED.
+                    svt.getElementsByClass("pricetext2").remove();
+                    svt.getElementsByClass("detailsLink").remove();
+                    price = svt.text().replaceAll("[^0-9.,]","");
+
+                    if (!price.isEmpty()) {
+                        game.addOlderDigitalPrice( stringToPrice(price) );
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Used by downloadGame() method to set pegi of a Game object
+     * @param ageBlock it's an Element containing a class called "ageBlock"
+     * @param game the object where the method store parameters
+     */
+    private void updatePegi(Element ageBlock, Game game) {
+
+        // Check if there's a tag with a specific class inside the Element
+        ageBlock = getElementByClass(ageBlock, "ageBlock");
+        if (ageBlock == null) {
+            return;
+        }
+
+        // init PEGI
+        for (Element e : ageBlock.getAllElements()) {
+
+            String variant = e.attr("class");
+
+            switch (variant) {
+                case "pegi18": game.addPegi("pegi18"); break;
+                case "pegi16": game.addPegi("pegi16"); break;
+                case "pegi12": game.addPegi("pegi12"); break;
+                case "pegi7": game.addPegi("pegi7"); break;
+                case "pegi3": game.addPegi("pegi3"); break;
+                case "ageDescr BadLanguage": game.addPegi("bad-language"); break;
+                case "ageDescr violence": game.addPegi("violence"); break;
+                case "ageDescr online": game.addPegi("online"); break;
+                case "ageDescr sex": game.addPegi("sex"); break;
+                case "ageDescr fear": game.addPegi("fear"); break;
+                case "ageDescr drugs": game.addPegi("drugs"); break;
+                case "ageDescr discrimination": game.addPegi("discrimination"); break;
+                case "ageDescr gambling": game.addPegi("gambling"); break;
+                default: break;
+            }
+        }
+    }
+
+    /**
+     * Used by downloadGame() method to set the cover of a Game object
+     * @param prodImgMax it's an Element containing a class called "prodImgMax"
+     * @param game the object where the method store parameters
+     */
+    private void updateCover(Element prodImgMax, Game game) {
+
+        // Check if there's a tag with a specific class inside the Element
+        prodImgMax = getElementByClass(prodImgMax, "prodImgMax");
+        if (prodImgMax == null) {
+            return;
+        }
+
+        // init cover
+        String url = prodImgMax.attr("href");
+        game.setCover( Uri.parse(url) );
+    }
+
+    /**
+     * Used by downloadGame() method to set the gallery of a Game object
+     * @param mediaImages it's an Element containing a class called "mediaImages"
+     * @param game the object where the method store parameters
+     */
+    private void updateGallery(Element mediaImages, Game game) {
+
+        // Check if there's a tag with a specific class inside the Element
+        mediaImages = getElementByClass(mediaImages, "mediaImages");
+        if (mediaImages == null) {
+            return;
+        }
+
+        // init the gallery
+        for (Element e : mediaImages.getElementsByTag("a")) {
+            String url = e.attr("href");
+            game.addToGallery( Uri.parse(url) );
+        }
+    }
+
+    /**
+     * Used by downloadGame() method to set the promotions of a Game object
+     * @param bonusBlock it's an Element containing a class called "bonusBlock"
+     * @param game the object where the method store parameters
+     */
+    private void updatePromos(Element bonusBlock, Game game) {
+
+        // Check if there's a tag with a specific id inside the Element
+        bonusBlock = getElementById(bonusBlock, "bonusBlock");
+        if (bonusBlock == null) {
+            return;
+        }
+
+        // init the promotions
+        for (Element prodSinglePromo : bonusBlock.getElementsByClass("prodSinglePromo")) {
+
+            Elements h4 = prodSinglePromo.getElementsByTag("h4");
+            Elements p = prodSinglePromo.getElementsByTag("p");
+
+            Promo promo = new Promo();
+            promo.setHeader( h4.text() );
+            promo.setValidity( p.get(0).text() );
+
+            // if the promotion has other info
+            if (p.size() >= 2) {
+                String url = "http://www.gamestop.it" +
+                        p.get(1).getElementsByTag("a").attr("href");
+
+                promo.setMessage( p.get(1).text() );
+                promo.setMessageURL(url);
+            }
+
+            // add the promo
+            game.addPromo(promo);
+        }
+    }
+
+    // TODO: Gamestop descriptions are very hard to handle,
+    //       so they are not always accurate
+    /**
+     * Used by downloadGame() method to set the description of a Game object
+     * @param prodDesc it's an Element containing a class called "prodDesc"
+     * @param game the object where the method store parameters
+     */
+    private void updateDescription(Element prodDesc, Game game) {
+
+        // Check if there's a tag with a specific id inside the Element
+        prodDesc = getElementById(prodDesc, "prodDesc");
+        if (prodDesc == null) {
+            return;
+        }
+
+        // init description
+
+        // remove uneccesary div
+        prodDesc.getElementsByClass("prodToTop").remove();
+        prodDesc.getElementsByClass("prodSecHead").remove();
+
+        // wholeText() creates artifacts in the text,
+        // which is why I split the blocks of text and then trim()
+        String[] text = prodDesc.wholeText().split("\n");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < text.length; ++i){
+            text[i] = text[i].trim();
+            stringBuilder.append(text[i]);
+            stringBuilder.append("\n");
+        }
+
+        String description = stringBuilder.toString();
+
+        // add \n very time there's a "."
+        // TODO: "..." can be problematic
+        description = description.replace(". ", ".\n");
+
+        // trim to remove \n at the beginning and at the end
+        description = description.trim();
+
+        // delete \n in excess
+        while ( description.contains("\n\n\n") ) {
+            description = description.replace("\n\n\n", "\n\n");
+        }
+
+        game.setDescription(description);
+    }
+
+    /**
+     * Used by update methods to work on the right Element object
+     * @param e Element object
+     * @param className the class of a tag inside the HTML
+     * @return the first tag found inside the Element which has the given className,
+     *         null if nothing was found
+     */
+    private Element getElementByClass(Element e, String className) {
+
+        if (e.className().equals(className)) {
+            return e;
+        }
+
+        Elements elements = e.getElementsByClass(className);
+        return elements.isEmpty() ? null : elements.get(0);
+    }
+
+    /**
+     * Used by update methods to work on the right Element object
+     * @param e Element object
+     * @param idName the id of a tag inside the HTML
+     * @return the first tag found inside the Element which has the given id name,
+     *         null if nothing was found
+     */
+    private Element getElementById(Element e, String idName) {
+        return e.className().equals(idName) ? e : e.getElementById(idName);
+    }
 
 }

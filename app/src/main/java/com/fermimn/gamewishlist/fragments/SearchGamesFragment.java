@@ -1,8 +1,6 @@
 package com.fermimn.gamewishlist.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -33,17 +29,10 @@ public class SearchGamesFragment extends Fragment {
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
 
     private Context mContext;
+
     private ProgressBar mProgressBar;
     private FrameLayout mSearchResults;
 
-    public SearchGamesFragment(){
-    }
-
-    /**
-     * This method is called by Android in the lifecycle of the Fragment.
-     * The context must be init here and not somewhere else to avoid crashes.
-     * @param context app context
-     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -54,6 +43,8 @@ public class SearchGamesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // TODO: check what is savedInstanceState
+
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
         SearchView searchView = view.findViewById(R.id.search_bar);
         mProgressBar = view.findViewById(R.id.indeterminateBar);
@@ -62,13 +53,13 @@ public class SearchGamesFragment extends Fragment {
         // Set listeners of the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-            private AsyncTask mRunningTask;
+            private Search mRunningTask;
 
             @Override
             public boolean onQueryTextSubmit(String query) {
 
                 // check if internet is available
-                if (Connectivity.isNetworkAvailable(mContext) == false) {
+                if (!Connectivity.isNetworkAvailable(mContext)) {
                     Toast.makeText(mContext, "Non sei connesso a Internet", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -81,11 +72,17 @@ public class SearchGamesFragment extends Fragment {
                 }
 
                 // search the game (Search is a private class)
-                mRunningTask = new Search().execute(query);
+                mRunningTask = new Search();
+                mRunningTask.execute(query);
 
                 // progress bar appears
                 mSearchResults.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
+
+                // remove the old fragment to prevent ugly transitions
+//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                transaction.replace(R.id.search_results, new Fragment(), "game_list");
+//                transaction.commit();
 
                 return false;
             }
@@ -106,34 +103,6 @@ public class SearchGamesFragment extends Fragment {
         });
 
         return view;
-    }
-
-    /**
-     * This method is called by the private class "Search" during the onPostExecute().
-     * It shows the results on the screen.
-     * @param gamePreviews list of games of the searchResults
-     */
-    public void showSearchResults(GamePreviewList gamePreviews) {
-
-        if (gamePreviews != null) {
-
-            // add fragment
-            GamePreviewListFragment gamePreviewListFragment =
-                    new GamePreviewListFragment(mContext, gamePreviews);
-
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
-            transaction.commit();
-
-            // progress bar disappears
-            mProgressBar.setVisibility(View.GONE);
-            mSearchResults.setVisibility(View.VISIBLE);
-
-        } else {
-            // progress bar disappears
-            mProgressBar.setVisibility(View.GONE);
-            Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
@@ -164,6 +133,37 @@ public class SearchGamesFragment extends Fragment {
         @Override
         protected void onPostExecute(GamePreviewList searchResults) {
             showSearchResults(searchResults);
+        }
+    }
+
+    /**
+     * This method is called by the private class "Search" during the onPostExecute().
+     * It shows the results on the screen.
+     * @param gamePreviewList list of games of the searchResults
+     */
+    public void showSearchResults(GamePreviewList gamePreviewList) {
+
+        if (gamePreviewList != null) {
+
+            // add the fragment
+            GamePreviewListFragment gamePreviewListFragment =
+                    new GamePreviewListFragment(gamePreviewList);
+
+            // set ListView padding in dp
+            //gamePreviewListFragment.setPadding(56,87);
+
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
+            transaction.commit();
+
+            // make the fragment visible
+            mProgressBar.setVisibility(View.GONE);
+            mSearchResults.setVisibility(View.VISIBLE);
+
+        } else {
+            // progress bar disappears
+            mProgressBar.setVisibility(View.GONE);
+            Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
         }
     }
 

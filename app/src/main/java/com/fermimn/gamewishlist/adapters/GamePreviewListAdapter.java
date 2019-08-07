@@ -21,6 +21,8 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
 
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
+    private LayoutInflater mInflater;
+
     /**
      * This class is used to improve performance
      * It avoids useless findViewById that makes the app laggy
@@ -28,6 +30,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
      */
     private static class ViewHolder {
 
+        public ImageView mCoverView;
         public TextView mTitleView;
         public TextView mPlatformView;
         public TextView mPublisherView;
@@ -47,7 +50,6 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         public LinearLayout mCategoryDigitalView;
         public LinearLayout mCategoryPreorderView;
 
-        public ImageView mCoverView;
     }
 
     /**
@@ -57,23 +59,19 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
      */
     public GamePreviewListAdapter(Context context, GamePreviewList gamePreviewList) {
         super(context, R.layout.partial_game_preview, gamePreviewList);
+        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // For a fluid ListView
         if (convertView == null) {
-
-            // inflate just when needed
-            LayoutInflater inflater = (LayoutInflater) getContext()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            convertView = inflater.inflate(R.layout.partial_game_preview, null);
+            convertView = mInflater.inflate(R.layout.partial_game_preview, null);
 
             // get Views using ViewHolder pattern
             ViewHolder viewHolder = new ViewHolder();
 
+            viewHolder.mCoverView = convertView.findViewById(R.id.cover);
             viewHolder.mTitleView = convertView.findViewById(R.id.title);
             viewHolder.mPlatformView = convertView.findViewById(R.id.platform);
             viewHolder.mPublisherView = convertView.findViewById(R.id.publisher);
@@ -92,8 +90,6 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
             viewHolder.mOlderUsedPricesView = convertView.findViewById(R.id.older_used_prices);
             viewHolder.mOlderDigitalPricesView = convertView.findViewById(R.id.older_digital_prices);
             viewHolder.mOlderPreorderPricesView = convertView.findViewById(R.id.older_preorder_prices);
-
-            viewHolder.mCoverView = convertView.findViewById(R.id.cover);
 
             convertView.setTag(viewHolder);
         }
@@ -181,14 +177,12 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
             viewHolder.mCategoryPreorderView.setVisibility(View.GONE);
         }
 
-        // TODO: this part of code should be removed
-        if (gamePreview.getCoverUrl() != null) {
-            // TODO: add a placeholder
-            // TODO: check for a "fade in" effect
-            Picasso.get().load( gamePreview.getCoverUrl() ).into(viewHolder.mCoverView);
-        } else {
-            Picasso.get().load(R.drawable.ic_image_not_available).into(viewHolder.mCoverView);
-        }
+        // TODO: I'm not sure but I think that if Picasso try to download an image
+        //       but in the mean time you do another research, Picasso lose the
+        //       reference to the ImageView and the app crash.
+        //       Try to put this thing in a try-catch, add a Log and then reproduce the problem
+        //       with a low speed network
+        Picasso.get().load( gamePreview.getCover() ).into(viewHolder.mCoverView);
 
         return convertView;
     }
