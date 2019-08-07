@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
             // add sections
             mSearchSection = new SearchGamesFragment();
-            mWishlistSection = new GamePreviewListFragment(this, new GamePreviewList());
+            mWishlistSection = new GamePreviewListFragment(new GamePreviewList());
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.container, mWishlistSection, "wishlist_section");

@@ -29,17 +29,10 @@ public class SearchGamesFragment extends Fragment {
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
 
     private Context mContext;
+
     private ProgressBar mProgressBar;
     private FrameLayout mSearchResults;
 
-    public SearchGamesFragment(){
-    }
-
-    /**
-     * This method is called by Android in the lifecycle of the Fragment.
-     * The context must be init here and not somewhere else to avoid crashes.
-     * @param context app context
-     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -154,7 +147,7 @@ public class SearchGamesFragment extends Fragment {
 
             // add the fragment
             GamePreviewListFragment gamePreviewListFragment =
-                    new GamePreviewListFragment(mContext, gamePreviewList);
+                    new GamePreviewListFragment(gamePreviewList);
 
             // set ListView padding in dp
             //gamePreviewListFragment.setPadding(56,87);

@@ -24,14 +24,19 @@ public class GamePreviewListFragment extends Fragment {
     private static final String TAG = GamePreviewListFragment.class.getSimpleName();
 
     private Context mContext;
-    private GamePreviewList mGamePreviewList;
 
+    private GamePreviewList mGamePreviewList;
     private int mPaddingTop = 0;
     private int mPaddingBottom = 0;
 
-    public GamePreviewListFragment(Context context, GamePreviewList gamePreviewList) {
-        mContext = context;
+    public GamePreviewListFragment(GamePreviewList gamePreviewList) {
         mGamePreviewList = gamePreviewList;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
