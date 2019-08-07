@@ -3,7 +3,9 @@ package com.fermimn.gamewishlist.fragments;
 import android.content.Context;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ public class GamePageFragment extends Fragment {
         mContext = context;
     }
 
+    // TODO: This is method is a total SHIT, to absolutely improve readability
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class GamePageFragment extends Fragment {
 
         // Get
         ImageView cover = view.findViewById(R.id.cover);
+
+        Picasso.get().load( mGame.getCover() ).into(cover);
+
         TextView title = view.findViewById(R.id.title);
         TextView publisher = view.findViewById(R.id.publisher);
         TextView platform = view.findViewById(R.id.platform);
@@ -86,7 +92,7 @@ public class GamePageFragment extends Fragment {
             officialSite.setText( mGame.getOfficialSite() );
         }
 
-        Picasso.get().load( mGame.getCover() ).into(cover);
+
 
         if (mGame.hasPegi()) {
 
@@ -175,7 +181,13 @@ public class GamePageFragment extends Fragment {
 
         if (mGame.hasDescription()) {
             TextView description = view.findViewById(R.id.description);
-            description.setText(mGame.getDescription());
+            String html = mGame.getDescription();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                description.setText( Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY) );
+            } else {
+                description.setText( Html.fromHtml(html) );
+            }
         }
 
         if (mGame.isValidForPromotions()){

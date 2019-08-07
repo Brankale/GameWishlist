@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             // show search section
             transaction.hide(mWishlistSection);
             transaction.show(mSearchSection);
-            mImageButton.setImageResource(R.drawable.ic_home_black_24dp);
+            mImageButton.setImageResource(R.drawable.ic_videogame_asset_black_24dp);
         } else {
             // show wishlist section
             // TODO: interrupt search

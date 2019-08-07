@@ -66,7 +66,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.partial_game_preview, null);
+            convertView = mInflater.inflate(R.layout.partial_game_preview, parent, false);
 
             // get Views using ViewHolder pattern
             ViewHolder viewHolder = new ViewHolder();

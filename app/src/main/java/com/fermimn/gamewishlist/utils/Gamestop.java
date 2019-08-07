@@ -425,7 +425,7 @@ public class Gamestop implements Store {
     private void updateCover(Element prodImgMax, Game game) {
 
         // Check if there's a tag with a specific class inside the Element
-        prodImgMax = getElementByClass(prodImgMax, "prodImgMax");
+        prodImgMax = getElementByClass(prodImgMax, "prodImg max");
         if (prodImgMax == null) {
             return;
         }
@@ -508,36 +508,9 @@ public class Gamestop implements Store {
         }
 
         // init description
-
-        // remove uneccesary div
         prodDesc.getElementsByClass("prodToTop").remove();
         prodDesc.getElementsByClass("prodSecHead").remove();
-
-        // wholeText() creates artifacts in the text,
-        // which is why I split the blocks of text and then trim()
-        String[] text = prodDesc.wholeText().split("\n");
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < text.length; ++i){
-            text[i] = text[i].trim();
-            stringBuilder.append(text[i]);
-            stringBuilder.append("\n");
-        }
-
-        String description = stringBuilder.toString();
-
-        // add \n very time there's a "."
-        // TODO: "..." can be problematic
-        description = description.replace(". ", ".\n");
-
-        // trim to remove \n at the beginning and at the end
-        description = description.trim();
-
-        // delete \n in excess
-        while ( description.contains("\n\n\n") ) {
-            description = description.replace("\n\n\n", "\n\n");
-        }
-
-        game.setDescription(description);
+        game.setDescription( prodDesc.outerHtml() );
     }
 
     /**

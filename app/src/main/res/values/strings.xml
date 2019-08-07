@@ -17,7 +17,7 @@
     <string name="new_price">"NUOVO: "</string>
     <string name="used_price">"USATO: "</string>
     <string name="digital_price">"DIGITALE: "</string>
-    <string name="preorder_price">"PREORDINE: "</string>
+    <string name="preorder_price">"PREORDINA: "</string>
 
     <!-- game metadata -->
     <string name="title">Titolo:</string>
