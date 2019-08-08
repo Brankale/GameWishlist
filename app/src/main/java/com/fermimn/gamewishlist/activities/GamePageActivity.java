@@ -1,67 +1,76 @@
-package com.fermimn.gamewishlist.fragments;
+package com.fermimn.gamewishlist.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.activities.GalleryActivity;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.Promo;
+import com.fermimn.gamewishlist.utils.Gamestop;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class GamePageFragment extends Fragment {
-
-    private static final String TAG = GamePageFragment.class.getSimpleName();
-
-    private Context mContext;
+public class GamePageActivity extends AppCompatActivity {
 
     private Game mGame;
 
-    public GamePageFragment(Game game) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_page);
+
+        String id = getIntent().getStringExtra("gameID");
+        DownloadGame task = new DownloadGame();
+        task.execute(id);
+    }
+
+    // TODO: add documentation
+    private class DownloadGame extends AsyncTask<String, Integer, Game> {
+
+        @Override
+        protected Game doInBackground(String... strings) {
+            String id = strings[0];
+            Gamestop gamestop = new Gamestop();
+            return gamestop.downloadGame(id);
+        }
+
+        @Override
+        protected void onPostExecute(Game game) {
+            showGamePage(game);
+        }
+
+    }
+
+    // TODO: add documentation
+    private void showGamePage(Game game) {
+
+        // TODO: change when possible
         mGame = game;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    // TODO: This is method is a total SHIT, to absolutely improve readability
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_game_page, container, false);
 
         // Get
-        ImageView cover = view.findViewById(R.id.cover);
+        ImageView cover = findViewById(R.id.cover);
 
         Picasso.get().load( mGame.getCover() ).into(cover);
 
-        TextView title = view.findViewById(R.id.title);
-        TextView publisher = view.findViewById(R.id.publisher);
-        TextView platform = view.findViewById(R.id.platform);
-        TextView genres = view.findViewById(R.id.genres);
-        TextView releaseDate = view.findViewById(R.id.releaseDate);
+        TextView title = findViewById(R.id.title);
+        TextView publisher = findViewById(R.id.publisher);
+        TextView platform = findViewById(R.id.platform);
+        TextView genres = findViewById(R.id.genres);
+        TextView releaseDate = findViewById(R.id.releaseDate);
 
         title.setText( mGame.getTitle() );
         publisher.setText( mGame.getPublisher() );
@@ -83,14 +92,14 @@ public class GamePageFragment extends Fragment {
         }
 
         if (mGame.hasPlayers()) {
-            view.findViewById(R.id.players_container).setVisibility(View.VISIBLE);
-            TextView players = view.findViewById(R.id.players);
+            findViewById(R.id.players_container).setVisibility(View.VISIBLE);
+            TextView players = findViewById(R.id.players);
             players.setText( mGame.getPlayers() );
         }
 
         if (mGame.hasOfficialSite()) {
-            view.findViewById(R.id.official_site_container).setVisibility(View.VISIBLE);
-            TextView officialSite = view.findViewById(R.id.officialSite);
+            findViewById(R.id.official_site_container).setVisibility(View.VISIBLE);
+            TextView officialSite = findViewById(R.id.officialSite);
             officialSite.setText( mGame.getOfficialSite() );
         }
 
@@ -98,68 +107,68 @@ public class GamePageFragment extends Fragment {
 
         if (mGame.hasPegi()) {
 
-            HorizontalScrollView pegiContainer = view.findViewById(R.id.pegi_container);
+            HorizontalScrollView pegiContainer = findViewById(R.id.pegi_container);
             pegiContainer.setVisibility(View.VISIBLE);
 
             for (String type : mGame.getPegi()) {
                 switch (type) {
                     case "pegi3":
-                        view.findViewById(R.id.pegi_pegi3).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_pegi3).setVisibility(View.VISIBLE);
                         break;
                     case "pegi7":
-                        view.findViewById(R.id.pegi_pegi7).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_pegi7).setVisibility(View.VISIBLE);
                         break;
                     case "pegi12":
-                        view.findViewById(R.id.pegi_pegi12).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_pegi12).setVisibility(View.VISIBLE);
                         break;
                     case "pegi16":
-                        view.findViewById(R.id.pegi_pegi16).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_pegi16).setVisibility(View.VISIBLE);
                         break;
                     case "pegi18":
-                        view.findViewById(R.id.pegi_pegi18).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_pegi18).setVisibility(View.VISIBLE);
                         break;
                     case "bad-language":
-                        view.findViewById(R.id.pegi_bad_language).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_bad_language).setVisibility(View.VISIBLE);
                         break;
                     case "discrimination":
-                        view.findViewById(R.id.pegi_discrimination).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_discrimination).setVisibility(View.VISIBLE);
                         break;
                     case "drugs":
-                        view.findViewById(R.id.pegi_drugs).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_drugs).setVisibility(View.VISIBLE);
                         break;
                     case "fear":
-                        view.findViewById(R.id.pegi_fear).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_fear).setVisibility(View.VISIBLE);
                         break;
                     case "gambling":
-                        view.findViewById(R.id.pegi_gambling).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_gambling).setVisibility(View.VISIBLE);
                         break;
                     case "online":
-                        view.findViewById(R.id.pegi_online).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_online).setVisibility(View.VISIBLE);
                         break;
                     case "sex":
-                        view.findViewById(R.id.pegi_sex).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_sex).setVisibility(View.VISIBLE);
                         break;
                     case "violence":
-                        view.findViewById(R.id.pegi_violence).setVisibility(View.VISIBLE);
+                        findViewById(R.id.pegi_violence).setVisibility(View.VISIBLE);
                         break;
                 }
             }
         }
 
-        setPricesSection(view, mGame);
+        setPricesSection();
 
         // Add images to gallery
         if (mGame.hasGallery()) {
-            LinearLayout galleryContainer = view.findViewById(R.id.gallery_container);
+            LinearLayout galleryContainer = findViewById(R.id.gallery_container);
             galleryContainer.setVisibility(View.VISIBLE);
 
-            LinearLayout gallery = view.findViewById(R.id.gallery);
+            LinearLayout gallery = findViewById(R.id.gallery);
 
             for (Uri image : mGame.getGallery()) {
-                ImageView imageView = new ImageView(mContext);
+                ImageView imageView = new ImageView(this);
                 imageView.setAdjustViewBounds(true);
 
-                float scale = mContext.getResources().getDisplayMetrics().density;
+                float scale = getResources().getDisplayMetrics().density;
                 int marginRight = (int) (10 * scale + 0.5f);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -181,7 +190,7 @@ public class GamePageFragment extends Fragment {
         }
 
         if (mGame.hasDescription()) {
-            TextView description = view.findViewById(R.id.description);
+            TextView description = findViewById(R.id.description);
             String html = mGame.getDescription();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -192,7 +201,7 @@ public class GamePageFragment extends Fragment {
         }
 
         if (mGame.isValidForPromotions()){
-            LinearLayout validForPromotions = view.findViewById(R.id.valid_for_promotions);
+            LinearLayout validForPromotions = findViewById(R.id.valid_for_promotions);
             validForPromotions.setVisibility(View.VISIBLE);
         }
 
@@ -200,11 +209,11 @@ public class GamePageFragment extends Fragment {
         // TODO: check if message is available
         if (mGame.hasPromo()) {
 
-            LinearLayout promoContainer = view.findViewById(R.id.promo_container);
+            LinearLayout promoContainer = findViewById(R.id.promo_container);
 
             for (Promo promo : mGame.getPromo()) {
-                View promoView = inflater.inflate(R.layout.partial_section_promo,
-                        container, false);
+                View promoView = getLayoutInflater().inflate(R.layout.partial_section_promo,
+                        promoContainer, false);
 
                 TextView promoHeader = promoView.findViewById(R.id.promo_header);
                 TextView promoValidity = promoView.findViewById(R.id.promo_validity);
@@ -218,26 +227,28 @@ public class GamePageFragment extends Fragment {
             }
         }
 
-        return view;
+        LinearLayout linearLayout = findViewById(R.id.game_page_container);
+        linearLayout.setVisibility(View.VISIBLE);
+
     }
 
-    private void setPricesSection(View view, Game game) {
+    private void setPricesSection() {
 
         // Find views
-        LinearLayout mCategoryNewView = view.findViewById(R.id.category_new);
-        LinearLayout mCategoryUsedView = view.findViewById(R.id.category_used);
-        LinearLayout mCategoryDigitalView = view.findViewById(R.id.category_digital);
-        LinearLayout mCategoryPreorderView = view.findViewById(R.id.category_preorder);
+        LinearLayout mCategoryNewView = findViewById(R.id.category_new);
+        LinearLayout mCategoryUsedView = findViewById(R.id.category_used);
+        LinearLayout mCategoryDigitalView = findViewById(R.id.category_digital);
+        LinearLayout mCategoryPreorderView = findViewById(R.id.category_preorder);
 
-        TextView mNewPriceView = view.findViewById(R.id.new_price);
-        TextView mUsedPriceView = view.findViewById(R.id.used_price);
-        TextView mDigitalPriceView = view.findViewById(R.id.digital_price);
-        TextView mPreorderPriceView = view.findViewById(R.id.preorder_price);
+        TextView mNewPriceView = findViewById(R.id.new_price);
+        TextView mUsedPriceView = findViewById(R.id.used_price);
+        TextView mDigitalPriceView = findViewById(R.id.digital_price);
+        TextView mPreorderPriceView = findViewById(R.id.preorder_price);
 
-        TextView mOlderNewPricesView = view.findViewById(R.id.older_new_prices);
-        TextView mOlderUsedPricesView = view.findViewById(R.id.older_used_prices);
-        TextView mOlderDigitalPricesView = view.findViewById(R.id.older_digital_prices);
-        TextView mOlderPreorderPricesView = view.findViewById(R.id.older_preorder_prices);
+        TextView mOlderNewPricesView = findViewById(R.id.older_new_prices);
+        TextView mOlderUsedPricesView = findViewById(R.id.older_used_prices);
+        TextView mOlderDigitalPricesView = findViewById(R.id.older_digital_prices);
+        TextView mOlderPreorderPricesView = findViewById(R.id.older_preorder_prices);
 
 
         // sets Text
@@ -246,14 +257,14 @@ public class GamePageFragment extends Fragment {
 
         DecimalFormat df = new DecimalFormat("#.00");
 
-        if (game.hasNewPrice()) {
+        if (mGame.hasNewPrice()) {
             mCategoryNewView.setVisibility(View.VISIBLE);
             mNewPriceView.setVisibility(View.VISIBLE);
-            mNewPriceView.setText( df.format( game.getNewPrice() ) + "€" );
+            mNewPriceView.setText( df.format( mGame.getNewPrice() ) + "€" );
 
-            if (game.hasOlderNewPrices()) {
+            if (mGame.hasOlderNewPrices()) {
                 mOlderNewPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( game.getOlderNewPrices().get(0) ) + "€";
+                String price = df.format( mGame.getOlderNewPrices().get(0) ) + "€";
                 mOlderNewPricesView.setText(price);
                 mOlderNewPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
@@ -264,14 +275,14 @@ public class GamePageFragment extends Fragment {
             mCategoryNewView.setVisibility(View.GONE);
         }
 
-        if (game.hasUsedPrice()) {
+        if (mGame.hasUsedPrice()) {
             mCategoryUsedView.setVisibility(View.VISIBLE);
             mUsedPriceView.setVisibility(View.VISIBLE);
-            mUsedPriceView.setText( df.format( game.getUsedPrice() ) + "€" );
+            mUsedPriceView.setText( df.format( mGame.getUsedPrice() ) + "€" );
 
-            if (game.hasOlderUsedPrices()) {
+            if (mGame.hasOlderUsedPrices()) {
                 mOlderUsedPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( game.getOlderUsedPrices().get(0) ) + "€";
+                String price = df.format( mGame.getOlderUsedPrices().get(0) ) + "€";
                 mOlderUsedPricesView.setText(price);
                 mOlderUsedPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
@@ -282,14 +293,14 @@ public class GamePageFragment extends Fragment {
             mCategoryUsedView.setVisibility(View.GONE);
         }
 
-        if (game.hasDigitalPrice()) {
+        if (mGame.hasDigitalPrice()) {
             mCategoryDigitalView.setVisibility(View.VISIBLE);
             mDigitalPriceView.setVisibility(View.VISIBLE);
-            mDigitalPriceView.setText( df.format( game.getDigitalPrice() ) + "€" );
+            mDigitalPriceView.setText( df.format( mGame.getDigitalPrice() ) + "€" );
 
-            if (game.hasOlderDigitalPrices()) {
+            if (mGame.hasOlderDigitalPrices()) {
                 mOlderDigitalPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( game.getOlderDigitalPrices().get(0) ) + "€";
+                String price = df.format( mGame.getOlderDigitalPrices().get(0) ) + "€";
                 mOlderDigitalPricesView.setText(price);
                 mOlderDigitalPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
@@ -300,14 +311,14 @@ public class GamePageFragment extends Fragment {
             mCategoryDigitalView.setVisibility(View.GONE);
         }
 
-        if (game.hasPreorderPrice()) {
+        if (mGame.hasPreorderPrice()) {
             mCategoryPreorderView.setVisibility(View.VISIBLE);
             mPreorderPriceView.setVisibility(View.VISIBLE);
-            mPreorderPriceView.setText( df.format( game.getPreorderPrice() ) + "€" );
+            mPreorderPriceView.setText( df.format( mGame.getPreorderPrice() ) + "€" );
 
-            if (game.hasOlderPreorderPrices()) {
+            if (mGame.hasOlderPreorderPrices()) {
                 mOlderPreorderPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( game.getOlderPreorderPrices().get(0) ) + "€";
+                String price = df.format( mGame.getOlderPreorderPrices().get(0) ) + "€";
                 mOlderPreorderPricesView.setText(price);
                 mOlderPreorderPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
@@ -327,9 +338,9 @@ public class GamePageFragment extends Fragment {
             uri[i] = gallery.get(i).toString();
         }
 
-        Intent intent = new Intent(mContext, GalleryActivity.class);
+        Intent intent = new Intent(this, GalleryActivity.class);
         intent.putExtra("URIs", uri);
-        mContext.startActivity(intent);
+        startActivity(intent);
     }
 
 }

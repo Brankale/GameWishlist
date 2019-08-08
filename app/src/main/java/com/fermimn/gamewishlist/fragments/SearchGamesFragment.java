@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -131,7 +130,7 @@ public class SearchGamesFragment extends Fragment {
         protected void onPostExecute(GamePreviewList searchResults) {
             onEndSearch(searchResults);
         }
-        
+
     }
 
     /**
@@ -167,5 +166,5 @@ public class SearchGamesFragment extends Fragment {
             Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
         }
     }
-
+    
 }

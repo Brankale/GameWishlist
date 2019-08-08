@@ -236,7 +236,7 @@ public class GamePreview {
 
     /**
      * Add a Older New Price
-     * @param olderNewPrice
+     * @param olderNewPrice of the game
      */
     public void addOlderNewPrice(double olderNewPrice) {
         if (mOlderNewPrices == null){
@@ -247,7 +247,7 @@ public class GamePreview {
 
     /**
      * Add a Older Used Price
-     * @param olderUsedPrice
+     * @param olderUsedPrice of the game
      */
     public void addOlderUsedPrice(double olderUsedPrice) {
         if (mOlderUsedPrices == null){
@@ -258,7 +258,7 @@ public class GamePreview {
 
     /**
      * Add a Older Digital Price
-     * @param olderDigitalPrice
+     * @param olderDigitalPrice of the game
      */
     public void addOlderDigitalPrice(double olderDigitalPrice) {
         if (mOlderDigitalPrices == null){
@@ -269,7 +269,7 @@ public class GamePreview {
 
     /**
      * Add a Older Preorder Price
-     * @param olderPreorderPrice
+     * @param olderPreorderPrice of the game
      */
     public void addOlderPreorderPrice(double olderPreorderPrice) {
         if (mOlderPreorderPrices == null){

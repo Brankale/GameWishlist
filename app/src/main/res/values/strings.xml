@@ -11,6 +11,7 @@
     <!-- game sections -->
     <string name="info">Informazioni</string>
     <string name="gallery">Galleria</string>
+    <string name="gallery_image">Immagine della galleria</string>
     <string name="description">Descrizione</string>
 
     <!-- game prices -->
