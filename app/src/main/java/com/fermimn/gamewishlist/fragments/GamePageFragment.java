@@ -1,6 +1,7 @@
 package com.fermimn.gamewishlist.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.fermimn.gamewishlist.R;
+import com.fermimn.gamewishlist.activities.GalleryActivity;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.Promo;
 import com.squareup.picasso.Picasso;
@@ -154,7 +156,6 @@ public class GamePageFragment extends Fragment {
             LinearLayout gallery = view.findViewById(R.id.gallery);
 
             for (Uri image : mGame.getGallery()) {
-                Log.d(TAG, image.toString());
                 ImageView imageView = new ImageView(mContext);
                 imageView.setAdjustViewBounds(true);
 
@@ -166,16 +167,16 @@ public class GamePageFragment extends Fragment {
                 layoutParams.setMarginEnd(marginRight);
                 imageView.setLayoutParams(layoutParams);
 
-//                imageView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        openGallery(v);
-//                    }
-//                });
-
                 Picasso.get().load(image).into(imageView);
                 gallery.addView(imageView);
             }
+
+            gallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openGallery(v);
+                }
+            });
 
         }
 
@@ -318,20 +319,17 @@ public class GamePageFragment extends Fragment {
         }
     }
 
-    private void openGallery(View view) {
-//        File [] galleryImages = new File(DirectoryManager.getGameGalleryDirectory(gameOfThePage.getId())).listFiles();
-//        String[] images = new String[galleryImages.length];
-//        for(int i=0;i<galleryImages.length;i++){
-//            images[i] = "file://" + galleryImages[i].getPath();
-//        }
-//
-//        int position;
-//
-//
-//        Intent i = new Intent(this,ActivityGallery.class);
-//        i.putExtra("images",images);
-//        i.putExtra("position",(int)v.getTag());
-//        startActivity(i);
+    public void openGallery(View view) {
+        List<Uri> gallery = mGame.getGallery();
+        String[] uri = new String[gallery.size()];
+
+        for (int i = 0; i < gallery.size(); ++i) {
+            uri[i] = gallery.get(i).toString();
+        }
+
+        Intent intent = new Intent(mContext, GalleryActivity.class);
+        intent.putExtra("URIs", uri);
+        mContext.startActivity(intent);
     }
 
 }

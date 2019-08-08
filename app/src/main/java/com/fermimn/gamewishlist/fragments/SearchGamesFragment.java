@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -30,6 +31,7 @@ public class SearchGamesFragment extends Fragment {
 
     private Context mContext;
 
+    private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private FrameLayout mSearchResults;
 
@@ -46,12 +48,12 @@ public class SearchGamesFragment extends Fragment {
         // TODO: check what is savedInstanceState
 
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
-        SearchView searchView = view.findViewById(R.id.search_bar);
+        mSearchView = view.findViewById(R.id.search_bar);
         mProgressBar = view.findViewById(R.id.indeterminateBar);
         mSearchResults = view.findViewById(R.id.search_results);
 
         // Set listeners of the SearchView
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             private Search mRunningTask;
 
@@ -78,11 +80,6 @@ public class SearchGamesFragment extends Fragment {
                 // progress bar appears
                 mSearchResults.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
-
-                // remove the old fragment to prevent ugly transitions
-//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//                transaction.replace(R.id.search_results, new Fragment(), "game_list");
-//                transaction.commit();
 
                 return false;
             }
@@ -132,8 +129,9 @@ public class SearchGamesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(GamePreviewList searchResults) {
-            showSearchResults(searchResults);
+            onEndSearch(searchResults);
         }
+        
     }
 
     /**
@@ -141,7 +139,7 @@ public class SearchGamesFragment extends Fragment {
      * It shows the results on the screen.
      * @param gamePreviewList list of games of the searchResults
      */
-    public void showSearchResults(GamePreviewList gamePreviewList) {
+    public void onEndSearch(GamePreviewList gamePreviewList) {
 
         if (gamePreviewList != null) {
 
@@ -159,6 +157,9 @@ public class SearchGamesFragment extends Fragment {
             // make the fragment visible
             mProgressBar.setVisibility(View.GONE);
             mSearchResults.setVisibility(View.VISIBLE);
+
+            // TODO: focus is not handle perfectly
+            mSearchResults.requestFocus();
 
         } else {
             // progress bar disappears

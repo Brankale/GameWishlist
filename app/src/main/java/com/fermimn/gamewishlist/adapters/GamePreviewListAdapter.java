@@ -21,6 +21,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
 
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
+    private Context mContext;
     private LayoutInflater mInflater;
 
     /**
@@ -59,6 +60,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
      */
     public GamePreviewListAdapter(Context context, GamePreviewList gamePreviewList) {
         super(context, R.layout.partial_game_preview, gamePreviewList);
+        mContext = context;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -183,6 +185,11 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         //       Try to put this thing in a try-catch, add a Log and then reproduce the problem
         //       with a low speed network
         Picasso.get().load( gamePreview.getCover() ).into(viewHolder.mCoverView);
+
+//        Glide.with(mContext)
+//                .load( gamePreview.getCover() )
+//                .transition(DrawableTransitionOptions.withCrossFade())
+//                .into(viewHolder.mCoverView);
 
         return convertView;
     }
