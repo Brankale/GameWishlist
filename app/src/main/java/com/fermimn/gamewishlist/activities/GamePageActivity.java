@@ -49,9 +49,9 @@ public class GamePageActivity extends AppCompatActivity {
     // TODO: add documentation
     private static class DownloadGame extends AsyncTask<String, Integer, Game> {
 
-        WeakReference<GamePageActivity> mGamePageActivity;
+        private final WeakReference<GamePageActivity> mGamePageActivity;
 
-        public DownloadGame(GamePageActivity gamePageActivity) {
+        private DownloadGame(GamePageActivity gamePageActivity) {
             mGamePageActivity = new WeakReference<>(gamePageActivity);
         }
 
@@ -392,7 +392,12 @@ public class GamePageActivity extends AppCompatActivity {
 
                     promoHeader.setText( promo.getHeader() );
                     promoValidity.setText( promo.getValidity() );
-                    promoMessage.setText( promo.getMessage() );
+
+                    // TODO: implement hasMessage() method in Promo class
+                    if (promo.getMessage() != null && !promo.getMessage().isEmpty()) {
+                        promoMessage.setText( promo.getMessage() );
+                        promoMessage.setVisibility(View.VISIBLE);
+                    }
 
                     // add promo to promoContainer
                     promoContainer.addView(promoView);

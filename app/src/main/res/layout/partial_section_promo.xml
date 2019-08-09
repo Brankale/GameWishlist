@@ -5,10 +5,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:orientation="vertical"
-    android:padding="7dp"
-    android:paddingBottom="0dp"
+    android:padding="5dp"
     android:gravity="center"
-    android:background="@drawable/border_valid_for_promotions">
+    android:background="@color/promoGrey">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="5dp"
-        android:background="@color/colorPrimary">
+        android:background="@color/promoDark">
 
         <TextView
             android:id="@+id/promo_header"
@@ -45,11 +44,12 @@
         android:id="@+id/promo_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="5dp"
         android:textAlignment="center"
         android:text="@string/no_info"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="16sp"/>
+        android:textSize="14sp"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -6,5 +6,6 @@
     <color name="black">#000</color>
     <color name="white">#FFF</color>
     <color name="grey">#a1a1a1</color>
-    <color name="lightGrey">#D3D3D3</color>
+    <color name="promoGrey">#e4e4e4</color>
+    <color name="promoDark">#323233</color>
 </resources>

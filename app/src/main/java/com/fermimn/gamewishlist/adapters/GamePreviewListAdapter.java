@@ -24,8 +24,8 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
     @SuppressWarnings("unused")
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
-    private Context mContext;
-    private LayoutInflater mInflater;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
 
     /**
      * This class is used to improve performance

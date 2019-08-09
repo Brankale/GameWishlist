@@ -27,8 +27,7 @@
         <!-- TODO: delete screenOrientation and solve the app crash when rotate -->
         <activity
             android:name=".activities.GalleryActivity"
-            android:theme="@style/GalleryTheme"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/GalleryTheme"/>
 
         <activity android:name=".activities.GamePageActivity"
             android:screenOrientation="portrait"/>

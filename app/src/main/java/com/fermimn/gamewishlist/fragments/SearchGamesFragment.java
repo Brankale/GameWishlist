@@ -24,6 +24,7 @@ import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 public class SearchGamesFragment extends Fragment {
 
@@ -32,9 +33,10 @@ public class SearchGamesFragment extends Fragment {
 
     private Context mContext;
 
-    private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private FrameLayout mSearchResults;
+    private SearchGamesFragment mFragment;
+    private View mView;
 
     @Override
     public void onAttach(Context context) {
@@ -47,14 +49,15 @@ public class SearchGamesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // TODO: check what is savedInstanceState
+        mFragment = this;
 
-        View view = inflater.inflate(R.layout.fragment_search_games, container, false);
-        mSearchView = view.findViewById(R.id.search_bar);
-        mProgressBar = view.findViewById(R.id.indeterminateBar);
-        mSearchResults = view.findViewById(R.id.search_results);
+        mView = inflater.inflate(R.layout.fragment_search_games, container, false);
+        SearchView searchView = mView.findViewById(R.id.search_bar);
+        mProgressBar = mView.findViewById(R.id.indeterminateBar);
+        mSearchResults = mView.findViewById(R.id.search_results);
 
         // Set listeners of the SearchView
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             private Search mRunningTask;
 
@@ -75,7 +78,8 @@ public class SearchGamesFragment extends Fragment {
                 }
 
                 // search the game (Search is a private class)
-                mRunningTask = new Search();
+                // TODO: find a best way to pass parameters
+                mRunningTask = new Search(mContext, mFragment, mView);
                 mRunningTask.execute(query);
 
                 // progress bar appears
@@ -100,13 +104,24 @@ public class SearchGamesFragment extends Fragment {
 
         });
 
-        return view;
+        return mView;
     }
 
     /**
      * Search is a private class used to search the game the user writes in the search bar
      */
-    private class Search extends AsyncTask<String, Integer, GamePreviewList> {
+    private static class Search extends AsyncTask<String, Integer, GamePreviewList> {
+
+        private final WeakReference<Context> mContext;
+        private final WeakReference<SearchGamesFragment> mSearchGamesFragment;
+        private final WeakReference<View> mSearchGamesFragmentView;
+
+        // TODO: find a best way to pass parameters
+        private Search(Context context, SearchGamesFragment fragment, View rootView) {
+            mContext = new WeakReference<>(context);
+            mSearchGamesFragment = new WeakReference<>(fragment);
+            mSearchGamesFragmentView = new WeakReference<>(rootView);
+        }
 
         // TODO: implement isCancel()
         @Override
@@ -133,40 +148,48 @@ public class SearchGamesFragment extends Fragment {
             onEndSearch(searchResults);
         }
 
-    }
+        /**
+         * This method is called by the private class "Search" during the onPostExecute().
+         * It shows the results on the screen.
+         * @param gamePreviewList list of games of the searchResults
+         */
+        private void onEndSearch(GamePreviewList gamePreviewList) {
 
-    /**
-     * This method is called by the private class "Search" during the onPostExecute().
-     * It shows the results on the screen.
-     * @param gamePreviewList list of games of the searchResults
-     */
-    public void onEndSearch(GamePreviewList gamePreviewList) {
+            Context context = mContext.get();
+            SearchGamesFragment fragment = mSearchGamesFragment.get();
+            View view = mSearchGamesFragmentView.get();
 
-        if (gamePreviewList != null) {
+            ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
+            FrameLayout searchResults = view.findViewById(R.id.search_results);
 
-            // add the fragment
-            GamePreviewListFragment gamePreviewListFragment =
-                    new GamePreviewListFragment(gamePreviewList);
 
-            // set ListView padding in dp
-            //gamePreviewListFragment.setPadding(56,87);
+            if (gamePreviewList != null) {
 
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
-            transaction.commit();
+                // add the fragment
+                GamePreviewListFragment gamePreviewListFragment =
+                        new GamePreviewListFragment(gamePreviewList);
 
-            // make the fragment visible
-            mProgressBar.setVisibility(View.GONE);
-            mSearchResults.setVisibility(View.VISIBLE);
+                // set ListView padding in dp
+                //gamePreviewListFragment.setPadding(56,87);
 
-            // TODO: focus is not handle perfectly
-            mSearchResults.requestFocus();
+                FragmentTransaction transaction = fragment.getChildFragmentManager().beginTransaction();
+                transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
+                transaction.commit();
 
-        } else {
-            // progress bar disappears
-            mProgressBar.setVisibility(View.GONE);
-            Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
+                // make the fragment visible
+                progressBar.setVisibility(View.GONE);
+                searchResults.setVisibility(View.VISIBLE);
+
+                // TODO: focus is not handle perfectly
+                searchResults.requestFocus();
+
+            } else {
+                // progress bar disappears
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(context, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
 }

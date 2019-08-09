@@ -25,10 +25,11 @@ public class GamePreviewListFragment extends Fragment {
 
     private Context mContext;
 
-    private GamePreviewList mGamePreviewList;
+    private final GamePreviewList mGamePreviewList;
     private int mPaddingTop = 0;
     private int mPaddingBottom = 0;
 
+    // TODO: remove this AS SOON AS POSSIBLE, Fragments don't have a custom constuctor
     public GamePreviewListFragment(GamePreviewList gamePreviewList) {
         mGamePreviewList = gamePreviewList;
     }

@@ -27,9 +27,9 @@ public class Gamestop implements Store {
     @SuppressWarnings("unused")
     private static final String TAG = Gamestop.class.getSimpleName();
 
-    private static String WEBSITE_URL = "https://www.gamestop.it";
-    private static String SEARCH_URL = WEBSITE_URL + "/SearchResult/QuickSearch?q=";
-    private static String GAME_URL = WEBSITE_URL + "/Platform/Games/";
+    private static final String WEBSITE_URL = "https://www.gamestop.it";
+    private static final String SEARCH_URL = WEBSITE_URL + "/SearchResult/QuickSearch?q=";
+    private static final String GAME_URL = WEBSITE_URL + "/Platform/Games/";
 
     /**
      * Search games on Gamestop website

@@ -43,7 +43,7 @@ public class GalleryActivity extends FragmentActivity {
 
         // Instantiate a ViewPager and a PagerAdapter
         mViewPager = findViewById(R.id.view_pager);
-        PagerAdapter pagerAdapter = new GalleryAdapter(getSupportFragmentManager(), uri);
+        PagerAdapter pagerAdapter = new GalleryAdapter(this, uri);
         mViewPager.setAdapter(pagerAdapter);
 
         if (savedInstanceState == null) {
