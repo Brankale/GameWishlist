@@ -12,6 +12,9 @@ import java.util.List;
 
 public class GalleryAdapter extends FragmentStatePagerAdapter {
 
+    @SuppressWarnings("unused")
+    private static final String TAG = GalleryAdapter.class.getSimpleName();
+
     List<Uri> mImages;
 
     public GalleryAdapter(FragmentManager fm, List<Uri> images) {

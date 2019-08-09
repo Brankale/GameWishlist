@@ -16,6 +16,7 @@ import javax.xml.transform.*;
 
 public class DirectoryManager {
 
+    @SuppressWarnings("unused")
     private static final String TAG = DirectoryManager.class.getSimpleName();
 
     private Context mContext;

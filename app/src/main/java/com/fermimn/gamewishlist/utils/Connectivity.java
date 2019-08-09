@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 
 public class Connectivity {
 
+    @SuppressWarnings("unused")
+    private static final String TAG = Connectivity.class.getSimpleName();
+
     @SuppressWarnings("deprecation")
     public static boolean isNetworkAvailable(Context context) {
 

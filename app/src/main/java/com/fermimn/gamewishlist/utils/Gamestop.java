@@ -24,6 +24,7 @@ import java.util.List;
 
 public class Gamestop implements Store {
 
+    @SuppressWarnings("unused")
     private static final String TAG = Gamestop.class.getSimpleName();
 
     private static String WEBSITE_URL = "https://www.gamestop.it";

@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 
 public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
 
+    @SuppressWarnings("unused")
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
     private Context mContext;

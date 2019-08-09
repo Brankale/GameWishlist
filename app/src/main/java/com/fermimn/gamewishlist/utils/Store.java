@@ -5,7 +5,7 @@ import com.fermimn.gamewishlist.data_types.GamePreviewList;
 
 import java.io.IOException;
 
-// TODO: use a more significant interface name
+// TODO: use more significant interface name
 public interface Store {
 
     GamePreviewList searchGame(String game) throws IOException;

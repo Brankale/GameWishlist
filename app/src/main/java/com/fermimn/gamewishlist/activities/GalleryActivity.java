@@ -3,6 +3,7 @@ package com.fermimn.gamewishlist.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.PagerAdapter;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class GalleryActivity extends FragmentActivity {
 
+    @SuppressWarnings("unused")
     private static final String TAG = GalleryActivity.class.getSimpleName();
 
     private ViewPager mViewPager;
@@ -28,6 +30,12 @@ public class GalleryActivity extends FragmentActivity {
 
         Intent caller = getIntent();
         String[] images = caller.getStringArrayExtra("URIs");
+
+        if (images == null) {
+            Log.d(TAG, "Intent content is null");
+            return;
+        }
+
         List<Uri> uri = new ArrayList<>();
         for (String image : images) {
             uri.add( Uri.parse(image) );

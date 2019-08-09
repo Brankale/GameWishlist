@@ -25,25 +25,6 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/new_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_info"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/older_new_prices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/no_info"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -60,25 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/used_price"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/used_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_info"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/older_used_prices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/no_info"
             android:textColor="#FFF"
             android:textStyle="bold"
             android:textSize="16sp"/>
@@ -104,25 +66,6 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/digital_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_info"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/older_digital_prices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/no_info"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -140,25 +83,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/preorder_price"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/preorder_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_info"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/older_preorder_prices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/no_info"
             android:textColor="#FFF"
             android:textStyle="bold"
             android:textSize="16sp"/>

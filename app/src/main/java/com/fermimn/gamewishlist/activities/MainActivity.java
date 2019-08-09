@@ -14,6 +14,7 @@ import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressWarnings("unused")
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private ImageButton mImageButton;

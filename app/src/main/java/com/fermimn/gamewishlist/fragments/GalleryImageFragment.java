@@ -14,6 +14,9 @@ import com.squareup.picasso.Picasso;
 
 public class GalleryImageFragment extends Fragment {
 
+    @SuppressWarnings("unused")
+    private static final String TAG = GalleryImageFragment.class.getSimpleName();
+
     private Uri mImage;
 
     public GalleryImageFragment(Uri image) {

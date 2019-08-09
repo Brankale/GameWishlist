@@ -19,6 +19,7 @@ import com.fermimn.gamewishlist.data_types.GamePreviewList;
 
 public class GamePreviewListFragment extends Fragment {
 
+    @SuppressWarnings("unused")
     private static final String TAG = GamePreviewListFragment.class.getSimpleName();
 
     private Context mContext;

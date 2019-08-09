@@ -26,6 +26,7 @@ import java.io.IOException;
 
 public class SearchGamesFragment extends Fragment {
 
+    @SuppressWarnings("unused")
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
 
     private Context mContext;
@@ -166,5 +167,5 @@ public class SearchGamesFragment extends Fragment {
             Toast.makeText(mContext, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
         }
     }
-    
+
 }
