@@ -21,7 +21,6 @@ public class GalleryActivity extends FragmentActivity {
     private static final String TAG = GalleryActivity.class.getSimpleName();
 
     private ViewPager mViewPager;
-    private PagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +28,27 @@ public class GalleryActivity extends FragmentActivity {
         setContentView(R.layout.activity_gallery);
 
         Intent caller = getIntent();
-        String[] images = caller.getStringArrayExtra("URIs");
+        int position = caller.getIntExtra("position", 0);
+        ArrayList<String> gallery = caller.getStringArrayListExtra("gallery");
 
-        if (images == null) {
+        if (gallery == null) {
             Log.d(TAG, "Intent content is null");
             return;
         }
 
         List<Uri> uri = new ArrayList<>();
-        for (String image : images) {
+        for (String image : gallery) {
             uri.add( Uri.parse(image) );
         }
 
         // Instantiate a ViewPager and a PagerAdapter
         mViewPager = findViewById(R.id.view_pager);
-        pagerAdapter = new GalleryAdapter(getSupportFragmentManager(), uri);
+        PagerAdapter pagerAdapter = new GalleryAdapter(getSupportFragmentManager(), uri);
         mViewPager.setAdapter(pagerAdapter);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            mViewPager.setCurrentItem(position);
+        } else {
             mViewPager.setCurrentItem( savedInstanceState.getInt("position") );
         }
     }
@@ -56,4 +58,5 @@ public class GalleryActivity extends FragmentActivity {
         outState.putInt("position", mViewPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
+
 }

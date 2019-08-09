@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
@@ -66,7 +68,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public  @NonNull View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.partial_game_preview, parent, false);

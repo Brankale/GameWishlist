@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GamePageActivity extends AppCompatActivity {
@@ -212,7 +214,7 @@ public class GamePageActivity extends AppCompatActivity {
             LinearLayout gallery = activity.findViewById(R.id.gallery);
             LinearLayout galleryContainer = activity.findViewById(R.id.gallery_container);
 
-            // Set cover
+            // load cover in the view
             Picasso.get().load( game.getCover() ).into(cover);
 
             // Add images to gallery
@@ -225,9 +227,15 @@ public class GamePageActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.MATCH_PARENT);
 
                 List<Uri> images = game.getGallery();
+
+                // create an array which is used as tag for images
+                ArrayList<String> UriImages = new ArrayList<>();
+                for (Uri uri : images) {
+                    UriImages.add( uri.toString() );
+                }
+
+                // insert all the images in the gallery
                 for (int i = 0; i < images.size(); ++i) {
-
-
 
                     // create view
                     ImageView imageView = new ImageView(activity);
@@ -241,21 +249,27 @@ public class GamePageActivity extends AppCompatActivity {
                         imageView.setPadding(0, 0, (int) Util.convertDpToPx(activity, 8), 0);
                     }
 
+                    // set tag
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("gallery", UriImages);
+                    bundle.putInt("position", i);
+                    imageView.setTag(bundle);
+
+                    // set listener
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openGallery(v);
+                        }
+                    });
+
+                    // load image in the view
                     Picasso.get().load( images.get(i) ).into(imageView);
 
                     // add view to gallery
                     gallery.addView(imageView);
                 }
-
-//                gallery.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        //openGallery(v);
-//                    }
-//                });
-
             }
-
         }
 
         // TODO: add documentation
@@ -309,41 +323,6 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // TODO: add documentation
-        private void setGamePromo(Game game) {
-
-            GamePageActivity activity = mGamePageActivity.get();
-            LayoutInflater inflater = activity.getLayoutInflater();
-
-            // Get Views
-            LinearLayout promoContainer = activity.findViewById(R.id.promo_container);
-
-            // TODO: set URL to promo Message
-            // TODO: check if message is available
-            if (game.hasPromo()) {
-                for (Promo promo : game.getPromo()) {
-
-                    // Create a promo view
-                    View promoView = inflater.inflate(R.layout.partial_section_promo,
-                            promoContainer, false);
-
-                    // init promo view
-                    TextView promoHeader = promoView.findViewById(R.id.promo_header);
-                    TextView promoValidity = promoView.findViewById(R.id.promo_validity);
-                    TextView promoMessage = promoView.findViewById(R.id.promo_message);
-
-                    promoHeader.setText( promo.getHeader() );
-                    promoValidity.setText( promo.getValidity() );
-                    promoMessage.setText( promo.getMessage() );
-
-                    // add promo to promoContainer
-                    promoContainer.addView(promoView);
-                }
-
-                promoContainer.setVisibility(View.VISIBLE);
-            }
-        }
-
-        // TODO: add documentation
         private void setPrice(LinearLayout container, Double price) {
 
             GamePageActivity activity = mGamePageActivity.get();
@@ -388,24 +367,56 @@ public class GamePageActivity extends AppCompatActivity {
             }
         }
 
-//        private void openGallery(View view) {
-//
-//            if (mGame == null) {
-//                Log.d(TAG, "Game è null");
-//                return;
-//            }
-//
-//            List<Uri> gallery = mGame.getGallery();
-//            String[] uri = new String[gallery.size()];
-//
-//            for (int i = 0; i < gallery.size(); ++i) {
-//                uri[i] = gallery.get(i).toString();
-//            }
-//
-//            Intent intent = new Intent(this, GalleryActivity.class);
-//            intent.putExtra("URIs", uri);
-//            startActivity(intent);
-//        }
+        // TODO: add documentation
+        private void setGamePromo(Game game) {
+
+            GamePageActivity activity = mGamePageActivity.get();
+            LayoutInflater inflater = activity.getLayoutInflater();
+
+            // Get Views
+            LinearLayout promoContainer = activity.findViewById(R.id.promo_container);
+
+            // TODO: set URL to promo Message
+            // TODO: check if message is available
+            if (game.hasPromo()) {
+                for (Promo promo : game.getPromo()) {
+
+                    // Create a promo view
+                    View promoView = inflater.inflate(R.layout.partial_section_promo,
+                            promoContainer, false);
+
+                    // init promo view
+                    TextView promoHeader = promoView.findViewById(R.id.promo_header);
+                    TextView promoValidity = promoView.findViewById(R.id.promo_validity);
+                    TextView promoMessage = promoView.findViewById(R.id.promo_message);
+
+                    promoHeader.setText( promo.getHeader() );
+                    promoValidity.setText( promo.getValidity() );
+                    promoMessage.setText( promo.getMessage() );
+
+                    // add promo to promoContainer
+                    promoContainer.addView(promoView);
+                }
+
+                promoContainer.setVisibility(View.VISIBLE);
+            }
+        }
+
+        // TODO: add documentation
+        private void openGallery(View view) {
+
+            GamePageActivity activity = mGamePageActivity.get();
+
+            Bundle bundle = (Bundle) view.getTag();
+            int position = bundle.getInt("position");
+            ArrayList<String> gallery = bundle.getStringArrayList("gallery");
+
+            // create and start intent
+            Intent intent = new Intent(activity, GalleryActivity.class);
+            intent.putStringArrayListExtra("gallery", gallery);
+            intent.putExtra("position", position);
+            activity.startActivity(intent);
+        }
 
     }
 
