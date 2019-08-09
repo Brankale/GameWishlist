@@ -22,6 +22,7 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.Promo;
 import com.fermimn.gamewishlist.utils.Gamestop;
+import com.fermimn.gamewishlist.utils.Util;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -219,28 +220,39 @@ public class GamePageActivity extends AppCompatActivity {
 
                 galleryContainer.setVisibility(View.VISIBLE);
 
-                float scale = activity.getResources().getDisplayMetrics().density;
-                int marginRight = (int) (10 * scale + 0.5f);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
-                layoutParams.setMarginEnd(marginRight);
 
-                for (Uri image : game.getGallery()) {
+                List<Uri> images = game.getGallery();
+                for (int i = 0; i < images.size(); ++i) {
+
+
+
+                    // create view
                     ImageView imageView = new ImageView(activity);
+
+                    // init view
                     imageView.setAdjustViewBounds(true);
                     imageView.setLayoutParams(layoutParams);
-                    Picasso.get().load(image).into(imageView);
 
+                    // last image in the gallery doesn't have margin
+                    if (i != images.size()-1) {
+                        imageView.setPadding(0, 0, (int) Util.convertDpToPx(activity, 8), 0);
+                    }
+
+                    Picasso.get().load( images.get(i) ).into(imageView);
+
+                    // add view to gallery
                     gallery.addView(imageView);
                 }
 
-                gallery.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //openGallery(v);
-                    }
-                });
+//                gallery.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        //openGallery(v);
+//                    }
+//                });
 
             }
 
@@ -363,9 +375,9 @@ public class GamePageActivity extends AppCompatActivity {
                 TextView oldPricesView = new TextView(activity);
 
                 // set view parameters
-                oldPricesView.append(" ");
                 oldPricesView.append( df.format(oldPrice) );
                 oldPricesView.append( activity.getString(R.string.currency) );
+                oldPricesView.setPadding( (int) Util.convertDpToPx(activity, 7), 0, 0, 0);
                 oldPricesView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 oldPricesView.setTextColor(Color.WHITE);
                 oldPricesView.setTypeface(Typeface.DEFAULT_BOLD);
