@@ -21,7 +21,12 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/game_image"/>
 
-        <include layout="@layout/partial_section_prices"/>
+        <LinearLayout
+            android:id="@+id/section_prices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="30dp"/>
 
         <LinearLayout
             android:id="@+id/promo_container"

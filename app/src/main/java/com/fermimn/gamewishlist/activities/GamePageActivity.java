@@ -12,6 +12,7 @@ import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
+import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.Promo;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;
@@ -273,57 +275,84 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // TODO: add documentation
-        private void setGamePrices(Game game) {
+        private void setGamePrices(GamePreview game) {
 
             GamePageActivity activity = mGamePageActivity.get();
 
-            // Get container views
-            LinearLayout categoryNew = activity.findViewById(R.id.category_new);
-            LinearLayout categoryUsed = activity.findViewById(R.id.category_used);
-            LinearLayout categoryDigital = activity.findViewById(R.id.category_digital);
-            LinearLayout categoryPreorder = activity.findViewById(R.id.category_preorder);
+            LayoutInflater inflater = activity.getLayoutInflater();
+            ViewGroup parent = activity.findViewById(R.id.section_prices);
 
             // set new prices
             if (game.hasNewPrice()) {
-                setPrice(categoryNew, game.getNewPrice());
+
+                // create the container
+                ViewGroup container = (ViewGroup) inflater
+                        .inflate(R.layout.partial_price_container, parent, false);
+
+                // add prices to the container
+                setPrice(container, game.getNewPrice(), R.string.new_price);
                 if (game.hasOlderNewPrices()) {
-                    setOldPrices(categoryNew, game.getOlderNewPrices());
+                    setOldPrices(container, game.getOlderNewPrices());
                 }
-            } else {
-                categoryNew.setVisibility(View.GONE);
+
+                // add the container to the parent
+                parent.addView(container);
             }
 
             // set old prices
             if (game.hasUsedPrice()) {
-                setPrice(categoryUsed, game.getUsedPrice());
+
+                // create the container
+                LinearLayout container = (LinearLayout) inflater
+                        .inflate(R.layout.partial_price_container, parent, false);
+
+                // add prices to the container
+                setPrice(container, game.getUsedPrice(), R.string.used_price);
                 if (game.hasOlderUsedPrices()) {
-                    setOldPrices(categoryUsed, game.getOlderUsedPrices());
+                    setOldPrices(container, game.getOlderUsedPrices());
                 }
-            } else {
-                categoryUsed.setVisibility(View.GONE);
+
+                // add the container to the parent
+                parent.addView(container);
             }
 
             // set digital prices
             if (game.hasDigitalPrice()) {
-                categoryDigital.setVisibility(View.VISIBLE);
-                setPrice(categoryDigital, game.getDigitalPrice());
+
+                // create the container
+                LinearLayout container = (LinearLayout) inflater
+                        .inflate(R.layout.partial_price_container, parent, false);
+
+                // add prices to the container
+                setPrice(container, game.getDigitalPrice(), R.string.digital_price);
                 if (game.hasOlderDigitalPrices()) {
-                    setOldPrices(categoryDigital, game.getOlderDigitalPrices());
+                    setOldPrices(container, game.getOlderDigitalPrices());
                 }
+
+                // add the container to the parent
+                parent.addView(container);
             }
 
             // set preorder prices
             if (game.hasPreorderPrice()) {
-                categoryPreorder.setVisibility(View.VISIBLE);
-                setPrice(categoryPreorder, game.getPreorderPrice());
+
+                // create the container
+                LinearLayout container = (LinearLayout) inflater
+                        .inflate(R.layout.partial_price_container, parent, false);
+
+                // add prices to the container
+                setPrice(container, game.getPreorderPrice(), R.string.preorder_price);
                 if (game.hasOlderPreorderPrices()) {
-                    setOldPrices(categoryPreorder, game.getOlderPreorderPrices());
+                    setOldPrices(container, game.getOlderPreorderPrices());
                 }
+
+                // add the container to the parent
+                parent.addView(container);
             }
         }
 
         // TODO: add documentation
-        private void setPrice(LinearLayout container, Double price) {
+        private void setPrice(ViewGroup container, Double price, int priceType) {
 
             GamePageActivity activity = mGamePageActivity.get();
             DecimalFormat df = new DecimalFormat("#.00");
@@ -332,6 +361,7 @@ public class GamePageActivity extends AppCompatActivity {
             TextView priceView = new TextView(activity);
 
             // set view parameters
+            priceView.append( activity.getString(priceType) );
             priceView.append( df.format(price) );
             priceView.append( activity.getString(R.string.currency) );
             priceView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
@@ -343,7 +373,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // TODO: add documentation
-        private void setOldPrices(LinearLayout container, List<Double> oldPrices) {
+        private void setOldPrices(ViewGroup container, List<Double> oldPrices) {
 
             GamePageActivity activity = mGamePageActivity.get();
             DecimalFormat df = new DecimalFormat("#.00");
