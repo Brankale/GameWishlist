@@ -18,8 +18,7 @@
         android:layout_below="@+id/search_bar"
         android:visibility="gone" />
 
-    <include layout="@layout/fragment_game_preview_list"
-        android:id="@+id/search_results"
+    <include layout="@layout/partial_game_preview_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/indeterminateBar"/>

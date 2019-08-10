@@ -18,21 +18,12 @@ import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 
-public class GamePreviewListFragment extends Fragment {
+public class WishlistFragment extends Fragment {
 
     @SuppressWarnings("unused")
-    private static final String TAG = GamePreviewListFragment.class.getSimpleName();
+    private static final String TAG = WishlistFragment.class.getSimpleName();
 
     private Context mContext;
-
-    private final GamePreviewList mGamePreviewList;
-    private int mPaddingTop = 0;
-    private int mPaddingBottom = 0;
-
-    // TODO: remove this AS SOON AS POSSIBLE, Fragments don't have a custom constuctor
-    public GamePreviewListFragment(GamePreviewList gamePreviewList) {
-        mGamePreviewList = gamePreviewList;
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -44,12 +35,10 @@ public class GamePreviewListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_game_preview_list, container, false);
+        View view = inflater.inflate(R.layout.partial_game_preview_list, container, false);
         ListView listView = view.findViewById(R.id.game_list);
 
-        listView.setPadding(0, mPaddingTop, 0 , mPaddingBottom);
-
-        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, mGamePreviewList);
+        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, new GamePreviewList());
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,18 +54,6 @@ public class GamePreviewListFragment extends Fragment {
         });
 
         return view;
-    }
-
-    /**
-     * Set padding top and padding bottom of the ListView.
-     * The unite of measure is dp.
-     * @param top padding top
-     * @param bottom padding bottom
-     */
-    public void setPadding(int top, int bottom) {
-        float scale = mContext.getResources().getDisplayMetrics().density;
-        mPaddingBottom = (int) (bottom * scale + 0.5f);
-        mPaddingTop = (int) (top * scale + 0.5f);
     }
 
 }

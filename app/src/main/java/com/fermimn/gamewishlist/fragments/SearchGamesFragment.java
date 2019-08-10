@@ -1,23 +1,27 @@
 package com.fermimn.gamewishlist.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fermimn.gamewishlist.R;
+import com.fermimn.gamewishlist.activities.GamePageActivity;
+import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
+import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
@@ -34,8 +38,7 @@ public class SearchGamesFragment extends Fragment {
     private Context mContext;
 
     private ProgressBar mProgressBar;
-    private FrameLayout mSearchResults;
-    private SearchGamesFragment mFragment;
+    private ListView mSearchResults;
     private View mView;
 
     @Override
@@ -48,13 +51,10 @@ public class SearchGamesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // TODO: check what is savedInstanceState
-        mFragment = this;
-
         mView = inflater.inflate(R.layout.fragment_search_games, container, false);
         SearchView searchView = mView.findViewById(R.id.search_bar);
         mProgressBar = mView.findViewById(R.id.indeterminateBar);
-        mSearchResults = mView.findViewById(R.id.search_results);
+        mSearchResults = mView.findViewById(R.id.game_list);
 
         // Set listeners of the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -79,7 +79,7 @@ public class SearchGamesFragment extends Fragment {
 
                 // search the game (Search is a private class)
                 // TODO: find a best way to pass parameters
-                mRunningTask = new Search(mContext, mFragment, mView);
+                mRunningTask = new Search(mContext, mView);
                 mRunningTask.execute(query);
 
                 // progress bar appears
@@ -113,13 +113,11 @@ public class SearchGamesFragment extends Fragment {
     private static class Search extends AsyncTask<String, Integer, GamePreviewList> {
 
         private final WeakReference<Context> mContext;
-        private final WeakReference<SearchGamesFragment> mSearchGamesFragment;
         private final WeakReference<View> mSearchGamesFragmentView;
 
         // TODO: find a best way to pass parameters
-        private Search(Context context, SearchGamesFragment fragment, View rootView) {
+        private Search(Context context, View rootView) {
             mContext = new WeakReference<>(context);
-            mSearchGamesFragment = new WeakReference<>(fragment);
             mSearchGamesFragmentView = new WeakReference<>(rootView);
         }
 
@@ -156,25 +154,31 @@ public class SearchGamesFragment extends Fragment {
         private void onEndSearch(GamePreviewList gamePreviewList) {
 
             Context context = mContext.get();
-            SearchGamesFragment fragment = mSearchGamesFragment.get();
             View view = mSearchGamesFragmentView.get();
 
             ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
-            FrameLayout searchResults = view.findViewById(R.id.search_results);
+            ListView searchResults = view.findViewById(R.id.game_list);
 
 
             if (gamePreviewList != null) {
 
-                // add the fragment
-                GamePreviewListFragment gamePreviewListFragment =
-                        new GamePreviewListFragment(gamePreviewList);
+                GamePreviewListAdapter adapter = new GamePreviewListAdapter(context, gamePreviewList);
+                searchResults.setAdapter(adapter);
 
-                // set ListView padding in dp
-                //gamePreviewListFragment.setPadding(56,87);
+                searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                FragmentTransaction transaction = fragment.getChildFragmentManager().beginTransaction();
-                transaction.replace(R.id.search_results, gamePreviewListFragment, "game_list");
-                transaction.commit();
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Context context = mContext.get();
+
+                        GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
+                        Intent intent = new Intent(context, GamePageActivity.class);
+                        intent.putExtra("gameID", gamePreview.getId());
+                        context.startActivity(intent);
+                    }
+
+                });
 
                 // make the fragment visible
                 progressBar.setVisibility(View.GONE);
