@@ -46,4 +46,10 @@
     <string name="pegi_sex">pegi sex</string>
     <string name="pegi_violence">pegi violence</string>
 
+    <!-- dialog: add game to the wishlist -->
+    <string name="add_game_to_wishlist_title">Aggiungi gioco</string>
+    <string name="add_game_to_wishlist_text">
+        Vuoi aggiungere il gioco alla lista dei desideri?
+    </string>
+
 </resources>
