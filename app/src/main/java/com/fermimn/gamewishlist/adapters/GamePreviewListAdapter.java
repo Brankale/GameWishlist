@@ -182,7 +182,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
             viewHolder.mPreorderPriceView.setVisibility(View.VISIBLE);
             stringBuilder = new StringBuilder();
             stringBuilder
-                    .append( df.format( gamePreview.getDigitalPrice() ) )
+                    .append( df.format( gamePreview.getPreorderPrice() ) )
                     .append(mContext.getString(R.string.currency));
             viewHolder.mPreorderPriceView.setText(stringBuilder);
 
