@@ -2,11 +2,13 @@ package com.fermimn.gamewishlist.data_types;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GamePreview {
+public class GamePreview implements Comparable {
 
     private String mId;
     private String mTitle;
@@ -388,6 +390,12 @@ public class GamePreview {
                 ", mOlderDigitalPrices=" + mOlderDigitalPrices +
                 ", mOlderPreorderPrices=" + mOlderPreorderPrices +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        GamePreview game = (GamePreview) o;
+        return this.getId().compareTo(game.getId());
     }
 
 }

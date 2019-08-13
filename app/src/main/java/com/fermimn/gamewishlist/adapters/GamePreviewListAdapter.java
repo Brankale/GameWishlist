@@ -1,8 +1,6 @@
 package com.fermimn.gamewishlist.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
     @SuppressWarnings("unused")
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
-    private final Context mContext;
+    private Context mContext;
     private final LayoutInflater mInflater;
 
     /**
@@ -66,7 +64,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
     public GamePreviewListAdapter(Context context, GamePreviewList gamePreviewList) {
         super(context, R.layout.partial_game_preview, gamePreviewList);
         mContext = context;
-        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -111,11 +109,16 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         viewHolder.mPublisherView.setText( gamePreview.getPublisher() );
 
         DecimalFormat df = new DecimalFormat("#.00");
+        StringBuilder stringBuilder;
 
         if (gamePreview.hasNewPrice()) {
             viewHolder.mCategoryNewView.setVisibility(View.VISIBLE);
             viewHolder.mNewPriceView.setVisibility(View.VISIBLE);
-            viewHolder.mNewPriceView.setText( df.format( gamePreview.getNewPrice() ) + "€" );
+            stringBuilder = new StringBuilder();
+            stringBuilder
+                    .append( df.format( gamePreview.getNewPrice() ) )
+                    .append(mContext.getString(R.string.currency));
+            viewHolder.mNewPriceView.setText(stringBuilder);
 
             if (gamePreview.hasOlderNewPrices()) {
                 viewHolder.mOlderNewPricesView.setVisibility(View.VISIBLE);
@@ -133,7 +136,11 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         if (gamePreview.hasUsedPrice()) {
             viewHolder.mCategoryUsedView.setVisibility(View.VISIBLE);
             viewHolder.mUsedPriceView.setVisibility(View.VISIBLE);
-            viewHolder.mUsedPriceView.setText( df.format( gamePreview.getUsedPrice() ) + "€" );
+            stringBuilder = new StringBuilder();
+            stringBuilder
+                    .append( df.format( gamePreview.getUsedPrice() ) )
+                    .append(mContext.getString(R.string.currency));
+            viewHolder.mUsedPriceView.setText(stringBuilder);
 
             if (gamePreview.hasOlderUsedPrices()) {
                 viewHolder.mOlderUsedPricesView.setVisibility(View.VISIBLE);
@@ -151,7 +158,11 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         if (gamePreview.hasDigitalPrice()) {
             viewHolder.mCategoryDigitalView.setVisibility(View.VISIBLE);
             viewHolder.mDigitalPriceView.setVisibility(View.VISIBLE);
-            viewHolder.mDigitalPriceView.setText( df.format( gamePreview.getDigitalPrice() ) + "€" );
+            stringBuilder = new StringBuilder();
+            stringBuilder
+                    .append( df.format( gamePreview.getDigitalPrice() ) )
+                    .append(mContext.getString(R.string.currency));
+            viewHolder.mDigitalPriceView.setText(stringBuilder);
 
             if (gamePreview.hasOlderDigitalPrices()) {
                 viewHolder.mOlderDigitalPricesView.setVisibility(View.VISIBLE);
@@ -169,7 +180,11 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         if (gamePreview.hasPreorderPrice()) {
             viewHolder.mCategoryPreorderView.setVisibility(View.VISIBLE);
             viewHolder.mPreorderPriceView.setVisibility(View.VISIBLE);
-            viewHolder.mPreorderPriceView.setText( df.format( gamePreview.getPreorderPrice() ) + "€" );
+            stringBuilder = new StringBuilder();
+            stringBuilder
+                    .append( df.format( gamePreview.getDigitalPrice() ) )
+                    .append(mContext.getString(R.string.currency));
+            viewHolder.mPreorderPriceView.setText(stringBuilder);
 
             if (gamePreview.hasOlderPreorderPrices()) {
                 viewHolder.mOlderPreorderPricesView.setVisibility(View.VISIBLE);
@@ -190,11 +205,6 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         //       Try to put this thing in a try-catch, add a Log and then reproduce the problem
         //       with a low speed network
         Picasso.get().load( gamePreview.getCover() ).into(viewHolder.mCoverView);
-
-//        Glide.with(mContext)
-//                .load( gamePreview.getCover() )
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .into(viewHolder.mCoverView);
 
         return convertView;
     }

@@ -17,6 +17,7 @@ import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.utils.WishlistManager;
 
 public class WishlistFragment extends Fragment {
 
@@ -38,9 +39,15 @@ public class WishlistFragment extends Fragment {
         View view = inflater.inflate(R.layout.partial_game_preview_list, container, false);
         ListView listView = view.findViewById(R.id.game_list);
 
-        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, new GamePreviewList());
+        // get wishlist
+        WishlistManager wishlistManager = WishlistManager.getInstance(mContext);
+        GamePreviewList gamePreviewList = wishlistManager.getWishlist();
+
+        // set adapter
+        GamePreviewListAdapter adapter = new GamePreviewListAdapter(mContext, gamePreviewList);
         listView.setAdapter(adapter);
 
+        // set listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

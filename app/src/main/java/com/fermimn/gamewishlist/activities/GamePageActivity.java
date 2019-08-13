@@ -23,9 +23,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
+import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.data_types.Promo;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;
+import com.fermimn.gamewishlist.utils.WishlistManager;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -59,7 +61,18 @@ public class GamePageActivity extends AppCompatActivity {
 
         @Override
         protected Game doInBackground(String... strings) {
+
             String id = strings[0];
+
+            WishlistManager wishlistManager = WishlistManager.getInstance(mGamePageActivity.get());
+            GamePreviewList gamePreviewList = wishlistManager.getWishlist();
+
+            for (GamePreview gamePreview : gamePreviewList){
+                if (gamePreview.getId().equals(id)) {
+                    return (Game)gamePreview;
+                }
+            }
+
             Gamestop gamestop = new Gamestop();
             return gamestop.downloadGame(id);
         }

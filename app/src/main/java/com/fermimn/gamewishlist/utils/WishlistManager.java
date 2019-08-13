@@ -1,23 +1,28 @@
 package com.fermimn.gamewishlist.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
 
-import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
+import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.data_types.Promo;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,170 +34,148 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+// doc: https://developer.android.com/training/data-storage/files/internal#java
 public class WishlistManager {
 
     @SuppressWarnings("unused")
     private static final String TAG = WishlistManager.class.getSimpleName();
 
-    private static WishlistManager ourInstance;
-
-    private final Context mContext;
-
-    private final String mDataDir;
-
-    private List<GamePreview> mWishlist;
+    private WeakReference<Context> mContext;
+    private static WishlistManager mInstance;
+    private GamePreviewList mWishlist;
 
     public static WishlistManager getInstance(Context context) {
-        if (ourInstance == null) {
-            ourInstance = new WishlistManager(context);
+
+        if (mInstance == null) {
+            mInstance = new WishlistManager( context.getApplicationContext() );
         }
-        return ourInstance;
+
+        return mInstance;
     }
 
     private WishlistManager(Context context) {
-        // init app directory
-        mContext = context;
-        mDataDir = mContext.getApplicationInfo().dataDir;
-        mWishlist = new ArrayList<>();
-    }
+        mContext = new WeakReference<>(context);
+        mWishlist = new GamePreviewList();
 
-    public void addGameToWishList(Context context, GamePreview gamePreview) {
+        File[] gamesFolders = mContext.get().getFilesDir().listFiles();
 
-        new AlertDialog.Builder(context)
-                .setTitle( "Errore" )
-                .setMessage( "Non è stato possibile aggiungere il gioco alla wishlist" )
-
-                // A null listener allows the button to dismiss the dialog and take no further action
-                .setNegativeButton(android.R.string.ok, null)
-                .show();
-    }
-
-    public void addGameToWishList(Game game) {
-
-        if (!initGameXml(game)) {
-
+        if (gamesFolders != null) {
+            for (File gameFolder : gamesFolders) {
+                String id = gameFolder.getName();
+                mWishlist.add( getGameFromXml(id) );
+            }
         }
-
-        if (!initWishlistCsv()) {
-
-        }
-
-        mWishlist.add(game);
     }
 
-    public boolean removeGameFromWishlist(GamePreview gamePreview) {
-        return false;
-    }
-
-    public List<GamePreview> getWishlist() {
+    public GamePreviewList getWishlist() {
         return mWishlist;
     }
 
-    /**
-     * Get the csv where you can read the wishlist or make some changes to the wishlist
-     * @return the csv file, null if it's impossible creating the file
-     */
-    private File getWishlistCsv() {
-        // create the folder if not already exists
-        File csv = new File(mDataDir + "/wishlist.csv");
-        return csv.exists() ? csv : (csv.mkdir() ? csv : null);
-    }
+    public void add(final GamePreview gamePreview) {
 
-    /**
-     * Get the game root folder where you can save game info
-     * @param gamePreview the game to save
-     * @return the root folder, null if it's impossible creating the folder
-     */
-    private File getGameRootFolder(GamePreview gamePreview) {
-        // create the folder if not already exists
-        File root = new File(mDataDir + "/" + gamePreview.getId());
-        return root.exists() ? root : (root.mkdir() ? root : null);
-    }
-
-    /**
-     * Get the game gallery folder where you can save gallery images
-     * @param gamePreview the game to save
-     * @return the gallery folder, null if it's impossible creating the folder
-     */
-    private File getGameGalleryFolder(GamePreview gamePreview) {
-
-        // Get game root folder and check if it's null
-        File root = getGameRootFolder(gamePreview);
-
-        if (root == null) {
-            return null;
+        // check if the game is already in the wishlist
+        if (mWishlist.contains(gamePreview)) {
+            return;
         }
 
-        // create the folder if not already exists
-        File gallery = new File(root.getPath() + "/gallery");
-        return gallery.exists() ? gallery : (gallery.mkdir() ? gallery : null);
-    }
-
-    /**
-     * Get the game xml where you can read or save game data
-     * @param gamePreview the game to save
-     * @return the xml file, null if it's impossible creating the file
-     */
-    private File getGameXml(GamePreview gamePreview) {
-
-        // Get game root folder and check if it's null
-        File root = getGameRootFolder(gamePreview);
-
-        if (root == null) {
-            return null;
-        }
-
-        // create the xml file if not already exists
-        File xml = new File(root.getPath() + "/data.xml");
-        return xml.exists() ? xml : (xml.mkdir() ? xml : null);
-    }
-
-    /**
-     * Create a CSV file where are stored game IDs in the wishlist
-     * @return true if the file was created successfully, false otherwise
-     */
-    private boolean initWishlistCsv() {
-
-        File csv = getWishlistCsv();
-
-        if (csv == null) {
-            return false;
-        }
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(csv));
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (GamePreview gamePreview : mWishlist) {
-                stringBuilder.append(gamePreview.getId()).append(";");
+        // download Game info
+        Thread task = new Thread() {
+            @Override
+            public void run() {
+                Store store = new Gamestop();
+                Game game = store.downloadGame( gamePreview.getId() );
+                add(game);
             }
+        };
 
-            writer.append(stringBuilder);
-            writer.close();
+        task.start();
+    }
 
-            return true;
+    public void add(final Game game) {
 
+        // check if the game is already in the wishlist
+        if (mWishlist.contains(game)) {
+            return;
+        }
+
+        // save the game info and images offline
+        // TODO: a return value is needed to check if there are
+        //       some problems during the download process
+        downloadGameImages(game);
+        createGameXml(game);
+
+        // add the game to the wishlist
+        mWishlist.add(game);
+    }
+
+    private File getGameFolder(String gameId) {
+        File file = new File(mContext.get().getFilesDir(), gameId);
+        return file.exists() ? file : ( file.mkdir() ? file : null );
+    }
+
+    private File getGameGalleryFolder(String gameId) {
+        File file = new File(getGameFolder(gameId), "gallery");
+        return file.exists() ? file : ( file.mkdir() ? file : null );
+    }
+
+    private File getGameXml(String gameId) {
+        try {
+            File file = new File(getGameFolder(gameId), "data.xml");
+            return file.exists() ? file : (file.createNewFile() ? file : null);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * Create a XML file where game data are stored
-     * @param game the game to save
-     * @return true if the file was created successfully, false otherwise
-     */
-    private boolean initGameXml(Game game) {
+    private void downloadGameImages(Game game) {
+
+        // download cover
+        File cover = new File(getGameFolder(game.getId()), "cover.jpg");
+        downloadImage(cover, game.getCover());
+
+        // download gallery
+        if (game.hasGallery()) {
+            File galleryFolder = getGameGalleryFolder(game.getId());
+            Log.d(TAG, "links: " + game.getGallery());
+            for (Uri uri : game.getGallery()) {
+                String url = uri.toString();
+                Log.d(TAG, "link [" + uri+ "]");
+                String name = url.substring( url.lastIndexOf('/') );
+                File galleryImage = new File(galleryFolder, name);
+                downloadImage(galleryImage, uri);
+            }
+        }
+    }
+
+    private void downloadImage(File img, Uri uri) {
 
         try {
 
-            File xml = getGameXml(game);
+            // download bitmap
+            InputStream is = (InputStream) new URL(uri.toString()).getContent();
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            is.close();
 
-            if (xml == null) {
-                return false;
-            }
+            // save bitmap
+            FileOutputStream fos = new FileOutputStream(img);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean createGameXml(Game game) {
+
+        try {
+
+            File xml = getGameXml(game.getId());
 
             // Create Document
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -272,7 +255,7 @@ public class WishlistManager {
             if (game.hasOlderPreorderPrices()) {
                 Element elementOlderPreorderPrice = doc.createElement("olderPreorderPrices");
 
-                for (Double price : game.getOlderDigitalPrices()) {
+                for (Double price : game.getOlderPreorderPrices()) {
                     Element elementPrice = doc.createElement("price");
                     elementPrice.setTextContent(price.toString());
                     elementOlderPreorderPrice.appendChild(elementPrice);
@@ -290,15 +273,15 @@ public class WishlistManager {
 
             // Element OlderDigitalPrices and append
             if (game.hasOlderDigitalPrices()) {
-                Element elementolderDigitalPrice = doc.createElement("olderDigitalPrices");
+                Element elementOlderDigitalPrice = doc.createElement("olderDigitalPrices");
 
                 for (Double price : game.getOlderDigitalPrices()) {
                     Element elementPrice = doc.createElement("price");
                     elementPrice.setTextContent(price.toString());
-                    elementolderDigitalPrice.appendChild(elementPrice);
+                    elementOlderDigitalPrice.appendChild(elementPrice);
                 }
 
-                prices.appendChild(elementolderDigitalPrice);
+                prices.appendChild(elementOlderDigitalPrice);
             }
 
             gameElement.appendChild(prices);
@@ -391,7 +374,28 @@ public class WishlistManager {
                 gameElement.appendChild(elementValidForPromo);
             }
 
-            // TODO: save images
+            // Save cover
+            File cover = new File(getGameFolder(game.getId()), "cover.jpg");
+            Element elementCover = doc.createElement("cover");
+            elementCover.appendChild( doc.createCDATASection( Uri.fromFile(cover).toString() ));
+            gameElement.appendChild(elementCover);
+
+            // Save gallery
+            if (game.hasGallery()) {
+                Element elementGallery = doc.createElement("gallery");
+                File galleryFolder = getGameGalleryFolder(game.getId());
+                for (Uri uri : game.getGallery()) {
+
+                    String url = uri.toString();
+                    String name = url.substring( url.lastIndexOf('/') );
+                    File imgPath = new File(galleryFolder, name);
+
+                    Element elementImage = doc.createElement("image");
+                    elementImage.appendChild( doc.createCDATASection( Uri.fromFile(imgPath).toString() ));
+                    elementGallery.appendChild(elementImage);
+                }
+                gameElement.appendChild(elementGallery);
+            }
 
             // Append the root element to the root node
             doc.appendChild(gameElement);
@@ -414,6 +418,211 @@ public class WishlistManager {
         }
 
         return false;
+    }
+
+    private Game getGameFromXml(String gameId) {
+
+        try {
+
+            File xml = getGameXml(gameId);
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml);
+
+            Game game = new Game();
+
+            Element gameElement = doc.getDocumentElement();
+
+            game.setId( gameElement.getAttribute("id") );
+
+            game.setTitle( gameElement.getElementsByTagName("title").item(0).getChildNodes().item(0).getTextContent() );
+            game.setPublisher( gameElement.getElementsByTagName("publisher").item(0).getChildNodes().item(0).getTextContent() );
+            game.setPlatform( gameElement.getElementsByTagName("platform").item(0).getChildNodes().item(0).getTextContent() );
+
+            Element prices = (Element) gameElement.getElementsByTagName("prices").item(0);
+
+            //NEW PRICE
+            org.w3c.dom.NodeList nl = prices.getElementsByTagName("newPrice");
+            if (nl.getLength() > 0) {
+                Element newPrice = (Element) nl.item(0);
+                game.setNewPrice( Double.valueOf(newPrice.getTextContent()) );
+            }
+
+            //OLDER NEW PRICES
+            nl = prices.getElementsByTagName("olderNewPrices");
+            if (nl.getLength() > 0) {
+                Element olderNewPrices = (Element) nl.item(0);
+                nl = olderNewPrices.getElementsByTagName("price");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element elementPrice = (Element) nl.item(i);
+                    game.addOlderNewPrice( Double.valueOf(elementPrice.getTextContent() ));
+                }
+            }
+
+            //USED PRICE
+            nl = prices.getElementsByTagName("usedPrice");
+            if (nl.getLength() > 0) {
+                Element usedPrice = (Element) nl.item(0);
+                game.setUsedPrice( Double.valueOf(usedPrice.getTextContent()) );
+            }
+
+            //OLDER USED PRICES
+            nl = prices.getElementsByTagName("olderUsedPrices");
+            if (nl.getLength() > 0) {
+                Element olderUsedPrices = (Element) nl.item(0);
+                nl = olderUsedPrices.getElementsByTagName("price");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element elementPrice = (Element) nl.item(i);
+                    game.addOlderUsedPrice( Double.valueOf(elementPrice.getTextContent()) );
+                }
+            }
+
+            //PREORDER PRICE
+            nl = prices.getElementsByTagName("preorderPrice");
+            if (nl.getLength() > 0) {
+                Element preorderPrice = (Element) nl.item(0);
+                game.setPreorderPrice( Double.valueOf(preorderPrice.getTextContent() ));
+            }
+
+            //OLDER PREORDER PRICES
+            nl = prices.getElementsByTagName("olderPreorderPrices");
+            if (nl.getLength() > 0) {
+                Element olderPreorderPrices = (Element) nl.item(0);
+                nl = olderPreorderPrices.getElementsByTagName("price");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element elementPrice = (Element) nl.item(i);
+                    game.addOlderPreorderPrice( Double.valueOf(elementPrice.getTextContent()));
+                }
+            }
+
+            //DIGITAL PRICE
+            nl = prices.getElementsByTagName("digitalPrice");
+            if (nl.getLength() > 0) {
+                Element digitalPrice = (Element) nl.item(0);
+                game.setDigitalPrice( Double.valueOf(digitalPrice.getTextContent()) );
+            }
+
+            //OLDER DIGITAL PRICES
+            nl = prices.getElementsByTagName("olderDigitalPrices");
+            if (nl.getLength() > 0) {
+                Element olderDigitalPrices = (Element) nl.item(0);
+                nl = olderDigitalPrices.getElementsByTagName("price");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element elementPrice = (Element) nl.item(i);
+                    game.addOlderDigitalPrice( Double.valueOf(elementPrice.getTextContent()));
+                }
+            }
+
+            //PEGI
+            nl = gameElement.getElementsByTagName("pegi");
+            if (nl.getLength() > 0) {
+                Element pegi = (Element) nl.item(0);
+                nl = pegi.getElementsByTagName("type");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element type = (Element) nl.item(i);
+                    game.addPegi( type.getTextContent());
+                }
+            }
+
+            //GENRES
+            nl = gameElement.getElementsByTagName("genres");
+            if (nl.getLength() > 0) {
+                Element genres = (Element) nl.item(0);
+                nl = genres.getElementsByTagName("genre");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element genre = (Element) nl.item(i);
+                    game.addGenre( genre.getTextContent());
+                }
+            }
+
+            //OFFICIAL SITE
+            nl = gameElement.getElementsByTagName("officialSite");
+            if (nl.getLength() > 0) {
+                Element officialSite = (Element) nl.item(0);
+                game.setOfficialSite( officialSite.getChildNodes().item(0).getTextContent() );
+            }
+
+            //PLAYERS
+            nl = gameElement.getElementsByTagName("players");
+            if (nl.getLength() > 0) {
+                Element players = (Element) nl.item(0);
+                game.setPlayers( players.getChildNodes().item(0).getTextContent() );
+            }
+
+            //RELEASE DATE
+            nl = gameElement.getElementsByTagName("releaseDate");
+            if (nl.getLength() > 0) {
+                Element releaseDate = (Element) nl.item(0);
+                game.setReleaseDate( releaseDate.getTextContent() );
+            }
+
+            //PROMOS
+            nl = gameElement.getElementsByTagName("promos");
+            if (nl.getLength() > 0) {
+                Element promos = (Element) nl.item(0);
+                nl = promos.getElementsByTagName("promo");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element promo = (Element) nl.item(i);
+
+                    String header = promo.getElementsByTagName("header").item(0).getChildNodes().item(0).getTextContent();
+                    String validity = promo.getElementsByTagName("validity").item(0).getChildNodes().item(0).getTextContent();
+
+                    String message = null;
+                    String messageURL = null;
+                    if (promo.getElementsByTagName("message").getLength() > 0) {
+                        message = promo.getElementsByTagName("message").item(0).getChildNodes().item(0).getTextContent();
+                        messageURL = promo.getElementsByTagName("messageURL").item(0).getChildNodes().item(0).getTextContent();
+                    }
+
+                    Promo p = new Promo();
+                    p.setHeader(header);
+                    p.setValidity(validity);
+                    p.setMessage(message);
+                    p.setMessageURL(messageURL);
+
+                    game.addPromo(p);
+                }
+            }
+
+            //DESCRIPTION
+            nl = gameElement.getElementsByTagName("description");
+            if (nl.getLength() > 0) {
+                Element description = (Element) nl.item(0);
+                game.setDescription( description.getChildNodes().item(0).getTextContent() );
+            }
+
+            //VALID FOR PROMO
+            nl = gameElement.getElementsByTagName("validForPromo");
+            if (nl.getLength() > 0) {
+                Element validForPromo = (Element) nl.item(0);
+                game.setValidForPromotions( Boolean.valueOf(validForPromo.getTextContent()));
+            }
+
+            // set cover
+            nl = gameElement.getElementsByTagName("cover");
+            if (nl.getLength() > 0) {
+                Element cover = (Element) nl.item(0);
+                game.setCover( Uri.parse(cover.getChildNodes().item(0).getTextContent()) );
+            }
+
+            // set gallery
+            nl = gameElement.getElementsByTagName("gallery");
+            if (nl.getLength() > 0) {
+                nl = ((Element)nl.item(0)).getElementsByTagName("image");
+                for (int i = 0; i < nl.getLength(); ++i) {
+                    game.addToGallery( Uri.parse(nl.item(i).getChildNodes().item(0).getTextContent() ) );
+                }
+            }
+
+            return game;
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

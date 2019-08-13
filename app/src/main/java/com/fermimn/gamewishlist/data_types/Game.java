@@ -151,10 +151,14 @@ public class Game extends GamePreview {
     }
 
     public void addToGallery(Uri image) {
+
         if (mGallery == null) {
             mGallery = new ArrayList<>();
         }
-        mGallery.add(image);
+
+        if (!image.toString().isEmpty()) {
+            mGallery.add(image);
+        }
     }
 
     public boolean hasGallery() {
@@ -179,4 +183,5 @@ public class Game extends GamePreview {
                 ", mGallery=" + mGallery +
                 '}';
     }
+
 }

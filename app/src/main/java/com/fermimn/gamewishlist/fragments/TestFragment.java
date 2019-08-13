@@ -1,39 +1,33 @@
 package com.fermimn.gamewishlist.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.activities.GamePageActivity;
-import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
-import com.fermimn.gamewishlist.data_types.GamePreview;
+import com.fermimn.gamewishlist.adapters.TestAdapter;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
-import com.fermimn.gamewishlist.utils.WishlistManager;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-public class SearchGamesFragment extends Fragment {
+public class TestFragment extends Fragment {
 
     @SuppressWarnings("unused")
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
@@ -41,8 +35,13 @@ public class SearchGamesFragment extends Fragment {
     private Context mContext;
 
     private ProgressBar mProgressBar;
-    private ListView mSearchResults;
+    //private ListView mSearchResults;
     private View mView;
+
+    private RecyclerView mSearchResults;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -54,10 +53,18 @@ public class SearchGamesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mView = inflater.inflate(R.layout.fragment_search_games, container, false);
+        mView = inflater.inflate(R.layout.test_list, container, false);
         SearchView searchView = mView.findViewById(R.id.search_bar);
         mProgressBar = mView.findViewById(R.id.indeterminateBar);
-        mSearchResults = mView.findViewById(R.id.game_list);
+        //mSearchResults = mView.findViewById(R.id.game_list);
+
+        // TODO: new part
+        mSearchResults = mView.findViewById(R.id.recycler_view);
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(mContext);
+        mSearchResults.setLayoutManager(mLayoutManager);
+
+
 
         // Set listeners on the SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -107,52 +114,72 @@ public class SearchGamesFragment extends Fragment {
 
         });
 
-        // show game page if a listview item is clicked
-        mSearchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mSearchResults.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
-                Intent intent = new Intent(mContext, GamePageActivity.class);
-                intent.putExtra("gameID", gamePreview.getId());
-                mContext.startActivity(intent);
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
             }
 
         });
 
-        // show a dialog if a listview item is long-clicked
-        mSearchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-
-                new AlertDialog.Builder(mContext)
-                        .setTitle( getString(R.string.add_game_to_wishlist_title) )
-                        .setMessage( getString(R.string.add_game_to_wishlist_text) )
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                WishlistManager wishlist =
-                                        WishlistManager.getInstance(mContext.getApplicationContext());
-
-                                GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
-
-                                wishlist.add(gamePreview);
-
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
-
-                return true;
-            }
-
-        });
+//        // show game page if a listview item is clicked
+//        mSearchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
+//                Intent intent = new Intent(mContext, GamePageActivity.class);
+//                intent.putExtra("gameID", gamePreview.getId());
+//                mContext.startActivity(intent);
+//            }
+//
+//        });
+//
+//        // show a dialog if a listview item is long-clicked
+//        mSearchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//
+//            @Override
+//            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+//
+//                new AlertDialog.Builder(mContext)
+//                        .setTitle( getString(R.string.add_game_to_wishlist_title) )
+//                        .setMessage( getString(R.string.add_game_to_wishlist_text) )
+//
+//                        // Specifying a listener allows you to take an action before dismissing the dialog.
+//                        // The dialog is automatically dismissed when a dialog button is clicked.
+//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                WishlistManager wishlist =
+//                                        WishlistManager.getInstance(mContext.getApplicationContext());
+//
+//                                GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
+//
+//                                wishlist.addGameToWishList(mContext, gamePreview);
+//
+//                            }
+//                        })
+//
+//                        // A null listener allows the button to dismiss the dialog and take no further action
+//                        .setNegativeButton(android.R.string.no, null)
+//                        .show();
+//
+//                return true;
+//            }
+//
+//        });
 
         return mView;
     }
@@ -180,10 +207,10 @@ public class SearchGamesFragment extends Fragment {
 
             // retrieve info from the web
             try {
-                Log.d(TAG, "Ricerca avviata");
+                Log.d(TAG, "Search started");
                 Store store = new Gamestop();
                 searchResults = store.searchGame(gameSearched);
-                Log.d(TAG, "Ricerca conclusa");
+                Log.d(TAG, "Search finished");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -199,13 +226,21 @@ public class SearchGamesFragment extends Fragment {
 
             // get views
             ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
-            ListView searchResultsView = view.findViewById(R.id.game_list);
+            //ListView searchResultsView = view.findViewById(R.id.game_list);
+
+            RecyclerView searchResultsView = view.findViewById(R.id.recycler_view);
+
 
             // set UI
             if (searchResults != null) {
 
-                GamePreviewListAdapter adapter = new GamePreviewListAdapter(context, searchResults);
-                searchResultsView.setAdapter(adapter);
+                // TODO: new
+                // specify an adapter (see also next example)
+                RecyclerView.Adapter mAdapter = new TestAdapter(mContext.get(), searchResults);
+                searchResultsView.setAdapter(mAdapter);
+
+//                GamePreviewListAdapter adapter = new GamePreviewListAdapter(context, searchResults);
+//                searchResultsView.setAdapter(adapter);
 
                 // make the fragment visible
                 progressBar.setVisibility(View.GONE);
@@ -222,5 +257,4 @@ public class SearchGamesFragment extends Fragment {
         }
 
     }
-
 }
