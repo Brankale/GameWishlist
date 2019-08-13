@@ -68,7 +68,9 @@ public class WishlistManager {
     }
 
     public GamePreviewList getWishlist() {
-        return mWishlist;
+        GamePreviewList gamePreviewList = new GamePreviewList();
+        gamePreviewList.addAll(mWishlist);
+        return gamePreviewList;
     }
 
     public void add(final GamePreview gamePreview) {
