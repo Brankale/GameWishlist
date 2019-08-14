@@ -40,9 +40,9 @@ public class WishlistManager {
     @SuppressWarnings("unused")
     private static final String TAG = WishlistManager.class.getSimpleName();
 
-    private WeakReference<Context> mContext;
+    private final WeakReference<Context> mContext;
     private static WishlistManager mInstance;
-    private GamePreviewList mWishlist;
+    private final GamePreviewList mWishlist;
 
     public static WishlistManager getInstance(Context context) {
 
@@ -61,8 +61,10 @@ public class WishlistManager {
 
         if (gamesFolders != null) {
             for (File gameFolder : gamesFolders) {
-                String id = gameFolder.getName();
-                mWishlist.add( getGameFromXml(id) );
+                if (gameFolder.isDirectory()) {
+                    String id = gameFolder.getName();
+                    mWishlist.add(getGameFromXml(id));
+                }
             }
         }
     }
@@ -430,6 +432,7 @@ public class WishlistManager {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml);
 
             Game game = new Game();
+
 
             Element gameElement = doc.getDocumentElement();
 

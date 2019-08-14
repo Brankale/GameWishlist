@@ -21,8 +21,8 @@ import java.text.DecimalFormat;
 
 public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
 
-    private GamePreviewList mGamePreviewList;
-    private Context mContext;
+    private final GamePreviewList mGamePreviewList;
+    private final Context mContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

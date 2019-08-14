@@ -52,4 +52,10 @@
         Vuoi aggiungere il gioco alla lista dei desideri?
     </string>
 
+    <!-- actions -->
+    <string name="action_settings">Settings</string>
+
+    <!-- settings -->
+    <string name="dark_mode">Dark Mode</string>
+
 </resources>

@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -19,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
@@ -45,9 +49,35 @@ public class GamePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_page);
 
+        // set action bar
+        Toolbar toolbar = findViewById(R.id.action_bar);
+        setSupportActionBar(toolbar);
+
         String id = getIntent().getStringExtra("gameID");
         DownloadGame task = new DownloadGame(this);
         task.execute(id);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // TODO: add documentation
@@ -79,6 +109,9 @@ public class GamePageActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Game game) {
+
+            // set the title in the action bar
+            mGamePageActivity.get().getSupportActionBar().setTitle( game.getTitle() );
 
             // init game page UI
             setGameImages(game);

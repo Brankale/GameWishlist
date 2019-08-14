@@ -1,45 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/game_page_container"
+    <androidx.appcompat.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/action_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="15dp"
-        android:visibility="gone"
-        android:animateLayoutChanges="true">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="240dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/game_image"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/section_prices"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="30dp"/>
-
-        <LinearLayout
-            android:id="@+id/promo_container"
+            android:id="@+id/game_page_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:animateLayoutChanges="true">
 
-        <include layout="@layout/partial_section_valid_for_promo"/>
-        <include layout="@layout/partial_section_info"/>
-        <include layout="@layout/partial_section_pegi"/>
-        <include layout="@layout/partial_section_gallery"/>
-        <include layout="@layout/partial_section_description"/>
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="240dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/game_image"/>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/section_prices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="30dp"/>
 
-</ScrollView>
+            <LinearLayout
+                android:id="@+id/promo_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <include layout="@layout/partial_section_valid_for_promo"/>
+            <include layout="@layout/partial_section_info"/>
+            <include layout="@layout/partial_section_pegi"/>
+            <include layout="@layout/partial_section_gallery"/>
+            <include layout="@layout/partial_section_description"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

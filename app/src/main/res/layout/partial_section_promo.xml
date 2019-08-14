@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="@string/no_info"
-            android:textColor="@color/white"
+            android:textColor="#FFF"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -34,7 +34,7 @@
             android:layout_marginTop="5dp"
             android:textAlignment="center"
             android:text="@string/no_info"
-            android:textColor="@color/white"
+            android:textColor="#FFF"
             android:textSize="14sp"
             android:textStyle="bold"/>
 
@@ -48,7 +48,7 @@
         android:textAlignment="center"
         android:text="@string/no_info"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="#000"
         android:textSize="14sp"
         android:visibility="gone"/>
 

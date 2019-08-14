@@ -8,4 +8,5 @@
     <color name="grey">#a1a1a1</color>
     <color name="promoGrey">#e4e4e4</color>
     <color name="promoDark">#323233</color>
+    <color name="dark">#2f2f2f</color>
 </resources>

@@ -24,7 +24,7 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
     @SuppressWarnings("unused")
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
-    private Context mContext;
+    private final Context mContext;
     private final LayoutInflater mInflater;
 
     /**
@@ -34,25 +34,25 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
      */
     private static class ViewHolder {
 
-        public ImageView mCoverView;
-        public TextView mTitleView;
-        public TextView mPlatformView;
-        public TextView mPublisherView;
+        private ImageView mCoverView;
+        private TextView mTitleView;
+        private TextView mPlatformView;
+        private TextView mPublisherView;
 
-        public TextView mNewPriceView;
-        public TextView mUsedPriceView;
-        public TextView mDigitalPriceView;
-        public TextView mPreorderPriceView;
+        private TextView mNewPriceView;
+        private TextView mUsedPriceView;
+        private TextView mDigitalPriceView;
+        private TextView mPreorderPriceView;
 
-        public TextView mOlderNewPricesView;
-        public TextView mOlderUsedPricesView;
-        public TextView mOlderDigitalPricesView;
-        public TextView mOlderPreorderPricesView;
+        private TextView mOlderNewPricesView;
+        private TextView mOlderUsedPricesView;
+        private TextView mOlderDigitalPricesView;
+        private TextView mOlderPreorderPricesView;
 
-        public LinearLayout mCategoryNewView;
-        public LinearLayout mCategoryUsedView;
-        public LinearLayout mCategoryDigitalView;
-        public LinearLayout mCategoryPreorderView;
+        private LinearLayout mCategoryNewView;
+        private LinearLayout mCategoryUsedView;
+        private LinearLayout mCategoryDigitalView;
+        private LinearLayout mCategoryPreorderView;
 
     }
 

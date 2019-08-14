@@ -23,6 +23,7 @@ public class Game extends GamePreview {
         return mPegi;
     }
 
+    @SuppressWarnings("unused")
     public void setPegi(List<String> mPegi) {
         this.mPegi = mPegi;
     }
@@ -57,6 +58,7 @@ public class Game extends GamePreview {
         return mGenres;
     }
 
+    @SuppressWarnings("unused")
     public void setGenres(List<String> genres) {
         mGenres = genres;
     }
@@ -123,6 +125,7 @@ public class Game extends GamePreview {
         return mPromos;
     }
 
+    @SuppressWarnings("unused")
     public void setPromo(List<Promo> promo) {
         mPromos = promo;
     }
@@ -146,6 +149,7 @@ public class Game extends GamePreview {
         return mGallery;
     }
 
+    @SuppressWarnings("unused")
     public void setGallery(List<Uri> mGallery) {
         this.mGallery = mGallery;
     }

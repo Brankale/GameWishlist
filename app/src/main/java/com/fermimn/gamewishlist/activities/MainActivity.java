@@ -1,15 +1,23 @@
 package com.fermimn.gamewishlist.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
+import com.fermimn.gamewishlist.utils.SettingsManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,8 +30,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // set light or dark theme
+        SettingsManager settings = SettingsManager.getInstance(this);
+        Log.d(TAG, ""+settings.getDarkMode());
+        AppCompatDelegate.setDefaultNightMode( settings.getDarkMode() );
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // set action bar
+        // DOCS: https://developer.android.com/training/appbar/setting-up
+        // DOCS: https://developer.android.com/training/appbar/actions
+        Toolbar toolbar = findViewById(R.id.action_bar);
+        setSupportActionBar(toolbar);
 
         // set button icon
         mImageButton = findViewById(R.id.button);
@@ -38,6 +58,28 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.container, mSearchSection, "search_section");
         transaction.hide(mSearchSection);
         transaction.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

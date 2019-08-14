@@ -139,7 +139,6 @@ public class SearchGamesFragment extends Fragment {
                                         WishlistManager.getInstance(mContext.getApplicationContext());
 
                                 GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
-
                                 wishlist.add(gamePreview);
 
                             }
