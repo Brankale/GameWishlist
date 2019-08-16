@@ -6,8 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
-import com.fermimn.gamewishlist.utils.SettingsManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,11 +30,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // set light or dark theme
-        SettingsManager settings = SettingsManager.getInstance(this);
-        Log.d(TAG, ""+settings.getDarkMode());
-        AppCompatDelegate.setDefaultNightMode( settings.getDarkMode() );
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -43,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         // DOCS: https://developer.android.com/training/appbar/setting-up
         // DOCS: https://developer.android.com/training/appbar/actions
         Toolbar toolbar = findViewById(R.id.action_bar);
+        toolbar.setTitle( getString(R.string.section_wishlist) );
         setSupportActionBar(toolbar);
 
         // set button icon
@@ -94,12 +89,14 @@ public class MainActivity extends AppCompatActivity {
         if (mSearchSection.isHidden()) {
             // show search section
             transaction.hide(mWishListSection);
+            getSupportActionBar().setTitle( getString(R.string.section_search) );
             transaction.show(mSearchSection);
             mImageButton.setImageResource(R.drawable.ic_videogame_asset_black_24dp);
         } else {
             // show wishlist section
             // TODO: interrupt search
             transaction.show(mWishListSection);
+            getSupportActionBar().setTitle( getString(R.string.section_wishlist) );
             transaction.hide(mSearchSection);
             mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
         }

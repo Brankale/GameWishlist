@@ -1,12 +1,16 @@
 package com.fermimn.gamewishlist.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.utils.SettingsManager;
@@ -20,6 +24,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        // set action bar
+        Toolbar toolbar = findViewById(R.id.action_bar);
+        toolbar.setTitle( getString(R.string.section_settings) );
+        setSupportActionBar(toolbar);
+
         mSettings = SettingsManager.getInstance(this);
 
         Switch darkMode = findViewById(R.id.dark_mode);
@@ -30,6 +40,30 @@ public class SettingsActivity extends AppCompatActivity {
             darkMode.setChecked(false);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_apply_changes:
+                if (mChanges) {
+                    mSettings.commit();
+                    Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

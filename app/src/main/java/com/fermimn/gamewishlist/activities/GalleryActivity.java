@@ -27,23 +27,14 @@ public class GalleryActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        // get Intent content
         Intent caller = getIntent();
         int position = caller.getIntExtra("position", 0);
-        ArrayList<String> gallery = caller.getStringArrayListExtra("gallery");
-
-        if (gallery == null) {
-            Log.d(TAG, "Intent content is null");
-            return;
-        }
-
-        List<Uri> uri = new ArrayList<>();
-        for (String image : gallery) {
-            uri.add( Uri.parse(image) );
-        }
+        ArrayList<Uri> images = caller.getParcelableArrayListExtra("images");
 
         // Instantiate a ViewPager and a PagerAdapter
         mViewPager = findViewById(R.id.view_pager);
-        PagerAdapter pagerAdapter = new GalleryAdapter(this, uri);
+        PagerAdapter pagerAdapter = new GalleryAdapter(this, images);
         mViewPager.setAdapter(pagerAdapter);
 
         if (savedInstanceState == null) {

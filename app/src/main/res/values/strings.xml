@@ -53,9 +53,16 @@
     </string>
 
     <!-- actions -->
-    <string name="action_settings">Settings</string>
+    <string name="apply_changes">Salva</string>
+    <string name="action_settings">Impostazioni</string>
 
     <!-- settings -->
+    <string name="settings">Impostazioni</string>
     <string name="dark_mode">Dark Mode</string>
+
+    <!-- app sections -->
+    <string name="section_wishlist">Lista dei desideri</string>
+    <string name="section_search">Ricerca</string>
+    <string name="section_settings">Impostazioni</string>
 
 </resources>

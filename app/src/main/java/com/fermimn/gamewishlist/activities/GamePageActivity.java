@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -262,8 +263,20 @@ public class GamePageActivity extends AppCompatActivity {
             LinearLayout gallery = activity.findViewById(R.id.gallery);
             LinearLayout galleryContainer = activity.findViewById(R.id.gallery_container);
 
+            // set listener to the cover
+            Bundle coverBundle = new Bundle();
+            coverBundle.putParcelable("cover", game.getCover());
+            cover.setTag(coverBundle);
+
+            cover.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openGallery(v);
+                }
+            });
+
             // load cover in the view
-            Picasso.get().load( game.getCover() ).into(cover);
+            Picasso.get().load(game.getCover()).into(cover);
 
             // Add images to gallery
             if (game.hasGallery()) {
@@ -274,13 +287,7 @@ public class GamePageActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
 
-                List<Uri> images = game.getGallery();
-
-                // create an array which is used as tag for images
-                ArrayList<String> UriImages = new ArrayList<>();
-                for (Uri uri : images) {
-                    UriImages.add( uri.toString() );
-                }
+                ArrayList<Uri> images = (ArrayList<Uri>) game.getGallery();
 
                 // insert all the images in the gallery
                 for (int i = 0; i < images.size(); ++i) {
@@ -298,10 +305,10 @@ public class GamePageActivity extends AppCompatActivity {
                     }
 
                     // set tag
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("gallery", UriImages);
-                    bundle.putInt("position", i);
-                    imageView.setTag(bundle);
+                    Bundle galleryBundle = new Bundle();
+                    galleryBundle.putParcelableArrayList("gallery", images);
+                    galleryBundle.putInt("position", i);
+                    imageView.setTag(galleryBundle);
 
                     // set listener
                     imageView.setOnClickListener(new View.OnClickListener() {
@@ -489,13 +496,24 @@ public class GamePageActivity extends AppCompatActivity {
             GamePageActivity activity = mGamePageActivity.get();
 
             Bundle bundle = (Bundle) view.getTag();
+
             int position = bundle.getInt("position");
-            ArrayList<String> gallery = bundle.getStringArrayList("gallery");
+            Uri cover = bundle.getParcelable("cover");
+            ArrayList<Uri> gallery = bundle.getParcelableArrayList("gallery");
 
             // create and start intent
             Intent intent = new Intent(activity, GalleryActivity.class);
-            intent.putStringArrayListExtra("gallery", gallery);
-            intent.putExtra("position", position);
+
+            if (cover == null) {
+                intent.putParcelableArrayListExtra("images", gallery);
+                intent.putExtra("position", position);
+            } else {
+                ArrayList<Uri> coverArray = new ArrayList<>();
+                coverArray.add(cover);
+                intent.putParcelableArrayListExtra("images", coverArray);
+                intent.putExtra("position", 0);
+            }
+
             activity.startActivity(intent);
         }
 

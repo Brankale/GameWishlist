@@ -20,4 +20,9 @@
         <item name="android:colorBackground">@color/white</item>
     </style>
 
+    <style name="Settings" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/grey</item>
+    </style>
+
 </resources>
