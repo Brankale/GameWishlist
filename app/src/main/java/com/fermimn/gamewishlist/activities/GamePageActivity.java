@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -62,17 +62,26 @@ public class GamePageActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings, menu);
+        inflater.inflate(R.menu.activity_game_page, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
+
+            case R.id.action_add_game:
+                // TODO: instead of downloading the game again, I set the game as TAG
+                //       of the LinearLayout. Action Bar is not visible as long as the
+                //       LinearLayout is not visible. LinearLayout become visible when
+                //       the game is downloaded.
+                LinearLayout linearLayout = findViewById(R.id.game_page_container);
+                WishlistManager wishlistManager = WishlistManager.getInstance(this);
+                wishlistManager.add( (Game) linearLayout.getTag() );
 
             default:
                 // If we got here, the user's action was not recognized.
@@ -124,6 +133,7 @@ public class GamePageActivity extends AppCompatActivity {
             // make game page UI visible
             GamePageActivity activity = mGamePageActivity.get();
             LinearLayout linearLayout = activity.findViewById(R.id.game_page_container);
+            linearLayout.setTag(game);                  // set the game as TAG
             linearLayout.setVisibility(View.VISIBLE);
         }
 

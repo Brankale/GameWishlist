@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
@@ -75,6 +74,7 @@ public class WishlistManager {
         return gamePreviewList;
     }
 
+    // TODO: try to delete final keywords
     public void add(final GamePreview gamePreview) {
 
         // check if the game is already in the wishlist
@@ -86,30 +86,24 @@ public class WishlistManager {
         Thread task = new Thread() {
             @Override
             public void run() {
-                Store store = new Gamestop();
-                Game game = store.downloadGame( gamePreview.getId() );
-                add(game);
+
+                final Game game;
+
+                if (gamePreview instanceof Game) {
+                    game = (Game) gamePreview;
+                } else {
+                    Store store = new Gamestop();
+                    game = store.downloadGame( gamePreview.getId() );
+                }
+
+                createGameXml(game);
+                downloadGameImages(game);
+
+                mWishlist.add(game);
             }
         };
 
         task.start();
-    }
-
-    public void add(final Game game) {
-
-        // check if the game is already in the wishlist
-        if (mWishlist.contains(game)) {
-            return;
-        }
-
-        // save the game info and images offline
-        // TODO: a return value is needed to check if there are
-        //       some problems during the download process
-        downloadGameImages(game);
-        createGameXml(game);
-
-        // add the game to the wishlist
-        mWishlist.add(game);
     }
 
     private File getGameFolder(String gameId) {
@@ -133,7 +127,11 @@ public class WishlistManager {
         return null;
     }
 
-    private void downloadGameImages(Game game) {
+    @SuppressWarnings("UnusedReturnValue")
+    private boolean downloadGameImages(Game game) {
+
+        // if true every image has been downloaded correctly
+        boolean status = true;
 
         // download cover
         File cover = new File(getGameFolder(game.getId()), "cover.jpg");
@@ -142,18 +140,21 @@ public class WishlistManager {
         // download gallery
         if (game.hasGallery()) {
             File galleryFolder = getGameGalleryFolder(game.getId());
-            Log.d(TAG, "links: " + game.getGallery());
             for (Uri uri : game.getGallery()) {
                 String url = uri.toString();
-                Log.d(TAG, "link [" + uri+ "]");
                 String name = url.substring( url.lastIndexOf('/') );
                 File galleryImage = new File(galleryFolder, name);
-                downloadImage(galleryImage, uri);
+
+                if (!downloadImage(galleryImage, uri)) {
+                    status = false;
+                }
             }
         }
+
+        return status;
     }
 
-    private void downloadImage(File img, Uri uri) {
+    private boolean downloadImage(File img, Uri uri) {
 
         try {
 
@@ -166,6 +167,8 @@ public class WishlistManager {
             FileOutputStream fos = new FileOutputStream(img);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
+            return true;
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -173,8 +176,11 @@ public class WishlistManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     private boolean createGameXml(Game game) {
 
         try {

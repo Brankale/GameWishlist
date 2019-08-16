@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/action_apply_changes"
-        android:title="@string/apply_changes"
+        android:title="@string/action_apply_changes"
         android:icon="@drawable/ic_done_black_24dp"
         app:showAsAction="ifRoom"/>
 

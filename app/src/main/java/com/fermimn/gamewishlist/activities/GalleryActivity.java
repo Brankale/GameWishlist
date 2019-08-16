@@ -3,8 +3,8 @@ package com.fermimn.gamewishlist.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -13,7 +13,6 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GalleryAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GalleryActivity extends FragmentActivity {
 
@@ -45,7 +44,7 @@ public class GalleryActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt("position", mViewPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }

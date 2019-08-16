@@ -53,8 +53,9 @@
     </string>
 
     <!-- actions -->
-    <string name="apply_changes">Salva</string>
+    <string name="action_apply_changes">Salva</string>
     <string name="action_settings">Impostazioni</string>
+    <string name="action_add_game">Aggiungi a lista dei desideri</string>
 
     <!-- settings -->
     <string name="settings">Impostazioni</string>
