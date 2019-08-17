@@ -1,6 +1,7 @@
 package com.fermimn.gamewishlist.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
@@ -87,17 +88,33 @@ public class MainActivity extends AppCompatActivity {
 
         // if search section is hidden
         if (mSearchSection.isHidden()) {
+
             // show search section
             transaction.hide(mWishListSection);
-            getSupportActionBar().setTitle( getString(R.string.section_search) );
             transaction.show(mSearchSection);
+
+            // set action bar title
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle( getString(R.string.section_search) ) ;
+            }
+
+            // set floating button image
             mImageButton.setImageResource(R.drawable.ic_videogame_asset_black_24dp);
+
         } else {
+
             // show wishlist section
-            // TODO: interrupt search
             transaction.show(mWishListSection);
-            getSupportActionBar().setTitle( getString(R.string.section_wishlist) );
             transaction.hide(mSearchSection);
+
+            // set action bar title
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle( getString(R.string.section_wishlist) ) ;
+            }
+
+            // set floating button image
             mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
         }
 

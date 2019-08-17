@@ -351,17 +351,17 @@ public class WishlistManager {
                     elementHeader.appendChild(doc.createCDATASection(p.getHeader()));
                     elementPromo.appendChild(elementHeader);
 
-                    Element elementValidity = doc.createElement("validity");
-                    elementValidity.appendChild(doc.createCDATASection(p.getValidity()));
+                    Element elementValidity = doc.createElement("subHeader");
+                    elementValidity.appendChild(doc.createCDATASection( p.getSubHeader() ));
                     elementPromo.appendChild(elementValidity);
 
-                    if (p.getMessage() != null) {
-                        Element elementMessage = doc.createElement("message");
-                        elementMessage.appendChild(doc.createCDATASection(p.getMessage()));
+                    if (p.getFindMoreMessage() != null) {
+                        Element elementMessage = doc.createElement("findMoreMessage");
+                        elementMessage.appendChild(doc.createCDATASection( p.getFindMoreMessage() ));
                         elementPromo.appendChild(elementMessage);
 
-                        Element elementMessageURL = doc.createElement("messageURL");
-                        elementMessageURL.appendChild(doc.createCDATASection(p.getMessageURL()));
+                        Element elementMessageURL = doc.createElement("findMoreUrl");
+                        elementMessageURL.appendChild(doc.createCDATASection( p.getFindMoreUrl() ));
                         elementPromo.appendChild(elementMessageURL);
                     }
 
@@ -576,20 +576,18 @@ public class WishlistManager {
                     Element promo = (Element) nl.item(i);
 
                     String header = promo.getElementsByTagName("header").item(0).getChildNodes().item(0).getTextContent();
-                    String validity = promo.getElementsByTagName("validity").item(0).getChildNodes().item(0).getTextContent();
+                    String validity = promo.getElementsByTagName("subHeader").item(0).getChildNodes().item(0).getTextContent();
 
                     String message = null;
                     String messageURL = null;
-                    if (promo.getElementsByTagName("message").getLength() > 0) {
-                        message = promo.getElementsByTagName("message").item(0).getChildNodes().item(0).getTextContent();
-                        messageURL = promo.getElementsByTagName("messageURL").item(0).getChildNodes().item(0).getTextContent();
+                    if (promo.getElementsByTagName("findMoreMessage").getLength() > 0) {
+                        message = promo.getElementsByTagName("findMoreMessage").item(0).getChildNodes().item(0).getTextContent();
+                        messageURL = promo.getElementsByTagName("findMoreUrl").item(0).getChildNodes().item(0).getTextContent();
                     }
 
-                    Promo p = new Promo();
-                    p.setHeader(header);
-                    p.setValidity(validity);
-                    p.setMessage(message);
-                    p.setMessageURL(messageURL);
+                    Promo p = new Promo(header);
+                    p.setSubHeader(validity);
+                    p.setFindMoreMessage(message, messageURL);
 
                     game.addPromo(p);
                 }

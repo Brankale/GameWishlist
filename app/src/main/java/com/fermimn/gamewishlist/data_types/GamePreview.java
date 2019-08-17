@@ -33,7 +33,6 @@ public class GamePreview implements Comparable {
      * @param title of the game (it cannot be an empty string)
      * @param platform of the game (it cannot be an empty string)
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public GamePreview(String id, String title, String platform) {
 
         // every parameter must be non null

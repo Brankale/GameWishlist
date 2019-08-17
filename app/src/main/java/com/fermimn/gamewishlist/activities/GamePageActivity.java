@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -121,7 +122,10 @@ public class GamePageActivity extends AppCompatActivity {
         protected void onPostExecute(Game game) {
 
             // set the title in the action bar
-            mGamePageActivity.get().getSupportActionBar().setTitle( game.getTitle() );
+            ActionBar actionBar = mGamePageActivity.get().getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle( game.getTitle() );
+            }
 
             // init game page UI
             setGameImages(game);
@@ -484,11 +488,10 @@ public class GamePageActivity extends AppCompatActivity {
                     TextView promoMessage = promoView.findViewById(R.id.promo_message);
 
                     promoHeader.setText( promo.getHeader() );
-                    promoValidity.setText( promo.getValidity() );
+                    promoValidity.setText( promo.getSubHeader() );
 
-                    // TODO: implement hasMessage() method in Promo class
-                    if (promo.getMessage() != null && !promo.getMessage().isEmpty()) {
-                        promoMessage.setText( promo.getMessage() );
+                    if (promo.hasFindMoreMessage()) {
+                        promoMessage.setText( promo.getFindMoreMessage() );
                         promoMessage.setVisibility(View.VISIBLE);
                     }
 

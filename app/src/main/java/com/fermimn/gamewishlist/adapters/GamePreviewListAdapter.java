@@ -104,6 +104,10 @@ public class GamePreviewListAdapter extends ArrayAdapter<GamePreview> {
         // sets Text
         GamePreview gamePreview = getItem(position);
 
+        if (gamePreview == null) {
+            return convertView;
+        }
+
         viewHolder.mTitleView.setText( gamePreview.getTitle() );
         viewHolder.mPlatformView.setText( gamePreview.getPlatform() );
         viewHolder.mPublisherView.setText( gamePreview.getPublisher() );

@@ -163,7 +163,7 @@ public class Gamestop implements Store {
             // TODO: find a way to inform the user of this error
             e.printStackTrace();
         }
-        
+
         return null;
     }
 
@@ -494,17 +494,15 @@ public class Gamestop implements Store {
             Elements h4 = prodSinglePromo.getElementsByTag("h4");
             Elements p = prodSinglePromo.getElementsByTag("p");
 
-            Promo promo = new Promo();
-            promo.setHeader( h4.text() );
-            promo.setValidity( p.get(0).text() );
+            Promo promo = new Promo(h4.text());
+            promo.setSubHeader( p.get(0).text() );
 
             // if the promotion has other info
             if (p.size() >= 2) {
                 String url = "http://www.gamestop.it" +
                         p.get(1).getElementsByTag("a").attr("href");
 
-                promo.setMessage( p.get(1).text() );
-                promo.setMessageURL(url);
+                promo.setFindMoreMessage(p.get(1).text(), url);
             }
 
             // add the promo
