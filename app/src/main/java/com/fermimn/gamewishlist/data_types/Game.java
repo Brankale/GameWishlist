@@ -18,6 +18,17 @@ public class Game extends GamePreview {
     private List<Uri> mGallery;
 
     /**
+     * A game can exist without a price but it must be recognisable through
+     * a title a platform and an ID in order to be managed
+     * @param id of the game associated with store
+     * @param title of the game
+     * @param platform of the game
+     */
+    public Game(String id, String title, String platform) {
+        super(id, title, platform);
+    }
+
+    /**
      * @return a list of strings where every string identifies a type of pegi of the game
      */
     public List<String> getPegi() {

@@ -431,6 +431,7 @@ public class WishlistManager {
         return false;
     }
 
+    // TODO: rewrite this method
     private Game getGameFromXml(String gameId) {
 
         try {
@@ -438,16 +439,16 @@ public class WishlistManager {
             File xml = getGameXml(gameId);
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml);
 
-            Game game = new Game();
-
-
             Element gameElement = doc.getDocumentElement();
 
-            game.setId( gameElement.getAttribute("id") );
+            String id = gameElement.getAttribute("id");
+            String title = gameElement.getElementsByTagName("title").item(0).getChildNodes().item(0).getTextContent();
+            String platform = gameElement.getElementsByTagName("platform").item(0).getChildNodes().item(0).getTextContent();
 
-            game.setTitle( gameElement.getElementsByTagName("title").item(0).getChildNodes().item(0).getTextContent() );
+            Game game = new Game(id, title, platform);
+
             game.setPublisher( gameElement.getElementsByTagName("publisher").item(0).getChildNodes().item(0).getTextContent() );
-            game.setPlatform( gameElement.getElementsByTagName("platform").item(0).getChildNodes().item(0).getTextContent() );
+
 
             Element prices = (Element) gameElement.getElementsByTagName("prices").item(0);
 

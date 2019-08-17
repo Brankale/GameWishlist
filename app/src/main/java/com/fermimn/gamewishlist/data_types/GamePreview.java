@@ -10,10 +10,10 @@ import java.util.Objects;
 
 public class GamePreview implements Comparable {
 
-    private String mId;
-    private String mTitle;
+    private final String mId;
+    private final String mTitle;
+    private final String mPlatform;
     private String mPublisher;
-    private String mPlatform;
     private Uri mCover;
 
     private Double mNewPrice;
@@ -27,41 +27,61 @@ public class GamePreview implements Comparable {
     private List<Double> mOlderPreorderPrices;
 
     /**
-     * @return the ID of the game
+     * A game can exist without a price but it must be recognisable through
+     * a title a platform and an ID in order to be managed
+     * @param id of the game associated with store (it must be a number)
+     * @param title of the game (it cannot be an empty string)
+     * @param platform of the game (it cannot be an empty string)
      */
-    // TODO : check if it can return null
-    public String getId() {
-        return mId;
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public GamePreview(String id, String title, String platform) {
+
+        // every parameter must be non null
+        if (id == null || title == null || platform == null) {
+            throw new GameException();
+        }
+
+        // string must be non empty
+        if (title.isEmpty() || platform.isEmpty()) {
+            throw new GameException();
+        }
+
+        // id must be a number
+        try {
+            Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            throw new GameException();
+        }
+
+        mId = id;
+        mTitle = title;
+        mPlatform = platform;
     }
 
     /**
-     * Set the ID of the game
-     * @param id of the game
+     * @return the ID of the game
      */
-    public void setId(String id) {
-        mId = id;
+    public @NonNull String getId() {
+        return mId;
     }
 
     /**
      * @return the title of the game
      */
-    // TODO : check if it can return null
-    public String getTitle() {
+    public @NonNull String getTitle() {
         return mTitle;
     }
 
     /**
-     * Set the title of the game
-     * @param title of the game
+     * @return the platform of the game
      */
-    public void setTitle(String title) {
-        mTitle = title;
+    public @NonNull String getPlatform() {
+        return mPlatform;
     }
 
     /**
-     * @return the publisher of the game
+     * @return the publisher of the game, null otherwise
      */
-    // TODO : check if it can return null
     public String getPublisher() {
         return mPublisher;
     }
@@ -75,24 +95,8 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the platform of the game
-     */
-    // TODO : check if it can return null
-    public String getPlatform() {
-        return mPlatform;
-    }
-
-    /**
-     * Set the platform of the game
-     * @param platform of the game
-     */
-    public void setPlatform(String platform) {
-        mPlatform = platform;
-    }
-
-    /**
-     * @return a Uri representing the cover. The Uri contains a link if anything is found
-     * offline, otherwise is an offline resource
+     * @return a Uri representing the cover. The Uri contains a link to an online resource
+     * if anything is found offline, otherwise is an offline resource
      */
     public Uri getCover() {
         // TODO: check if the image has been already downloaded
@@ -109,9 +113,8 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the New Price of the game
+     * @return the New Price of the game, null if the game don't have a new price
      */
-    // TODO : check if it can return null
     public Double getNewPrice() {
         return mNewPrice;
     }
@@ -125,9 +128,8 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the Used Price of the game
+     * @return the Used Price of the game, null if the game don't have a used price
      */
-    // TODO : check if it can return null
     public Double getUsedPrice() {
         return mUsedPrice;
     }
@@ -141,9 +143,8 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the Preorder Price of the game
+     * @return the Preorder Price of the game, null if the game don't have a preorder price
      */
-    // TODO : check if it can return null
     public Double getPreorderPrice() {
         return mPreorderPrice;
     }
@@ -157,9 +158,8 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the DigitalPrice of the game
+     * @return the DigitalPrice of the game, null if the game don't have a digital price
      */
-    // TODO : check if it can return null
     public Double getDigitalPrice() {
         return mDigitalPrice;
     }
@@ -173,11 +173,10 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the Older New Prices of the game
+     * @return the Older New Prices of the game, null if the game has no older prices
      */
-    // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderNewPrices() {
-        return mOlderNewPrices;
+        return mOlderNewPrices != null && !mOlderNewPrices.isEmpty() ? mOlderNewPrices : null;
     }
 
     /**
@@ -189,11 +188,10 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the Older Used Prices of the game
+     * @return the Older Used Prices of the game, null if the game has no older prices
      */
-    // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderUsedPrices() {
-        return mOlderUsedPrices;
+        return mOlderUsedPrices != null && !mOlderUsedPrices.isEmpty() ? mOlderUsedPrices : null;
     }
 
     /**
@@ -205,11 +203,11 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the Older Digital Prices of the game
+     * @return the Older Digital Prices of the game, null if the game has no older prices
      */
-    // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderDigitalPrices() {
-        return mOlderDigitalPrices;
+        return mOlderDigitalPrices != null && !mOlderDigitalPrices.isEmpty() ?
+                mOlderDigitalPrices : null;
     }
 
     /**
@@ -221,11 +219,11 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return the Older Preorder Prices of the game
+     * @return the Older Preorder Prices of the game, null if the game has no older prices
      */
-    // TODO : check if it can return null (pay attention to the init or set process)
     public List<Double> getOlderPreorderPrices() {
-        return mOlderPreorderPrices;
+        return mOlderPreorderPrices != null && !mOlderPreorderPrices.isEmpty() ?
+                mOlderPreorderPrices : null;
     }
 
     /**

@@ -59,18 +59,14 @@ public class Gamestop implements Store {
             // save the games in the array
             for (Element game : gamesList) {
 
-                GamePreview gamePreview = new GamePreview();
-
                 // get & set main info
                 String id = game.getElementsByClass("prodImg").get(0).attr("href").split("/")[3];
                 String title = game.getElementsByTag("h3").get(0).text();
                 String publisher = game.getElementsByTag("h4").get(0).getElementsByTag("strong").text();
                 String platform = game.getElementsByTag("h4").get(0).textNodes().get(0).text().trim();
 
-                gamePreview.setId(id);
-                gamePreview.setTitle(title);
+                GamePreview gamePreview = new GamePreview(id, title, platform);
                 gamePreview.setPublisher(publisher);
-                gamePreview.setPlatform(platform);
 
                 // get & set prices
                 Pair<Double, List<Double>> categoryPrices;
@@ -106,6 +102,11 @@ public class Gamestop implements Store {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }  catch (Exception e) {
+            // it's not a good practise catching Exception but it's necessary because the HTML
+            // can change and the app mustn't crash
+            // TODO: find a way to inform the user of this error
+            e.printStackTrace();
         }
 
         return null;
@@ -113,7 +114,7 @@ public class Gamestop implements Store {
 
     /**
      * Download a Game from Gamestop given the id
-     * @param id of teh game
+     * @param id of the game
      * @return a Game object if found, otherwise null
      */
     @Override
@@ -130,11 +131,13 @@ public class Gamestop implements Store {
 
             // Init the Game
             // TODO: change methods name with something more significant
-            Game game = new Game();
-            game.setId(id);
-
             Log.d(TAG, "[" + id + "] - Fetching main info...");
-            updateMainInfo(html.body(), game);
+            Game game = updateMainInfo(html.body(), id);
+
+            if (game == null) {
+                return null;
+            }
+
             Log.d(TAG, "[" + id + "] - Fetching metadata...");
             updateMetadata(html.body(), game);
             Log.d(TAG, "[" + id + "] - Fetching prices...");
@@ -154,8 +157,14 @@ public class Gamestop implements Store {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+        } catch (Exception e) {
+            // it's not a good practise catching Exception but it's necessary because the HTML
+            // can change and the app mustn't crash
+            // TODO: find a way to inform the user of this error
+            e.printStackTrace();
         }
+        
+        return null;
     }
 
     /**
@@ -223,23 +232,27 @@ public class Gamestop implements Store {
     }
 
     /**
-     * Used by downloadGame() method to set: title, publisher & platform of a Game object
+     * Used by downloadGame() method to get a Game object
      * @param prodTitle it's an Element containing a class called "prodTitle"
-     * @param game the object where the method store parameters
+     * @param id of the game
+     * @return a Game object, null if it hasn't been possible create the game
      */
-    private void updateMainInfo(Element prodTitle, Game game) {
+    private Game updateMainInfo(Element prodTitle, String id) {
 
         // Check if there's a tag with a specific class inside the Element
         prodTitle = getElementByClass(prodTitle, "prodTitle");
         if (prodTitle == null) {
-            throw new GameException();
+            return null;
         }
 
         // init main info
-        game.setTitle( prodTitle.getElementsByTag("h1").text() );
+        String title = prodTitle.getElementsByTag("h1").text();
+        String platform = prodTitle.getElementsByTag("p").get(0)
+                .getElementsByTag("span").text();
+
+        Game game = new Game(id, title, platform);
         game.setPublisher( prodTitle.getElementsByTag("strong").text() );
-        game.setPlatform( prodTitle.getElementsByTag("p").get(0)
-                .getElementsByTag("span").text() );
+        return game;
     }
 
     /**
