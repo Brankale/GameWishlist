@@ -56,8 +56,14 @@ public class SettingsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_apply_changes:
                 if (mChanges) {
-                    mSettings.commit();
-                    Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show();
+                    if (mSettings.commit()) {
+                        Toast.makeText(this, getString(R.string.toast_settings_saved),
+                                Toast.LENGTH_SHORT).show();
+                        mChanges = false;
+                    } else {
+                        Toast.makeText(this, getString(R.string.toast_settings_not_saved),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
 
@@ -72,11 +78,17 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if (mChanges) {
-            mSettings.commit();
-            Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show();
+            if (mSettings.commit()) {
+                Toast.makeText(this, getString(R.string.toast_settings_saved),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.toast_settings_not_saved),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+    @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public void changeSettings(View view) {
 
         // user made changes

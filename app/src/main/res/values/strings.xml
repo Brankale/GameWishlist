@@ -46,11 +46,16 @@
     <string name="pegi_sex">pegi sex</string>
     <string name="pegi_violence">pegi violence</string>
 
-    <!-- dialog: add game to the wishlist -->
-    <string name="add_game_to_wishlist_title">Aggiungi gioco</string>
-    <string name="add_game_to_wishlist_text">
+    <!-- dialogs -->
+    <string name="dialog_add_game_to_wishlist_title">Aggiungi gioco</string>
+    <string name="dialog_add_game_to_wishlist_text">
         Vuoi aggiungere il gioco alla lista dei desideri?
     </string>
+
+    <!-- toasts -->
+    <string name="toast_internet_not_available">Non sei connesso a internet</string>
+    <string name="toast_settings_saved">Impostazioni salvate</string>
+    <string name="toast_settings_not_saved">Errore durante il salvataggio delle impostazioni</string>
 
     <!-- actions -->
     <string name="action_apply_changes">Salva</string>
@@ -58,8 +63,7 @@
     <string name="action_add_game">Aggiungi a lista dei desideri</string>
 
     <!-- settings -->
-    <string name="settings">Impostazioni</string>
-    <string name="dark_mode">Dark Mode</string>
+    <string name="settings_dark_mode">Dark Mode</string>
 
     <!-- app sections -->
     <string name="section_wishlist">Lista dei desideri</string>

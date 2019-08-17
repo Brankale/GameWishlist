@@ -69,6 +69,7 @@ public class WishlistManager {
     }
 
     public GamePreviewList getWishlist() {
+        // TODO: use clone method
         GamePreviewList gamePreviewList = new GamePreviewList();
         gamePreviewList.addAll(mWishlist);
         return gamePreviewList;
@@ -321,9 +322,9 @@ public class WishlistManager {
             }
 
             // Element OfficialSite and append
-            if (game.hasOfficialSite()) {
+            if (game.hasOfficialWebSite()) {
                 Element elementOfficialSite = doc.createElement("officialSite");
-                elementOfficialSite.appendChild(doc.createCDATASection(game.getOfficialSite()));
+                elementOfficialSite.appendChild(doc.createCDATASection(game.getOfficialWebSite()));
                 gameElement.appendChild(elementOfficialSite);
             }
 
@@ -548,7 +549,7 @@ public class WishlistManager {
             nl = gameElement.getElementsByTagName("officialSite");
             if (nl.getLength() > 0) {
                 Element officialSite = (Element) nl.item(0);
-                game.setOfficialSite( officialSite.getChildNodes().item(0).getTextContent() );
+                game.setOfficialWebSite( officialSite.getChildNodes().item(0).getTextContent() );
             }
 
             //PLAYERS

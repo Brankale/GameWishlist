@@ -16,11 +16,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-
-// TODO: try to make the class static
 
 public class Gamestop implements Store {
 
@@ -34,75 +33,82 @@ public class Gamestop implements Store {
     /**
      * Search games on Gamestop website
      * @param searchedGame a String with the name of a game
-     * @return the list of the games found
-     * @throws IOException if the connection fails
-     * @throws IOException if the searchedGame cannot be encoded
+     * @return the list of the games found, null if there have been problems or nothing was found
      */
     @Override
-    public GamePreviewList searchGame(String searchedGame) throws IOException {
+    public GamePreviewList searchGame(String searchedGame) {
 
-        String url = SEARCH_URL + URLEncoder.encode(searchedGame, "UTF-8");
+        try {
+            String url = SEARCH_URL + URLEncoder.encode(searchedGame, "UTF-8");
 
-        // get the HTML
-        Log.d(TAG, "Downloading GamePreviews..." + url);
-        Document doc = Jsoup.connect(url).get();
-        Element body = doc.body();
+            // get the HTML
+            Log.d(TAG, "Downloading GamePreviews..." + url);
+            Document doc = Jsoup.connect(url).get();
+            Element body = doc.body();
 
-        // get the list of the games
-        Elements gamesList = body.getElementsByClass("singleProduct");
+            // get the list of the games
+            Elements gamesList = body.getElementsByClass("singleProduct");
 
-        // if there are no games
-        if (gamesList.isEmpty()) {
-            return null;
+            // if there are no games
+            if (gamesList.isEmpty()) {
+                return null;
+            }
+
+            GamePreviewList results = new GamePreviewList();
+
+            // save the games in the array
+            for (Element game : gamesList) {
+
+                GamePreview gamePreview = new GamePreview();
+
+                // get & set main info
+                String id = game.getElementsByClass("prodImg").get(0).attr("href").split("/")[3];
+                String title = game.getElementsByTag("h3").get(0).text();
+                String publisher = game.getElementsByTag("h4").get(0).getElementsByTag("strong").text();
+                String platform = game.getElementsByTag("h4").get(0).textNodes().get(0).text().trim();
+
+                gamePreview.setId(id);
+                gamePreview.setTitle(title);
+                gamePreview.setPublisher(publisher);
+                gamePreview.setPlatform(platform);
+
+                // get & set prices
+                Pair<Double, List<Double>> categoryPrices;
+
+                categoryPrices = getCategoryPrices(game, "buyNew");         // new
+                gamePreview.setNewPrice(categoryPrices.first);
+                gamePreview.setOlderNewPrices(categoryPrices.second);
+
+                categoryPrices = getCategoryPrices(game, "buyUsed");        // used
+                gamePreview.setUsedPrice(categoryPrices.first);
+                gamePreview.setOlderUsedPrices(categoryPrices.second);
+
+                categoryPrices = getCategoryPrices(game, "buyPresell");     // preorder
+                gamePreview.setPreorderPrice(categoryPrices.first);
+                gamePreview.setOlderPreorderPrices(categoryPrices.second);
+
+                categoryPrices = getCategoryPrices(game, "buyDLC");         // digital
+                gamePreview.setDigitalPrice(categoryPrices.first);
+                gamePreview.setOlderDigitalPrices(categoryPrices.second);
+
+                // set the Cover
+                String imageUrl = game.getElementsByClass("prodImg").get(0)
+                        .getElementsByTag("img").get(0).attr("data-llsrc");
+                gamePreview.setCover(Uri.parse(imageUrl));
+
+                // add the game to the array
+                results.add(gamePreview);
+            }
+
+            return results;
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        GamePreviewList results = new GamePreviewList();
-
-        // save the games in the array
-        for (Element game : gamesList) {
-
-            GamePreview gamePreview = new GamePreview();
-
-            // get & set main info
-            String id = game.getElementsByClass("prodImg").get(0).attr("href").split("/")[3];
-            String title = game.getElementsByTag("h3").get(0).text();
-            String publisher = game.getElementsByTag("h4").get(0).getElementsByTag("strong").text();
-            String platform = game.getElementsByTag("h4").get(0).textNodes().get(0).text().trim();
-
-            gamePreview.setId(id);
-            gamePreview.setTitle(title);
-            gamePreview.setPublisher(publisher);
-            gamePreview.setPlatform(platform);
-
-            // get & set prices
-            Pair<Double, List<Double>> categoryPrices;
-
-            categoryPrices = getCategoryPrices(game, "buyNew");         // new
-            gamePreview.setNewPrice(categoryPrices.first);
-            gamePreview.setOlderNewPrices(categoryPrices.second);
-
-            categoryPrices = getCategoryPrices(game, "buyUsed");        // used
-            gamePreview.setUsedPrice(categoryPrices.first);
-            gamePreview.setOlderUsedPrices(categoryPrices.second);
-
-            categoryPrices = getCategoryPrices(game, "buyPresell");     // preorder
-            gamePreview.setPreorderPrice(categoryPrices.first);
-            gamePreview.setOlderPreorderPrices(categoryPrices.second);
-
-            categoryPrices = getCategoryPrices(game, "buyDLC");         // digital
-            gamePreview.setDigitalPrice(categoryPrices.first);
-            gamePreview.setOlderDigitalPrices(categoryPrices.second);
-
-            // set the Cover
-            String imageUrl = game.getElementsByClass("prodImg").get(0)
-                    .getElementsByTag("img").get(0).attr("data-llsrc");
-            gamePreview.setCover( Uri.parse(imageUrl) );
-
-            // add the game to the array
-            results.add(gamePreview);
-        }
-
-        return results;
+        return null;
     }
 
     /**
@@ -269,7 +275,7 @@ public class Gamestop implements Store {
 
                     // set Official Site attribute
                     case "Sito Ufficiale":
-                        game.setOfficialSite( e.child(1).getElementsByTag("a")
+                        game.setOfficialWebSite( e.child(1).getElementsByTag("a")
                                 .attr("href") );
                         break;
 
@@ -493,8 +499,6 @@ public class Gamestop implements Store {
         }
     }
 
-    // TODO: Gamestop descriptions are very hard to handle,
-    //       so they are not always accurate
     /**
      * Used by downloadGame() method to set the description of a Game object
      * @param prodDesc it's an Element containing a class called "prodDesc"

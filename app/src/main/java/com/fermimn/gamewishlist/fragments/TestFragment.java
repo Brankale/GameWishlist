@@ -24,7 +24,6 @@ import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class TestFragment extends Fragment {
@@ -202,18 +201,14 @@ public class TestFragment extends Fragment {
         @Override
         protected GamePreviewList doInBackground(String... strings) {
 
-            GamePreviewList searchResults = null;
+            GamePreviewList searchResults;
             String gameSearched = strings[0];
 
             // retrieve info from the web
-            try {
-                Log.d(TAG, "Search started");
-                Store store = new Gamestop();
-                searchResults = store.searchGame(gameSearched);
-                Log.d(TAG, "Search finished");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Log.d(TAG, "Search started");
+            Store store = new Gamestop();
+            searchResults = store.searchGame(gameSearched);
+            Log.d(TAG, "Search finished");
 
             return searchResults;
         }

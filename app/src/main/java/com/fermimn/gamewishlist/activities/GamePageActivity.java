@@ -185,9 +185,9 @@ public class GamePageActivity extends AppCompatActivity {
                 players.setText( game.getPlayers() );
             }
 
-            if (game.hasOfficialSite()) {
+            if (game.hasOfficialWebSite()) {
                 officialSiteContainer.setVisibility(View.VISIBLE);
-                officialSite.setText( game.getOfficialSite() );
+                officialSite.setText( game.getOfficialWebSite() );
             }
 
             if (game.isValidForPromotions()) {

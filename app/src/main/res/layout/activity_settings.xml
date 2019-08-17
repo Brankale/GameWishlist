@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:text="@string/dark_mode"/>
+                android:text="@string/settings_dark_mode"/>
 
             <Switch
                 android:id="@+id/dark_mode"
@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:text="@string/dark_mode"/>
+                android:text="@string/settings_dark_mode"/>
 
             <Switch
                 android:layout_width="wrap_content"

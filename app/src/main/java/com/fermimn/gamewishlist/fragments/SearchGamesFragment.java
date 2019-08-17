@@ -30,7 +30,6 @@ import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
 import com.fermimn.gamewishlist.utils.WishlistManager;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class SearchGamesFragment extends Fragment {
@@ -69,19 +68,17 @@ public class SearchGamesFragment extends Fragment {
 
                 // check if internet is available
                 if (!Connectivity.isNetworkAvailable(mContext)) {
-                    Toast.makeText(mContext, "Non sei connesso a Internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
                 // stop the old task if it exists
                 if (mRunningTask != null) {
-                    // TODO: implement isCancel() in Search private class
                     mRunningTask.cancel(true);
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 // search the game (Search is a private class)
-                // TODO: find a best way to pass parameters
                 mRunningTask = new Search(mContext, mView);
                 mRunningTask.execute(query);
 
@@ -97,7 +94,6 @@ public class SearchGamesFragment extends Fragment {
 
                 // stop the old task if it exists
                 if (mRunningTask != null) {
-                    // TODO: implement isCancel() in Search private class
                     mRunningTask.cancel(true);
                     mProgressBar.setVisibility(View.GONE);
                 }
@@ -127,8 +123,8 @@ public class SearchGamesFragment extends Fragment {
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
 
                 new AlertDialog.Builder(mContext)
-                        .setTitle( getString(R.string.add_game_to_wishlist_title) )
-                        .setMessage( getString(R.string.add_game_to_wishlist_text) )
+                        .setTitle( getString(R.string.dialog_add_game_to_wishlist_title) )
+                        .setMessage( getString(R.string.dialog_add_game_to_wishlist_text) )
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
@@ -161,31 +157,32 @@ public class SearchGamesFragment extends Fragment {
      */
     private static class Search extends AsyncTask<String, Integer, GamePreviewList> {
 
+        // DOCS: https://medium.com/google-developer-experts/finally-understanding-how-references-work-in-android-and-java-26a0d9c92f83
         private final WeakReference<Context> mContext;
         private final WeakReference<View> mSearchGamesFragmentView;
 
-        // TODO: find a best way to pass parameters
         private Search(Context context, View rootView) {
             mContext = new WeakReference<>(context);
             mSearchGamesFragmentView = new WeakReference<>(rootView);
         }
 
-        // TODO: implement isCancel()
         @Override
         protected GamePreviewList doInBackground(String... strings) {
 
-            GamePreviewList searchResults = null;
+            GamePreviewList searchResults;
             String gameSearched = strings[0];
 
             // retrieve info from the web
-            try {
-                Log.d(TAG, "Ricerca avviata");
-                Store store = new Gamestop();
-                searchResults = store.searchGame(gameSearched);
-                Log.d(TAG, "Ricerca conclusa");
-            } catch (IOException e) {
-                e.printStackTrace();
+            Log.d(TAG, "Ricerca avviata");
+            Store store = new Gamestop();
+
+            // if the AsyncTask has been interrupted
+            if (isCancelled()) {
+                return null;
             }
+
+            searchResults = store.searchGame(gameSearched);
+            Log.d(TAG, "Ricerca conclusa");
 
             return searchResults;
         }
@@ -196,27 +193,30 @@ public class SearchGamesFragment extends Fragment {
             Context context = mContext.get();
             View view = mSearchGamesFragmentView.get();
 
-            // get views
-            ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
-            ListView searchResultsView = view.findViewById(R.id.game_list);
+            // if references still exist
+            if (context != null && view != null) {
+                // get views
+                ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
+                ListView searchResultsView = view.findViewById(R.id.game_list);
 
-            // set UI
-            if (searchResults != null) {
+                // set UI
+                if (searchResults != null) {
 
-                GamePreviewListAdapter adapter = new GamePreviewListAdapter(context, searchResults);
-                searchResultsView.setAdapter(adapter);
+                    GamePreviewListAdapter adapter = new GamePreviewListAdapter(context, searchResults);
+                    searchResultsView.setAdapter(adapter);
 
-                // make the fragment visible
-                progressBar.setVisibility(View.GONE);
-                searchResultsView.setVisibility(View.VISIBLE);
+                    // make the fragment visible
+                    progressBar.setVisibility(View.GONE);
+                    searchResultsView.setVisibility(View.VISIBLE);
 
-                // TODO: focus is not handle perfectly
-                searchResultsView.requestFocus();
+                    // TODO: focus is not handle perfectly
+                    searchResultsView.requestFocus();
 
-            } else {
-                // progress bar disappears
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
+                } else {
+                    // progress bar disappears
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(context, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
