@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.adapters.GamePreviewListAdapterNew;
+import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
@@ -61,7 +61,7 @@ public class SearchGamesFragment extends Fragment {
 
         // set RecyclerView adapter - layout manager - divider
         mGamePreviewList = new GamePreviewList();
-        RecyclerView.Adapter adapter = new GamePreviewListAdapterNew(mContext, mGamePreviewList);
+        RecyclerView.Adapter adapter = new GamePreviewListAdapter(mContext, mGamePreviewList);
         mRecyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
@@ -147,7 +147,7 @@ public class SearchGamesFragment extends Fragment {
             }
 
             if (recyclerView != null && recyclerView.getAdapter() != null) {
-                GamePreviewListAdapterNew testAdapter = (GamePreviewListAdapterNew) recyclerView.getAdapter();
+                GamePreviewListAdapter testAdapter = (GamePreviewListAdapter) recyclerView.getAdapter();
                 if (testAdapter != null) {
                     testAdapter.setDataset(searchResults);
                 }

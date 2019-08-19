@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.fermimn.gamewishlist.utils.SettingsManager;
 
-public class GameWishlistApplication extends Application {
+class GameWishlistApplication extends Application {
 
     @Override
     public void onCreate() {
