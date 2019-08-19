@@ -1,34 +1,28 @@
 package com.fermimn.gamewishlist.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.activities.GamePageActivity;
-import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
-import com.fermimn.gamewishlist.data_types.GamePreview;
+import com.fermimn.gamewishlist.adapters.GamePreviewListAdapterNew;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
-import com.fermimn.gamewishlist.utils.WishlistManager;
 
 import java.lang.ref.WeakReference;
 
@@ -38,10 +32,10 @@ public class SearchGamesFragment extends Fragment {
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
 
     private Context mContext;
-
+    private SearchView mSearchView;
     private ProgressBar mProgressBar;
-    private ListView mSearchResults;
-    private View mView;
+    private RecyclerView mRecyclerView;
+    private GamePreviewList mGamePreviewList;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,177 +43,126 @@ public class SearchGamesFragment extends Fragment {
         mContext = context;
     }
 
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        mView = inflater.inflate(R.layout.fragment_search_games, container, false);
-        SearchView searchView = mView.findViewById(R.id.search_bar);
-        mProgressBar = mView.findViewById(R.id.indeterminateBar);
-        mSearchResults = mView.findViewById(R.id.game_list);
+        View view = inflater.inflate(R.layout.fragment_search_games, container, false);
 
-        // Set listeners on the SearchView
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        // get views
+        mSearchView = view.findViewById(R.id.search_bar);
+        mProgressBar = view.findViewById(R.id.progress_bar);
+        mRecyclerView = view.findViewById(R.id.search_results);
 
-            private Search mRunningTask;
+        // set SearchView listener
+        mSearchView.setOnQueryTextListener(queryTextListener);
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
+        // set RecyclerView adapter - layout manager - divider
+        mGamePreviewList = new GamePreviewList();
+        RecyclerView.Adapter adapter = new GamePreviewListAdapterNew(mContext, mGamePreviewList);
+        mRecyclerView.setAdapter(adapter);
 
-                // check if internet is available
-                if (!Connectivity.isNetworkAvailable(mContext)) {
-                    Toast.makeText(mContext, getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show();
-                    return false;
-                }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        mRecyclerView.setLayoutManager(layoutManager);
 
-                // stop the old task if it exists
-                if (mRunningTask != null) {
-                    mRunningTask.cancel(true);
-                    mProgressBar.setVisibility(View.GONE);
-                }
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(mContext, layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-                // search the game (Search is a private class)
-                mRunningTask = new Search(mContext, mView);
-                mRunningTask.execute(query);
-
-                // progress bar appears
-                mSearchResults.setVisibility(View.GONE);
-                mProgressBar.setVisibility(View.VISIBLE);
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                // stop the old task if it exists
-                if (mRunningTask != null) {
-                    mRunningTask.cancel(true);
-                    mProgressBar.setVisibility(View.GONE);
-                }
-
-                return false;
-            }
-
-        });
-
-        // show game page if a listview item is clicked
-        mSearchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
-                Intent intent = new Intent(mContext, GamePageActivity.class);
-                intent.putExtra("gameID", gamePreview.getId());
-                mContext.startActivity(intent);
-            }
-
-        });
-
-        // show a dialog if a listview item is long-clicked
-        mSearchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-
-                new AlertDialog.Builder(mContext)
-                        .setTitle( getString(R.string.dialog_add_game_to_wishlist_title) )
-                        .setMessage( getString(R.string.dialog_add_game_to_wishlist_text) )
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                WishlistManager wishlist =
-                                        WishlistManager.getInstance(mContext.getApplicationContext());
-
-                                GamePreview gamePreview = (GamePreview) parent.getItemAtPosition(position);
-                                wishlist.add(gamePreview);
-
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
-
-                return true;
-            }
-
-        });
-
-        return mView;
+        return view;
     }
 
-    /**
-     * Search is a private class used to search the game the user writes in the search bar
-     */
+    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String searchedGame) {
+
+            // check if internet is available
+            if (!Connectivity.isNetworkAvailable(mContext)) {
+                Toast.makeText(mContext, getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            // start online research
+            new Search(mContext, mProgressBar, mRecyclerView).execute(searchedGame);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String s) {
+            return false;
+        }
+    };
+
     private static class Search extends AsyncTask<String, Integer, GamePreviewList> {
 
         // DOCS: https://medium.com/google-developer-experts/finally-understanding-how-references-work-in-android-and-java-26a0d9c92f83
-        private final WeakReference<Context> mContext;
-        private final WeakReference<View> mSearchGamesFragmentView;
+        private WeakReference<Context> mContext;
+        private WeakReference<ProgressBar> mProgressBar;
+        private WeakReference<RecyclerView> mRecyclerView;
 
-        private Search(Context context, View rootView) {
+        Search(Context context, ProgressBar progressBar, RecyclerView recyclerView) {
             mContext = new WeakReference<>(context);
-            mSearchGamesFragmentView = new WeakReference<>(rootView);
+            mProgressBar = new WeakReference<>(progressBar);
+            mRecyclerView = new WeakReference<>(recyclerView);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            RecyclerView recyclerView = mRecyclerView.get();
+            if (recyclerView != null) {
+                recyclerView.setVisibility(View.GONE);
+            }
+
+            ProgressBar progressBar = mProgressBar.get();
+            if (progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
         protected GamePreviewList doInBackground(String... strings) {
-
-            GamePreviewList searchResults;
-            String gameSearched = strings[0];
-
-            // retrieve info from the web
-            Log.d(TAG, "Ricerca avviata");
             Store store = new Gamestop();
-
-            // if the AsyncTask has been interrupted
-            if (isCancelled()) {
-                return null;
-            }
-
-            searchResults = store.searchGame(gameSearched);
-            Log.d(TAG, "Ricerca conclusa");
-
-            return searchResults;
+            return store.searchGame(strings[0]);
         }
 
         @Override
         protected void onPostExecute(GamePreviewList searchResults) {
+            super.onPostExecute(searchResults);
 
             Context context = mContext.get();
-            View view = mSearchGamesFragmentView.get();
+            ProgressBar progressBar = mProgressBar.get();
+            RecyclerView recyclerView = mRecyclerView.get();
 
-            // if references still exist
-            if (context != null && view != null) {
-                // get views
-                ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
-                ListView searchResultsView = view.findViewById(R.id.game_list);
+            if (context == null) {
+                return;
+            }
 
-                // set UI
-                if (searchResults != null) {
+            if (searchResults == null) {
+                Toast.makeText(context, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
+                searchResults = new GamePreviewList();
+            }
 
-                    GamePreviewListAdapter adapter = new GamePreviewListAdapter(context, searchResults);
-                    searchResultsView.setAdapter(adapter);
-
-                    // make the fragment visible
-                    progressBar.setVisibility(View.GONE);
-                    searchResultsView.setVisibility(View.VISIBLE);
-
-                    // TODO: focus is not handle perfectly
-                    searchResultsView.requestFocus();
-
-                } else {
-                    // progress bar disappears
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(context, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
+            if (recyclerView != null && recyclerView.getAdapter() != null) {
+                GamePreviewListAdapterNew testAdapter = (GamePreviewListAdapterNew) recyclerView.getAdapter();
+                if (testAdapter != null) {
+                    testAdapter.setDataset(searchResults);
                 }
             }
-        }
 
+            if (progressBar != null) {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            if (recyclerView != null) {
+                recyclerView.setVisibility(View.VISIBLE);
+                // TODO: focus is not handle perfectly
+                recyclerView.requestFocus();
+            }
+        }
     }
 
 }

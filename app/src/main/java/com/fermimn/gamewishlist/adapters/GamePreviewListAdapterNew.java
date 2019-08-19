@@ -1,6 +1,9 @@
 package com.fermimn.gamewishlist.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,47 +16,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
+import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.utils.WishlistManager;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
-public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
+public class GamePreviewListAdapterNew extends RecyclerView.Adapter<GamePreviewListAdapterNew.ViewHolder> {
+
+    @SuppressWarnings("unused")
+    private static final String TAG = GamePreviewListAdapterNew.class.getSimpleName();
 
     private final GamePreviewList mGamePreviewList;
     private final Context mContext;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ImageView mCoverView;
-        public TextView mTitleView;
-        public TextView mPlatformView;
-        public TextView mPublisherView;
-
-        public TextView mNewPriceView;
-        public TextView mUsedPriceView;
-        public TextView mDigitalPriceView;
-        public TextView mPreorderPriceView;
-
-        public TextView mOlderNewPricesView;
-        public TextView mOlderUsedPricesView;
-        public TextView mOlderDigitalPricesView;
-        public TextView mOlderPreorderPricesView;
-
-        public LinearLayout mCategoryNewView;
-        public LinearLayout mCategoryUsedView;
-        public LinearLayout mCategoryDigitalView;
-        public LinearLayout mCategoryPreorderView;
-
-        // TODO: what parameters constructor wants
-        public ViewHolder(View view) {
-            super(view);
-        }
-
-    }
-
-    public TestAdapter(Context context, GamePreviewList gamePreviewList) {
+    public GamePreviewListAdapterNew(Context context, GamePreviewList gamePreviewList) {
         mGamePreviewList = gamePreviewList;
         mContext = context;
     }
@@ -61,38 +40,13 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        // create a new view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.partial_game_preview, parent, false);
-
-        ViewHolder holder = new ViewHolder(view);
-
-        holder.mCoverView = view.findViewById(R.id.cover);
-        holder.mTitleView = view.findViewById(R.id.title);
-        holder.mPlatformView = view.findViewById(R.id.platform);
-        holder.mPublisherView = view.findViewById(R.id.publisher);
-
-        holder.mNewPriceView = view.findViewById(R.id.new_price);
-        holder.mUsedPriceView = view.findViewById(R.id.used_price);
-        holder.mDigitalPriceView = view.findViewById(R.id.digital_price);
-        holder.mPreorderPriceView = view.findViewById(R.id.preorder_price);
-
-        holder.mCategoryNewView = view.findViewById(R.id.category_new);
-        holder.mCategoryUsedView = view.findViewById(R.id.category_used);
-        holder.mCategoryDigitalView = view.findViewById(R.id.category_digital);
-        holder.mCategoryPreorderView = view.findViewById(R.id.category_preorder);
-
-        holder.mOlderNewPricesView = view.findViewById(R.id.older_new_prices);
-        holder.mOlderUsedPricesView = view.findViewById(R.id.older_used_prices);
-        holder.mOlderDigitalPricesView = view.findViewById(R.id.older_digital_prices);
-        holder.mOlderPreorderPricesView = view.findViewById(R.id.older_preorder_prices);
-
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         GamePreview gamePreview = mGamePreviewList.get(position);
 
@@ -174,26 +128,111 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
             holder.mCategoryPreorderView.setVisibility(View.GONE);
         }
 
-        // TODO: I'm not sure but I think that if Picasso try to download an image
-        //       but in the mean time you do another research, Picasso lose the
-        //       reference to the ImageView and the app crash.
-        //       Try to put this thing in a try-catch, add a Log and then reproduce the problem
-        //       with a low speed network
-        Picasso
-                .get()
-                .load( gamePreview.getCover() )
-                .into(holder.mCoverView);
+        Picasso.get().load( gamePreview.getCover() ).into(holder.mCoverView);
 
-//        Glide.with(mContext)
-//            .load( gamePreview.getCover() )
-//            .transition(DrawableTransitionOptions.withCrossFade())
-//            .into(holder.mCoverView);
+        holder.mParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GamePreview gamePreview = mGamePreviewList.get(position);
+                Intent intent = new Intent(mContext, GamePageActivity.class);
+                intent.putExtra("gameID", gamePreview.getId());
+                mContext.startActivity(intent);
+            }
+        });
+
+        holder.mParent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                new AlertDialog.Builder(mContext)
+                        .setTitle( mContext.getString(R.string.dialog_add_game_to_wishlist_title) )
+                        .setMessage( mContext.getString(R.string.dialog_add_game_to_wishlist_text) )
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                WishlistManager wishlist =
+                                        WishlistManager.getInstance(mContext.getApplicationContext());
+
+                                GamePreview gamePreview = mGamePreviewList.get(position);
+                                wishlist.add(gamePreview);
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+
+                return true;
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
         return mGamePreviewList.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        private ViewGroup mParent;
+
+        private ImageView mCoverView;
+        private TextView mTitleView;
+        private TextView mPlatformView;
+        private TextView mPublisherView;
+
+        private TextView mNewPriceView;
+        private TextView mUsedPriceView;
+        private TextView mDigitalPriceView;
+        private TextView mPreorderPriceView;
+
+        private TextView mOlderNewPricesView;
+        private TextView mOlderUsedPricesView;
+        private TextView mOlderDigitalPricesView;
+        private TextView mOlderPreorderPricesView;
+
+        private LinearLayout mCategoryNewView;
+        private LinearLayout mCategoryUsedView;
+        private LinearLayout mCategoryDigitalView;
+        private LinearLayout mCategoryPreorderView;
+
+        ViewHolder(View view) {
+            super(view);
+
+            mParent = view.findViewById(R.id.parent_layout);
+
+            mCoverView = view.findViewById(R.id.cover);
+            mTitleView = view.findViewById(R.id.title);
+            mPlatformView = view.findViewById(R.id.platform);
+            mPublisherView = view.findViewById(R.id.publisher);
+
+            mNewPriceView = view.findViewById(R.id.new_price);
+            mUsedPriceView = view.findViewById(R.id.used_price);
+            mDigitalPriceView = view.findViewById(R.id.digital_price);
+            mPreorderPriceView = view.findViewById(R.id.preorder_price);
+
+            mCategoryNewView = view.findViewById(R.id.category_new);
+            mCategoryUsedView = view.findViewById(R.id.category_used);
+            mCategoryDigitalView = view.findViewById(R.id.category_digital);
+            mCategoryPreorderView = view.findViewById(R.id.category_preorder);
+
+            mOlderNewPricesView = view.findViewById(R.id.older_new_prices);
+            mOlderUsedPricesView = view.findViewById(R.id.older_used_prices);
+            mOlderDigitalPricesView = view.findViewById(R.id.older_digital_prices);
+            mOlderPreorderPricesView = view.findViewById(R.id.older_preorder_prices);
+        }
+
+    }
+
+    public void setDataset(GamePreviewList dataset) {
+        mGamePreviewList.clear();
+        mGamePreviewList.addAll(dataset);
+        notifyDataSetChanged();
     }
 
 }
