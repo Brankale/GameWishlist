@@ -354,11 +354,9 @@ public class GamePreview implements Comparable {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()){
+        if (!(o instanceof GamePreview)) {
             return false;
         }
-
         GamePreview that = (GamePreview) o;
         return mId.equals(that.mId);
     }
@@ -392,7 +390,7 @@ public class GamePreview implements Comparable {
     @Override
     public int compareTo(@NonNull Object o) {
         GamePreview game = (GamePreview) o;
-        return this.getId().compareTo(game.getId());
+        return mId.compareTo(game.mId);
     }
 
 }

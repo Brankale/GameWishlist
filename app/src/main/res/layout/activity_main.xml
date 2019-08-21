@@ -23,6 +23,7 @@
         android:orientation="vertical"
         android:id="@+id/container">
 
+        <!-- TODO: try to use floating action button -->
         <ImageButton
             android:id="@+id/button"
             android:layout_width="55dp"

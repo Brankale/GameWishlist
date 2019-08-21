@@ -74,7 +74,7 @@ public class SearchGamesFragment extends Fragment {
         return view;
     }
 
-    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+    private final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String searchedGame) {
 
@@ -98,9 +98,9 @@ public class SearchGamesFragment extends Fragment {
     private static class Search extends AsyncTask<String, Integer, GamePreviewList> {
 
         // DOCS: https://medium.com/google-developer-experts/finally-understanding-how-references-work-in-android-and-java-26a0d9c92f83
-        private WeakReference<Context> mContext;
-        private WeakReference<ProgressBar> mProgressBar;
-        private WeakReference<RecyclerView> mRecyclerView;
+        private final WeakReference<Context> mContext;
+        private final WeakReference<ProgressBar> mProgressBar;
+        private final WeakReference<RecyclerView> mRecyclerView;
 
         Search(Context context, ProgressBar progressBar, RecyclerView recyclerView) {
             mContext = new WeakReference<>(context);

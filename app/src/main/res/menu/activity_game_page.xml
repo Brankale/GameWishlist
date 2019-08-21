@@ -14,4 +14,10 @@
         android:icon="@drawable/ic_add_black_24dp"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_remove_game"
+        android:title="@string/action_remove_game"
+        android:icon="@drawable/ic_remove_black_24dp"
+        app:showAsAction="ifRoom"/>
+
 </menu>

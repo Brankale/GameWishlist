@@ -44,11 +44,9 @@ public class WishlistManager {
     private final GamePreviewList mWishlist;
 
     public static WishlistManager getInstance(Context context) {
-
         if (mInstance == null) {
             mInstance = new WishlistManager( context.getApplicationContext() );
         }
-
         return mInstance;
     }
 
@@ -73,6 +71,17 @@ public class WishlistManager {
         GamePreviewList gamePreviewList = new GamePreviewList();
         gamePreviewList.addAll(mWishlist);
         return gamePreviewList;
+    }
+
+    public void removeGameFromWishlist(GamePreview gamePreview) {
+        for (int i = 0; i < mWishlist.size(); ++i) {
+            if (mWishlist.get(i).equals(gamePreview)) {
+                mWishlist.remove(i);
+                return;
+            }
+        }
+
+        // TODO: delete files on the disk
     }
 
     // TODO: try to delete final keywords

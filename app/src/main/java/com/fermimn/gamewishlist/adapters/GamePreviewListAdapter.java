@@ -48,7 +48,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        GamePreview gamePreview = mGamePreviewList.get(position);
+        final GamePreview gamePreview = mGamePreviewList.get(position);
 
         holder.mTitleView.setText( gamePreview.getTitle() );
         holder.mPlatformView.setText( gamePreview.getPlatform() );
@@ -144,27 +144,59 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             @Override
             public boolean onLongClick(View view) {
 
-                new AlertDialog.Builder(mContext)
-                        .setTitle( mContext.getString(R.string.dialog_add_game_to_wishlist_title) )
-                        .setMessage( mContext.getString(R.string.dialog_add_game_to_wishlist_text) )
+                WishlistManager wishlistManager = WishlistManager.getInstance(mContext);
+                GamePreviewList gamePreviewList = wishlistManager.getWishlist();
+                boolean result = gamePreviewList.contains( mGamePreviewList.get(position) );
 
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                if (result) {
 
-                                WishlistManager wishlist =
-                                        WishlistManager.getInstance(mContext.getApplicationContext());
+                    new AlertDialog.Builder(mContext)
+                            .setTitle( mContext.getString(R.string.dialog_remove_game_from_wishlist_title) )
+                            .setMessage( mContext.getString(R.string.dialog_remove_game_from_wishlist_text) )
 
-                                GamePreview gamePreview = mGamePreviewList.get(position);
-                                wishlist.add(gamePreview);
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        })
+                                    WishlistManager wishlist =
+                                            WishlistManager.getInstance(mContext.getApplicationContext());
 
-                        // A null listener allows the button to dismiss the dialog and take no further action
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
+                                    GamePreview gamePreview = mGamePreviewList.get(position);
+                                    wishlist.removeGameFromWishlist(gamePreview);
+
+                                }
+                            })
+
+                            // A null listener allows the button to dismiss the dialog and take no further action
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
+
+                } else {
+
+                    new AlertDialog.Builder(mContext)
+                            .setTitle( mContext.getString(R.string.dialog_add_game_to_wishlist_title) )
+                            .setMessage( mContext.getString(R.string.dialog_add_game_to_wishlist_text) )
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    WishlistManager wishlist =
+                                            WishlistManager.getInstance(mContext.getApplicationContext());
+
+                                    GamePreview gamePreview = mGamePreviewList.get(position);
+                                    wishlist.add(gamePreview);
+
+                                }
+                            })
+
+                            // A null listener allows the button to dismiss the dialog and take no further action
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
+
+                }
 
                 return true;
             }
@@ -179,27 +211,27 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ViewGroup mParent;
+        private final ViewGroup mParent;
 
-        private ImageView mCoverView;
-        private TextView mTitleView;
-        private TextView mPlatformView;
-        private TextView mPublisherView;
+        private final ImageView mCoverView;
+        private final TextView mTitleView;
+        private final TextView mPlatformView;
+        private final TextView mPublisherView;
 
-        private TextView mNewPriceView;
-        private TextView mUsedPriceView;
-        private TextView mDigitalPriceView;
-        private TextView mPreorderPriceView;
+        private final TextView mNewPriceView;
+        private final TextView mUsedPriceView;
+        private final TextView mDigitalPriceView;
+        private final TextView mPreorderPriceView;
 
-        private TextView mOlderNewPricesView;
-        private TextView mOlderUsedPricesView;
-        private TextView mOlderDigitalPricesView;
-        private TextView mOlderPreorderPricesView;
+        private final TextView mOlderNewPricesView;
+        private final TextView mOlderUsedPricesView;
+        private final TextView mOlderDigitalPricesView;
+        private final TextView mOlderPreorderPricesView;
 
-        private LinearLayout mCategoryNewView;
-        private LinearLayout mCategoryUsedView;
-        private LinearLayout mCategoryDigitalView;
-        private LinearLayout mCategoryPreorderView;
+        private final LinearLayout mCategoryNewView;
+        private final LinearLayout mCategoryUsedView;
+        private final LinearLayout mCategoryDigitalView;
+        private final LinearLayout mCategoryPreorderView;
 
         ViewHolder(View view) {
             super(view);

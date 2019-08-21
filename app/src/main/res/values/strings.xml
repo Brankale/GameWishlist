@@ -51,6 +51,10 @@
     <string name="dialog_add_game_to_wishlist_text">
         Vuoi aggiungere il gioco alla lista dei desideri?
     </string>
+    <string name="dialog_remove_game_from_wishlist_title">Rimuovi gioco</string>
+    <string name="dialog_remove_game_from_wishlist_text">
+        Vuoi rimuovere il gioco dalla lista dei desideri?
+    </string>
 
     <!-- toasts -->
     <string name="toast_internet_not_available">Non sei connesso a internet</string>
@@ -61,6 +65,7 @@
     <string name="action_apply_changes">Salva</string>
     <string name="action_settings">Impostazioni</string>
     <string name="action_add_game">Aggiungi a lista dei desideri</string>
+    <string name="action_remove_game">Rimuovi dalla lista dei desideri</string>
 
     <!-- settings -->
     <string name="settings_dark_mode">Dark Mode</string>

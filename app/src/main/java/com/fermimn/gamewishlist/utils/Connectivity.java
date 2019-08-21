@@ -9,7 +9,7 @@ public class Connectivity {
     @SuppressWarnings("unused")
     private static final String TAG = Connectivity.class.getSimpleName();
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "BooleanMethodIsAlwaysInverted"})
     public static boolean isNetworkAvailable(Context context) {
 
         ConnectivityManager cm =

@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.fermimn.gamewishlist.utils.SettingsManager;
 
-class GameWishlistApplication extends Application {
+@SuppressWarnings("WeakerAccess")
+public class GameWishlistApplication extends Application {
 
     @Override
     public void onCreate() {
