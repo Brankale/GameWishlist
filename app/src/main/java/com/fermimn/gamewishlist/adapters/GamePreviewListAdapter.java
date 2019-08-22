@@ -19,6 +19,7 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.repositories.WishListRepository;
 import com.fermimn.gamewishlist.utils.WishlistManager;
 import com.squareup.picasso.Picasso;
 
@@ -188,6 +189,9 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
                                     GamePreview gamePreview = mGamePreviewList.get(position);
                                     wishlist.add(gamePreview);
+
+                                    WishListRepository repository = WishListRepository.getInstance();
+                                    repository.add(gamePreview);
 
                                 }
                             })

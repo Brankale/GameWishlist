@@ -32,6 +32,7 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.Promo;
+import com.fermimn.gamewishlist.repositories.WishListRepository;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;
 import com.fermimn.gamewishlist.utils.WishlistManager;
@@ -123,6 +124,9 @@ public class GamePageActivity extends AppCompatActivity {
                                 WishlistManager wishlist =
                                         WishlistManager.getInstance(getApplicationContext());
                                 wishlist.add(mGame);
+
+                                WishListRepository repository = WishListRepository.getInstance();
+                                repository.add(mGame);
                             }
                         })
 
@@ -143,6 +147,9 @@ public class GamePageActivity extends AppCompatActivity {
                                 WishlistManager wishlist =
                                         WishlistManager.getInstance(getApplicationContext());
                                 wishlist.removeGameFromWishlist(mGame);
+
+                                WishListRepository repository = WishListRepository.getInstance();
+                                repository.remove(mGame);
                             }
                         })
 

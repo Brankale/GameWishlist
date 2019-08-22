@@ -1,6 +1,5 @@
 package com.fermimn.gamewishlist.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +7,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
+import com.fermimn.gamewishlist.data_types.GamePreview;
 import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.models.WishListViewModel;
+import com.fermimn.gamewishlist.repositories.WishListRepository;
 import com.fermimn.gamewishlist.utils.WishlistManager;
 
 public class WishlistFragment extends Fragment {
@@ -22,13 +26,7 @@ public class WishlistFragment extends Fragment {
     @SuppressWarnings("unused")
     private static final String TAG = WishlistFragment.class.getSimpleName();
 
-    private Context mContext;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
+    private RecyclerView.Adapter mAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,18 +36,30 @@ public class WishlistFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.wishlist);
 
         // get wishlist
-        WishlistManager wishlistManager = WishlistManager.getInstance(mContext);
-        GamePreviewList gamePreviewList = wishlistManager.getWishlist();
+        WishlistManager wishlistManager = WishlistManager.getInstance(getActivity());
+        WishListRepository repository = WishListRepository.getInstance();
+        for (GamePreview gamePreview : wishlistManager.getWishlist()) {
+            repository.add(gamePreview);
+        }
+
+        // View Model
+        WishListViewModel wishListViewModel = ViewModelProviders.of(getActivity()).get(WishListViewModel.class);
+        wishListViewModel.getWishlist().observe(getActivity(), new Observer<GamePreviewList>() {
+            @Override
+            public void onChanged(GamePreviewList gamePreviewList) {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
         // set RecyclerView adapter - layout manager - divider
-        RecyclerView.Adapter adapter = new GamePreviewListAdapter(mContext, gamePreviewList);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new GamePreviewListAdapter(getActivity(), wishListViewModel.getWishlist().getValue());
+        recyclerView.setAdapter(mAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(mContext, layoutManager.getOrientation());
+                new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;

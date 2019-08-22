@@ -31,17 +31,8 @@ public class SearchGamesFragment extends Fragment {
     @SuppressWarnings("unused")
     private static final String TAG = SearchGamesFragment.class.getSimpleName();
 
-    private Context mContext;
-    private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
-    private GamePreviewList mGamePreviewList;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
 
     @Nullable
     @Override
@@ -52,23 +43,22 @@ public class SearchGamesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_games, container, false);
 
         // get views
-        mSearchView = view.findViewById(R.id.search_bar);
+        SearchView searchView = view.findViewById(R.id.search_bar);
         mProgressBar = view.findViewById(R.id.progress_bar);
         mRecyclerView = view.findViewById(R.id.search_results);
 
         // set SearchView listener
-        mSearchView.setOnQueryTextListener(queryTextListener);
+        searchView.setOnQueryTextListener(queryTextListener);
 
         // set RecyclerView adapter - layout manager - divider
-        mGamePreviewList = new GamePreviewList();
-        RecyclerView.Adapter adapter = new GamePreviewListAdapter(mContext, mGamePreviewList);
+        RecyclerView.Adapter adapter = new GamePreviewListAdapter(getActivity(), new GamePreviewList());
         mRecyclerView.setAdapter(adapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(mContext, layoutManager.getOrientation());
+                new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;
@@ -79,13 +69,13 @@ public class SearchGamesFragment extends Fragment {
         public boolean onQueryTextSubmit(String searchedGame) {
 
             // check if internet is available
-            if (!Connectivity.isNetworkAvailable(mContext)) {
-                Toast.makeText(mContext, getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show();
+            if (!Connectivity.isNetworkAvailable(getActivity())) {
+                Toast.makeText(getActivity(), getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             // start online research
-            new Search(mContext, mProgressBar, mRecyclerView).execute(searchedGame);
+            new Search(getActivity(), mProgressBar, mRecyclerView).execute(searchedGame);
             return false;
         }
 

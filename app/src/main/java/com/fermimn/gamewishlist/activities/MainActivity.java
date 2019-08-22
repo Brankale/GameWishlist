@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
+import com.fermimn.gamewishlist.models.WishListViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // DOCS: https://developer.android.com/topic/libraries/architecture/viewmodel.html#java
+        WishListViewModel wishListViewModel = ViewModelProviders.of(this).get(WishListViewModel.class);
+
+        // get wishlist
+        wishListViewModel.init();
 
         // set action bar
         // DOCS: https://developer.android.com/training/appbar/setting-up

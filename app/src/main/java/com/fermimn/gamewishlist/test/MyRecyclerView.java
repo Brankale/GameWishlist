@@ -12,9 +12,6 @@ import com.fermimn.gamewishlist.data_types.GamePreviewList;
 
 public class MyRecyclerView extends RecyclerView {
 
-    private final RecyclerView.Adapter mAdapter;
-    private final GamePreviewList mDataSet;
-
     public MyRecyclerView(@NonNull Context context) {
         super(context);
 
@@ -25,14 +22,7 @@ public class MyRecyclerView extends RecyclerView {
                 new DividerItemDecoration(context, layoutManager.getOrientation());
         addItemDecoration(dividerItemDecoration);
 
-        mDataSet = new GamePreviewList();
-        mAdapter = new GamePreviewListAdapter(context, mDataSet);
-        setAdapter(mAdapter);
-    }
-
-    public void setDataSet(GamePreviewList dataSet) {
-        mDataSet.clear();
-        mDataSet.addAll(dataSet);
-        mAdapter.notifyDataSetChanged();
+        RecyclerView.Adapter adapter = new GamePreviewListAdapter(context, new GamePreviewList());
+        setAdapter(adapter);
     }
 }
