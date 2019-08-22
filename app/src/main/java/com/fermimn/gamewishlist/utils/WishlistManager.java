@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.fermimn.gamewishlist.data_types.Game;
 import com.fermimn.gamewishlist.data_types.GamePreview;
@@ -74,14 +77,17 @@ public class WishlistManager {
     }
 
     public void removeGameFromWishlist(GamePreview gamePreview) {
+
+        // delete files
+        deleteFolder( getGameFolder( gamePreview.getId() ) );
+
+        // delete game from the wishlist
         for (int i = 0; i < mWishlist.size(); ++i) {
             if (mWishlist.get(i).equals(gamePreview)) {
                 mWishlist.remove(i);
                 return;
             }
         }
-
-        // TODO: delete files on the disk
     }
 
     // TODO: try to delete final keywords
@@ -643,6 +649,41 @@ public class WishlistManager {
         }
 
         return null;
+    }
+
+    private void deleteFolder(@Nullable File folder) {
+
+        if (folder == null) {
+            return;
+        }
+
+        // listfiles returns null if the File is not a directory
+        // or if there are errors while reading files
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    if (file.delete()) {
+                        Log.d(TAG, "File deleted successfully");
+                    } else {
+                        Log.d(TAG, "Error while deleting file");
+                    }
+                } else {
+                    deleteFolder(file);
+                    if (file.delete()) {
+                        Log.d(TAG, "Directory deleted successfully");
+                    } else {
+                        Log.d(TAG, "Error while deleting directory");
+                    }
+                }
+            }
+
+            if (folder.delete()) {
+                Log.d(TAG, "Directory deleted successfully");
+            } else {
+                Log.d(TAG, "Error while deleting directory");
+            }
+        }
     }
 
 }

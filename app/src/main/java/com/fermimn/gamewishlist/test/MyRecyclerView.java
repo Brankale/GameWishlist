@@ -1,4 +1,4 @@
-package com.fermimn.gamewishlist;
+package com.fermimn.gamewishlist.test;
 
 import android.content.Context;
 
