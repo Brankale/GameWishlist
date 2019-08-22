@@ -36,7 +36,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-// doc: https://developer.android.com/training/data-storage/files/internal#java
+// DOC: https://developer.android.com/training/data-storage/files/internal#java
 public class WishlistManager {
 
     @SuppressWarnings("unused")
@@ -69,6 +69,7 @@ public class WishlistManager {
         }
     }
 
+    // TODO: add documentation
     public GamePreviewList getWishlist() {
         // TODO: use clone method
         GamePreviewList gamePreviewList = new GamePreviewList();
@@ -76,6 +77,7 @@ public class WishlistManager {
         return gamePreviewList;
     }
 
+    // TODO: add documentation
     public void removeGameFromWishlist(GamePreview gamePreview) {
 
         // delete files
@@ -90,6 +92,7 @@ public class WishlistManager {
         }
     }
 
+    // TODO: add documentation
     // TODO: try to delete final keywords
     public void add(final GamePreview gamePreview) {
 
@@ -122,16 +125,19 @@ public class WishlistManager {
         task.start();
     }
 
+    // TODO: add documentation
     private File getGameFolder(String gameId) {
         File file = new File(mContext.get().getFilesDir(), gameId);
         return file.exists() ? file : ( file.mkdir() ? file : null );
     }
 
+    // TODO: add documentation
     private File getGameGalleryFolder(String gameId) {
         File file = new File(getGameFolder(gameId), "gallery");
         return file.exists() ? file : ( file.mkdir() ? file : null );
     }
 
+    // TODO: add documentation
     private File getGameXml(String gameId) {
         try {
             File file = new File(getGameFolder(gameId), "data.xml");
@@ -143,6 +149,7 @@ public class WishlistManager {
         return null;
     }
 
+    // TODO: add documentation
     @SuppressWarnings("UnusedReturnValue")
     private boolean downloadGameImages(Game game) {
 
@@ -170,6 +177,7 @@ public class WishlistManager {
         return status;
     }
 
+    // TODO: add documentation
     private boolean downloadImage(File img, Uri uri) {
 
         try {
@@ -196,6 +204,7 @@ public class WishlistManager {
         return false;
     }
 
+    // TODO: add documentation
     @SuppressWarnings("UnusedReturnValue")
     private boolean createGameXml(Game game) {
 
@@ -446,6 +455,7 @@ public class WishlistManager {
         return false;
     }
 
+    // TODO: add documentation
     // TODO: rewrite this method
     private Game getGameFromXml(String gameId) {
 
@@ -651,6 +661,7 @@ public class WishlistManager {
         return null;
     }
 
+    // TODO: add documentation
     private void deleteFolder(@Nullable File folder) {
 
         if (folder == null) {
