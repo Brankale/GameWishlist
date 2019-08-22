@@ -1,6 +1,7 @@
 package com.fermimn.gamewishlist.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class WishlistFragment extends Fragment {
         wishListViewModel.getWishlist().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override
             public void onChanged(GamePreviewList gamePreviewList) {
+                Log.d(TAG, "Updating wishlist ...");
                 mAdapter.notifyDataSetChanged();
             }
         });

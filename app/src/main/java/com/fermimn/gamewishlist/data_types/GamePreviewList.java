@@ -27,6 +27,26 @@ public class GamePreviewList extends ArrayList<GamePreview> {
     }
 
     @Override
+    public boolean remove(@Nullable Object o) {
+
+        if (o == null) {
+            return false;
+        }
+
+        if (o instanceof GamePreview) {
+            GamePreview gamePreview = (GamePreview) o;
+            for (int i = 0; i < this.size(); ++i) {
+                if (this.get(i).equals(gamePreview)) {
+                    super.remove(i);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean contains(@Nullable Object o) {
 
         if (o == null) {

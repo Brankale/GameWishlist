@@ -166,6 +166,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                                     GamePreview gamePreview = mGamePreviewList.get(position);
                                     wishlist.removeGameFromWishlist(gamePreview);
 
+                                    WishListRepository repository = WishListRepository.getInstance();
+                                    repository.remove(gamePreview);
                                 }
                             })
 
