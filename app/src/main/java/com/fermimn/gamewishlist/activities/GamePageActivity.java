@@ -11,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -257,8 +259,13 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         if (game.hasOfficialWebSite()) {
+            String href = game.getOfficialWebSite();
+            String domain = href.split("/")[2];
+            Spanned link = Html.fromHtml("<a href='" + href + "'>" + domain + "</a>");
+
+            officialSite.setMovementMethod( LinkMovementMethod.getInstance() );
+            officialSite.setText(link);
             officialSiteContainer.setVisibility(View.VISIBLE);
-            officialSite.setText( game.getOfficialWebSite() );
         }
 
         if (game.isValidForPromotions()) {
@@ -270,8 +277,10 @@ public class GamePageActivity extends AppCompatActivity {
             String html = game.getDescription();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                description.setMovementMethod( LinkMovementMethod.getInstance() );
                 description.setText( Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY) );
             } else {
+                description.setMovementMethod( LinkMovementMethod.getInstance() );
                 description.setText( Html.fromHtml(html) );
             }
         }
@@ -549,7 +558,12 @@ public class GamePageActivity extends AppCompatActivity {
                 promoValidity.setText( promo.getSubHeader() );
 
                 if (promo.hasFindMoreMessage()) {
-                    promoMessage.setText( promo.getFindMoreMessage() );
+                    String href = promo.getFindMoreUrl();
+                    String message = promo.getFindMoreMessage();
+                    Spanned link = Html.fromHtml("<a href='" + href + "'>" + message + "</a>");
+
+                    promoMessage.setMovementMethod( LinkMovementMethod.getInstance() );
+                    promoMessage.setText(link);
                     promoMessage.setVisibility(View.VISIBLE);
                 }
 
