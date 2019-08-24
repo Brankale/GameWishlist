@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
-import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
-import com.fermimn.gamewishlist.models.WishListViewModel;
+import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 import com.fermimn.gamewishlist.repositories.WishListRepository;
 import com.fermimn.gamewishlist.utils.WishlistManager;
 

@@ -1,10 +1,10 @@
-package com.fermimn.gamewishlist.models;
+package com.fermimn.gamewishlist.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.repositories.WishListRepository;
 
 public class WishListViewModel extends ViewModel {

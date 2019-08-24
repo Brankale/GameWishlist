@@ -1,4 +1,4 @@
-package com.fermimn.gamewishlist.data_types;
+package com.fermimn.gamewishlist.exceptions;
 
 public class GameException extends RuntimeException {
 

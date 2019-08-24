@@ -1,7 +1,7 @@
 package com.fermimn.gamewishlist.utils;
 
-import com.fermimn.gamewishlist.data_types.Game;
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.models.Game;
+import com.fermimn.gamewishlist.models.GamePreviewList;
 
 public interface Store {
 

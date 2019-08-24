@@ -4,11 +4,11 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 
-import com.fermimn.gamewishlist.data_types.Game;
-import com.fermimn.gamewishlist.data_types.GameException;
-import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
-import com.fermimn.gamewishlist.data_types.Promo;
+import com.fermimn.gamewishlist.models.Game;
+import com.fermimn.gamewishlist.exceptions.GameException;
+import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.Promo;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

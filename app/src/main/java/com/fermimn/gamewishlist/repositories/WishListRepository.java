@@ -2,8 +2,8 @@ package com.fermimn.gamewishlist.repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.GamePreviewList;
 
 // TODO: find a way to join WishListManager with WishListRepository
 public class WishListRepository {

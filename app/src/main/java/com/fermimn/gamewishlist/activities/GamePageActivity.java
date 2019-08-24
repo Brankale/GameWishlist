@@ -31,9 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.data_types.Game;
-import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.Promo;
+import com.fermimn.gamewishlist.models.Game;
+import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.Promo;
 import com.fermimn.gamewishlist.repositories.WishListRepository;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;

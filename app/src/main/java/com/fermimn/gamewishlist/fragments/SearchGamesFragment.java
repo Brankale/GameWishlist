@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;

@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.fragments.SearchGamesFragment;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
-import com.fermimn.gamewishlist.models.WishListViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 
 public class MainActivity extends AppCompatActivity {
 

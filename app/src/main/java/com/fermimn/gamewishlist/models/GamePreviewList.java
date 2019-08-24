@@ -1,4 +1,4 @@
-package com.fermimn.gamewishlist.data_types;
+package com.fermimn.gamewishlist.models;
 
 import androidx.annotation.Nullable;
 

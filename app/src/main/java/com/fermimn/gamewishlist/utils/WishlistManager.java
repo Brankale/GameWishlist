@@ -8,10 +8,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.fermimn.gamewishlist.data_types.Game;
-import com.fermimn.gamewishlist.data_types.GamePreview;
-import com.fermimn.gamewishlist.data_types.GamePreviewList;
-import com.fermimn.gamewishlist.data_types.Promo;
+import com.fermimn.gamewishlist.models.Game;
+import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.Promo;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -674,25 +674,22 @@ public class WishlistManager {
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
+                    String fileName = file.getName();
                     if (file.delete()) {
-                        Log.d(TAG, "File deleted successfully");
+                        Log.d(TAG, "[" + fileName + "] - File deleted successfully");
                     } else {
-                        Log.d(TAG, "Error while deleting file");
+                        Log.d(TAG, "[" + fileName + "] - ERROR WHILE DELETING FILE");
                     }
                 } else {
                     deleteFolder(file);
-                    if (file.delete()) {
-                        Log.d(TAG, "Directory deleted successfully");
-                    } else {
-                        Log.d(TAG, "Error while deleting directory");
-                    }
                 }
             }
 
+            String folderName = folder.getName();
             if (folder.delete()) {
-                Log.d(TAG, "Directory deleted successfully");
+                Log.d(TAG, "[" + folderName + "] - Directory deleted successfully");
             } else {
-                Log.d(TAG, "Error while deleting directory");
+                Log.d(TAG, "[" + folderName + "] - ERROR WHILE DELETING DIRECTORY");
             }
         }
     }
