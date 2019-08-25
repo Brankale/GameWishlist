@@ -26,10 +26,10 @@ import com.fermimn.gamewishlist.utils.Store;
 
 import java.lang.ref.WeakReference;
 
-public class SearchGamesFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
     @SuppressWarnings("unused")
-    private static final String TAG = SearchGamesFragment.class.getSimpleName();
+    private static final String TAG = SearchFragment.class.getSimpleName();
 
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
@@ -40,7 +40,7 @@ public class SearchGamesFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_search_games, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         // get views
         SearchView searchView = view.findViewById(R.id.search_bar);
@@ -134,6 +134,10 @@ public class SearchGamesFragment extends Fragment {
             if (searchResults == null) {
                 Toast.makeText(context, "Nessun gioco trovato", Toast.LENGTH_SHORT).show();
                 searchResults = new GamePreviewList();
+            }
+
+            if (recyclerView.getLayoutManager() != null) {
+                recyclerView.getLayoutManager().scrollToPosition(0);
             }
 
             if (recyclerView != null && recyclerView.getAdapter() != null) {

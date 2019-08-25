@@ -25,13 +25,16 @@ public class WishlistFragment extends Fragment {
     private static final String TAG = WishlistFragment.class.getSimpleName();
 
     private RecyclerView.Adapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
+    private int mCount;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.wishlist);
+        mRecyclerView = view.findViewById(R.id.wishlist);
 
         // View Model
         WishListViewModel wishListViewModel = ViewModelProviders.of(getActivity()).get(WishListViewModel.class);
@@ -41,21 +44,39 @@ public class WishlistFragment extends Fragment {
         wishListViewModel.getWishlist().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override
             public void onChanged(GamePreviewList gamePreviewList) {
+
+                boolean scroll = false;
+                Log.d(TAG, "UPDATE: " + gamePreviewList.size() + "   BEFORE: "+ mCount );
+                if (gamePreviewList.size() > mCount) {
+                    scroll = true;
+
+                }
+
+                mCount = gamePreviewList.size();
                 Log.d(TAG, "Updating wishlist ...");
                 mAdapter.notifyDataSetChanged();
+
+                if (scroll) {
+                    mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1);
+
+                }
             }
         });
 
         // set RecyclerView adapter - layout manager - divider
         mAdapter = new GamePreviewListAdapter(getActivity(), wishListViewModel.getWishlist().getValue());
-        recyclerView.setAdapter(mAdapter);
+        mCount = wishListViewModel.getWishlist().getValue().size();
+        mRecyclerView.setAdapter(mAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
+                new DividerItemDecoration(getActivity(), mLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
 
         return view;
     }
