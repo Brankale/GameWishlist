@@ -57,12 +57,12 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
         DecimalFormat df = new DecimalFormat("#.00");
 
-        if (gamePreview.hasNewPrice()) {
+        if (gamePreview.getNewPrice() != null) {
             holder.mCategoryNewView.setVisibility(View.VISIBLE);
             holder.mNewPriceView.setVisibility(View.VISIBLE);
             holder.mNewPriceView.setText( df.format( gamePreview.getNewPrice() ) + "€" );
 
-            if (gamePreview.hasOlderNewPrices()) {
+            if (gamePreview.getOlderNewPrices() != null) {
                 holder.mOlderNewPricesView.setVisibility(View.VISIBLE);
                 String price = df.format( gamePreview.getOlderNewPrices().get(0) ) + "€";
                 holder.mOlderNewPricesView.setText(price);
@@ -75,12 +75,12 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mCategoryNewView.setVisibility(View.GONE);
         }
 
-        if (gamePreview.hasUsedPrice()) {
+        if (gamePreview.getUsedPrice() != null) {
             holder.mCategoryUsedView.setVisibility(View.VISIBLE);
             holder.mUsedPriceView.setVisibility(View.VISIBLE);
             holder.mUsedPriceView.setText( df.format( gamePreview.getUsedPrice() ) + "€" );
 
-            if (gamePreview.hasOlderUsedPrices()) {
+            if (gamePreview.getOlderUsedPrices() != null) {
                 holder.mOlderUsedPricesView.setVisibility(View.VISIBLE);
                 String price = df.format( gamePreview.getOlderUsedPrices().get(0) ) + "€";
                 holder.mOlderUsedPricesView.setText(price);
@@ -93,12 +93,12 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mCategoryUsedView.setVisibility(View.GONE);
         }
 
-        if (gamePreview.hasDigitalPrice()) {
+        if (gamePreview.getDigitalPrice() != null) {
             holder.mCategoryDigitalView.setVisibility(View.VISIBLE);
             holder.mDigitalPriceView.setVisibility(View.VISIBLE);
             holder.mDigitalPriceView.setText( df.format( gamePreview.getDigitalPrice() ) + "€" );
 
-            if (gamePreview.hasOlderDigitalPrices()) {
+            if (gamePreview.getOlderDigitalPrices() != null) {
                 holder.mOlderDigitalPricesView.setVisibility(View.VISIBLE);
                 String price = df.format( gamePreview.getOlderDigitalPrices().get(0) ) + "€";
                 holder.mOlderDigitalPricesView.setText(price);
@@ -111,12 +111,12 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mCategoryDigitalView.setVisibility(View.GONE);
         }
 
-        if (gamePreview.hasPreorderPrice()) {
+        if (gamePreview.getPreorderPrice() != null) {
             holder.mCategoryPreorderView.setVisibility(View.VISIBLE);
             holder.mPreorderPriceView.setVisibility(View.VISIBLE);
             holder.mPreorderPriceView.setText( df.format( gamePreview.getPreorderPrice() ) + "€" );
 
-            if (gamePreview.hasOlderPreorderPrices()) {
+            if (gamePreview.getOlderPreorderPrices() != null) {
                 holder.mOlderPreorderPricesView.setVisibility(View.VISIBLE);
                 String price = df.format( gamePreview.getOlderPreorderPrices().get(0) ) + "€";
                 holder.mOlderPreorderPricesView.setText(price);

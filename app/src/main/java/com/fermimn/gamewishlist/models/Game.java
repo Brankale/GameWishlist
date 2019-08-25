@@ -2,20 +2,22 @@ package com.fermimn.gamewishlist.models;
 
 import android.net.Uri;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends GamePreview {
 
-    private List<String> mPegi;
+    private String mPlayers;
     private String mReleaseDate;
-    private List<String> mGenres;
     private String mDescription;
     private String mOfficialWebSite;
-    private String mPlayers;
-    private boolean mValidForPromotions;
     private List<Promo> mPromos;
+    private List<String> mGenres;
+    private List<String> mPegi;
     private List<Uri> mGallery;
+    private boolean mValidForPromotions;
 
     /**
      * A game can exist without a price but it must be recognisable through
@@ -29,8 +31,10 @@ public class Game extends GamePreview {
     }
 
     /**
-     * @return a list of strings where every string identifies a type of pegi of the game
+     * @return a list of strings where every string identifies a type of pegi of the game,
+     *         null if the game has no info about pegi
      */
+    @Nullable
     public List<String> getPegi() {
         return mPegi;
     }
@@ -40,35 +44,30 @@ public class Game extends GamePreview {
      * @param pegi a list of string where every string identifies a type of pegi of the game
      */
     @SuppressWarnings("unused")
-    public void setPegi(List<String> pegi) {
-        mPegi = pegi;
+    public void setPegi(@Nullable List<String> pegi) {
+        if (pegi != null && !pegi.isEmpty()) {
+            mPegi = pegi;
+        }
     }
 
     /**
      * Add a string that identifies a type of pegi assigned to the game
      * @param pegi a string that identifies a type of pegi assigned to the game
      */
-    public void addPegi(String pegi) {
-        if (!hasPegi()) {
-            mPegi = new ArrayList<>();
+    public void addPegi(@Nullable String pegi) {
+        if (pegi != null) {
+            if (mPegi == null) {
+                mPegi = new ArrayList<>();
+            }
+            mPegi.add(pegi);
         }
-        mPegi.add(pegi);
     }
 
     /**
-     * @return true if the game has some pegi info, false otherwise
-     */
-    public boolean hasPegi() {
-        if (mPegi == null) {
-            return false;
-        }
-        return !mPegi.isEmpty();
-    }
-
-    /**
-     * @return a string representing the release date
+     * @return a string representing the release date, null if the game hasn't got the release date
      * NB: The returned value is not necessarily a date but also something like "ND" or "N/A"
      */
+    @Nullable
     public String getReleaseDate() {
         return mReleaseDate;
     }
@@ -78,20 +77,15 @@ public class Game extends GamePreview {
      * @param releaseDate a string representing the release date
      * NB: The assigned value is not necessarily a date but also something like "ND" or "N/A"
      */
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(@Nullable String releaseDate) {
         mReleaseDate = releaseDate;
     }
 
     /**
-     * @return true if the game has some info about the date, false otherwise
+     * @return a list of strings where every string identify a genre of the game,
+     *         null if the game has no info about the genres
      */
-    public boolean hasReleaseDate() {
-        return mReleaseDate != null;
-    }
-
-    /**
-     * @return a list of strings where every string identify a genre of the game
-     */
+    @Nullable
     public List<String> getGenres() {
         return mGenres;
     }
@@ -101,35 +95,30 @@ public class Game extends GamePreview {
      * @param genres a list of strings where every string identifies a genre of the game
      */
     @SuppressWarnings("unused")
-    public void setGenres(List<String> genres) {
-        mGenres = genres;
+    public void setGenres(@Nullable List<String> genres) {
+        if (genres != null && !genres.isEmpty()) {
+            mGenres = genres;
+        }
     }
 
     /**
      * Add a string representing a genre of the game
      * @param genre a string representing a genre of the game
      */
-    public void addGenre(String genre) {
-        if (mGenres == null) {
-            mGenres = new ArrayList<>();
+    public void addGenre(@Nullable String genre) {
+        if (genre != null) {
+            if (mGenres == null) {
+                mGenres = new ArrayList<>();
+            }
+            mGenres.add(genre);
         }
-        mGenres.add(genre);
-    }
-
-    /**
-     * @return true if the game have some genres, false otherwise
-     */
-    public boolean hasGenres() {
-        if (mGenres == null) {
-            return false;
-        }
-        return !mGenres.isEmpty();
     }
 
     /**
      * @return a string representing the description of the game
      * NB: The description can be an HTML
      */
+    @Nullable
     public String getDescription() {
         return mDescription;
     }
@@ -139,20 +128,14 @@ public class Game extends GamePreview {
      * @param description a string representing the description of the game
      * NB: The description can be an HTML
      */
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         mDescription = description;
-    }
-
-    /**
-     * @return true if the game has the description, false otherwise
-     */
-    public boolean hasDescription() {
-        return mDescription != null;
     }
 
     /**
      * @return a string representing the URL to the official website of the game
      */
+    @Nullable
     public String getOfficialWebSite() {
         return mOfficialWebSite;
     }
@@ -161,21 +144,15 @@ public class Game extends GamePreview {
      * Set the official site of the game
      * @param officialWebSite a string representing the URL to the official website of the game
      */
-    public void setOfficialWebSite(String officialWebSite) {
+    public void setOfficialWebSite(@Nullable String officialWebSite) {
         mOfficialWebSite = officialWebSite;
-    }
-
-    /**
-     * @return true if the game has an official website
-     */
-    public boolean hasOfficialWebSite() {
-        return mOfficialWebSite != null;
     }
 
     /**
      * @return a string representing the maximum number of the players of the game
      * NB: the string doesn't have to be necessarily a number
      */
+    @Nullable
     public String getPlayers() {
         return mPlayers;
     }
@@ -185,15 +162,8 @@ public class Game extends GamePreview {
      * @param players a string representing the maximum number of the players of the game
      * NB: the string doesn't have to be necessarily a number
      */
-    public void setPlayers(String players) {
+    public void setPlayers(@Nullable String players) {
         mPlayers = players;
-    }
-
-    /**
-     * @return true if the game have some info about the players, false otherwise
-     */
-    public boolean hasPlayers() {
-        return mPlayers != null;
     }
 
     /**
@@ -216,6 +186,7 @@ public class Game extends GamePreview {
     /**
      * @return a List of Promo objects related to the game
      */
+    @Nullable
     public List<Promo> getPromo() {
         return mPromos;
     }
@@ -225,34 +196,29 @@ public class Game extends GamePreview {
      * @param promo a list of Promo related to the game
      */
     @SuppressWarnings("unused")
-    public void setPromo(List<Promo> promo) {
-        mPromos = promo;
-    }
-
-    /**
-     * @return true if the game has some promo, false otherwise
-     */
-    public boolean hasPromo() {
-        if (mPromos == null) {
-            return false;
+    public void setPromo(@Nullable List<Promo> promo) {
+        if (promo != null && !promo.isEmpty()) {
+            mPromos = promo;
         }
-        return !mPromos.isEmpty();
     }
 
     /**
      * Add a Promo to the game
      * @param promo of the game
      */
-    public void addPromo(Promo promo) {
-        if (!hasPromo()) {
-            mPromos = new ArrayList<>();
+    public void addPromo(@Nullable Promo promo) {
+        if (promo != null) {
+            if (mPromos == null) {
+                mPromos = new ArrayList<>();
+            }
+            mPromos.add(promo);
         }
-        mPromos.add(promo);
     }
 
     /**
      * @return a List of Uri representing links to offline or online resources
      */
+    @Nullable
     public List<Uri> getGallery() {
         return mGallery;
     }
@@ -262,33 +228,25 @@ public class Game extends GamePreview {
      * @param gallery a List of Uri representing links to offline or online resources
      */
     @SuppressWarnings("unused")
-    public void setGallery(List<Uri> gallery) {
-        mGallery = gallery;
+    public void setGallery(@Nullable List<Uri> gallery) {
+        if (gallery != null && !gallery.isEmpty()) {
+            mGallery = gallery;
+        }
     }
 
     /**
      * Add a Uri representing a link to an offline or online resource
      * @param image a Uri representing a link to an offline or online resource
      */
-    public void addToGallery(Uri image) {
-
-        if (mGallery == null) {
-            mGallery = new ArrayList<>();
-        }
-
-        if (!image.toString().isEmpty()) {
+    public void addToGallery(@Nullable Uri image) {
+        // image.toString.isEmpty() can be useful in rare cases
+        // example: https://www.gamestop.it/PS3/Games/22408/catherine
+        if (image != null && !image.toString().isEmpty()) {
+            if (mGallery == null) {
+                mGallery = new ArrayList<>();
+            }
             mGallery.add(image);
         }
-    }
-
-    /**
-     * @return true if the game has some gallery images, false otherwise
-     */
-    public boolean hasGallery() {
-        if (mGallery == null) {
-            return false;
-        }
-        return !mGallery.isEmpty();
     }
 
     /**

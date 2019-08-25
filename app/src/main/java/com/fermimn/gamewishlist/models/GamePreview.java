@@ -186,15 +186,17 @@ public class GamePreview implements Comparable {
      */
     @Nullable
     public List<Double> getOlderNewPrices() {
-        return hasOlderNewPrices() ? mOlderNewPrices : null;
+        return mOlderNewPrices;
     }
 
     /**
      * Set the Older New Prices of the game
      * @param olderNewPrices of the game
      */
-    public void setOlderNewPrices(@NonNull List<Double> olderNewPrices) {
-        mOlderNewPrices = olderNewPrices;
+    public void setOlderNewPrices(@Nullable List<Double> olderNewPrices) {
+        if (olderNewPrices != null && !olderNewPrices.isEmpty()) {
+            mOlderNewPrices = olderNewPrices;
+        }
     }
 
     /**
@@ -202,15 +204,17 @@ public class GamePreview implements Comparable {
      */
     @Nullable
     public List<Double> getOlderUsedPrices() {
-        return hasOlderUsedPrices() ? mOlderUsedPrices : null;
+        return mOlderUsedPrices;
     }
 
     /**
      * Set the Older Used Prices of the game
      * @param olderUsedPrices of teh game
      */
-    public void setOlderUsedPrices(@NonNull List<Double> olderUsedPrices) {
-        mOlderUsedPrices = olderUsedPrices;
+    public void setOlderUsedPrices(@Nullable List<Double> olderUsedPrices) {
+        if (olderUsedPrices != null && !olderUsedPrices.isEmpty()) {
+            mOlderUsedPrices = olderUsedPrices;
+        }
     }
 
     /**
@@ -218,15 +222,17 @@ public class GamePreview implements Comparable {
      */
     @Nullable
     public List<Double> getOlderDigitalPrices() {
-        return hasOlderDigitalPrices() ? mOlderDigitalPrices : null;
+        return mOlderDigitalPrices;
     }
 
     /**
      * Set the Older Digital Prices of the game
      * @param olderDigitalPrices of the game
      */
-    public void setOlderDigitalPrices(@NonNull List<Double> olderDigitalPrices) {
-        mOlderDigitalPrices = olderDigitalPrices;
+    public void setOlderDigitalPrices(@Nullable List<Double> olderDigitalPrices) {
+        if (olderDigitalPrices != null && !olderDigitalPrices.isEmpty()) {
+            mOlderDigitalPrices = olderDigitalPrices;
+        }
     }
 
     /**
@@ -234,127 +240,69 @@ public class GamePreview implements Comparable {
      */
     @Nullable
     public List<Double> getOlderPreorderPrices() {
-        return hasOlderPreorderPrices() ? mOlderPreorderPrices : null;
+        return mOlderPreorderPrices;
     }
 
     /**
      * Set the Older PreorderPrices of the game
      * @param olderPreorderPrices of the game
      */
-    public void setOlderPreorderPrices(@NonNull List<Double> olderPreorderPrices) {
-        mOlderPreorderPrices = olderPreorderPrices;
+    public void setOlderPreorderPrices(@Nullable List<Double> olderPreorderPrices) {
+        if (olderPreorderPrices != null && !olderPreorderPrices.isEmpty()) {
+            mOlderPreorderPrices = olderPreorderPrices;
+        }
     }
 
     /**
      * Add a Older New Price
      * @param olderNewPrice of the game
      */
-    public void addOlderNewPrice(@NonNull Double olderNewPrice) {
-        if (mOlderNewPrices == null){
-            mOlderNewPrices = new ArrayList<>();
+    public void addOlderNewPrice(@Nullable Double olderNewPrice) {
+        if (olderNewPrice != null) {
+            if (mOlderNewPrices == null){
+                mOlderNewPrices = new ArrayList<>();
+            }
+            mOlderNewPrices.add(olderNewPrice);
         }
-        mOlderNewPrices.add(olderNewPrice);
     }
 
     /**
      * Add a Older Used Price
      * @param olderUsedPrice of the game
      */
-    public void addOlderUsedPrice(@NonNull Double olderUsedPrice) {
-        if (mOlderUsedPrices == null){
-            mOlderUsedPrices = new ArrayList<>();
+    public void addOlderUsedPrice(@Nullable Double olderUsedPrice) {
+        if (olderUsedPrice != null) {
+            if (mOlderUsedPrices == null) {
+                mOlderUsedPrices = new ArrayList<>();
+            }
+            mOlderUsedPrices.add(olderUsedPrice);
         }
-        mOlderUsedPrices.add(olderUsedPrice);
     }
 
     /**
      * Add a Older Digital Price
      * @param olderDigitalPrice of the game
      */
-    public void addOlderDigitalPrice(@NonNull Double olderDigitalPrice) {
-        if (mOlderDigitalPrices == null){
-            mOlderDigitalPrices = new ArrayList<>();
+    public void addOlderDigitalPrice(@Nullable Double olderDigitalPrice) {
+        if (olderDigitalPrice != null) {
+            if (mOlderDigitalPrices == null) {
+                mOlderDigitalPrices = new ArrayList<>();
+            }
+            mOlderDigitalPrices.add(olderDigitalPrice);
         }
-        mOlderDigitalPrices.add(olderDigitalPrice);
     }
 
     /**
      * Add a Older Preorder Price
      * @param olderPreorderPrice of the game
      */
-    public void addOlderPreorderPrice(@NonNull Double olderPreorderPrice) {
-        if (mOlderPreorderPrices == null){
-            mOlderPreorderPrices = new ArrayList<>();
+    public void addOlderPreorderPrice(@Nullable Double olderPreorderPrice) {
+        if (olderPreorderPrice != null) {
+            if (mOlderPreorderPrices == null) {
+                mOlderPreorderPrices = new ArrayList<>();
+            }
+            mOlderPreorderPrices.add(olderPreorderPrice);
         }
-        mOlderPreorderPrices.add(olderPreorderPrice);
-    }
-
-    /**
-     * @return true if there's a new price, false otherwise
-     */
-    public boolean hasNewPrice() {
-        return mNewPrice != null;
-    }
-
-    /**
-     * @return true if there's a used price, false otherwise
-     */
-    public boolean hasUsedPrice() {
-        return mUsedPrice != null;
-    }
-
-    /**
-     * @return true if there's a digital price, false otherwise
-     */
-    public boolean hasDigitalPrice() {
-        return mDigitalPrice != null;
-    }
-
-    /**
-     * @return true if there's a preorder price, false otherwise
-     */
-    public boolean hasPreorderPrice() {
-        return mPreorderPrice != null;
-    }
-
-    /**
-     * @return true if there are a older new prices, false otherwise
-     */
-    public boolean hasOlderNewPrices() {
-        if (mOlderNewPrices == null){
-            return false;
-        }
-        return !mOlderNewPrices.isEmpty();
-    }
-
-    /**
-     * @return true if there are a older used prices, false otherwise
-     */
-    public boolean hasOlderUsedPrices() {
-        if (mOlderUsedPrices == null){
-            return false;
-        }
-        return !mOlderUsedPrices.isEmpty();
-    }
-
-    /**
-     * @return true if there are a older digital prices, false otherwise
-     */
-    public boolean hasOlderDigitalPrices() {
-        if (mOlderDigitalPrices == null){
-            return false;
-        }
-        return !mOlderDigitalPrices.isEmpty();
-    }
-
-    /**
-     * @return true if there are a older preorder prices, false otherwise
-     */
-    public boolean hasOlderPreorderPrices() {
-        if (mOlderPreorderPrices == null){
-            return false;
-        }
-        return !mOlderPreorderPrices.isEmpty();
     }
 
     /**

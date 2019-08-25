@@ -227,7 +227,7 @@ public class GamePageActivity extends AppCompatActivity {
         publisher.setText( game.getPublisher() );
         platform.setText( game.getPlatform() );
 
-        if (game.hasGenres()) {
+        if (game.getGenres() != null) {
             StringBuilder stringBuilder = new StringBuilder();
             for (String genre : game.getGenres()) {
                 stringBuilder.append(genre).append("/");
@@ -238,18 +238,18 @@ public class GamePageActivity extends AppCompatActivity {
             genresContainer.setVisibility(View.GONE);
         }
 
-        if (game.hasReleaseDate()) {
+        if (game.getReleaseDate() != null) {
             releaseDate.setText( game.getReleaseDate() );
         } else {
             releaseDateContainer.setVisibility(View.GONE);
         }
 
-        if (game.hasPlayers()) {
+        if (game.getPlayers() != null) {
             playersContainer.setVisibility(View.VISIBLE);
             players.setText( game.getPlayers() );
         }
 
-        if (game.hasOfficialWebSite()) {
+        if (game.getOfficialWebSite() != null) {
             String href = game.getOfficialWebSite();
             String domain = href.split("/")[2];
             Spanned link = Html.fromHtml("<a href='" + href + "'>" + domain + "</a>");
@@ -264,7 +264,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // TODO: links in the description don't do anything
-        if (game.hasDescription()) {
+        if (game.getDescription() != null) {
             String html = game.getDescription();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -280,7 +280,7 @@ public class GamePageActivity extends AppCompatActivity {
     // TODO: add documentation
     private void setGameRating(Game game) {
 
-        if (game.hasPegi()) {
+        if (game.getPegi() != null) {
 
             HorizontalScrollView pegiContainer = findViewById(R.id.pegi_container);
             pegiContainer.setVisibility(View.VISIBLE);
@@ -356,7 +356,7 @@ public class GamePageActivity extends AppCompatActivity {
         Picasso.get().load(game.getCover()).into(cover);
 
         // Add images to gallery
-        if (game.hasGallery()) {
+        if (game.getGallery() != null) {
 
             galleryContainer.setVisibility(View.VISIBLE);
 
@@ -411,7 +411,7 @@ public class GamePageActivity extends AppCompatActivity {
         ViewGroup parent = findViewById(R.id.section_prices);
 
         // set new prices
-        if (game.hasNewPrice()) {
+        if (game.getNewPrice() != null) {
 
             // create the container
             ViewGroup container = (ViewGroup) inflater
@@ -419,7 +419,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getNewPrice(), R.string.new_price);
-            if (game.hasOlderNewPrices()) {
+            if (game.getOlderNewPrices() != null) {
                 setOldPrices(container, game.getOlderNewPrices());
             }
 
@@ -428,7 +428,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // set old prices
-        if (game.hasUsedPrice()) {
+        if (game.getUsedPrice() != null) {
 
             // create the container
             LinearLayout container = (LinearLayout) inflater
@@ -436,7 +436,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getUsedPrice(), R.string.used_price);
-            if (game.hasOlderUsedPrices()) {
+            if (game.getOlderUsedPrices() != null) {
                 setOldPrices(container, game.getOlderUsedPrices());
             }
 
@@ -445,7 +445,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // set digital prices
-        if (game.hasDigitalPrice()) {
+        if (game.getDigitalPrice() != null) {
 
             // create the container
             LinearLayout container = (LinearLayout) inflater
@@ -453,7 +453,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getDigitalPrice(), R.string.digital_price);
-            if (game.hasOlderDigitalPrices()) {
+            if (game.getOlderDigitalPrices() != null) {
                 setOldPrices(container, game.getOlderDigitalPrices());
             }
 
@@ -462,7 +462,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         // set preorder prices
-        if (game.hasPreorderPrice()) {
+        if (game.getPreorderPrice() != null) {
 
             // create the container
             LinearLayout container = (LinearLayout) inflater
@@ -470,7 +470,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getPreorderPrice(), R.string.preorder_price);
-            if (game.hasOlderPreorderPrices()) {
+            if (game.getOlderPreorderPrices() != null) {
                 setOldPrices(container, game.getOlderPreorderPrices());
             }
 
@@ -533,7 +533,7 @@ public class GamePageActivity extends AppCompatActivity {
 
         // TODO: set URL to promo Message
         // TODO: check if message is available
-        if (game.hasPromo()) {
+        if (game.getPromo() != null) {
             for (Promo promo : game.getPromo()) {
 
                 // Create a promo view

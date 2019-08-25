@@ -45,7 +45,7 @@ public class WishListViewModel extends AndroidViewModel {
             @Override
             public void run() {
 
-                Game game = null;
+                Game game;
 
                 if (!(gamePreview instanceof Game)) {
                     Log.d(TAG, "Downloading [" + gamePreview.getTitle() + "]");

@@ -1,7 +1,6 @@
 package com.fermimn.gamewishlist.repositories;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -134,7 +133,7 @@ public class WishListRepository {
         downloadImage(cover, game.getCover());
 
         // download gallery
-        if (game.hasGallery()) {
+        if (game.getGallery() != null) {
             File galleryFolder = getGameGalleryFolder(game.getId());
             for (Uri uri : game.getGallery()) {
                 String url = uri.toString();
@@ -242,14 +241,14 @@ public class WishListRepository {
             Element prices = doc.createElement("prices");
 
             // Create Element NewPrice and append
-            if (game.hasNewPrice()) {
+            if (game.getNewPrice() != null) {
                 Element elementNewPrice = doc.createElement("newPrice");
                 elementNewPrice.setTextContent(String.valueOf(game.getNewPrice()));
                 prices.appendChild(elementNewPrice);
             }
 
             // Create Element OlderNewPrices and append
-            if (game.hasOlderNewPrices()) {
+            if (game.getOlderNewPrices() != null) {
                 Element elementOlderNewPrice = doc.createElement("olderNewPrices");
 
                 for (Double price : game.getOlderNewPrices()) {
@@ -262,14 +261,14 @@ public class WishListRepository {
             }
 
             // Create Element UsedPrice and append
-            if (game.hasUsedPrice()) {
+            if (game.getUsedPrice() != null) {
                 Element elementUsedPrice = doc.createElement("usedPrice");
                 elementUsedPrice.setTextContent(String.valueOf(game.getUsedPrice()));
                 prices.appendChild(elementUsedPrice);
             }
 
             // Create Element OlderUsedPrices and append
-            if (game.hasOlderUsedPrices()) {
+            if (game.getOlderUsedPrices() != null) {
                 Element elementOlderUsedPrice = doc.createElement("olderUsedPrices");
 
                 for (Double price : game.getOlderUsedPrices()) {
@@ -282,14 +281,14 @@ public class WishListRepository {
             }
 
             // Create Element PreorderPrice and append
-            if (game.hasPreorderPrice()) {
+            if (game.getPreorderPrice() != null) {
                 Element elementPreorderPrice = doc.createElement("preorderPrice");
                 elementPreorderPrice.setTextContent(String.valueOf(game.getPreorderPrice()));
                 prices.appendChild(elementPreorderPrice);
             }
 
             // Element OlderPreorderPrices and append
-            if (game.hasOlderPreorderPrices()) {
+            if (game.getOlderPreorderPrices() != null) {
                 Element elementOlderPreorderPrice = doc.createElement("olderPreorderPrices");
 
                 for (Double price : game.getOlderPreorderPrices()) {
@@ -302,14 +301,14 @@ public class WishListRepository {
             }
 
             // Element DigitalPrice and append
-            if (game.hasDigitalPrice()) {
+            if (game.getDigitalPrice() != null) {
                 Element elementDigitalPrice = doc.createElement("digitalPrice");
                 elementDigitalPrice.setTextContent(String.valueOf(game.getDigitalPrice()));
                 prices.appendChild(elementDigitalPrice);
             }
 
             // Element OlderDigitalPrices and append
-            if (game.hasOlderDigitalPrices()) {
+            if (game.getOlderDigitalPrices() != null) {
                 Element elementOlderDigitalPrice = doc.createElement("olderDigitalPrices");
 
                 for (Double price : game.getOlderDigitalPrices()) {
@@ -324,7 +323,7 @@ public class WishListRepository {
             gameElement.appendChild(prices);
 
             // Element Pegi and append
-            if (game.hasPegi()) {
+            if (game.getPegi() != null) {
                 Element elementPegiList = doc.createElement("pegi");
                 for (String p : game.getPegi()) {
                     Element elementPegi = doc.createElement("type");
@@ -335,7 +334,7 @@ public class WishListRepository {
             }
 
             // Element Genres and append
-            if (game.hasGenres()) {
+            if (game.getGenres() != null) {
                 Element elementGenres = doc.createElement("genres");
 
                 for (String genre : game.getGenres()) {
@@ -348,14 +347,14 @@ public class WishListRepository {
             }
 
             // Element OfficialSite and append
-            if (game.hasOfficialWebSite()) {
+            if (game.getOfficialWebSite() != null) {
                 Element elementOfficialSite = doc.createElement("officialSite");
                 elementOfficialSite.appendChild(doc.createCDATASection(game.getOfficialWebSite()));
                 gameElement.appendChild(elementOfficialSite);
             }
 
             // Element Players and append
-            if (game.hasPlayers()) {
+            if (game.getPlayers() != null) {
                 Element elementPlayers = doc.createElement("players");
                 elementPlayers.appendChild(doc.createCDATASection(game.getPlayers()));
                 gameElement.appendChild(elementPlayers);
@@ -367,7 +366,7 @@ public class WishListRepository {
             gameElement.appendChild(elementReleaseDate);
 
             // Create Promo and append
-            if (game.hasPromo()) {
+            if (game.getPromo() != null) {
                 Element elementPromos = doc.createElement("promos");
 
                 for (Promo p : game.getPromo()) {
@@ -398,7 +397,7 @@ public class WishListRepository {
             }
 
             // Create Element Description and append
-            if (game.hasDescription()) {
+            if (game.getDescription() != null) {
                 Element elementDescription = doc.createElement("description");
                 elementDescription.appendChild(doc.createCDATASection(game.getDescription()));
                 gameElement.appendChild(elementDescription);
@@ -418,7 +417,7 @@ public class WishListRepository {
             gameElement.appendChild(elementCover);
 
             // Save gallery
-            if (game.hasGallery()) {
+            if (game.getGallery() != null) {
                 Element elementGallery = doc.createElement("gallery");
                 File galleryFolder = getGameGalleryFolder(game.getId());
                 for (Uri uri : game.getGallery()) {
