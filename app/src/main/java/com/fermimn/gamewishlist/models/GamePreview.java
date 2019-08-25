@@ -3,6 +3,7 @@ package com.fermimn.gamewishlist.models;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fermimn.gamewishlist.exceptions.GameException;
 
@@ -42,7 +43,7 @@ public class GamePreview implements Comparable {
             throw new GameException();
         }
 
-        // string must be non empty
+        // strings must be non empty
         if (title.isEmpty() || platform.isEmpty()) {
             throw new GameException();
         }
@@ -62,27 +63,31 @@ public class GamePreview implements Comparable {
     /**
      * @return the ID of the game
      */
-    public @NonNull String getId() {
+    @NonNull
+    public String getId() {
         return mId;
     }
 
     /**
      * @return the title of the game
      */
-    public @NonNull String getTitle() {
+    @NonNull
+    public String getTitle() {
         return mTitle;
     }
 
     /**
      * @return the platform of the game
      */
-    public @NonNull String getPlatform() {
+    @NonNull
+    public String getPlatform() {
         return mPlatform;
     }
 
     /**
      * @return the publisher of the game, null otherwise
      */
+    @Nullable
     public String getPublisher() {
         return mPublisher;
     }
@@ -91,7 +96,7 @@ public class GamePreview implements Comparable {
      * Set the publisher of the game
      * @param publisher of the game
      */
-    public void setPublisher(String publisher) {
+    public void setPublisher(@NonNull String publisher) {
         mPublisher = publisher;
     }
 
@@ -99,9 +104,8 @@ public class GamePreview implements Comparable {
      * @return a Uri representing the cover. The Uri contains a link to an online resource
      * if anything is found offline, otherwise is an offline resource
      */
+    @Nullable
     public Uri getCover() {
-        // TODO: check if the image has been already downloaded
-        // TODO: if so, return the offline resource instead of the link
         return mCover;
     }
 
@@ -109,13 +113,14 @@ public class GamePreview implements Comparable {
      * Set the cover with an Uri. The Uri must be a link to an online resource.
      * @param cover a Uri containing a link to an online resource image
      */
-    public void setCover(Uri cover) {
+    public void setCover(@NonNull Uri cover) {
         mCover = cover;
     }
 
     /**
      * @return the New Price of the game, null if the game don't have a new price
      */
+    @Nullable
     public Double getNewPrice() {
         return mNewPrice;
     }
@@ -124,13 +129,14 @@ public class GamePreview implements Comparable {
      * Set the New Price of the game
      * @param newPrice of the game
      */
-    public void setNewPrice(Double newPrice) {
+    public void setNewPrice(@NonNull Double newPrice) {
         mNewPrice = newPrice;
     }
 
     /**
      * @return the Used Price of the game, null if the game don't have a used price
      */
+    @Nullable
     public Double getUsedPrice() {
         return mUsedPrice;
     }
@@ -139,13 +145,14 @@ public class GamePreview implements Comparable {
      * Set Used Price of the game
      * @param usedPrice o the game
      */
-    public void setUsedPrice(Double usedPrice) {
+    public void setUsedPrice(@NonNull Double usedPrice) {
         mUsedPrice = usedPrice;
     }
 
     /**
      * @return the Preorder Price of the game, null if the game don't have a preorder price
      */
+    @Nullable
     public Double getPreorderPrice() {
         return mPreorderPrice;
     }
@@ -154,13 +161,14 @@ public class GamePreview implements Comparable {
      * Set the Preorder Price of the game
      * @param preorderPrice of the game
      */
-    public void setPreorderPrice(Double preorderPrice) {
+    public void setPreorderPrice(@NonNull Double preorderPrice) {
         mPreorderPrice = preorderPrice;
     }
 
     /**
      * @return the DigitalPrice of the game, null if the game don't have a digital price
      */
+    @Nullable
     public Double getDigitalPrice() {
         return mDigitalPrice;
     }
@@ -169,69 +177,71 @@ public class GamePreview implements Comparable {
      * Set the Digital Price of the game
      * @param digitalPrice of the game
      */
-    public void setDigitalPrice(Double digitalPrice) {
+    public void setDigitalPrice(@NonNull Double digitalPrice) {
         mDigitalPrice = digitalPrice;
     }
 
     /**
      * @return the Older New Prices of the game, null if the game has no older prices
      */
+    @Nullable
     public List<Double> getOlderNewPrices() {
-        return mOlderNewPrices != null && !mOlderNewPrices.isEmpty() ? mOlderNewPrices : null;
+        return hasOlderNewPrices() ? mOlderNewPrices : null;
     }
 
     /**
      * Set the Older New Prices of the game
      * @param olderNewPrices of the game
      */
-    public void setOlderNewPrices(List<Double> olderNewPrices) {
+    public void setOlderNewPrices(@NonNull List<Double> olderNewPrices) {
         mOlderNewPrices = olderNewPrices;
     }
 
     /**
      * @return the Older Used Prices of the game, null if the game has no older prices
      */
+    @Nullable
     public List<Double> getOlderUsedPrices() {
-        return mOlderUsedPrices != null && !mOlderUsedPrices.isEmpty() ? mOlderUsedPrices : null;
+        return hasOlderUsedPrices() ? mOlderUsedPrices : null;
     }
 
     /**
      * Set the Older Used Prices of the game
      * @param olderUsedPrices of teh game
      */
-    public void setOlderUsedPrices(List<Double> olderUsedPrices) {
+    public void setOlderUsedPrices(@NonNull List<Double> olderUsedPrices) {
         mOlderUsedPrices = olderUsedPrices;
     }
 
     /**
      * @return the Older Digital Prices of the game, null if the game has no older prices
      */
+    @Nullable
     public List<Double> getOlderDigitalPrices() {
-        return mOlderDigitalPrices != null && !mOlderDigitalPrices.isEmpty() ?
-                mOlderDigitalPrices : null;
+        return hasOlderDigitalPrices() ? mOlderDigitalPrices : null;
     }
 
     /**
      * Set the Older Digital Prices of the game
      * @param olderDigitalPrices of the game
      */
-    public void setOlderDigitalPrices(List<Double> olderDigitalPrices) {
+    public void setOlderDigitalPrices(@NonNull List<Double> olderDigitalPrices) {
         mOlderDigitalPrices = olderDigitalPrices;
     }
 
     /**
      * @return the Older Preorder Prices of the game, null if the game has no older prices
      */
+    @Nullable
     public List<Double> getOlderPreorderPrices() {
-        return mOlderPreorderPrices != null && !mOlderPreorderPrices.isEmpty() ?
-                mOlderPreorderPrices : null;
+        return hasOlderPreorderPrices() ? mOlderPreorderPrices : null;
     }
 
     /**
      * Set the Older PreorderPrices of the game
      * @param olderPreorderPrices of the game
      */
-    public void setOlderPreorderPrices(List<Double> olderPreorderPrices) {
+    public void setOlderPreorderPrices(@NonNull List<Double> olderPreorderPrices) {
         mOlderPreorderPrices = olderPreorderPrices;
     }
 
@@ -239,7 +249,7 @@ public class GamePreview implements Comparable {
      * Add a Older New Price
      * @param olderNewPrice of the game
      */
-    public void addOlderNewPrice(double olderNewPrice) {
+    public void addOlderNewPrice(@NonNull Double olderNewPrice) {
         if (mOlderNewPrices == null){
             mOlderNewPrices = new ArrayList<>();
         }
@@ -250,7 +260,7 @@ public class GamePreview implements Comparable {
      * Add a Older Used Price
      * @param olderUsedPrice of the game
      */
-    public void addOlderUsedPrice(double olderUsedPrice) {
+    public void addOlderUsedPrice(@NonNull Double olderUsedPrice) {
         if (mOlderUsedPrices == null){
             mOlderUsedPrices = new ArrayList<>();
         }
@@ -261,7 +271,7 @@ public class GamePreview implements Comparable {
      * Add a Older Digital Price
      * @param olderDigitalPrice of the game
      */
-    public void addOlderDigitalPrice(double olderDigitalPrice) {
+    public void addOlderDigitalPrice(@NonNull Double olderDigitalPrice) {
         if (mOlderDigitalPrices == null){
             mOlderDigitalPrices = new ArrayList<>();
         }
@@ -272,7 +282,7 @@ public class GamePreview implements Comparable {
      * Add a Older Preorder Price
      * @param olderPreorderPrice of the game
      */
-    public void addOlderPreorderPrice(double olderPreorderPrice) {
+    public void addOlderPreorderPrice(@NonNull Double olderPreorderPrice) {
         if (mOlderPreorderPrices == null){
             mOlderPreorderPrices = new ArrayList<>();
         }
@@ -352,7 +362,7 @@ public class GamePreview implements Comparable {
      * @return true if two GamePreview are identical, false otherwise
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) {
             return true;
         }
