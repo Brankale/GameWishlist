@@ -1,7 +1,6 @@
 package com.fermimn.gamewishlist.adapters;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -13,14 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.repositories.WishListRepository;
-import com.fermimn.gamewishlist.utils.WishlistManager;
+import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -31,9 +31,9 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
     private static final String TAG = GamePreviewListAdapter.class.getSimpleName();
 
     private final GamePreviewList mGamePreviewList;
-    private final Context mContext;
+    private final FragmentActivity mContext;
 
-    public GamePreviewListAdapter(Context context, GamePreviewList gamePreviewList) {
+    public GamePreviewListAdapter(FragmentActivity context, GamePreviewList gamePreviewList) {
         mGamePreviewList = gamePreviewList;
         mContext = context;
     }
@@ -145,8 +145,12 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             @Override
             public boolean onLongClick(View view) {
 
-                WishlistManager wishlistManager = WishlistManager.getInstance(mContext);
-                GamePreviewList gamePreviewList = wishlistManager.getWishlist();
+                final WishListViewModel wishListViewModel =
+                        ViewModelProviders.of(mContext).get(WishListViewModel.class);
+
+                wishListViewModel.init();
+
+                GamePreviewList gamePreviewList = wishListViewModel.getWishlist().getValue();
                 boolean result = gamePreviewList.contains( mGamePreviewList.get(position) );
 
                 if (result) {
@@ -159,15 +163,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                             // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    WishlistManager wishlist =
-                                            WishlistManager.getInstance(mContext.getApplicationContext());
-
                                     GamePreview gamePreview = mGamePreviewList.get(position);
-                                    wishlist.removeGameFromWishlist(gamePreview);
-
-                                    WishListRepository repository = WishListRepository.getInstance();
-                                    repository.remove(gamePreview);
+                                    wishListViewModel.removeGame(gamePreview);
                                 }
                             })
 
@@ -185,16 +182,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                             // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    WishlistManager wishlist =
-                                            WishlistManager.getInstance(mContext.getApplicationContext());
-
                                     GamePreview gamePreview = mGamePreviewList.get(position);
-                                    wishlist.add(gamePreview);
-
-                                    WishListRepository repository = WishListRepository.getInstance();
-                                    repository.add(gamePreview);
-
+                                    wishListViewModel.addGame(gamePreview);
                                 }
                             })
 
@@ -267,6 +256,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
     }
 
+    // TODO: try to remove this method
     public void setDataset(GamePreviewList dataset) {
         mGamePreviewList.clear();
         mGamePreviewList.addAll(dataset);

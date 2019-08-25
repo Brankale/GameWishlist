@@ -16,11 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
-import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
-import com.fermimn.gamewishlist.repositories.WishListRepository;
-import com.fermimn.gamewishlist.utils.WishlistManager;
 
 public class WishlistFragment extends Fragment {
 
@@ -36,15 +33,11 @@ public class WishlistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.wishlist);
 
-        // get wishlist
-        WishlistManager wishlistManager = WishlistManager.getInstance(getActivity());
-        WishListRepository repository = WishListRepository.getInstance();
-        for (GamePreview gamePreview : wishlistManager.getWishlist()) {
-            repository.add(gamePreview);
-        }
-
         // View Model
         WishListViewModel wishListViewModel = ViewModelProviders.of(getActivity()).get(WishListViewModel.class);
+
+        wishListViewModel.init();
+
         wishListViewModel.getWishlist().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override
             public void onChanged(GamePreviewList gamePreviewList) {

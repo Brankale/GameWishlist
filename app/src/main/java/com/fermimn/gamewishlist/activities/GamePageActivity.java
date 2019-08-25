@@ -29,15 +29,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.Promo;
-import com.fermimn.gamewishlist.repositories.WishListRepository;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;
-import com.fermimn.gamewishlist.utils.WishlistManager;
+import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -51,6 +51,7 @@ public class GamePageActivity extends AppCompatActivity {
     private static final String TAG = GamePageActivity.class.getSimpleName();
 
     private Game mGame;
+    private WishListViewModel mWishListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,9 @@ public class GamePageActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("gameID");
 
         // search the game in the wishlist
-        WishlistManager wishlistManager = WishlistManager.getInstance(this);
-        for (GamePreview gamePreview : wishlistManager.getWishlist()){
+        mWishListViewModel = ViewModelProviders.of(this).get(WishListViewModel.class);
+        mWishListViewModel.init();
+        for (GamePreview gamePreview : mWishListViewModel.getWishlist().getValue()){
             if (gamePreview.getId().equals(id)) {
                 mGame = (Game) gamePreview;
                 break;
@@ -94,8 +96,7 @@ public class GamePageActivity extends AppCompatActivity {
         // show remove button if the game is already in the wishlist
         if (mGame != null) {
             setTitle( mGame.getTitle() );
-            WishlistManager wishlistManager = WishlistManager.getInstance(this);
-            boolean result = wishlistManager.getWishlist().contains(mGame);
+            boolean result = mWishListViewModel.getWishlist().getValue().contains(mGame);
             if (result) {
                 actionRemove.setVisible(true);
             } else {
@@ -123,12 +124,7 @@ public class GamePageActivity extends AppCompatActivity {
                         // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                WishlistManager wishlist =
-                                        WishlistManager.getInstance(getApplicationContext());
-                                wishlist.add(mGame);
-
-                                WishListRepository repository = WishListRepository.getInstance();
-                                repository.add(mGame);
+                                mWishListViewModel.addGame(mGame);
                             }
                         })
 
@@ -146,12 +142,7 @@ public class GamePageActivity extends AppCompatActivity {
                         // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                WishlistManager wishlist =
-                                        WishlistManager.getInstance(getApplicationContext());
-                                wishlist.removeGameFromWishlist(mGame);
-
-                                WishListRepository repository = WishListRepository.getInstance();
-                                repository.remove(mGame);
+                                mWishListViewModel.removeGame(mGame);
                             }
                         })
 
