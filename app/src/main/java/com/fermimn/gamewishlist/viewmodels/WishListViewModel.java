@@ -2,6 +2,7 @@ package com.fermimn.gamewishlist.viewmodels;
 
 import android.app.Application;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,6 +20,7 @@ public class WishListViewModel extends AndroidViewModel {
     private static final String TAG = WishListViewModel.class.getSimpleName();
 
     private MutableLiveData<GamePreviewList> mWishlist;
+    private MutableLiveData<Pair<GamePreview, Boolean>> mIsUpdating;
     private WishListRepository mRepository;
 
     public WishListViewModel(@NonNull Application application) {
@@ -30,6 +32,9 @@ public class WishListViewModel extends AndroidViewModel {
             return;
         }
 
+        mIsUpdating = new MutableLiveData<>();
+        mIsUpdating.setValue(new Pair<GamePreview, Boolean>(null, false));
+
         mRepository = WishListRepository.getInstance( getApplication() );
         mWishlist = mRepository.getWishList();
     }
@@ -38,7 +43,14 @@ public class WishListViewModel extends AndroidViewModel {
         return mWishlist;
     }
 
+    public LiveData<Pair<GamePreview, Boolean>> isUpdating() {
+        return mIsUpdating;
+    }
+
+    // TODO: images can't be downloaded if the user close the app
     public void addGame(final GamePreview gamePreview) {
+
+        mIsUpdating.postValue(new Pair<GamePreview, Boolean>(gamePreview, true));
 
         new Thread() {
 
@@ -61,6 +73,7 @@ public class WishListViewModel extends AndroidViewModel {
                     if (gamePreviewList != null) {
                         gamePreviewList.add(game);
                         mWishlist.postValue(gamePreviewList);
+                        mIsUpdating.postValue(new Pair<GamePreview, Boolean>(gamePreview, false));
                         Log.d(TAG, "Game has been added to the list");
                     }
                 }
