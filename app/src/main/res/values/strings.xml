@@ -60,6 +60,7 @@
     <string name="toast_internet_not_available">Non sei connesso a internet</string>
     <string name="toast_settings_saved">Impostazioni salvate</string>
     <string name="toast_settings_not_saved">Errore durante il salvataggio delle impostazioni</string>
+    <string name="no_games_found">Nessun gioco trovato</string>
 
     <!-- actions -->
     <string name="action_apply_changes">Salva</string>

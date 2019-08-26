@@ -49,7 +49,6 @@ public class WishlistFragment extends Fragment {
                 Log.d(TAG, "UPDATE: " + gamePreviewList.size() + "   BEFORE: "+ mCount );
                 if (gamePreviewList.size() > mCount) {
                     scroll = true;
-
                 }
 
                 mCount = gamePreviewList.size();
@@ -58,7 +57,6 @@ public class WishlistFragment extends Fragment {
 
                 if (scroll) {
                     mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1);
-
                 }
             }
         });
@@ -68,15 +66,12 @@ public class WishlistFragment extends Fragment {
         mCount = wishListViewModel.getWishlist().getValue().size();
         mRecyclerView.setAdapter(mAdapter);
 
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(getActivity(), mLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-
 
         return view;
     }

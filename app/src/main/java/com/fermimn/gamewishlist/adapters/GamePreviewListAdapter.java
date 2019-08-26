@@ -256,11 +256,4 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
     }
 
-    // TODO: try to remove this method
-    public void setDataset(GamePreviewList dataset) {
-        mGamePreviewList.clear();
-        mGamePreviewList.addAll(dataset);
-        notifyDataSetChanged();
-    }
-
 }
