@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent_layout"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -68,159 +67,152 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/category_new"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-            <LinearLayout
-                android:id="@+id/category_new"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="3dp">
+                android:text="@string/new_price"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_price"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/new_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/older_new_prices"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/category_used"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/new_price"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="3dp">
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/used_price"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/used_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/older_used_prices"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/category_digital"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/older_new_prices"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="3dp"
-                android:visibility="gone">
+                android:layout_marginStart="5dp"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/digital_price"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/digital_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/category_used"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-                <TextView
-                    android:id="@+id/older_digital_prices"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/category_preorder"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="3dp"
-                android:visibility="gone">
+                android:text="@string/used_price"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/preorder_price"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/used_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/preorder_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/older_used_prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/older_preorder_prices"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/no_info"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
+        </LinearLayout>
 
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/category_digital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/digital_price"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/digital_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/older_digital_prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/category_preorder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/preorder_price"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/preorder_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/older_preorder_prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_info"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

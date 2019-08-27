@@ -23,9 +23,6 @@ import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 
 public class WishlistFragment extends Fragment {
 
@@ -113,6 +110,7 @@ public class WishlistFragment extends Fragment {
 
         // set RecyclerView adapter - layout manager - divider
         mAdapter = new GamePreviewListAdapter(getActivity(), wishListViewModel.getWishlist().getValue());
+        mAdapter.setHasStableIds(true);
         mCount = wishListViewModel.getWishlist().getValue().size();
         mRecyclerView.setAdapter(mAdapter);
 

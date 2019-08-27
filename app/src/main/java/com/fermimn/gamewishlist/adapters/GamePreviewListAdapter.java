@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,9 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
+// To increase performance of the Recycler see this guide
+// DOCS: https://android.jlelse.eu/recyclerview-optimisations-a4b141dd433d
+
 public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewListAdapter.ViewHolder> {
 
     @SuppressWarnings("unused")
@@ -32,16 +36,21 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
     private final GamePreviewList mGamePreviewList;
     private final FragmentActivity mContext;
+    private DecimalFormat mDecimalFormat;
+    private String mCurrency;
 
     public GamePreviewListAdapter(FragmentActivity context, GamePreviewList gamePreviewList) {
         mGamePreviewList = gamePreviewList;
         mContext = context;
+        mDecimalFormat = new DecimalFormat("#.00");
+        mCurrency = mContext.getString(R.string.currency);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        Log.d(TAG, "OnCreateViewHolder called");
+        LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
         View view = inflater.inflate(R.layout.partial_game_preview, parent, false);
         return new ViewHolder(view);
     }
@@ -49,154 +58,91 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        final GamePreview gamePreview = mGamePreviewList.get(position);
+        GamePreview gamePreview = mGamePreviewList.get(position);
 
         holder.mTitleView.setText( gamePreview.getTitle() );
         holder.mPlatformView.setText( gamePreview.getPlatform() );
         holder.mPublisherView.setText( gamePreview.getPublisher() );
 
-        DecimalFormat df = new DecimalFormat("#.00");
-
-        if (gamePreview.getNewPrice() != null) {
-            holder.mCategoryNewView.setVisibility(View.VISIBLE);
-            holder.mNewPriceView.setVisibility(View.VISIBLE);
-            holder.mNewPriceView.setText( df.format( gamePreview.getNewPrice() ) + "€" );
-
-            if (gamePreview.getOlderNewPrices() != null) {
-                holder.mOlderNewPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( gamePreview.getOlderNewPrices().get(0) ) + "€";
-                holder.mOlderNewPricesView.setText(price);
-                holder.mOlderNewPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
-                holder.mOlderNewPricesView.setVisibility(View.GONE);
-            }
-
-        } else {
+        // new prices
+        if (gamePreview.getNewPrice() == null) {
             holder.mCategoryNewView.setVisibility(View.GONE);
-        }
+        } else {
+            holder.mNewPriceView.setText( mDecimalFormat.format( gamePreview.getNewPrice() ));
+            holder.mNewPriceView.append(mCurrency);
 
-        if (gamePreview.getUsedPrice() != null) {
-            holder.mCategoryUsedView.setVisibility(View.VISIBLE);
-            holder.mUsedPriceView.setVisibility(View.VISIBLE);
-            holder.mUsedPriceView.setText( df.format( gamePreview.getUsedPrice() ) + "€" );
-
-            if (gamePreview.getOlderUsedPrices() != null) {
-                holder.mOlderUsedPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( gamePreview.getOlderUsedPrices().get(0) ) + "€";
-                holder.mOlderUsedPricesView.setText(price);
-                holder.mOlderUsedPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            if (gamePreview.getOlderNewPrices() == null) {
+                holder.mOlderNewPricesView.setVisibility(View.GONE);
             } else {
-                holder.mOlderUsedPricesView.setVisibility(View.GONE);
+                holder.mOlderNewPricesView
+                        .setText( mDecimalFormat.format( gamePreview.getOlderNewPrices().get(0) ));
+                holder.mOlderNewPricesView.append(mCurrency);
+                holder.mOlderNewPricesView.setVisibility(View.VISIBLE);
             }
 
-        } else {
+            holder.mCategoryNewView.setVisibility(View.VISIBLE);
+        }
+
+        // used prices
+        if (gamePreview.getUsedPrice() == null) {
             holder.mCategoryUsedView.setVisibility(View.GONE);
-        }
+        } else {
+            holder.mUsedPriceView.setText( mDecimalFormat.format( gamePreview.getUsedPrice() ));
+            holder.mUsedPriceView.append(mCurrency);
 
-        if (gamePreview.getDigitalPrice() != null) {
-            holder.mCategoryDigitalView.setVisibility(View.VISIBLE);
-            holder.mDigitalPriceView.setVisibility(View.VISIBLE);
-            holder.mDigitalPriceView.setText( df.format( gamePreview.getDigitalPrice() ) + "€" );
-
-            if (gamePreview.getOlderDigitalPrices() != null) {
-                holder.mOlderDigitalPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( gamePreview.getOlderDigitalPrices().get(0) ) + "€";
-                holder.mOlderDigitalPricesView.setText(price);
-                holder.mOlderDigitalPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            if (gamePreview.getOlderUsedPrices() == null) {
+                holder.mOlderUsedPricesView.setVisibility(View.GONE);
             } else {
-                holder.mOlderDigitalPricesView.setVisibility(View.GONE);
+                holder.mOlderUsedPricesView
+                        .setText( mDecimalFormat.format( gamePreview.getOlderUsedPrices().get(0) ));
+                holder.mOlderUsedPricesView.append(mCurrency);
+                holder.mOlderUsedPricesView.setVisibility(View.VISIBLE);
             }
 
-        } else {
+            holder.mCategoryUsedView.setVisibility(View.VISIBLE);
+        }
+
+        // digital prices
+        if (gamePreview.getDigitalPrice() == null) {
             holder.mCategoryDigitalView.setVisibility(View.GONE);
-        }
+        } else {
+            holder.mDigitalPriceView
+                    .setText(mDecimalFormat.format( gamePreview.getDigitalPrice() ));
+            holder.mDigitalPriceView.append(mCurrency);
 
-        if (gamePreview.getPreorderPrice() != null) {
-            holder.mCategoryPreorderView.setVisibility(View.VISIBLE);
-            holder.mPreorderPriceView.setVisibility(View.VISIBLE);
-            holder.mPreorderPriceView.setText( df.format( gamePreview.getPreorderPrice() ) + "€" );
-
-            if (gamePreview.getOlderPreorderPrices() != null) {
-                holder.mOlderPreorderPricesView.setVisibility(View.VISIBLE);
-                String price = df.format( gamePreview.getOlderPreorderPrices().get(0) ) + "€";
-                holder.mOlderPreorderPricesView.setText(price);
-                holder.mOlderPreorderPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            if (gamePreview.getOlderDigitalPrices() == null) {
+                holder.mOlderDigitalPricesView.setVisibility(View.GONE);
             } else {
-                holder.mOlderPreorderPricesView.setVisibility(View.GONE);
+                holder.mOlderDigitalPricesView
+                        .setText(mDecimalFormat.format( gamePreview.getOlderDigitalPrices().get(0) ));
+                holder.mOlderDigitalPricesView.append(mCurrency);
+                holder.mOlderDigitalPricesView.setVisibility(View.VISIBLE);
             }
 
-        } else {
+            holder.mCategoryDigitalView.setVisibility(View.VISIBLE);
+        }
+
+        // preorder prices
+        if (gamePreview.getPreorderPrice() == null) {
             holder.mCategoryPreorderView.setVisibility(View.GONE);
+        } else {
+            holder.mPreorderPriceView
+                    .setText(mDecimalFormat.format( gamePreview.getPreorderPrice() ));
+            holder.mPreorderPriceView.append(mCurrency);
+
+            if (gamePreview.getOlderPreorderPrices() == null) {
+                holder.mOlderPreorderPricesView.setVisibility(View.GONE);
+            } else {
+                holder.mOlderPreorderPricesView
+                        .setText(mDecimalFormat.format( gamePreview.getOlderPreorderPrices().get(0) ));
+                holder.mOlderPreorderPricesView.append(mCurrency);
+                holder.mOlderPreorderPricesView.setVisibility(View.VISIBLE);
+            }
+
+            holder.mCategoryPreorderView.setVisibility(View.VISIBLE);
         }
 
         Picasso.get().load( gamePreview.getCover() ).into(holder.mCoverView);
-
-        holder.mParent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GamePreview gamePreview = mGamePreviewList.get(position);
-                Intent intent = new Intent(mContext, GamePageActivity.class);
-                intent.putExtra("gameID", gamePreview.getId());
-                mContext.startActivity(intent);
-            }
-        });
-
-        holder.mParent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-
-                final WishListViewModel wishListViewModel =
-                        ViewModelProviders.of(mContext).get(WishListViewModel.class);
-
-                wishListViewModel.init();
-
-                GamePreviewList gamePreviewList = wishListViewModel.getWishlist().getValue();
-                boolean result = gamePreviewList.contains( mGamePreviewList.get(position) );
-
-                if (result) {
-
-                    new AlertDialog.Builder(mContext)
-                            .setTitle( mContext.getString(R.string.dialog_remove_game_from_wishlist_title) )
-                            .setMessage( mContext.getString(R.string.dialog_remove_game_from_wishlist_text) )
-
-                            // Specifying a listener allows you to take an action before dismissing the dialog.
-                            // The dialog is automatically dismissed when a dialog button is clicked.
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    GamePreview gamePreview = mGamePreviewList.get(position);
-                                    wishListViewModel.removeGame(gamePreview);
-                                }
-                            })
-
-                            // A null listener allows the button to dismiss the dialog and take no further action
-                            .setNegativeButton(android.R.string.no, null)
-                            .show();
-
-                } else {
-
-                    new AlertDialog.Builder(mContext)
-                            .setTitle( mContext.getString(R.string.dialog_add_game_to_wishlist_title) )
-                            .setMessage( mContext.getString(R.string.dialog_add_game_to_wishlist_text) )
-
-                            // Specifying a listener allows you to take an action before dismissing the dialog.
-                            // The dialog is automatically dismissed when a dialog button is clicked.
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    GamePreview gamePreview = mGamePreviewList.get(position);
-                                    wishListViewModel.addGame(gamePreview);
-                                }
-                            })
-
-                            // A null listener allows the button to dismiss the dialog and take no further action
-                            .setNegativeButton(android.R.string.no, null)
-                            .show();
-
-                }
-
-                return true;
-            }
-        });
-
     }
 
     @Override
@@ -204,9 +150,12 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         return mGamePreviewList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getItemId(int position) {
+        return Long.parseLong( mGamePreviewList.get(position).getId() );
+    }
 
-        private final ViewGroup mParent;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final ImageView mCoverView;
         private final TextView mTitleView;
@@ -231,7 +180,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         ViewHolder(View view) {
             super(view);
 
-            mParent = view.findViewById(R.id.parent_layout);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
 
             mCoverView = view.findViewById(R.id.cover);
             mTitleView = view.findViewById(R.id.title);
@@ -252,8 +202,72 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             mOlderUsedPricesView = view.findViewById(R.id.older_used_prices);
             mOlderDigitalPricesView = view.findViewById(R.id.older_digital_prices);
             mOlderPreorderPricesView = view.findViewById(R.id.older_preorder_prices);
+
+            mOlderNewPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            mOlderUsedPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            mOlderDigitalPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            mOlderPreorderPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
+        @Override
+        public void onClick(View view) {
+            GamePreview gamePreview = mGamePreviewList.get( getAdapterPosition() );
+            Intent intent = new Intent(mContext, GamePageActivity.class);
+            intent.putExtra("gameID", gamePreview.getId());
+            mContext.startActivity(intent);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            final WishListViewModel wishListViewModel =
+                    ViewModelProviders.of(mContext).get(WishListViewModel.class);
+
+            wishListViewModel.init();
+
+            GamePreviewList gamePreviewList = wishListViewModel.getWishlist().getValue();
+            boolean result = gamePreviewList.contains( mGamePreviewList.get( getAdapterPosition() ) );
+
+            if (result) {
+
+                new AlertDialog.Builder(mContext)
+                        .setTitle( mContext.getString(R.string.dialog_remove_game_from_wishlist_title) )
+                        .setMessage( mContext.getString(R.string.dialog_remove_game_from_wishlist_text) )
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                GamePreview gamePreview = mGamePreviewList.get( getAdapterPosition() );
+                                wishListViewModel.removeGame(gamePreview);
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+
+            } else {
+
+                new AlertDialog.Builder(mContext)
+                        .setTitle( mContext.getString(R.string.dialog_add_game_to_wishlist_title) )
+                        .setMessage( mContext.getString(R.string.dialog_add_game_to_wishlist_text) )
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                GamePreview gamePreview = mGamePreviewList.get( getAdapterPosition() );
+                                wishListViewModel.addGame(gamePreview);
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+            }
+
+            return true;
+        }
     }
 
 }
