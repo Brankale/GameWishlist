@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:divider="@drawable/game_page_divider"
+    android:divider="?android:attr/listDivider"
     android:showDividers="middle|end">
 
     <TextView
