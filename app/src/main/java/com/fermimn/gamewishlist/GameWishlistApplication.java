@@ -12,7 +12,7 @@ import com.fermimn.gamewishlist.utils.SettingsManager;
 @SuppressWarnings("WeakerAccess")
 public class GameWishlistApplication extends Application {
 
-    public static String CHANNEL_ID = "Download status";
+    public static final String CHANNEL_ID = "Download status";
 
     @Override
     public void onCreate() {

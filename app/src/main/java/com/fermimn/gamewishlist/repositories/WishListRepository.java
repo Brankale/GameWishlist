@@ -44,9 +44,9 @@ public class WishListRepository {
     private static final String TAG = WishListRepository.class.getSimpleName();
 
     private static WishListRepository mInstance;
-    private Application mContext;
-    private GamePreviewList mWishList;
-    private MutableLiveData<GamePreviewList> mDataSet;
+    private final Application mContext;
+    private final GamePreviewList mWishList;
+    private final MutableLiveData<GamePreviewList> mDataSet;
 
     private WishListRepository(Application application) {
         mContext = application;
@@ -444,10 +444,10 @@ public class WishListRepository {
 
             return true;
 
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
-        } catch (TransformerConfigurationException tce) {
-            tce.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
         } catch (TransformerException te) {
             // TODO: if this exception occurs, restore a backup
             te.printStackTrace();

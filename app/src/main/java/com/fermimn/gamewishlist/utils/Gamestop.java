@@ -102,7 +102,7 @@ public class Gamestop implements Store {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             // it's not a good practise catching Exception but it's necessary because the HTML
             // can change and the app mustn't crash
             // TODO: find a way to inform the user of this error

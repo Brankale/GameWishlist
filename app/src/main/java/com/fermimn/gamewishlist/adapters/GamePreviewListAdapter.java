@@ -36,8 +36,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
     private final GamePreviewList mGamePreviewList;
     private final FragmentActivity mContext;
-    private DecimalFormat mDecimalFormat;
-    private String mCurrency;
+    private final DecimalFormat mDecimalFormat;
+    private final String mCurrency;
 
     public GamePreviewListAdapter(FragmentActivity context, GamePreviewList gamePreviewList) {
         mGamePreviewList = gamePreviewList;

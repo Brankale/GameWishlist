@@ -50,7 +50,7 @@ public class WishListViewModel extends AndroidViewModel {
     // TODO: images can't be downloaded if the user close the app
     public void addGame(final GamePreview gamePreview) {
 
-        mIsUpdating.postValue(new Pair<GamePreview, Boolean>(gamePreview, true));
+        mIsUpdating.postValue(new Pair<>(gamePreview, true));
 
         new Thread() {
 
@@ -73,7 +73,7 @@ public class WishListViewModel extends AndroidViewModel {
                     if (gamePreviewList != null) {
                         gamePreviewList.add(game);
                         mWishlist.postValue(gamePreviewList);
-                        mIsUpdating.postValue(new Pair<GamePreview, Boolean>(gamePreview, false));
+                        mIsUpdating.postValue(new Pair<>(gamePreview, false));
                         Log.d(TAG, "Game has been added to the list");
                     }
                 }
