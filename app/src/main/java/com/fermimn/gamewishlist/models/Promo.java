@@ -1,5 +1,7 @@
 package com.fermimn.gamewishlist.models;
 
+import androidx.annotation.NonNull;
+
 import com.fermimn.gamewishlist.exceptions.PromoException;
 
 public class Promo {
@@ -77,6 +79,7 @@ public class Promo {
     /**
      * @return a string with all the info abbout the Promo
      */
+    @NonNull
     @Override
     public String toString() {
         return "Promo {" +

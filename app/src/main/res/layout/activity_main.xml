@@ -26,6 +26,7 @@
         android:id="@+id/container">
 
         <!-- TODO: try to use floating action button -->
+        <!-- TODO: fix ripple effect -->
         <ImageButton
             android:id="@+id/button"
             android:layout_width="55dp"

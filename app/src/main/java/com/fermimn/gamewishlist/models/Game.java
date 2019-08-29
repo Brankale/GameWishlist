@@ -2,6 +2,7 @@ package com.fermimn.gamewishlist.models;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -252,6 +253,7 @@ public class Game extends GamePreview {
     /**
      * @return a string with all the info about the game
      */
+    @NonNull
     @Override
     public String toString() {
         return "Game {" +

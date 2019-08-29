@@ -329,6 +329,7 @@ public class GamePreview implements Comparable {
         return Objects.hash(mId);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "GamePreview{" +

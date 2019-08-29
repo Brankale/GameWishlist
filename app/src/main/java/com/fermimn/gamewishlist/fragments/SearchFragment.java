@@ -28,6 +28,7 @@ public class SearchFragment extends Fragment {
     @SuppressWarnings("unused")
     private static final String TAG = SearchFragment.class.getSimpleName();
 
+    @SuppressWarnings("FieldCanBeLocal")
     private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private RecyclerView mSearchResults;
