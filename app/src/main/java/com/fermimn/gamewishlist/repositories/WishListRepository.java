@@ -20,18 +20,15 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -113,21 +110,18 @@ public class WishListRepository {
         return null;
     }
 
-    public File getGameFolder(String gameId) {
+    private File getGameFolder(String gameId) {
         File file = new File(mContext.getFilesDir(), gameId);
         return file.exists() ? file : ( file.mkdir() ? file : null );
     }
 
-    public File getGameGalleryFolder(String gameId) {
+    private File getGameGalleryFolder(String gameId) {
         File file = new File(getGameFolder(gameId), "gallery");
         return file.exists() ? file : ( file.mkdir() ? file : null );
     }
 
     // TODO: use DownloadManager to handle images download
-    private boolean downloadGameImages(Game game) {
-
-        // if true every image has been downloaded correctly
-        boolean status = true;
+    private void downloadGameImages(Game game) {
 
         // download cover
         File cover = new File(getGameFolder(game.getId()), "cover.jpg");
@@ -140,18 +134,12 @@ public class WishListRepository {
                 String url = uri.toString();
                 String name = url.substring( url.lastIndexOf('/') );
                 File galleryImage = new File(galleryFolder, name);
-
-                if (!downloadImage(galleryImage, uri)) {
-                    status = false;
-                }
+                downloadImage(galleryImage, uri);
             }
         }
-
-        return status;
     }
 
-    private boolean downloadImage(File img, Uri uri) {
-
+    private void downloadImage(File img, Uri uri) {
         try {
 
             // download bitmap
@@ -163,17 +151,9 @@ public class WishListRepository {
             FileOutputStream fos = new FileOutputStream(img);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
-            return true;
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return false;
     }
 
     private void deleteFolder(@Nullable File folder) {
@@ -208,7 +188,7 @@ public class WishListRepository {
         }
     }
 
-    private boolean createGameXml(Game game) {
+    private void createGameXml(Game game) {
 
         try {
 
@@ -443,18 +423,11 @@ public class WishListRepository {
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             transformer.transform(new DOMSource(doc), new StreamResult(xml));
 
-            return true;
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException te) {
+        } catch (ParserConfigurationException | TransformerException e) {
             // TODO: if this exception occurs, restore a backup
-            te.printStackTrace();
+            e.printStackTrace();
         }
 
-        return false;
     }
 
     private Game getGameFromXml(String gameId) {
@@ -650,11 +623,7 @@ public class WishListRepository {
 
             return game;
 
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
 

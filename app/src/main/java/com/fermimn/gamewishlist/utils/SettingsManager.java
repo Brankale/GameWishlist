@@ -16,7 +16,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -26,6 +25,7 @@ public class SettingsManager {
 
     private static SettingsManager mInstance;
     private final Context mContext;
+    private boolean mChanges;
 
     private int mDarkMode = AppCompatDelegate.MODE_NIGHT_NO;
 
@@ -38,11 +38,13 @@ public class SettingsManager {
 
     private SettingsManager(Context context) {
         mContext = context.getApplicationContext();
+        mChanges = false;
         init();
     }
 
     public void setDarkMode(int mode) {
         mDarkMode = mode;
+        mChanges = true;
     }
 
     public int getDarkMode() {
@@ -53,30 +55,33 @@ public class SettingsManager {
 
         try {
 
-            File settings = new File(mContext.getFilesDir(), "settings.xml");
+            if (mChanges) {
+                File settings = new File(mContext.getFilesDir(), "settings.xml");
 
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+                Document doc = DocumentBuilderFactory
+                        .newInstance()
+                        .newDocumentBuilder()
+                        .newDocument();
 
-            Element root = doc.createElement("settings");
+                Element root = doc.createElement("settings");
 
-            Element darkMode = doc.createElement("dark_mode");
-            darkMode.setTextContent( Integer.toString(mDarkMode) );
+                Element darkMode = doc.createElement("dark_mode");
+                darkMode.setTextContent(Integer.toString(mDarkMode));
 
-            root.appendChild(darkMode);
-            doc.appendChild(root);
+                root.appendChild(darkMode);
+                doc.appendChild(root);
 
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            transformer.transform(new DOMSource(doc), new StreamResult(settings));
+                Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+                transformer.transform(new DOMSource(doc), new StreamResult(settings));
+
+                mChanges = false;
+            }
 
             return true;
 
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
 
@@ -101,11 +106,7 @@ public class SettingsManager {
                 mDarkMode = Integer.parseInt(darkMode);
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
+        } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
     }

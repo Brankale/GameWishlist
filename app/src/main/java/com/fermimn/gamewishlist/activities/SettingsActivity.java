@@ -1,6 +1,7 @@
 package com.fermimn.gamewishlist.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,13 +19,17 @@ import com.fermimn.gamewishlist.utils.SettingsManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    @SuppressWarnings("unused")
+    private static final String TAG = SettingsActivity.class.getSimpleName();
+
     private SettingsManager mSettings;
-    private boolean mChanges = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Log.d(TAG, "Activity Settings started");
 
         // set action bar
         Toolbar toolbar = findViewById(R.id.action_bar);
@@ -55,16 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_apply_changes:
-                if (mChanges) {
-                    if (mSettings.commit()) {
-                        Toast.makeText(this, getString(R.string.toast_settings_saved),
-                                Toast.LENGTH_SHORT).show();
-                        mChanges = false;
-                    } else {
-                        Toast.makeText(this, getString(R.string.toast_settings_not_saved),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
+                showDialog();
                 return true;
 
             default:
@@ -77,34 +73,33 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (mChanges) {
-            if (mSettings.commit()) {
-                Toast.makeText(this, getString(R.string.toast_settings_saved),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getString(R.string.toast_settings_not_saved),
-                        Toast.LENGTH_SHORT).show();
-            }
+        showDialog();
+    }
+
+    private void showDialog() {
+        if (mSettings.commit()) {
+            Toast.makeText(this, getString(R.string.toast_settings_saved),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.toast_settings_not_saved),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public void changeSettings(View view) {
 
-        // user made changes
-        mChanges = true;
-
         switch (view.getId()) {
-
             case R.id.dark_mode:
                 Switch darkMode = (Switch) view;
                 if (darkMode.isChecked()) {
                     mSettings.setDarkMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     mSettings.setDarkMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 break;
-
         }
     }
 

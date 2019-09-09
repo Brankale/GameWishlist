@@ -15,8 +15,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,16 +96,13 @@ public class Gamestop implements Store {
 
             return results;
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             // it's not a good practise catching Exception but it's necessary because the HTML
             // can change and the app mustn't crash
-            // TODO: find a way to inform the user of this error
+            // TODO: show an error message
             e.printStackTrace();
         }
+
 
         return null;
     }
@@ -155,14 +150,12 @@ public class Gamestop implements Store {
 
             return game;
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            // it's not a good practise catching Exception but it's necessary because the HTML
-            // can change and the app mustn't crash
-            // TODO: find a way to inform the user of this error
             e.printStackTrace();
-        }
+        }// it's not a good practise catching Exception but it's necessary because the HTML
+// can change and the app mustn't crash
+// TODO: find a way to inform the user of this error
+
 
         return null;
     }

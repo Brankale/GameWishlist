@@ -30,7 +30,6 @@ public class WishlistFragment extends Fragment {
     private static final String TAG = WishlistFragment.class.getSimpleName();
 
     private RecyclerView.Adapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
     private int mCount;
 
@@ -114,11 +113,11 @@ public class WishlistFragment extends Fragment {
         mCount = wishListViewModel.getWishlist().getValue().size();
         mRecyclerView.setAdapter(mAdapter);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
+        mRecyclerView.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(getActivity(), mLayoutManager.getOrientation());
+                new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;

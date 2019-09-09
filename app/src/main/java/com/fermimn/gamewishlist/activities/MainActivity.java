@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
      * Hide wishlist and show search section and viceversa
      * @param view the caller view
      */
+    @SuppressWarnings("unused")
     public void sectionSwitch(View view) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
