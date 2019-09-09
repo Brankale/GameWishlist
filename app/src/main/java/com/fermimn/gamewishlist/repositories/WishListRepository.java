@@ -208,15 +208,15 @@ public class WishListRepository {
             elementTitle.appendChild(doc.createCDATASection(game.getTitle()));
             gameElement.appendChild(elementTitle);
 
-            // Create Element Publisher and append
-            Element elementPublisher = doc.createElement("publisher");
-            elementPublisher.appendChild(doc.createCDATASection(game.getPublisher()));
-            gameElement.appendChild(elementPublisher);
-
             // Element Platform and append
             Element elementPlatform = doc.createElement("platform");
             elementPlatform.appendChild(doc.createCDATASection(game.getPlatform()));
             gameElement.appendChild(elementPlatform);
+
+            // Create Element Publisher and append
+            Element elementPublisher = doc.createElement("publisher");
+            elementPublisher.appendChild(doc.createCDATASection(game.getPublisher()));
+            gameElement.appendChild(elementPublisher);
 
             // Create Element Prices
             Element prices = doc.createElement("prices");

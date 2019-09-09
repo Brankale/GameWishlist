@@ -94,10 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Switch darkMode = (Switch) view;
                 if (darkMode.isChecked()) {
                     mSettings.setDarkMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     mSettings.setDarkMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 break;
         }
