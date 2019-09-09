@@ -33,6 +33,8 @@ public class SearchForUpdatesJobService extends JobService {
     }
 
     private void searchForUpdates(final JobParameters params) {
+
+        // TODO: start method has been removed because the thread can cause crashes
         new Thread() {
             @Override
             public void run() {
@@ -62,7 +64,7 @@ public class SearchForUpdatesJobService extends JobService {
                         // TODO: check if the prices are lower
                         // TODO: check other things like release date
                         // TODO: preorder price can become a new price if the game is release
-                        // TODO: save the file on teh local DRIVE
+                        // TODO: save the file on the local DRIVE
                         if (!game.getNewPrice().equals( outDatedGame.getNewPrice() )) {
                             Log.d(TAG, "il prezzo nuovo è cambiato");
                         }
@@ -85,7 +87,7 @@ public class SearchForUpdatesJobService extends JobService {
                 Log.d(TAG, "Job finished");
                 jobFinished(params, false);
             }
-        }.start();
+        };
     }
 
 }

@@ -113,16 +113,17 @@ public class WishListRepository {
         return null;
     }
 
-    private File getGameFolder(String gameId) {
+    public File getGameFolder(String gameId) {
         File file = new File(mContext.getFilesDir(), gameId);
         return file.exists() ? file : ( file.mkdir() ? file : null );
     }
 
-    private File getGameGalleryFolder(String gameId) {
+    public File getGameGalleryFolder(String gameId) {
         File file = new File(getGameFolder(gameId), "gallery");
         return file.exists() ? file : ( file.mkdir() ? file : null );
     }
 
+    // TODO: use DownloadManager to handle images download
     private boolean downloadGameImages(Game game) {
 
         // if true every image has been downloaded correctly
