@@ -88,7 +88,7 @@ public class WishListViewModel extends AndroidViewModel {
             if (gamePreviews.get(i).equals(gamePreview)) {
                 gamePreviews.remove(i);
                 mWishlist.postValue(gamePreviews);
-                mRepository.removeGame(gamePreview);
+                mRepository.removeGame(gamePreview.getId());
                 return;
             }
         }

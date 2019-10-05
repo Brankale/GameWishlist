@@ -155,6 +155,10 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         return Long.parseLong( mGamePreviewList.get(position).getId() );
     }
 
+    public GamePreview getGamePreviewByPosition(int position) {
+        return mGamePreviewList.get(position);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final ImageView mCoverView;

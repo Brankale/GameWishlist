@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -289,7 +288,7 @@ public class GamePageActivity extends AppCompatActivity {
         if (game.isValidForPromotions()) {
             validForPromotions.setBackgroundColor(getResources().getColor(R.color.green));
             validForPromotionsText.setText(R.string.valid_for_promotions_true);
-            validForPromotionsText.setTextColor(getResources().getColor(R.color.white));
+            validForPromotionsText.setTextColor(getResources().getColor(R.color.always_white));
         }
 
         // TODO: links in the description don't do anything

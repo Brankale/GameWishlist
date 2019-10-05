@@ -86,11 +86,11 @@ public class WishListRepository {
         mDataSet.postValue(mWishList);
     }
 
-    public void removeGame(GamePreview gamePreview) {
-        deleteFolder( getGameFolder( gamePreview.getId() ) );
+    public void removeGame(String gameId) {
+        deleteFolder( getGameFolder(gameId) );
 
         for (int i = 0; i < mWishList.size(); ++i) {
-            if (mWishList.get(i).equals(gamePreview)) {
+            if (mWishList.get(i).getId().equals(gameId)) {
                 mWishList.remove(i);
                 return;
             }

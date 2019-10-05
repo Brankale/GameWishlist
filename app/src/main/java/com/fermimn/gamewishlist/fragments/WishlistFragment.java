@@ -9,20 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fermimn.gamewishlist.GameWishlistApplication;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.utils.SwipeToDeleteCallback;
 import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 
 public class WishlistFragment extends Fragment {
@@ -30,7 +29,7 @@ public class WishlistFragment extends Fragment {
     @SuppressWarnings("unused")
     private static final String TAG = WishlistFragment.class.getSimpleName();
 
-    private RecyclerView.Adapter mAdapter;
+    private GamePreviewListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private int mCount;
 
@@ -124,6 +123,10 @@ public class WishlistFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         mRecyclerView.setLayoutManager(layoutManager);
+
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new SwipeToDeleteCallback(getActivity(), mAdapter, wishListViewModel));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
