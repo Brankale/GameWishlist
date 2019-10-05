@@ -219,6 +219,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
         @Override
         public boolean onLongClick(View view) {
+
             final WishListViewModel wishListViewModel =
                     ViewModelProviders.of(mContext).get(WishListViewModel.class);
 

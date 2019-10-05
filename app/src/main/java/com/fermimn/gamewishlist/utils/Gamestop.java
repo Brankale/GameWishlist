@@ -125,7 +125,7 @@ public class Gamestop implements Store {
             Document html = Jsoup.connect(url).get();
 
             // Init the Game
-            // TODO: change methods name with something more significant
+            // TODO: use more significant names for methods
             Log.d(TAG, "[" + id + "] - Fetching main info...");
             Game game = updateMainInfo(html.body(), id);
 
@@ -153,10 +153,9 @@ public class Gamestop implements Store {
         } catch (Exception e) {
             // it's not a good practise catching Exception but it's necessary because the HTML
             // can change and the app mustn't crash
-            // TODO: find a way to inform the user of this error
+            // TODO: return a controlled exception and show an alert dialog message
             e.printStackTrace();
         }
-
 
         return null;
     }
@@ -365,8 +364,8 @@ public class Gamestop implements Store {
                     game.setPreorderPrice( stringToPrice(price) );
 
                     // TODO: this code can be wrong due to the absence of test cases.
-                    //       If the app crashes here, the error can be fixed.
-                    //       So leave this code UNCOMMENTED.
+                    //       If the app crashes here, the error can be fixed using the crash log.
+                    //       So LEAVE this code UNCOMMENTED.
                     for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
                         price = olderPrice.text();
                         game.addOlderPreorderPrice( stringToPrice(price) );
@@ -379,8 +378,8 @@ public class Gamestop implements Store {
                     game.setDigitalPrice( stringToPrice(price) );
 
                     // TODO: this code can be wrong due to the absence of test cases.
-                    //       If the app crashes here, the error can be fixed.
-                    //       So leave this code UNCOMMENTED.
+                    //       If the app crashes here, the error can be fixed using the crash log.
+                    //       So LEAVE this code UNCOMMENTED.
                     svt.getElementsByClass("pricetext2").remove();
                     svt.getElementsByClass("detailsLink").remove();
                     price = svt.text().replaceAll("[^0-9.,]","");

@@ -6,6 +6,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -76,34 +77,42 @@ public class WishlistFragment extends Fragment {
                     return;
                 }
 
+                if (isDownloading) {
+                    Toast.makeText(getActivity(), "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                } else {
+                    // TODO: if the user enters in another activity it can't see this message
+                    Toast.makeText(getActivity(), "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                }
+
+                // TODO: this code can be used somewhere in the app, so DON'T REMOVE IT
                 // TODO: notification can't be updated if the user close the app
                 // DOCS: https://stackoverflow.com/questions/16651009/android-service-stops-when-app-is-closed
                 // DOCS: https://developer.android.com/reference/android/app/Service.html
-                String CHANNEL_ID = GameWishlistApplication.CHANNEL_ID;
-                NotificationCompat.Builder builder;
-
-                if (isDownloading) {
-                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_notification)
-                            .setContentTitle(gamePreview.getTitle())
-                            .setContentText("Downloading Game...")
-                            .setProgress(0, 0, true)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                } else {
-                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_notification)
-                            .setContentTitle(gamePreview.getTitle())
-                            .setContentText("Download completed")
-                            .setProgress(0, 0, false)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                }
-
-                NotificationManagerCompat notificationManager =
-                        NotificationManagerCompat.from( getActivity() );
-
-                // notificationId is a unique int for each notification that you must define
-                int notificationId = gamePreview.hashCode();
-                notificationManager.notify(notificationId, builder.build());
+//                String CHANNEL_ID = GameWishlistApplication.CHANNEL_ID;
+//                NotificationCompat.Builder builder;
+//
+//                if (isDownloading) {
+//                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+//                            .setSmallIcon(R.drawable.ic_notification)
+//                            .setContentTitle(gamePreview.getTitle())
+//                            .setContentText("Downloading Game...")
+//                            .setProgress(0, 0, true)
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                } else {
+//                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+//                            .setSmallIcon(R.drawable.ic_notification)
+//                            .setContentTitle(gamePreview.getTitle())
+//                            .setContentText("Download completed")
+//                            .setProgress(0, 0, false)
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                }
+//
+//                NotificationManagerCompat notificationManager =
+//                        NotificationManagerCompat.from( getActivity() );
+//
+//                // notificationId is a unique int for each notification that you must define
+//                int notificationId = gamePreview.hashCode();
+//                notificationManager.notify(notificationId, builder.build());
             }
         });
 

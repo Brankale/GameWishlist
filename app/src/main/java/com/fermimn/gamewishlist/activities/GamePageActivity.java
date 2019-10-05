@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
+import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,10 +27,12 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.fermimn.gamewishlist.R;
@@ -51,11 +56,14 @@ public class GamePageActivity extends AppCompatActivity {
 
     private Game mGame;
     private WishListViewModel mWishListViewModel;
+    private Activity mActivity; // TODO: try to remove this
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_page);
+
+        mActivity = this;
 
         // get game ID
         String id = getIntent().getStringExtra("gameID");
@@ -66,9 +74,28 @@ public class GamePageActivity extends AppCompatActivity {
         for (GamePreview gamePreview : mWishListViewModel.getWishlist().getValue()){
             if (gamePreview.getId().equals(id)) {
                 mGame = (Game) gamePreview;
-                break;
+                break; // TODO: bad coding
             }
         }
+
+        mWishListViewModel.isUpdating().observe(this, new Observer<Pair<GamePreview, Boolean>>() {
+            @Override
+            public void onChanged(Pair<GamePreview, Boolean> isUpdating) {
+                GamePreview gamePreview = isUpdating.first;
+                boolean isDownloading = isUpdating.second;
+
+                if (gamePreview == null) {
+                    return;
+                }
+
+                if (isDownloading) {
+                    Toast.makeText(mActivity, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                } else {
+                    // TODO: if the activity is closed the user can't see the message
+                    Toast.makeText(mActivity, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         // if the is not in the wishlist
         if (mGame == null) {
