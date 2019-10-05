@@ -29,7 +29,8 @@
     <string name="release_date">Dato di Rilascio:</string>
     <string name="players">Giocatori:</string>
     <string name="official_site">Sito Ufficiale:</string>
-    <string name="valid_for_promotions">"VALIDO PER LE PROMOZIONI"</string>
+    <string name="valid_for_promotions_true">"VALIDO PER LE PROMOZIONI"</string>
+    <string name="valid_for_promotions_false">"NON VALIDO PER LE PROMOZIONI"</string>
 
     <!-- pegi -->
     <string name="pegi_pegi3">pegi 3</string>

@@ -151,10 +151,11 @@ public class Gamestop implements Store {
             return game;
 
         } catch (Exception e) {
+            // it's not a good practise catching Exception but it's necessary because the HTML
+            // can change and the app mustn't crash
+            // TODO: find a way to inform the user of this error
             e.printStackTrace();
-        }// it's not a good practise catching Exception but it's necessary because the HTML
-// can change and the app mustn't crash
-// TODO: find a way to inform the user of this error
+        }
 
 
         return null;
@@ -270,7 +271,6 @@ public class Gamestop implements Store {
             if (e.childNodeSize() > 1) {
 
                 switch (e.child(0).text()) {
-
                     // set Genre attribute
                     case "Genere":
                         String strGenres = e.child(1).text();    // return example: Action/Adventure
@@ -303,8 +303,11 @@ public class Gamestop implements Store {
         }
 
         // set ValidForPromotions attribute
-        if ( !addedDetInfo.getElementsByClass("ProdottoValido").isEmpty() ) {
-            game.setValidForPromotions(true);
+        Elements validForPromoClass = addedDetInfo.getElementsByClass("ProdottoNonValido");
+        if (!validForPromoClass.isEmpty()) {
+            if (validForPromoClass.get(0).text().equals("Prodotto VALIDO per le promozioni")) {
+                game.setValidForPromotions(true);
+            }
         }
     }
 

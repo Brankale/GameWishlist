@@ -9,13 +9,13 @@
     android:gravity="center"
     android:padding="3dp"
     android:background="@color/grey"
-    android:visibility="gone"
     tools:ignore="Overdraw">
 
     <TextView
+        android:id="@+id/valid_for_promotions_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/valid_for_promotions"
+        android:text="@string/valid_for_promotions_false"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/black"/>

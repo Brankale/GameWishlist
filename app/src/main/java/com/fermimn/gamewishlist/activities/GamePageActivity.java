@@ -214,6 +214,7 @@ public class GamePageActivity extends AppCompatActivity {
         TextView officialSite = findViewById(R.id.officialSite);
         TextView description = findViewById(R.id.description);
         LinearLayout validForPromotions = findViewById(R.id.valid_for_promotions);
+        TextView validForPromotionsText = findViewById(R.id.valid_for_promotions_text);
 
         LinearLayout genresContainer = findViewById(R.id.genres_container);
         LinearLayout releaseDateContainer = findViewById(R.id.release_date_container);
@@ -258,7 +259,9 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         if (game.isValidForPromotions()) {
-            validForPromotions.setVisibility(View.VISIBLE);
+            validForPromotions.setBackgroundColor(getResources().getColor(R.color.green));
+            validForPromotionsText.setText(R.string.valid_for_promotions_true);
+            validForPromotionsText.setTextColor(getResources().getColor(R.color.white));
         }
 
         // TODO: links in the description don't do anything
