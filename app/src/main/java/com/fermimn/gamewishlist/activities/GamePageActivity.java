@@ -93,6 +93,7 @@ public class GamePageActivity extends AppCompatActivity {
                 } else {
                     // TODO: if the activity is closed the user can't see the message
                     Toast.makeText(mActivity, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                    mActivity.invalidateOptionsMenu();
                 }
             }
         });
