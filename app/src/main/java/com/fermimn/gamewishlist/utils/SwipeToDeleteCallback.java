@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 
 // DOCS: https://medium.com/@zackcosborn/step-by-step-recyclerview-swipe-to-delete-and-undo-7bbae1fce27e
@@ -24,15 +26,15 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
     private WishListViewModel mWishListViewModel;
     private GamePreviewListAdapter mAdapter;
+    private Context mContext;
     private Drawable mIcon;
-    private final ColorDrawable mBackground;
+    private ColorDrawable mBackground;
 
      public SwipeToDeleteCallback(Context context, GamePreviewListAdapter adapter, WishListViewModel wishListViewModel) {
          super(0, ItemTouchHelper.LEFT);
          mAdapter = adapter;
-         mIcon = context.getDrawable(R.drawable.ic_delete_black_24dp);
-         mBackground = new ColorDrawable(Color.RED);
          mWishListViewModel = wishListViewModel;
+         mContext = context;
      }
 
     @Override
@@ -44,11 +46,45 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         GamePreview gamePreview = mAdapter.getGamePreviewByPosition(position);
-        mWishListViewModel.removeGame(gamePreview);
+
+        boolean add = true;
+
+        GamePreviewList wishlist = mWishListViewModel.getWishlist().getValue();
+        for (GamePreview game : wishlist) {
+            if (game.equals(gamePreview)){
+                add = false;
+            }
+        }
+
+        if (add) {
+            mWishListViewModel.addGame(gamePreview);
+        } else {
+            mWishListViewModel.removeGame(gamePreview);
+        }
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+         int position = viewHolder.getAdapterPosition();
+         GamePreview gamePreview = mAdapter.getGamePreviewByPosition(position);
+
+         boolean add = true;
+
+         GamePreviewList wishlist = mWishListViewModel.getWishlist().getValue();
+         for (GamePreview game : wishlist) {
+             if (game.equals(gamePreview)){
+                 add = false;
+             }
+         }
+
+         if (add) {
+             mIcon = mContext.getDrawable(R.drawable.ic_add_black_24dp);
+             mBackground = new ColorDrawable(Color.rgb(17, 156, 0));
+         } else {
+             mIcon = mContext.getDrawable(R.drawable.ic_delete_black_24dp);
+             mBackground = new ColorDrawable(Color.RED);
+         }
 
          super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
          View itemView = viewHolder.itemView;
@@ -77,7 +113,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
                      itemView.getBottom() - iconMargin
              );
 
-         } else {
+         } else if (dX < 0) {
 
              c.clipRect(
                      itemView.getRight() + (int) dX,
@@ -100,6 +136,8 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
                      itemView.getBottom() - iconMargin
              );
 
+         } else {
+             //mBackground.setBounds(0, 0, 0, 0);
          }
 
          mBackground.draw(c);

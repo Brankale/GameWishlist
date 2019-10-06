@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +22,9 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
+import com.fermimn.gamewishlist.utils.SwipeToDeleteCallback;
 import com.fermimn.gamewishlist.viewmodels.SearchViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 
 public class SearchFragment extends Fragment {
 
@@ -52,6 +55,7 @@ public class SearchFragment extends Fragment {
 
         // set view model & observers
         mViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        WishListViewModel wishlistViewModel = ViewModelProviders.of(getActivity()).get(WishListViewModel.class);
 
         mViewModel.getSearchResults().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override
@@ -85,7 +89,7 @@ public class SearchFragment extends Fragment {
         mSearchView.setOnQueryTextListener(queryTextListener);
 
         // init recycler view
-        RecyclerView.Adapter adapter =
+        GamePreviewListAdapter adapter =
                 new GamePreviewListAdapter(getActivity(), mViewModel.getSearchResults().getValue());
         adapter.setHasStableIds(true);
         mSearchResults.setAdapter(adapter);
@@ -96,6 +100,10 @@ public class SearchFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
         mSearchResults.addItemDecoration(dividerItemDecoration);
+
+//        ItemTouchHelper itemTouchHelper =
+//                new ItemTouchHelper(new SwipeToDeleteCallback(getActivity(), adapter, wishlistViewModel));
+//        itemTouchHelper.attachToRecyclerView(mSearchResults);
 
         return view;
     }

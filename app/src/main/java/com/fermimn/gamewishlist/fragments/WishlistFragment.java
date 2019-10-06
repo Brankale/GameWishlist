@@ -124,9 +124,9 @@ public class WishlistFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ItemTouchHelper itemTouchHelper =
-                new ItemTouchHelper(new SwipeToDeleteCallback(getActivity(), mAdapter, wishListViewModel));
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+//        ItemTouchHelper itemTouchHelper =
+//                new ItemTouchHelper(new SwipeToDeleteCallback(getActivity(), mAdapter, wishListViewModel));
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(getActivity(), layoutManager.getOrientation());

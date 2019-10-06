@@ -373,7 +373,7 @@ public class Gamestop implements Store {
                     break;
 
                 // set DigitalPrice & OlderDigitalPrice
-                case "Contenuto Digitale":
+                case "Digitale":
                     price = svt.getElementsByClass("prodPriceCont").get(0).text();
                     game.setDigitalPrice( stringToPrice(price) );
 

@@ -156,6 +156,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
     }
 
     public GamePreview getGamePreviewByPosition(int position) {
+        // TODO: sometimes this line cause an IndexOutOfBoundsException
+        //       because someone requires position -1
         return mGamePreviewList.get(position);
     }
 
