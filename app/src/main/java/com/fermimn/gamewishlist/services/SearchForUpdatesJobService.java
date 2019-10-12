@@ -40,6 +40,7 @@ public class SearchForUpdatesJobService extends JobService {
             public void run() {
 
                 // TODO: in this way it doesn't update the UI if the app is opened
+                // TODO: in the MVVM pattern you shouldn't call the repository but the ViewModel
                 WishListRepository repository = WishListRepository.getInstance(getApplication());
                 GamePreviewList gamePreviewList = repository.getWishList().getValue();
 

@@ -71,6 +71,7 @@ public class WishListRepository {
         return mInstance;
     }
 
+    // TODO: why does it return MutableLiveData instead of LiveData?
     public MutableLiveData<GamePreviewList> getWishList() {
         return mDataSet;
     }
