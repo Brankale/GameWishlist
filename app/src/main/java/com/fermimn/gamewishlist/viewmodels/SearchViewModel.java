@@ -10,6 +10,9 @@ import com.fermimn.gamewishlist.utils.Store;
 
 public class SearchViewModel extends ViewModel {
 
+    @SuppressWarnings("unused")
+    private static final String TAG = SearchViewModel.class.getSimpleName();
+
     private MutableLiveData<GamePreviewList> mSearchResults;
     private MutableLiveData<Boolean> mIsSearching;
 

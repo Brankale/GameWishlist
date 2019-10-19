@@ -7,7 +7,7 @@ import android.util.Log;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.repositories.WishListRepository;
+import com.fermimn.gamewishlist.repositories.Repository;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Store;
 
@@ -41,8 +41,8 @@ public class SearchForUpdatesJobService extends JobService {
 
                 // TODO: in this way it doesn't update the UI if the app is opened
                 // TODO: in the MVVM pattern you shouldn't call the repository but the ViewModel
-                WishListRepository repository = WishListRepository.getInstance(getApplication());
-                GamePreviewList gamePreviewList = repository.getWishList().getValue();
+                Repository repository = Repository.getInstance(getApplication());
+                GamePreviewList gamePreviewList = repository.getWishlist().getValue();
 
                 Store store = new Gamestop();
 

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -37,10 +38,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.models.Promo;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;
-import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -54,7 +56,7 @@ public class GamePageActivity extends AppCompatActivity {
     private static final String TAG = GamePageActivity.class.getSimpleName();
 
     private Game mGame;
-    private WishListViewModel mWishListViewModel;
+    private WishlistViewModel mWishListViewModel;
     private Activity mActivity; // TODO: try to remove this
 
     @Override
@@ -64,18 +66,21 @@ public class GamePageActivity extends AppCompatActivity {
 
         mActivity = this;
 
+
         // get game ID
-        String id = getIntent().getStringExtra("gameID");
+        String gameId = getIntent().getStringExtra("gameID");
 
         // search the game in the wishlist
-        mWishListViewModel = ViewModelProviders.of(this).get(WishListViewModel.class);
-        mWishListViewModel.init();
-        for (GamePreview gamePreview : mWishListViewModel.getWishlist().getValue()){
-            if (gamePreview.getId().equals(id)) {
-                mGame = (Game) gamePreview;
-                break; // TODO: bad coding
-            }
+        mWishListViewModel = ViewModelProviders.of(this).get(WishlistViewModel.class);
+        //mWishListViewModel.init();
+        mGame = mWishListViewModel.getGame(gameId);
+
+        if (mGame != null) {
+            Log.e(TAG, "" + mGame.getTitle());
+        } else {
+            Log.e(TAG, "mGame è null");
         }
+
 
         mWishListViewModel.isUpdating().observe(this, new Observer<Pair<GamePreview, Boolean>>() {
             @Override
@@ -97,11 +102,11 @@ public class GamePageActivity extends AppCompatActivity {
             }
         });
 
-        // if the is not in the wishlist
+        // if the game is not in the wishlist
         if (mGame == null) {
             // download the game
             DownloadGame task = new DownloadGame(this);
-            task.execute(id);
+            task.execute(gameId);
         } else {
             // set the UI
             updateUI(mGame);
@@ -120,7 +125,11 @@ public class GamePageActivity extends AppCompatActivity {
         // show remove button if the game is already in the wishlist
         if (mGame != null) {
             setTitle( mGame.getTitle() );
-            boolean result = mWishListViewModel.getWishlist().getValue().contains(mGame);
+            GamePreviewList wishlist = mWishListViewModel.getWishlist().getValue();
+            boolean result = false;
+            if (wishlist != null) {
+                result = wishlist.contains(mGame);
+            }
             if (result) {
                 actionRemove.setVisible(true);
             } else {
@@ -166,7 +175,7 @@ public class GamePageActivity extends AppCompatActivity {
                         // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mWishListViewModel.removeGame(mGame);
+                                mWishListViewModel.removeGame(mGame.getId());
                                 finish();
                             }
                         })
@@ -193,7 +202,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Game doInBackground(String... strings) {
+         protected Game doInBackground(String... strings) {
             Gamestop gamestop = new Gamestop();
             return gamestop.downloadGame(strings[0]);
         }

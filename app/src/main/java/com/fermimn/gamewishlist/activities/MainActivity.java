@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.fragments.SearchFragment;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
-import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,10 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // DOCS: https://developer.android.com/topic/libraries/architecture/viewmodel.html#java
-        WishListViewModel wishListViewModel = ViewModelProviders.of(this).get(WishListViewModel.class);
-
-        // get wishlist
-        wishListViewModel.init();
+        WishlistViewModel wishListViewModel = ViewModelProviders.of(this).get(WishlistViewModel.class);
+        //wishListViewModel.init();
 
         // set action bar
         // DOCS: https://developer.android.com/training/appbar/setting-up

@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +20,9 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.utils.SwipeToDeleteCallback;
-import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
+
+// TODO: rewrite completely this class
 
 public class WishlistFragment extends Fragment {
 
@@ -32,6 +32,7 @@ public class WishlistFragment extends Fragment {
     private GamePreviewListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private int mCount;
+    private GamePreviewList mWishlist;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -41,13 +42,22 @@ public class WishlistFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.wishlist);
 
         // View Model
-        WishListViewModel wishListViewModel = ViewModelProviders.of(getActivity()).get(WishListViewModel.class);
-
-        wishListViewModel.init();
+        WishlistViewModel wishListViewModel = ViewModelProviders.of(getActivity()).get(WishlistViewModel.class);
+        //wishListViewModel.init();
 
         wishListViewModel.getWishlist().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override
             public void onChanged(GamePreviewList gamePreviewList) {
+
+                Log.d(TAG, "Observer triggered");
+
+                if (gamePreviewList == null) {
+                    Log.d(TAG, "Observer: wishlist null");
+                    return;
+                }
+
+                mWishlist.clear();
+                mWishlist.addAll(gamePreviewList);
 
                 boolean scroll = false;
                 Log.d(TAG, "UPDATE: " + gamePreviewList.size() + "   BEFORE: "+ mCount );
@@ -60,8 +70,11 @@ public class WishlistFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
 
                 if (scroll) {
-                    mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1);
+                    Log.d(TAG, "scroll to position: " + (mCount-1));
+                    mRecyclerView.smoothScrollToPosition(mCount-1);
                 }
+
+                Log.d(TAG, "Observer: adapter updated");
             }
         });
 
@@ -116,9 +129,21 @@ public class WishlistFragment extends Fragment {
         });
 
         // set RecyclerView adapter - layout manager - divider
-        mAdapter = new GamePreviewListAdapter(getActivity(), wishListViewModel.getWishlist().getValue());
+        mWishlist = new GamePreviewList();
+
+        GamePreviewList gamePreviewList = wishListViewModel.getWishlist().getValue();
+        if (gamePreviewList != null) {
+            mWishlist.addAll(gamePreviewList);
+        }
+
+        mAdapter = new GamePreviewListAdapter(getActivity(), mWishlist);
         mAdapter.setHasStableIds(true);
-        mCount = wishListViewModel.getWishlist().getValue().size();
+        if (gamePreviewList != null ) {
+            mCount = gamePreviewList.size();
+        } else {
+            Log.d(TAG, "Wishlist vuota");
+            mCount = 0;
+        }
         mRecyclerView.setAdapter(mAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );

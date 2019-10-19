@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,7 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 
 // DOCS: https://medium.com/@zackcosborn/step-by-step-recyclerview-swipe-to-delete-and-undo-7bbae1fce27e
 // DOCS: https://www.youtube.com/watch?v=M1XEqqo6Ktg
@@ -24,13 +23,13 @@ import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
-    private WishListViewModel mWishListViewModel;
+    private WishlistViewModel mWishListViewModel;
     private GamePreviewListAdapter mAdapter;
     private Context mContext;
     private Drawable mIcon;
     private ColorDrawable mBackground;
 
-     public SwipeToDeleteCallback(Context context, GamePreviewListAdapter adapter, WishListViewModel wishListViewModel) {
+     public SwipeToDeleteCallback(Context context, GamePreviewListAdapter adapter, WishlistViewModel wishListViewModel) {
          super(0, ItemTouchHelper.LEFT);
          mAdapter = adapter;
          mWishListViewModel = wishListViewModel;
@@ -59,7 +58,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         if (add) {
             mWishListViewModel.addGame(gamePreview);
         } else {
-            mWishListViewModel.removeGame(gamePreview);
+            mWishListViewModel.removeGame(gamePreview.getId());
         }
     }
 

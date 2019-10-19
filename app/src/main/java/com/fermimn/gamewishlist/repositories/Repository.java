@@ -6,14 +6,15 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.models.Promo;
-import com.fermimn.gamewishlist.utils.Gamestop;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,166 +35,221 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-// TODO: find a way to join WishListManager with WishListRepository
-public class WishListRepository {
+// TODO: check Singleton
+// DOCS: https://medium.com/p/de6b951dfdb0/responses/show
+
+public class Repository {
 
     @SuppressWarnings("unused")
-    private static final String TAG = WishListRepository.class.getSimpleName();
+    private static final String TAG = Repository.class.getSimpleName();
 
-    private static WishListRepository mInstance;
-    private final Application mContext;
-    private final GamePreviewList mWishList;
-    private final MutableLiveData<GamePreviewList> mDataSet;
+    private static Repository mInstance;
+    private final String FILES_DIR;
+    private final MutableLiveData<GamePreviewList> mWishlist;
 
-    private WishListRepository(Application application) {
-        mContext = application;
-
-        File[] gamesFolders = mContext.getFilesDir().listFiles();
-        mWishList = new GamePreviewList();
-
-        if (gamesFolders != null) {
-            for (File gameFolder : gamesFolders) {
-                if (gameFolder.isDirectory()) {
-                    String id = gameFolder.getName();
-                    mWishList.add( getGameFromXml(id) );
-                }
-            }
-        }
-
-        mDataSet = new MutableLiveData<>();
-        mDataSet.setValue(mWishList);
-    }
-
-    public static WishListRepository getInstance(Application application) {
+    /**
+     * Return the instance of Repository
+     * @param application Application Context
+     * @return the instance of Repository
+     */
+    public static Repository getInstance(Application application) {
         if (mInstance == null) {
-            mInstance = new WishListRepository(application);
+            mInstance = new Repository(application);
         }
         return mInstance;
     }
 
-    // TODO: why does it return MutableLiveData instead of LiveData?
-    public MutableLiveData<GamePreviewList> getWishList() {
-        return mDataSet;
+    private Repository(Application application) {
+        FILES_DIR = application.getFilesDir().getAbsolutePath();
+        mWishlist = new MutableLiveData<>();
+        mWishlist.setValue( initWishlist() );
     }
 
-    public Game getGame(GamePreview gamePreview) {
-        return new Gamestop().downloadGame( gamePreview.getId() );
-    }
+    /**
+     * Get the list of games in the wishlist
+     * @return the list of games in the wishlist, an empty list if there are no games
+     */
+    @NonNull
+    private GamePreviewList initWishlist() {
 
-    public void addGame(Game game) {
-        createGameXml(game);
-        downloadGameImages(game);
-        mWishList.add(game);
-        mDataSet.postValue(mWishList);
-    }
+        GamePreviewList wishlist = new GamePreviewList();
 
-    public void removeGame(String gameId) {
-        deleteFolder( getGameFolder(gameId) );
-
-        for (int i = 0; i < mWishList.size(); ++i) {
-            if (mWishList.get(i).getId().equals(gameId)) {
-                mWishList.remove(i);
-                return;
+        File appDir = new File(FILES_DIR);
+        if (appDir.exists()) {
+            String[] gameFolders = appDir.list();
+            if (gameFolders != null) {
+                for (String gameFolder : gameFolders) {
+                    Game game = getGameFromXml(gameFolder);
+                    wishlist.add(game);
+                }
             }
         }
 
-        mDataSet.postValue(mWishList);
+        return wishlist;
     }
 
-    private File getGameXml(String gameId) {
-        try {
-            File file = new File(getGameFolder(gameId), "data.xml");
-            return file.exists() ? file : (file.createNewFile() ? file : null);
-        } catch (IOException e) {
-            e.printStackTrace();
+    /**
+     * Get a Game from the ID
+     * @param gameId the ID of the game
+     * @return a Game object if the game is in the wishlist, null otherwise
+     */
+    public Game getGame(@Nullable String gameId) {
+        GamePreviewList wishlist = mWishlist.getValue();
+        if (wishlist != null) {
+            for (GamePreview gamePreview : wishlist) {
+                if (gamePreview.getId().equals(gameId)) {
+                    return (Game) gamePreview;
+                }
+            }
         }
-
         return null;
     }
 
-    private File getGameFolder(String gameId) {
-        File file = new File(mContext.getFilesDir(), gameId);
-        return file.exists() ? file : ( file.mkdir() ? file : null );
+    /**
+     * Get the list of games in the wishlist
+     * @return a MutableLiveData containing the list of games in the wishlist
+     *         or containing null if there are no games in the wishlist
+     */
+    public LiveData<GamePreviewList> getWishlist() {
+        return mWishlist;
     }
 
-    private File getGameGalleryFolder(String gameId) {
-        File file = new File(getGameFolder(gameId), "gallery");
-        return file.exists() ? file : ( file.mkdir() ? file : null );
-    }
+    /**
+     * Save the game info on local storage
+     * @param game the game to save
+     * @return true if the game has been saved, false otherwise
+     */
+    public boolean addGame(@Nullable Game game) {
 
-    // TODO: use DownloadManager to handle images download
-    private void downloadGameImages(Game game) {
+        if (game != null) {
+            boolean result = initGameFolder( game.getId() );
+            if (result) {
+                // store the game on local memory
+                createXml(game);
+                downloadGameImages(game);
 
-        // download cover
-        File cover = new File(getGameFolder(game.getId()), "cover.jpg");
-        downloadImage(cover, game.getCover());
+                // adding game to the wishlist
+                GamePreviewList wishlist = mWishlist.getValue();
+                if (wishlist == null) {
+                    wishlist = new GamePreviewList();
+                }
+                wishlist.add(game);
+                mWishlist.postValue(wishlist);
 
-        // download gallery
-        if (game.getGallery() != null) {
-            File galleryFolder = getGameGalleryFolder(game.getId());
-            for (Uri uri : game.getGallery()) {
-                String url = uri.toString();
-                String name = url.substring( url.lastIndexOf('/') );
-                File galleryImage = new File(galleryFolder, name);
-                downloadImage(galleryImage, uri);
+                return true;
+            } else {
+                // remove files if some errors occurred
+                removeGame( game.getId() );
             }
         }
+
+        return false;
     }
 
-    private void downloadImage(File img, Uri uri) {
-        try {
+    /**
+     * Remove the game given its ID
+     * @param gameId the ID of the game to remove
+     * @return true if the game has been removed, false otherwise
+     */
+    public boolean removeGame(@Nullable String gameId) {
+        boolean result = deleteFolder( new File( getGameFolder(gameId) ) );
 
-            // download bitmap
-            InputStream is = (InputStream) new URL(uri.toString()).getContent();
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            is.close();
+        GamePreviewList wishlist = mWishlist.getValue();
+        if (wishlist != null) {
+            for (int i = 0; i < wishlist.size(); ++i) {
+                if (wishlist.get(i).getId().equals(gameId)) {
+                    wishlist.remove(i);
+                    mWishlist.postValue(wishlist);
+                    break;
+                }
+            }
+        }
 
-            // save bitmap
-            FileOutputStream fos = new FileOutputStream(img);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (result) {
+            Log.d(TAG, '[' + getGameFolder(gameId) +  "] - folder deleted successfully");
+            return true;
+        } else {
+            Log.e(TAG, '[' + getGameFolder(gameId) +  "] - errors occurred while deleting the folder");
+            return false;
         }
     }
 
-    private void deleteFolder(@Nullable File folder) {
+    /**
+     * @param gameId the ID of the game of which you want to have the folder
+     * @return a String with the path of the game folder given the game ID
+     */
+    private String getGameFolder(@Nullable String gameId) {
+        return FILES_DIR + '/' + gameId;
+    }
 
-        if (folder == null) {
-            return;
+    /**
+     * @param gameId the ID of the game of which you want to have the folder
+     * @return a String with the path of the game gallery folder given the game ID
+     */
+    private String getGalleryFolder(@Nullable String gameId) {
+        return getGameFolder(gameId) + "/gallery";
+    }
+
+    /**
+     * @param gameId the ID of the game of which you want to have the XML
+     * @return a String with the path of the game XML file given the game ID
+     */
+    private String getGameXml(@Nullable String gameId) {
+        return getGameFolder(gameId) + "/data.xml";
+    }
+
+    /**
+     * Creates the necessary folders to store game information
+     * @param gameId the ID of the game which you want to save
+     * @return true if folders have been created, false otherwise
+     */
+    private boolean initGameFolder(@Nullable String gameId) {
+        // create root folder
+        if (!new File( getGameFolder(gameId) ).mkdir()) {
+            return false;
         }
+        // create gallery folder
+        return new File( getGalleryFolder(gameId) ).mkdir();
+    }
 
-        // listfiles returns null if the File is not a directory
-        // or if there are errors while reading files
-        File[] files = folder.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    String fileName = file.getName();
-                    if (file.delete()) {
-                        Log.d(TAG, "[" + fileName + "] - File deleted successfully");
+    /**
+     * Delete the given folder and its content
+     * @param file the directory to delete
+     * @return true if the directory has been deleted correctly, false otherwise
+     */
+    private boolean deleteFolder(@Nullable File file) {
+
+        boolean errors = false;
+        boolean result;
+
+        if (file != null && file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File child : files) {
+                    if (child.isDirectory()) {
+                        result = deleteFolder(child);
+                        if (!result) { errors = true; }
                     } else {
-                        Log.d(TAG, "[" + fileName + "] - ERROR WHILE DELETING FILE");
+                        result = child.delete();
+                        if (!result) { errors = true; }
                     }
-                } else {
-                    deleteFolder(file);
                 }
             }
 
-            String folderName = folder.getName();
-            if (folder.delete()) {
-                Log.d(TAG, "[" + folderName + "] - Directory deleted successfully");
-            } else {
-                Log.d(TAG, "[" + folderName + "] - ERROR WHILE DELETING DIRECTORY");
-            }
+            result = file.delete();
+            if (!result) { errors = true; }
+
+            return !errors;
         }
+
+        return false;
     }
 
-    private void createGameXml(Game game) {
-
+    // TODO: this method should be rewritten
+    private void createXml(Game game) {
         try {
 
-            File xml = getGameXml(game.getId());
+            File xml = new File( getGameXml(game.getId()) );
 
             // Create Document
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -401,7 +457,7 @@ public class WishListRepository {
             // Save gallery
             if (game.getGallery() != null) {
                 Element elementGallery = doc.createElement("gallery");
-                File galleryFolder = getGameGalleryFolder(game.getId());
+                File galleryFolder = new File( getGalleryFolder(game.getId()) );
                 for (Uri uri : game.getGallery()) {
 
                     String url = uri.toString();
@@ -428,14 +484,13 @@ public class WishListRepository {
             // TODO: if this exception occurs, restore a backup
             e.printStackTrace();
         }
-
     }
 
+    // TODO: this method should be rewritten
     private Game getGameFromXml(String gameId) {
 
         try {
-
-            File xml = getGameXml(gameId);
+            File xml = new File(getGameXml(gameId));
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml);
 
             Element gameElement = doc.getDocumentElement();
@@ -446,7 +501,7 @@ public class WishListRepository {
 
             Game game = new Game(id, title, platform);
 
-            game.setPublisher( gameElement.getElementsByTagName("publisher").item(0).getChildNodes().item(0).getTextContent() );
+            game.setPublisher(gameElement.getElementsByTagName("publisher").item(0).getChildNodes().item(0).getTextContent());
 
 
             Element prices = (Element) gameElement.getElementsByTagName("prices").item(0);
@@ -455,7 +510,7 @@ public class WishListRepository {
             org.w3c.dom.NodeList nl = prices.getElementsByTagName("newPrice");
             if (nl.getLength() > 0) {
                 Element newPrice = (Element) nl.item(0);
-                game.setNewPrice( Double.valueOf(newPrice.getTextContent()) );
+                game.setNewPrice(Double.valueOf(newPrice.getTextContent()));
             }
 
             //OLDER NEW PRICES
@@ -465,7 +520,7 @@ public class WishListRepository {
                 nl = olderNewPrices.getElementsByTagName("price");
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element elementPrice = (Element) nl.item(i);
-                    game.addOlderNewPrice( Double.valueOf(elementPrice.getTextContent() ));
+                    game.addOlderNewPrice(Double.valueOf(elementPrice.getTextContent()));
                 }
             }
 
@@ -473,7 +528,7 @@ public class WishListRepository {
             nl = prices.getElementsByTagName("usedPrice");
             if (nl.getLength() > 0) {
                 Element usedPrice = (Element) nl.item(0);
-                game.setUsedPrice( Double.valueOf(usedPrice.getTextContent()) );
+                game.setUsedPrice(Double.valueOf(usedPrice.getTextContent()));
             }
 
             //OLDER USED PRICES
@@ -483,7 +538,7 @@ public class WishListRepository {
                 nl = olderUsedPrices.getElementsByTagName("price");
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element elementPrice = (Element) nl.item(i);
-                    game.addOlderUsedPrice( Double.valueOf(elementPrice.getTextContent()) );
+                    game.addOlderUsedPrice(Double.valueOf(elementPrice.getTextContent()));
                 }
             }
 
@@ -491,7 +546,7 @@ public class WishListRepository {
             nl = prices.getElementsByTagName("preorderPrice");
             if (nl.getLength() > 0) {
                 Element preorderPrice = (Element) nl.item(0);
-                game.setPreorderPrice( Double.valueOf(preorderPrice.getTextContent() ));
+                game.setPreorderPrice(Double.valueOf(preorderPrice.getTextContent()));
             }
 
             //OLDER PREORDER PRICES
@@ -501,7 +556,7 @@ public class WishListRepository {
                 nl = olderPreorderPrices.getElementsByTagName("price");
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element elementPrice = (Element) nl.item(i);
-                    game.addOlderPreorderPrice( Double.valueOf(elementPrice.getTextContent()));
+                    game.addOlderPreorderPrice(Double.valueOf(elementPrice.getTextContent()));
                 }
             }
 
@@ -509,7 +564,7 @@ public class WishListRepository {
             nl = prices.getElementsByTagName("digitalPrice");
             if (nl.getLength() > 0) {
                 Element digitalPrice = (Element) nl.item(0);
-                game.setDigitalPrice( Double.valueOf(digitalPrice.getTextContent()) );
+                game.setDigitalPrice(Double.valueOf(digitalPrice.getTextContent()));
             }
 
             //OLDER DIGITAL PRICES
@@ -519,7 +574,7 @@ public class WishListRepository {
                 nl = olderDigitalPrices.getElementsByTagName("price");
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element elementPrice = (Element) nl.item(i);
-                    game.addOlderDigitalPrice( Double.valueOf(elementPrice.getTextContent()));
+                    game.addOlderDigitalPrice(Double.valueOf(elementPrice.getTextContent()));
                 }
             }
 
@@ -530,7 +585,7 @@ public class WishListRepository {
                 nl = pegi.getElementsByTagName("type");
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element type = (Element) nl.item(i);
-                    game.addPegi( type.getTextContent());
+                    game.addPegi(type.getTextContent());
                 }
             }
 
@@ -541,7 +596,7 @@ public class WishListRepository {
                 nl = genres.getElementsByTagName("genre");
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element genre = (Element) nl.item(i);
-                    game.addGenre( genre.getTextContent());
+                    game.addGenre(genre.getTextContent());
                 }
             }
 
@@ -549,21 +604,21 @@ public class WishListRepository {
             nl = gameElement.getElementsByTagName("officialSite");
             if (nl.getLength() > 0) {
                 Element officialSite = (Element) nl.item(0);
-                game.setOfficialWebSite( officialSite.getChildNodes().item(0).getTextContent() );
+                game.setOfficialWebSite(officialSite.getChildNodes().item(0).getTextContent());
             }
 
             //PLAYERS
             nl = gameElement.getElementsByTagName("players");
             if (nl.getLength() > 0) {
                 Element players = (Element) nl.item(0);
-                game.setPlayers( players.getChildNodes().item(0).getTextContent() );
+                game.setPlayers(players.getChildNodes().item(0).getTextContent());
             }
 
             //RELEASE DATE
             nl = gameElement.getElementsByTagName("releaseDate");
             if (nl.getLength() > 0) {
                 Element releaseDate = (Element) nl.item(0);
-                game.setReleaseDate( releaseDate.getTextContent() );
+                game.setReleaseDate(releaseDate.getTextContent());
             }
 
             //PROMOS
@@ -596,39 +651,85 @@ public class WishListRepository {
             nl = gameElement.getElementsByTagName("description");
             if (nl.getLength() > 0) {
                 Element description = (Element) nl.item(0);
-                game.setDescription( description.getChildNodes().item(0).getTextContent() );
+                game.setDescription(description.getChildNodes().item(0).getTextContent());
             }
 
             //VALID FOR PROMO
             nl = gameElement.getElementsByTagName("validForPromo");
             if (nl.getLength() > 0) {
                 Element validForPromo = (Element) nl.item(0);
-                game.setValidForPromotions( Boolean.valueOf(validForPromo.getTextContent()));
+                game.setValidForPromotions(Boolean.valueOf(validForPromo.getTextContent()));
             }
 
             // set cover
             nl = gameElement.getElementsByTagName("cover");
             if (nl.getLength() > 0) {
                 Element cover = (Element) nl.item(0);
-                game.setCover( Uri.parse(cover.getChildNodes().item(0).getTextContent()) );
+                game.setCover(Uri.parse(cover.getChildNodes().item(0).getTextContent()));
             }
 
             // set gallery
             nl = gameElement.getElementsByTagName("gallery");
             if (nl.getLength() > 0) {
-                nl = ((Element)nl.item(0)).getElementsByTagName("image");
+                nl = ((Element) nl.item(0)).getElementsByTagName("image");
                 for (int i = 0; i < nl.getLength(); ++i) {
-                    game.addToGallery( Uri.parse(nl.item(i).getChildNodes().item(0).getTextContent() ) );
+                    game.addToGallery(Uri.parse(nl.item(i).getChildNodes().item(0).getTextContent()));
                 }
             }
 
             return game;
 
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    // TODO: this method should be rewritten
+    // TODO: use DownloadManager to handle images download
+    //       otherwise images cannot be downloaded if the user close the app
+    private void downloadGameImages(final Game game) {
+
+        new Thread() {
+
+            public void run() {
+                // download cover
+                File cover = new File(getGameFolder(game.getId()), "cover.jpg");
+                downloadImage(cover, game.getCover());
+
+                // download gallery
+                if (game.getGallery() != null) {
+                    File galleryFolder = new File( getGalleryFolder(game.getId()) );
+                    for (Uri uri : game.getGallery()) {
+                        String url = uri.toString();
+                        String name = url.substring( url.lastIndexOf('/') );
+                        File galleryImage = new File(galleryFolder, name);
+                        downloadImage(galleryImage, uri);
+                    }
+                }
+            }
+
+        }.start();
+
+    }
+
+    // TODO: this method should be rewritten
+    private void downloadImage(File img, Uri uri) {
+        try {
+
+            // download bitmap
+            InputStream is = (InputStream) new URL(uri.toString()).getContent();
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+
+            // save bitmap
+            FileOutputStream fos = new FileOutputStream(img);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

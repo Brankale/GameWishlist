@@ -21,7 +21,7 @@ import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.viewmodels.WishListViewModel;
+import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -40,7 +40,11 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
     private final String mCurrency;
 
     public GamePreviewListAdapter(FragmentActivity context, GamePreviewList gamePreviewList) {
-        mGamePreviewList = gamePreviewList;
+        if (gamePreviewList == null) {
+            mGamePreviewList = new GamePreviewList();
+        } else {
+            mGamePreviewList = gamePreviewList;
+        }
         mContext = context;
         mDecimalFormat = new DecimalFormat("#.00");
         mCurrency = mContext.getString(R.string.currency);
@@ -226,13 +230,18 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         @Override
         public boolean onLongClick(View view) {
 
-            final WishListViewModel wishListViewModel =
-                    ViewModelProviders.of(mContext).get(WishListViewModel.class);
-
-            wishListViewModel.init();
+            final WishlistViewModel wishListViewModel =
+                    ViewModelProviders.of(mContext).get(WishlistViewModel.class);
 
             GamePreviewList gamePreviewList = wishListViewModel.getWishlist().getValue();
-            boolean result = gamePreviewList.contains( mGamePreviewList.get( getAdapterPosition() ) );
+
+            boolean result;
+            if (gamePreviewList != null) {
+                result = gamePreviewList.contains( mGamePreviewList.get( getAdapterPosition() ) );
+            } else {
+                result = false;
+            }
+
 
             if (result) {
 
@@ -245,7 +254,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 GamePreview gamePreview = mGamePreviewList.get( getAdapterPosition() );
-                                wishListViewModel.removeGame(gamePreview);
+                                wishListViewModel.removeGame(gamePreview.getId());
                             }
                         })
 
