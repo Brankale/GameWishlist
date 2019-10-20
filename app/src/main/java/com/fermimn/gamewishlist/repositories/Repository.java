@@ -78,9 +78,13 @@ public class Repository {
         if (appDir.exists()) {
             String[] gameFolders = appDir.list();
             if (gameFolders != null) {
+                File folder;
                 for (String gameFolder : gameFolders) {
-                    Game game = getGameFromXml(gameFolder);
-                    wishlist.add(game);
+                    folder = new File( getGameXml(gameFolder) );
+                    if (folder.exists()) {
+                        Game game = getGameFromXml(folder);
+                        wishlist.add(game);
+                    }
                 }
             }
         }
@@ -487,10 +491,9 @@ public class Repository {
     }
 
     // TODO: this method should be rewritten
-    private Game getGameFromXml(String gameId) {
+    private Game getGameFromXml(File xml) {
 
         try {
-            File xml = new File(getGameXml(gameId));
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml);
 
             Element gameElement = doc.getDocumentElement();

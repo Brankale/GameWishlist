@@ -33,8 +33,8 @@ public class GameWishlistApplication extends Application {
         SettingsManager settings = SettingsManager.getInstance(this);
         AppCompatDelegate.setDefaultNightMode( settings.getDarkMode() );
 
-        createNotificationChannel();
-        scheduleJob();
+        //createNotificationChannel();
+        //scheduleJob();
     }
 
     private void createNotificationChannel() {

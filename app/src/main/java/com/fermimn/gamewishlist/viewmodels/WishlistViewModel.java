@@ -21,8 +21,8 @@ public class WishlistViewModel extends AndroidViewModel {
     @SuppressWarnings("unused")
     private static final String TAG = WishlistViewModel.class.getSimpleName();
 
-    private Repository mRepository;
-    private MutableLiveData<Pair<GamePreview, Boolean>> mIsUpdating;
+    private final Repository mRepository;
+    private final MutableLiveData<Pair<GamePreview, Boolean>> mIsUpdating;
 
     public WishlistViewModel(@NonNull Application application) {
         super(application);

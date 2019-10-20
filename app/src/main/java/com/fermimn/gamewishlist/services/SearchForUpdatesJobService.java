@@ -92,3 +92,32 @@ public class SearchForUpdatesJobService extends JobService {
     }
 
 }
+
+
+// DOCS: https://stackoverflow.com/questions/16651009/android-service-stops-when-app-is-closed
+// DOCS: https://developer.android.com/reference/android/app/Service.html
+//                String CHANNEL_ID = GameWishlistApplication.CHANNEL_ID;
+//                NotificationCompat.Builder builder;
+//
+//                if (isDownloading) {
+//                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+//                            .setSmallIcon(R.drawable.ic_notification)
+//                            .setContentTitle(gamePreview.getTitle())
+//                            .setContentText("Downloading Game...")
+//                            .setProgress(0, 0, true)
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                } else {
+//                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+//                            .setSmallIcon(R.drawable.ic_notification)
+//                            .setContentTitle(gamePreview.getTitle())
+//                            .setContentText("Download completed")
+//                            .setProgress(0, 0, false)
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                }
+//
+//                NotificationManagerCompat notificationManager =
+//                        NotificationManagerCompat.from( getActivity() );
+//
+//                // notificationId is a unique int for each notification that you must define
+//                int notificationId = gamePreview.hashCode();
+//                notificationManager.notify(notificationId, builder.build());

@@ -29,6 +29,9 @@ import java.text.DecimalFormat;
 // To increase performance of the Recycler see this guide
 // DOCS: https://android.jlelse.eu/recyclerview-optimisations-a4b141dd433d
 
+// TODO: use Context of ViewHolder instead of passing Context to the Adapter
+// DOCS: https://guides.codepath.com/android/Using-Context#array-adapter
+
 public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewListAdapter.ViewHolder> {
 
     @SuppressWarnings("unused")
