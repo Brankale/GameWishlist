@@ -104,12 +104,9 @@ public class WishlistFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         // add divider to RecyclerView
-        activity = getActivity();
-        if (activity != null) {
-            DividerItemDecoration dividerItemDecoration =
-                    new DividerItemDecoration(activity, layoutManager.getOrientation());
-            mRecyclerView.addItemDecoration(dividerItemDecoration);
-        }
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         // add Adapter to RecyclerView
         mAdapter = new GamePreviewListAdapter(getActivity(), mWishlist);

@@ -57,30 +57,22 @@ public class GamePageActivity extends AppCompatActivity {
 
     private Game mGame;
     private WishlistViewModel mWishListViewModel;
-    private Activity mActivity; // TODO: try to remove this
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_page);
 
-        mActivity = this;
-
-
         // get game ID
         String gameId = getIntent().getStringExtra("gameID");
 
         // search the game in the wishlist
         mWishListViewModel = ViewModelProviders.of(this).get(WishlistViewModel.class);
-        //mWishListViewModel.init();
         mGame = mWishListViewModel.getGame(gameId);
 
-        if (mGame != null) {
-            Log.e(TAG, "" + mGame.getTitle());
-        } else {
-            Log.e(TAG, "mGame è null");
+        if (mGame == null) {
+            Log.e(TAG, "the passed game is null");
         }
-
 
         mWishListViewModel.isUpdating().observe(this, new Observer<Pair<GamePreview, Boolean>>() {
             @Override
@@ -93,11 +85,11 @@ public class GamePageActivity extends AppCompatActivity {
                 }
 
                 if (isDownloading) {
-                    Toast.makeText(mActivity, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GamePageActivity.this, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: if the activity is closed the user can't see the message
-                    Toast.makeText(mActivity, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
-                    mActivity.invalidateOptionsMenu();
+                    Toast.makeText(GamePageActivity.this, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                    GamePageActivity.this.invalidateOptionsMenu();
                 }
             }
         });
