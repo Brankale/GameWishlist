@@ -28,6 +28,7 @@ public class SettingsManager {
     private boolean mChanges;
 
     private int mDarkMode = AppCompatDelegate.MODE_NIGHT_NO;
+    private boolean mHighQualityPreview;
 
     public static SettingsManager getInstance(Context context) {
         if (mInstance == null) {
@@ -51,6 +52,15 @@ public class SettingsManager {
         return mDarkMode;
     }
 
+    public void setHighQualityPreview(boolean state) {
+        mHighQualityPreview = state;
+        mChanges = true;
+    }
+
+    public boolean isHighQualityPreview() {
+        return mHighQualityPreview;
+    }
+
     public boolean commit() {
 
         try {
@@ -67,8 +77,12 @@ public class SettingsManager {
 
                 Element darkMode = doc.createElement("dark_mode");
                 darkMode.setTextContent(Integer.toString(mDarkMode));
-
                 root.appendChild(darkMode);
+
+                Element HQPreview = doc.createElement("high_quality_preview");
+                HQPreview.setTextContent(""+mHighQualityPreview);
+                root.appendChild(HQPreview);
+
                 doc.appendChild(root);
 
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -104,6 +118,11 @@ public class SettingsManager {
             if (tags.getLength() > 0) {
                 String darkMode = tags.item(0).getTextContent();
                 mDarkMode = Integer.parseInt(darkMode);
+            }
+
+            NodeList HQPreview = doc.getElementsByTagName("high_quality_preview");
+            if (HQPreview.getLength() > 0) {
+                mHighQualityPreview = Boolean.parseBoolean( HQPreview.item(0).getTextContent() );
             }
 
         } catch (IOException | ParserConfigurationException | SAXException e) {

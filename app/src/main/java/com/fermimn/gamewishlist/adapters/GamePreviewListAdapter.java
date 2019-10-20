@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.activities.GamePageActivity;
+import com.fermimn.gamewishlist.activities.SettingsActivity;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.utils.SettingsManager;
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -149,7 +152,18 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mCategoryPreorderView.setVisibility(View.VISIBLE);
         }
 
-        Picasso.get().load( gamePreview.getCover() ).into(holder.mCoverView);
+        // TODO: hard coded
+        SettingsManager settings = SettingsManager.getInstance(mContext);
+        if (settings.isHighQualityPreview()) {
+            Uri uri = gamePreview.getCover();
+            if (uri != null) {
+                String result = uri.toString().replace("2med", "3max");
+                Picasso.get().load(result).into(holder.mCoverView);
+            }
+        } else {
+            Picasso.get().load( gamePreview.getCover() ).into(holder.mCoverView);
+        }
+
     }
 
     @Override

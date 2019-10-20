@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.utils.SettingsManager;
+import com.fermimn.gamewishlist.utils.SwipeToDeleteCallback;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,8 +30,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Log.d(TAG, "Activity Settings started");
-
         // set action bar
         Toolbar toolbar = findViewById(R.id.action_bar);
         toolbar.setTitle( getString(R.string.section_settings) );
@@ -39,11 +38,18 @@ public class SettingsActivity extends AppCompatActivity {
         mSettings = SettingsManager.getInstance(this);
 
         Switch darkMode = findViewById(R.id.dark_mode);
+        Switch HQPreview = findViewById(R.id.high_quality_preview);
 
         if (mSettings.getDarkMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             darkMode.setChecked(true);
         } else {
             darkMode.setChecked(false);
+        }
+
+        if (mSettings.isHighQualityPreview()) {
+            HQPreview.setChecked(true);
+        } else {
+            HQPreview.setChecked(false);
         }
 
     }
@@ -98,6 +104,14 @@ public class SettingsActivity extends AppCompatActivity {
                     mSettings.setDarkMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 break;
+
+            case R.id.high_quality_preview:
+                Switch HQPreview = (Switch) view;
+                if (HQPreview.isChecked()) {
+                    mSettings.setHighQualityPreview(true);
+                } else {
+                    mSettings.setHighQualityPreview(false);
+                }
         }
     }
 

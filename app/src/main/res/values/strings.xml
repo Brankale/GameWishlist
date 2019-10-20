@@ -70,7 +70,8 @@
     <string name="action_remove_game">Rimuovi dalla lista dei desideri</string>
 
     <!-- settings -->
-    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_dark_mode">Modalità scura</string>
+    <string name="settings_high_quality_preview">Anteprime in alta definizione</string>
 
     <!-- app sections -->
     <string name="section_wishlist">Lista dei desideri</string>
