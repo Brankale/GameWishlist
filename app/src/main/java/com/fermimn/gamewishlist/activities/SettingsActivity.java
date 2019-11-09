@@ -1,7 +1,6 @@
 package com.fermimn.gamewishlist.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.utils.SettingsManager;
-import com.fermimn.gamewishlist.utils.SwipeToDeleteCallback;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -92,7 +90,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public void changeSettings(View view) {
 
         switch (view.getId()) {
