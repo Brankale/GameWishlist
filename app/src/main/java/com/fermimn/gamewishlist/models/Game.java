@@ -18,7 +18,7 @@ public class Game extends GamePreview {
     private List<String> mGenres;
     private List<String> mPegi;
     private List<Uri> mGallery;
-    private boolean mValidForPromotions;
+    private boolean mValidForPromo;
 
     /**
      * A game can exist without a price but it must be recognisable through
@@ -27,8 +27,13 @@ public class Game extends GamePreview {
      * @param title of the game
      * @param platform of the game
      */
+    @Deprecated
     public Game(String id, String title, String platform) {
         super(id, title, platform);
+    }
+
+    public Game(String id) {
+        super(id);
     }
 
     /**
@@ -172,16 +177,16 @@ public class Game extends GamePreview {
      *         in some kind of promotions, false otherwise
      */
     public boolean isValidForPromotions() {
-        return mValidForPromotions;
+        return mValidForPromo;
     }
 
     /**
      * Set if the game is valid for promotions
-     * @param validForPromotions true if the game can be used to buy other games at lower prices
+     * @param validForPromo true if the game can be used to buy other games at lower prices
      *                           in some kind of promotions, false otherwise
      */
-    public void setValidForPromotions(boolean validForPromotions) {
-        mValidForPromotions = validForPromotions;
+    public void setValidForPromo(boolean validForPromo) {
+        mValidForPromo = validForPromo;
     }
 
     /**
@@ -264,7 +269,7 @@ public class Game extends GamePreview {
                 ", mDescription='" + mDescription + '\'' +
                 ", mOfficialSite='" + mOfficialWebSite + '\'' +
                 ", mPlayers='" + mPlayers + '\'' +
-                ", mValidForPromotions=" + mValidForPromotions +
+                ", mValidForPromotions=" + mValidForPromo +
                 ", mPromos=" + mPromos +
                 ", mGallery=" + mGallery +
                 '}';

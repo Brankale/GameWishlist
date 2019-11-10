@@ -8,7 +8,7 @@ public class Promo {
 
     private final String mHeader;
     private String mSubHeader;
-    private String mFindMoreMessage;
+    private String mFindMoreMsg;
     private String mFindMoreUrl;
 
     /**
@@ -50,16 +50,16 @@ public class Promo {
      * @param message a message inviting the user to discover the promotion
      * @param url of the message
      */
-    public void setFindMoreMessage(String message, String url) {
-        mFindMoreMessage = message;
+    public void setFindMoreMsg(String message, String url) {
+        mFindMoreMsg = message;
         mFindMoreUrl = url;
     }
 
     /**
      * @return a message inviting the user to discover the promotion
      */
-    public String getFindMoreMessage() {
-        return mFindMoreMessage;
+    public String getFindMoreMsg() {
+        return mFindMoreMsg;
     }
 
     /**
@@ -72,8 +72,8 @@ public class Promo {
     /**
      * @return true if the Promo has a "Find More" message
      */
-    public boolean hasFindMoreMessage() {
-        return mFindMoreMessage != null && !mFindMoreMessage.isEmpty();
+    public boolean hasFindMoreMsg() {
+        return mFindMoreMsg != null && !mFindMoreMsg.isEmpty();
     }
 
     /**
@@ -85,7 +85,7 @@ public class Promo {
         return "Promo {" +
                 "header='" + mHeader + '\'' +
                 ", sub header='" + mSubHeader + '\'' +
-                ", find more='" + mFindMoreMessage + '\'' +
+                ", find more='" + mFindMoreMsg + '\'' +
                 ", find more url='" + mFindMoreUrl + '\'' +
                 '}';
     }

@@ -576,9 +576,9 @@ public class GamePageActivity extends AppCompatActivity {
                 promoHeader.setText( promo.getHeader() );
                 promoValidity.setText( promo.getSubHeader() );
 
-                if (promo.hasFindMoreMessage()) {
+                if (promo.hasFindMoreMsg()) {
                     String href = promo.getFindMoreUrl();
-                    String message = promo.getFindMoreMessage();
+                    String message = promo.getFindMoreMsg();
                     Spanned link = Html.fromHtml("<a href='" + href + "'>" + message + "</a>");
 
                     promoMessage.setMovementMethod( LinkMovementMethod.getInstance() );

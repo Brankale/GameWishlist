@@ -305,7 +305,7 @@ public class Gamestop implements Store {
         Elements validForPromoClass = addedDetInfo.getElementsByClass("ProdottoNonValido");
         if (!validForPromoClass.isEmpty()) {
             if (validForPromoClass.get(0).text().equals("Prodotto VALIDO per le promozioni")) {
-                game.setValidForPromotions(true);
+                game.setValidForPromo(true);
             }
         }
     }
@@ -497,7 +497,7 @@ public class Gamestop implements Store {
                 String url = "http://www.gamestop.it" +
                         p.get(1).getElementsByTag("a").attr("href");
 
-                promo.setFindMoreMessage(p.get(1).text(), url);
+                promo.setFindMoreMsg(p.get(1).text(), url);
             }
 
             // add the promo

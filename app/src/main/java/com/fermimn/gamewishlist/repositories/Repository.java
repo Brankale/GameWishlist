@@ -82,8 +82,12 @@ public class Repository {
                 for (String gameFolder : gameFolders) {
                     folder = new File( getGameXml(gameFolder) );
                     if (folder.exists()) {
-                        Game game = getGameFromXml(folder);
-                        wishlist.add(game);
+                        try {
+                            Game game = XmlManager.parse(folder);
+                            wishlist.add(game);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -422,9 +426,9 @@ public class Repository {
                     elementValidity.appendChild(doc.createCDATASection( p.getSubHeader() ));
                     elementPromo.appendChild(elementValidity);
 
-                    if (p.getFindMoreMessage() != null) {
-                        Element elementMessage = doc.createElement("findMoreMessage");
-                        elementMessage.appendChild(doc.createCDATASection( p.getFindMoreMessage() ));
+                    if (p.getFindMoreMsg() != null) {
+                        Element elementMessage = doc.createElement("findMoreMsg");
+                        elementMessage.appendChild(doc.createCDATASection( p.getFindMoreMsg() ));
                         elementPromo.appendChild(elementMessage);
 
                         Element elementMessageURL = doc.createElement("findMoreUrl");
@@ -644,7 +648,7 @@ public class Repository {
 
                     Promo p = new Promo(header);
                     p.setSubHeader(validity);
-                    p.setFindMoreMessage(message, messageURL);
+                    p.setFindMoreMsg(message, messageURL);
 
                     game.addPromo(p);
                 }
@@ -661,7 +665,7 @@ public class Repository {
             nl = gameElement.getElementsByTagName("validForPromo");
             if (nl.getLength() > 0) {
                 Element validForPromo = (Element) nl.item(0);
-                game.setValidForPromotions(Boolean.valueOf(validForPromo.getTextContent()));
+                game.setValidForPromo(Boolean.valueOf(validForPromo.getTextContent()));
             }
 
             // set cover

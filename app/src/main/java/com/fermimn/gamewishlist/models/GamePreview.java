@@ -14,8 +14,8 @@ import java.util.Objects;
 public class GamePreview implements Comparable {
 
     private final String mId;
-    private final String mTitle;
-    private final String mPlatform;
+    private String mTitle;
+    private String mPlatform;
     private String mPublisher;
     private Uri mCover;
 
@@ -36,6 +36,7 @@ public class GamePreview implements Comparable {
      * @param title of the game (it cannot be an empty string)
      * @param platform of the game (it cannot be an empty string)
      */
+    @Deprecated
     public GamePreview(String id, String title, String platform) {
 
         // every parameter must be non null
@@ -60,6 +61,10 @@ public class GamePreview implements Comparable {
         mPlatform = platform;
     }
 
+    public GamePreview(String id) {
+        mId = id;
+    }
+
     /**
      * @return the ID of the game
      */
@@ -77,11 +82,27 @@ public class GamePreview implements Comparable {
     }
 
     /**
+     * Set the title of the game
+     * @param title of the game
+     */
+    public void setTitle(@NonNull String title) {
+        mTitle = title;
+    }
+
+    /**
      * @return the platform of the game
      */
     @NonNull
     public String getPlatform() {
         return mPlatform;
+    }
+
+    /**
+     * Set the platform of the game
+     * @param platform of the game
+     */
+    public void setPlatform(@NonNull String platform) {
+        mPlatform = platform;
     }
 
     /**
