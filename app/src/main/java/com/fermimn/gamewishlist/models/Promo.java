@@ -77,7 +77,7 @@ public class Promo {
     }
 
     /**
-     * @return a string with all the info abbout the Promo
+     * @return a string with all the info about the Promo
      */
     @NonNull
     @Override

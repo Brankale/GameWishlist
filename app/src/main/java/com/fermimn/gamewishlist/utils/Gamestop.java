@@ -117,7 +117,7 @@ public class Gamestop implements Store {
 
         try {
 
-            // Get the URL and enstablish the connection
+            // Get the URL and establish the connection
             String url = GAME_URL + id;
 
             // Get the HTML

@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Hide wishlist and show search section and viceversa
+     * Hide wishlist and show search section and vice-versa
      * @param view the caller view
      */
     @SuppressWarnings("unused")

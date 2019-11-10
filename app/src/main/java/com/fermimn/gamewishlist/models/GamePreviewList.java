@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 // TODO: need documentation
-// TODO: there are methods that haven't been overrided
+// TODO: there are methods that haven't been overridden
 
 public class GamePreviewList extends ArrayList<GamePreview> {
 
