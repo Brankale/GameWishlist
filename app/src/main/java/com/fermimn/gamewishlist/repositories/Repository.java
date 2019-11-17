@@ -14,12 +14,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.models.Promo;
 import com.fermimn.gamewishlist.repositories.xml.XmlReader;
 import com.fermimn.gamewishlist.repositories.xml.XmlWriter;
+import com.fermimn.gamewishlist.utils.Gamestop;
+import com.fermimn.gamewishlist.utils.Store;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
@@ -27,15 +26,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 // TODO: check Singleton
 // DOCS: https://medium.com/p/de6b951dfdb0/responses/show
@@ -135,12 +125,6 @@ public class Repository {
             boolean result = initGameFolder( game.getId() );
             if (result) {
                 // store the game on local memory
-
-
-                long start = System.currentTimeMillis();
-
-//                createXml(game);
-
                 File xml = new File( getGameXml(game.getId()) );
 
                 try {
@@ -150,9 +134,6 @@ public class Repository {
                 } catch (IOException | XmlPullParserException e) {
                     e.printStackTrace();
                 }
-//
-                start = System.currentTimeMillis() - start;
-                Log.d(TAG, "time: " + start);
 
                 downloadGameImages(game);
 
@@ -200,6 +181,33 @@ public class Repository {
             Log.e(TAG, '[' + getGameFolder(gameId) +  "] - errors occurred while deleting the folder");
             return false;
         }
+    }
+
+    public Game updateGame(@Nullable String gameId) {
+        GamePreviewList wishlist = mWishlist.getValue();
+        if (wishlist != null) {
+            for (int i = 0; i < wishlist.size(); ++i) {
+                if (wishlist.get(i).getId().equals(gameId)) {
+                    Store store = new Gamestop();
+                    Game game = store.downloadGame(gameId);
+                    wishlist.set(i, game);
+                    mWishlist.postValue(wishlist);
+
+                    File xml = new File( getGameXml(game.getId()) );
+
+                    try {
+                        xml.createNewFile();
+                        XmlWriter xw = new XmlWriter();
+                        xw.saveTo(xml, game);
+                    } catch (IOException | XmlPullParserException e) {
+                        e.printStackTrace();
+                    }
+
+                    return game;
+                }
+            }
+        }
+        return null;
     }
 
     /**

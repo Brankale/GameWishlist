@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
@@ -31,6 +32,7 @@ public class WishlistFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private GamePreviewListAdapter mAdapter;
     private WishlistViewModel mViewModel;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private GamePreviewList mWishlist;
 
     @Nullable
@@ -96,6 +98,30 @@ public class WishlistFragment extends Fragment {
             });
 
         }
+
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Thread update = new Thread() {
+                    public void run() {
+                        for (int i = 0; i < mWishlist.size(); ++i) {
+                            mViewModel.updateGame( mWishlist.get(i).getId() );
+                        }
+                    }
+                };
+
+                update.start();
+
+                try {
+                    update.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
 
         mRecyclerView = view.findViewById(R.id.wishlist);
 

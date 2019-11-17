@@ -11,6 +11,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.repositories.Repository;
 import com.fermimn.gamewishlist.services.SearchForUpdatesJobService;
 import com.fermimn.gamewishlist.utils.SettingsManager;
 
@@ -34,7 +36,7 @@ public class GameWishlistApplication extends Application {
         AppCompatDelegate.setDefaultNightMode( settings.getDarkMode() );
 
         //createNotificationChannel();
-        //scheduleJob();
+        scheduleJob();
     }
 
     private void createNotificationChannel() {
@@ -62,12 +64,14 @@ public class GameWishlistApplication extends Application {
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
+        if (scheduler != null) {
+            int resultCode = scheduler.schedule(info);
 
-        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-            Log.d(TAG, "Job scheduled");
-        } else {
-            Log.d(TAG, "Job scheduling failed");
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                Log.d(TAG, "Job scheduled");
+            } else {
+                Log.d(TAG, "Job scheduling failed");
+            }
         }
     }
 

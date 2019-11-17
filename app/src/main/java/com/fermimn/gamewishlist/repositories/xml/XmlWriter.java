@@ -62,7 +62,7 @@ public class XmlWriter {
         mSerializer = factory.newSerializer();
     }
 
-    public void saveTo(File xml, Game game) throws IOException, XmlPullParserException {
+    public void saveTo(File xml, Game game) throws IOException {
         FileWriter fw = new FileWriter(xml);
         StringWriter writer = create(game);
         fw.write(writer.toString());
@@ -70,7 +70,7 @@ public class XmlWriter {
         writer.close();
     }
 
-    private StringWriter create(Game game) throws IOException, XmlPullParserException {
+    private StringWriter create(Game game) throws IOException {
 
         StringWriter writer = new StringWriter();
         mSerializer.setOutput(writer);

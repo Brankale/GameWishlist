@@ -63,6 +63,10 @@ public class WishlistViewModel extends AndroidViewModel {
         mIsUpdating.postValue(new Pair<>((GamePreview) game, false));
     }
 
+    public Game updateGame(final String gameId) {
+        return mRepository.updateGame(gameId);
+    }
+
     public void removeGame(@Nullable String gameId) {
         mRepository.removeGame(gameId);
     }
