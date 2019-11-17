@@ -51,30 +51,35 @@ public class SearchForUpdatesJobService extends JobService {
                     for (int i = 0; i < wishlist.size(); ++i) {
                         Game game = repository.updateGame(wishlist.get(i).getId());
                         if (game != null) {
-                            if (!game.getNewPrice().equals(wishlist.get(i).getNewPrice())) {
-                                Log.d(TAG, "il prezzo nuovo è cambiato");
+                            if (game.getNewPrice() != null) {
+                                if (!game.getNewPrice().equals(wishlist.get(i).getNewPrice())) {
+                                    Log.d(TAG, "il prezzo nuovo è cambiato");
+                                }
                             }
 
-                            if (!game.getUsedPrice().equals(wishlist.get(i).getUsedPrice())) {
-                                Log.d(TAG, "il prezzo usato è cambiato");
+                            if (game.getUsedPrice() != null) {
+                                if (!game.getUsedPrice().equals(wishlist.get(i).getUsedPrice())) {
+                                    Log.d(TAG, "il prezzo usato è cambiato");
+                                }
                             }
 
-                            if (!game.getDigitalPrice().equals(wishlist.get(i).getDigitalPrice())) {
-                                Log.d(TAG, "il prezzo digitale è cambiato");
+                            if (game.getDigitalPrice() != null) {
+                                if (!game.getDigitalPrice().equals(wishlist.get(i).getDigitalPrice())) {
+                                    Log.d(TAG, "il prezzo digitale è cambiato");
+                                }
                             }
 
-                            if (!game.getPreorderPrice().equals(wishlist.get(i).getPreorderPrice())) {
-                                Log.d(TAG, "il prezzo preordine è cambiato");
+                            if (game.getPreorderPrice() != null) {
+                                if (!game.getPreorderPrice().equals(wishlist.get(i).getPreorderPrice())) {
+                                    Log.d(TAG, "il prezzo preordine è cambiato");
+                                }
                             }
-
-
-
                         }
                     }
 
                     Log.d(TAG, "Job finished");
                     jobFinished(params, false);
-                    
+
                 }
             }.start();
         }

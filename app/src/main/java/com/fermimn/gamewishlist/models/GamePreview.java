@@ -29,6 +29,8 @@ public class GamePreview implements Comparable {
     private List<Double> mOlderDigitalPrices;
     private List<Double> mOlderPreorderPrices;
 
+    // TODO: a game can be out of stock, so it can have no price
+
     /**
      * A game can exist without a price but it must be recognisable through
      * a title a platform and an ID in order to be managed
