@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -103,23 +104,33 @@ public class WishlistFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Thread update = new Thread() {
-                    public void run() {
+
+                // TODO: there could be memory leaks
+                new AsyncTask<GamePreviewList, Integer, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(GamePreviewList... gamePreviewLists) {
                         for (int i = 0; i < mWishlist.size(); ++i) {
                             mViewModel.updateGame( mWishlist.get(i).getId() );
                         }
+                        return false;
                     }
-                };
 
-                update.start();
+                    @Override
+                    protected void onPostExecute(Boolean refreshing) {
+                        mSwipeRefreshLayout.setRefreshing(refreshing);
+                    }
+                }.execute();
 
-                try {
-                    update.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
+//                new Thread() {
+//                    public void run() {
+//                        for (int i = 0; i < mWishlist.size(); ++i) {
+//                            mViewModel.updateGame( mWishlist.get(i).getId() );
+//                        }
+//
+//                    }
+//                }.start();
+//
+//                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
