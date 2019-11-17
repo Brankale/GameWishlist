@@ -73,6 +73,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         holder.mPlatformView.setText( gamePreview.getPlatform() );
         holder.mPublisherView.setText( gamePreview.getPublisher() );
 
+        holder.mOutOfStock.setVisibility(View.VISIBLE);
+
         // new prices
         if (gamePreview.getNewPrice() == null) {
             holder.mCategoryNewView.setVisibility(View.GONE);
