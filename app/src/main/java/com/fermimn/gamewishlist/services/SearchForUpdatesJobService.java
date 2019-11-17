@@ -49,7 +49,14 @@ public class SearchForUpdatesJobService extends JobService {
             new Thread() {
                 public void run() {
                     for (int i = 0; i < wishlist.size(); ++i) {
+
+                        if (mJobCancelled) {
+                            return;
+                        }
+
+                        Log.d(TAG, "Updating: " + wishlist.get(i).getTitle());
                         Game game = repository.updateGame(wishlist.get(i).getId());
+
                         if (game != null) {
                             if (game.getNewPrice() != null) {
                                 if (!game.getNewPrice().equals(wishlist.get(i).getNewPrice())) {
@@ -86,67 +93,6 @@ public class SearchForUpdatesJobService extends JobService {
     }
 
 }
-
-
-//        // TODO: start method has been removed because the thread can cause crashes
-//        new Thread() {
-//            @Override
-//            public void run() {
-//
-//                // TODO: in this way it doesn't update the UI if the app is opened
-//                // TODO: in the MVVM pattern you shouldn't call the repository but the ViewModel
-//                Repository repository = Repository.getInstance(getApplication());
-//                GamePreviewList gamePreviewList = repository.getWishlist().getValue();
-//
-//                Store store = new Gamestop();
-//
-//                if (gamePreviewList != null) {
-//                    for (GamePreview gamePreview : gamePreviewList) {
-//                        Log.d(TAG, "Updating: " + gamePreview.getTitle());
-//
-//                        if (mJobCancelled) {
-//                            return;
-//                        }
-//
-//                        Game outDatedGame = (Game) gamePreview;
-//                        Game game = store.downloadGame( gamePreview.getId() );
-//
-//                        // check if there are some updates
-//
-//                        // TODO: display a notification if the has some updates
-//
-//                        // TODO: remove hardcoded text
-//                        // TODO: check if the prices are lower
-//                        // TODO: check other things like release date
-//                        // TODO: preorder price can become a new price if the game is release
-//                        // TODO: save the file on the local DRIVE
-//                        if (!game.getNewPrice().equals( outDatedGame.getNewPrice() )) {
-//                            Log.d(TAG, "il prezzo nuovo è cambiato");
-//                        }
-//
-//                        if (!game.getUsedPrice().equals( outDatedGame.getUsedPrice() )) {
-//                            Log.d(TAG, "il prezzo usato è cambiato");
-//                        }
-//
-//                        if (!game.getDigitalPrice().equals( outDatedGame.getDigitalPrice() )) {
-//                            Log.d(TAG, "il prezzo digitale è cambiato");
-//                        }
-//
-//                        if (!game.getPreorderPrice().equals( outDatedGame.getPreorderPrice() )) {
-//                            Log.d(TAG, "il prezzo preordine è cambiato");
-//                        }
-//
-//                    }
-//                }
-//
-//                Log.d(TAG, "Job finished");
-//                jobFinished(params, false);
-//            }
-//        };
-//    }
-//
-//}
-
 
 // DOCS: https://stackoverflow.com/questions/16651009/android-service-stops-when-app-is-closed
 // DOCS: https://developer.android.com/reference/android/app/Service.html
