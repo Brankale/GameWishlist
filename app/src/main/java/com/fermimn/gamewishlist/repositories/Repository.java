@@ -15,10 +15,12 @@ import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.models.Promo;
+import com.fermimn.gamewishlist.repositories.xml.XmlReader;
+import com.fermimn.gamewishlist.repositories.xml.XmlWriter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -83,7 +85,7 @@ public class Repository {
                     folder = new File( getGameXml(gameFolder) );
                     if (folder.exists()) {
                         try {
-                            Game game = XmlManager.parse(folder);
+                            Game game = XmlReader.parse(folder);
                             wishlist.add(game);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -133,7 +135,25 @@ public class Repository {
             boolean result = initGameFolder( game.getId() );
             if (result) {
                 // store the game on local memory
-                createXml(game);
+
+
+                long start = System.currentTimeMillis();
+
+//                createXml(game);
+
+                File xml = new File( getGameXml(game.getId()) );
+
+                try {
+                    xml.createNewFile();
+                    XmlWriter xw = new XmlWriter();
+                    xw.saveTo(xml, game);
+                } catch (IOException | XmlPullParserException e) {
+                    e.printStackTrace();
+                }
+//
+                start = System.currentTimeMillis() - start;
+                Log.d(TAG, "time: " + start);
+
                 downloadGameImages(game);
 
                 // adding game to the wishlist
@@ -251,247 +271,6 @@ public class Repository {
         }
 
         return false;
-    }
-
-    // TODO: this method should be rewritten
-    private void createXml(Game game) {
-        try {
-
-            File xml = new File( getGameXml(game.getId()) );
-
-            // Create Document
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-            // Create the root element
-            Element gameElement = doc.createElement("game");
-
-            // Set attribute ID
-            gameElement.setAttribute("id", game.getId());
-
-            // Create Element Title and append
-            Element elementTitle = doc.createElement("title");
-            elementTitle.appendChild(doc.createCDATASection(game.getTitle()));
-            gameElement.appendChild(elementTitle);
-
-            // Element Platform and append
-            Element elementPlatform = doc.createElement("platform");
-            elementPlatform.appendChild(doc.createCDATASection(game.getPlatform()));
-            gameElement.appendChild(elementPlatform);
-
-            // Create Element Publisher and append
-            Element elementPublisher = doc.createElement("publisher");
-            elementPublisher.appendChild(doc.createCDATASection(game.getPublisher()));
-            gameElement.appendChild(elementPublisher);
-
-            // Create Element Prices
-            Element prices = doc.createElement("prices");
-
-            // Create Element NewPrice and append
-            if (game.getNewPrice() != null) {
-                Element elementNewPrice = doc.createElement("newPrice");
-                elementNewPrice.setTextContent(String.valueOf(game.getNewPrice()));
-                prices.appendChild(elementNewPrice);
-            }
-
-            // Create Element OlderNewPrices and append
-            if (game.getOlderNewPrices() != null) {
-                Element elementOlderNewPrice = doc.createElement("olderNewPrices");
-
-                for (Double price : game.getOlderNewPrices()) {
-                    Element elementPrice = doc.createElement("price");
-                    elementPrice.setTextContent(price.toString());
-                    elementOlderNewPrice.appendChild(elementPrice);
-                }
-
-                prices.appendChild(elementOlderNewPrice);
-            }
-
-            // Create Element UsedPrice and append
-            if (game.getUsedPrice() != null) {
-                Element elementUsedPrice = doc.createElement("usedPrice");
-                elementUsedPrice.setTextContent(String.valueOf(game.getUsedPrice()));
-                prices.appendChild(elementUsedPrice);
-            }
-
-            // Create Element OlderUsedPrices and append
-            if (game.getOlderUsedPrices() != null) {
-                Element elementOlderUsedPrice = doc.createElement("olderUsedPrices");
-
-                for (Double price : game.getOlderUsedPrices()) {
-                    Element elementPrice = doc.createElement("price");
-                    elementPrice.setTextContent(price.toString());
-                    elementOlderUsedPrice.appendChild(elementPrice);
-                }
-
-                prices.appendChild(elementOlderUsedPrice);
-            }
-
-            // Create Element PreorderPrice and append
-            if (game.getPreorderPrice() != null) {
-                Element elementPreorderPrice = doc.createElement("preorderPrice");
-                elementPreorderPrice.setTextContent(String.valueOf(game.getPreorderPrice()));
-                prices.appendChild(elementPreorderPrice);
-            }
-
-            // Element OlderPreorderPrices and append
-            if (game.getOlderPreorderPrices() != null) {
-                Element elementOlderPreorderPrice = doc.createElement("olderPreorderPrices");
-
-                for (Double price : game.getOlderPreorderPrices()) {
-                    Element elementPrice = doc.createElement("price");
-                    elementPrice.setTextContent(price.toString());
-                    elementOlderPreorderPrice.appendChild(elementPrice);
-                }
-
-                prices.appendChild(elementOlderPreorderPrice);
-            }
-
-            // Element DigitalPrice and append
-            if (game.getDigitalPrice() != null) {
-                Element elementDigitalPrice = doc.createElement("digitalPrice");
-                elementDigitalPrice.setTextContent(String.valueOf(game.getDigitalPrice()));
-                prices.appendChild(elementDigitalPrice);
-            }
-
-            // Element OlderDigitalPrices and append
-            if (game.getOlderDigitalPrices() != null) {
-                Element elementOlderDigitalPrice = doc.createElement("olderDigitalPrices");
-
-                for (Double price : game.getOlderDigitalPrices()) {
-                    Element elementPrice = doc.createElement("price");
-                    elementPrice.setTextContent(price.toString());
-                    elementOlderDigitalPrice.appendChild(elementPrice);
-                }
-
-                prices.appendChild(elementOlderDigitalPrice);
-            }
-
-            gameElement.appendChild(prices);
-
-            // Element Pegi and append
-            if (game.getPegi() != null) {
-                Element elementPegiList = doc.createElement("pegi");
-                for (String p : game.getPegi()) {
-                    Element elementPegi = doc.createElement("type");
-                    elementPegi.setTextContent(p);
-                    elementPegiList.appendChild(elementPegi);
-                }
-                gameElement.appendChild(elementPegiList);
-            }
-
-            // Element Genres and append
-            if (game.getGenres() != null) {
-                Element elementGenres = doc.createElement("genres");
-
-                for (String genre : game.getGenres()) {
-                    Element elementGenre = doc.createElement("genre");
-                    elementGenre.appendChild(doc.createCDATASection(genre));
-                    elementGenres.appendChild(elementGenre);
-                }
-
-                gameElement.appendChild(elementGenres);
-            }
-
-            // Element OfficialSite and append
-            if (game.getOfficialWebSite() != null) {
-                Element elementOfficialSite = doc.createElement("officialSite");
-                elementOfficialSite.appendChild(doc.createCDATASection(game.getOfficialWebSite()));
-                gameElement.appendChild(elementOfficialSite);
-            }
-
-            // Element Players and append
-            if (game.getPlayers() != null) {
-                Element elementPlayers = doc.createElement("players");
-                elementPlayers.appendChild(doc.createCDATASection(game.getPlayers()));
-                gameElement.appendChild(elementPlayers);
-            }
-
-            // Create Element ReleaseDate and append
-            Element elementReleaseDate = doc.createElement("releaseDate");
-            elementReleaseDate.setTextContent(game.getReleaseDate());
-            gameElement.appendChild(elementReleaseDate);
-
-            // Create Promo and append
-            if (game.getPromo() != null) {
-                Element elementPromos = doc.createElement("promos");
-
-                for (Promo p : game.getPromo()) {
-                    Element elementPromo = doc.createElement("promo");
-
-                    Element elementHeader = doc.createElement("header");
-                    elementHeader.appendChild(doc.createCDATASection(p.getHeader()));
-                    elementPromo.appendChild(elementHeader);
-
-                    Element elementValidity = doc.createElement("subHeader");
-                    elementValidity.appendChild(doc.createCDATASection( p.getSubHeader() ));
-                    elementPromo.appendChild(elementValidity);
-
-                    if (p.getFindMoreMsg() != null) {
-                        Element elementMessage = doc.createElement("findMoreMsg");
-                        elementMessage.appendChild(doc.createCDATASection( p.getFindMoreMsg() ));
-                        elementPromo.appendChild(elementMessage);
-
-                        Element elementMessageURL = doc.createElement("findMoreUrl");
-                        elementMessageURL.appendChild(doc.createCDATASection( p.getFindMoreUrl() ));
-                        elementPromo.appendChild(elementMessageURL);
-                    }
-
-                    elementPromos.appendChild(elementPromo);
-                }
-
-                gameElement.appendChild(elementPromos);
-            }
-
-            // Create Element Description and append
-            if (game.getDescription() != null) {
-                Element elementDescription = doc.createElement("description");
-                elementDescription.appendChild(doc.createCDATASection(game.getDescription()));
-                gameElement.appendChild(elementDescription);
-            }
-
-            // Create Element ValidForPromos and append
-            if (game.isValidForPromotions()) {
-                Element elementValidForPromo = doc.createElement("validForPromo");
-                elementValidForPromo.setTextContent("" + game.isValidForPromotions());
-                gameElement.appendChild(elementValidForPromo);
-            }
-
-            // Save cover
-            File cover = new File(getGameFolder(game.getId()), "cover.jpg");
-            Element elementCover = doc.createElement("cover");
-            elementCover.appendChild( doc.createCDATASection( Uri.fromFile(cover).toString() ));
-            gameElement.appendChild(elementCover);
-
-            // Save gallery
-            if (game.getGallery() != null) {
-                Element elementGallery = doc.createElement("gallery");
-                File galleryFolder = new File( getGalleryFolder(game.getId()) );
-                for (Uri uri : game.getGallery()) {
-
-                    String url = uri.toString();
-                    String name = url.substring( url.lastIndexOf('/') );
-                    File imgPath = new File(galleryFolder, name);
-
-                    Element elementImage = doc.createElement("image");
-                    elementImage.appendChild( doc.createCDATASection( Uri.fromFile(imgPath).toString() ));
-                    elementGallery.appendChild(elementImage);
-                }
-                gameElement.appendChild(elementGallery);
-            }
-
-            // Append the root element to the root node
-            doc.appendChild(gameElement);
-
-            // Create the XML file
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            transformer.transform(new DOMSource(doc), new StreamResult(xml));
-
-        } catch (ParserConfigurationException | TransformerException e) {
-            // TODO: if this exception occurs, restore a backup
-            e.printStackTrace();
-        }
     }
 
     // TODO: this method should be rewritten

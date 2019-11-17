@@ -1,4 +1,4 @@
-package com.fermimn.gamewishlist.repositories;
+package com.fermimn.gamewishlist.repositories.xml;
 
 import android.net.Uri;
 
@@ -16,10 +16,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-class XmlManager {
+public class XmlReader {
 
     @SuppressWarnings("unused")
-    private static final String TAG = XmlManager.class.getSimpleName();
+    private static final String TAG = XmlReader.class.getSimpleName();
 
     private static final String GAME = "game";
     private static final String TITLE = "title";
@@ -63,7 +63,7 @@ class XmlManager {
      * @throws XmlPullParserException if the parser encounters problems while parsing
      * @throws IOException if there are errors while reading the file
      */
-    static Game parse(File xml) throws XmlPullParserException, IOException  {
+    public static Game parse(File xml) throws XmlPullParserException, IOException  {
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         XmlPullParser parser = factory.newPullParser();
