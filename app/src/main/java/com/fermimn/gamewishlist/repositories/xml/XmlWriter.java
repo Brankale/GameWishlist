@@ -170,8 +170,8 @@ public class XmlWriter {
         if (price != null) {
             mSerializer.startTag(null, tag);
             mSerializer.text( Double.toString(price) );
-            addOlderPrices(innerTag, prices);
             mSerializer.endTag(null, tag);
+            addOlderPrices(innerTag, prices);
         }
     }
 
