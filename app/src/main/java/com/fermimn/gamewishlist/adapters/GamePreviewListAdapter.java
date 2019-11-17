@@ -77,6 +77,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         if (gamePreview.getNewPrice() == null) {
             holder.mCategoryNewView.setVisibility(View.GONE);
         } else {
+            holder.mOutOfStock.setVisibility(View.GONE);
             holder.mNewPriceView.setText( mDecimalFormat.format( gamePreview.getNewPrice() ));
             holder.mNewPriceView.append(mCurrency);
 
@@ -96,6 +97,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         if (gamePreview.getUsedPrice() == null) {
             holder.mCategoryUsedView.setVisibility(View.GONE);
         } else {
+            holder.mOutOfStock.setVisibility(View.GONE);
             holder.mUsedPriceView.setText( mDecimalFormat.format( gamePreview.getUsedPrice() ));
             holder.mUsedPriceView.append(mCurrency);
 
@@ -115,6 +117,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         if (gamePreview.getDigitalPrice() == null) {
             holder.mCategoryDigitalView.setVisibility(View.GONE);
         } else {
+            holder.mOutOfStock.setVisibility(View.GONE);
             holder.mDigitalPriceView
                     .setText(mDecimalFormat.format( gamePreview.getDigitalPrice() ));
             holder.mDigitalPriceView.append(mCurrency);
@@ -135,6 +138,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         if (gamePreview.getPreorderPrice() == null) {
             holder.mCategoryPreorderView.setVisibility(View.GONE);
         } else {
+            holder.mOutOfStock.setVisibility(View.GONE);
             holder.mPreorderPriceView
                     .setText(mDecimalFormat.format( gamePreview.getPreorderPrice() ));
             holder.mPreorderPriceView.append(mCurrency);
@@ -188,6 +192,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         private final TextView mPlatformView;
         private final TextView mPublisherView;
 
+        private final LinearLayout mOutOfStock;
+
         private final TextView mNewPriceView;
         private final TextView mUsedPriceView;
         private final TextView mDigitalPriceView;
@@ -218,6 +224,8 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             mUsedPriceView = view.findViewById(R.id.used_price);
             mDigitalPriceView = view.findViewById(R.id.digital_price);
             mPreorderPriceView = view.findViewById(R.id.preorder_price);
+
+            mOutOfStock = view.findViewById(R.id.out_of_stock);
 
             mCategoryNewView = view.findViewById(R.id.category_new);
             mCategoryUsedView = view.findViewById(R.id.category_used);

@@ -11,8 +11,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.repositories.Repository;
 import com.fermimn.gamewishlist.services.SearchForUpdatesJobService;
 import com.fermimn.gamewishlist.utils.SettingsManager;
 

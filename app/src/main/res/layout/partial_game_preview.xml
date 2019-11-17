@@ -69,6 +69,25 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/out_of_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/out_of_stock"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/out_of_stock"
+                android:textColor="#FFF"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/category_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +95,8 @@
             android:background="@color/colorAccent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp">
+            android:padding="3dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -113,7 +133,8 @@
             android:background="@color/colorAccent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp">
+            android:padding="3dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
