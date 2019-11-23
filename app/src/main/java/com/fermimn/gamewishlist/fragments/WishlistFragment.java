@@ -193,6 +193,9 @@ public class WishlistFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.wishlist);
 
+        // all elements in the recyclerview have the same size
+        mRecyclerView.setHasFixedSize(true);
+
         // init RecyclerView layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         mRecyclerView.setLayoutManager(layoutManager);

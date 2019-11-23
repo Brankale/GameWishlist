@@ -92,6 +92,9 @@ public class SearchFragment extends Fragment {
         adapter.setHasStableIds(true);
         mSearchResults.setAdapter(adapter);
 
+        // all elements in the recyclerview have the same size
+        mSearchResults.setHasFixedSize(true);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mSearchResults.setLayoutManager(layoutManager);
 
