@@ -80,9 +80,7 @@
     <string name="section_settings">Impostazioni</string>
 
     <!-- notification channels -->
-    <string name="channel_download">Download status</string>
-    <string name="channel_download_description">
-        Show an indeterminate progress bar when adding games to the wishlist
-    </string>
+    <string name="channel_updates">Updates</string>
+    <string name="channel_updates_description">Game prices/info updates</string>
 
 </resources>
