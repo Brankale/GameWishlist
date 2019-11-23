@@ -109,8 +109,12 @@ public class App extends Application {
         }
 
         // Create an Intent for the GamePageActivity
+        // NB: Don't delete intent.setAction() because when there are multiple notifications
+        // PendingIntent.FLAG_UPDATE_CURRENT overwrites the other intents. The result is that
+        // every notification have the same intent.
         Intent intent = new Intent(context, GamePageActivity.class);
         intent.putExtra("gameID", game.getId());
+        intent.setAction("gameID: " + game.getId());
 
         // Inflates the back stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
