@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.fermimn.gamewishlist.App;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
+import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
@@ -110,7 +112,62 @@ public class WishlistFragment extends Fragment {
                     @Override
                     protected Boolean doInBackground(GamePreviewList... gamePreviewLists) {
                         for (int i = 0; i < mWishlist.size(); ++i) {
+                            Game prev = (Game) mWishlist.get(i);
                             mViewModel.updateGame( mWishlist.get(i).getId() );
+                            Game current = (Game) mWishlist.get(i);
+
+                            if (current != null) {
+
+                                int priceChanges = 0;
+                                StringBuilder text = new StringBuilder();
+
+                                // the game has been released
+                                if (current.getNewPrice() != null && prev.getPreorderPrice() != null) {
+                                    text.append( getString(R.string.notif_game_released) );
+                                }
+
+                                // lower new price
+                                if (current.getNewPrice() != null && prev.getNewPrice() != null) {
+                                    if (current.getNewPrice() < prev.getNewPrice()) {
+                                        text.append( getString(R.string.notif_lower_new_price) );
+                                        priceChanges++;
+                                    }
+                                }
+
+                                // lower used price
+                                if (current.getUsedPrice() != null && prev.getUsedPrice() != null) {
+                                    if (current.getUsedPrice() < prev.getUsedPrice()) {
+                                        text.append( getString(R.string.notif_lower_used_price) );
+                                        priceChanges++;
+                                    }
+                                }
+
+                                // lower digital price
+                                if (current.getDigitalPrice() != null && prev.getDigitalPrice() != null) {
+                                    if (current.getDigitalPrice() < prev.getDigitalPrice()) {
+                                        text.append( getString(R.string.notif_lower_digital_price) );
+                                        priceChanges++;
+                                    }
+                                }
+
+                                // lower preorder price
+                                if (current.getPreorderPrice() != null && prev.getPreorderPrice() != null) {
+                                    if (current.getPreorderPrice() < prev.getPreorderPrice()) {
+                                        text.append( getString(R.string.notif_lower_preorder_price) );
+                                        priceChanges++;
+                                    }
+                                }
+
+                                if (text.length() != 0) {
+                                    text.deleteCharAt(text.length() - 1);
+
+                                    if (priceChanges == 1) {
+                                        App.sendOnUpdatesChannel(getContext(), current, text.toString(), null);
+                                    } else {
+                                        App.sendOnUpdatesChannel(getContext(), current, getString(R.string.notif_lower_prices), text.toString());
+                                    }
+                                }
+                            }
                         }
                         return false;
                     }

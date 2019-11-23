@@ -3,10 +3,13 @@ package com.fermimn.gamewishlist;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
@@ -15,8 +18,13 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.fermimn.gamewishlist.activities.GamePageActivity;
+import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.services.SearchForUpdatesJobService;
 import com.fermimn.gamewishlist.utils.SettingsManager;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 public class App extends Application {
 
@@ -80,15 +88,42 @@ public class App extends Application {
         }
     }
 
-    public static void sendOnUpdatesChannel(Context context, int id, String title, String text, Bitmap image) {
+    public static void sendOnUpdatesChannel(Context context, Game game, String summary, String text) {
+
+        // Get info
+        int id = game.hashCode();
+        String title = game.getTitle();
+        Bitmap bitmap = null;
+
+        try {
+            bitmap = Picasso.get().load(game.getCover()).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Create an Intent for the GamePageActivity
+        Intent intent = new Intent(context, GamePageActivity.class);
+        intent.putExtra("gameID", game.getId());
+
+        // Inflates the back stack
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntentWithParentStack(intent);
+        PendingIntent pendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Create the notification
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_UPDATES_ID)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setLargeIcon(image)
+                        .setLargeIcon(bitmap)
                         .setContentTitle(title)
-                        .setContentText(text)
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        .setContentText(summary)
+                        .setStyle( new NotificationCompat.BigTextStyle().bigText(text) )
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                        .setContentIntent(pendingIntent);
 
+        // Show the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(id, builder.build());
     }

@@ -82,5 +82,13 @@
     <!-- notification channels -->
     <string name="channel_updates">Updates</string>
     <string name="channel_updates_description">Game prices/info updates</string>
+    
+    <!-- notification messages -->
+    <string name="notif_game_released">Il gioco è stato rilasciato\n</string>
+    <string name="notif_lower_prices">I prezzi sono calati</string>
+    <string name="notif_lower_new_price">È calato il prezzo per il NUOVO\n</string>
+    <string name="notif_lower_used_price">È calato il prezzo per l\'USATO\n</string>
+    <string name="notif_lower_digital_price">È calato il prezzo per il DIGITALE\n</string>
+    <string name="notif_lower_preorder_price">È calato il prezzo per il PREORDINE\n</string>
 
 </resources>

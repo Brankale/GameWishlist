@@ -4,6 +4,8 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.util.Log;
 
+import com.fermimn.gamewishlist.App;
+import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.repositories.Repository;
@@ -44,30 +46,58 @@ public class SearchForUpdatesJobService extends JobService {
                         }
 
                         Log.d(TAG, "Updating: " + wishlist.get(i).getTitle());
-                        Game game = repository.updateGame(wishlist.get(i).getId());
+                        Game prev = (Game) wishlist.get(i);
+                        Game current = repository.updateGame(wishlist.get(i).getId());
 
-                        if (game != null) {
-                            if (game.getNewPrice() != null) {
-                                if (!game.getNewPrice().equals(wishlist.get(i).getNewPrice())) {
-                                    Log.d(TAG, "il prezzo nuovo è cambiato");
+                        if (current != null) {
+
+                            int priceChanges = 0;
+                            StringBuilder text = new StringBuilder();
+
+                            // the game has been released
+                            if (current.getNewPrice() != null && prev.getPreorderPrice() != null) {
+                                text.append( getString(R.string.notif_game_released) );
+                            }
+
+                            // lower new price
+                            if (current.getNewPrice() != null && prev.getNewPrice() != null) {
+                                if (current.getNewPrice() < prev.getNewPrice()) {
+                                    text.append( getString(R.string.notif_lower_new_price) );
+                                    priceChanges++;
                                 }
                             }
 
-                            if (game.getUsedPrice() != null) {
-                                if (!game.getUsedPrice().equals(wishlist.get(i).getUsedPrice())) {
-                                    Log.d(TAG, "il prezzo usato è cambiato");
+                            // lower used price
+                            if (current.getUsedPrice() != null && prev.getUsedPrice() != null) {
+                                if (current.getUsedPrice() < prev.getUsedPrice()) {
+                                    text.append( getString(R.string.notif_lower_used_price) );
+                                    priceChanges++;
                                 }
                             }
 
-                            if (game.getDigitalPrice() != null) {
-                                if (!game.getDigitalPrice().equals(wishlist.get(i).getDigitalPrice())) {
-                                    Log.d(TAG, "il prezzo digitale è cambiato");
+                            // lower digital price
+                            if (current.getDigitalPrice() != null && prev.getDigitalPrice() != null) {
+                                if (current.getDigitalPrice() < prev.getDigitalPrice()) {
+                                    text.append( getString(R.string.notif_lower_digital_price) );
+                                    priceChanges++;
                                 }
                             }
 
-                            if (game.getPreorderPrice() != null) {
-                                if (!game.getPreorderPrice().equals(wishlist.get(i).getPreorderPrice())) {
-                                    Log.d(TAG, "il prezzo preordine è cambiato");
+                            // lower preorder price
+                            if (current.getPreorderPrice() != null && prev.getPreorderPrice() != null) {
+                                if (current.getPreorderPrice() < prev.getPreorderPrice()) {
+                                    text.append( getString(R.string.notif_lower_preorder_price) );
+                                    priceChanges++;
+                                }
+                            }
+
+                            if (text.length() != 0) {
+                                text.deleteCharAt(text.length() - 1);
+
+                                if (priceChanges == 1) {
+                                    App.sendOnUpdatesChannel(getApplication(), current, text.toString(), null);
+                                } else {
+                                    App.sendOnUpdatesChannel(getApplication(), current, getString(R.string.notif_lower_prices), text.toString());
                                 }
                             }
                         }
@@ -82,31 +112,3 @@ public class SearchForUpdatesJobService extends JobService {
     }
 
 }
-
-// DOCS: https://stackoverflow.com/questions/16651009/android-service-stops-when-app-is-closed
-// DOCS: https://developer.android.com/reference/android/app/Service.html
-//                String CHANNEL_ID = GameWishlistApplication.CHANNEL_ID;
-//                NotificationCompat.Builder builder;
-//
-//                if (isDownloading) {
-//                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
-//                            .setSmallIcon(R.drawable.ic_notification)
-//                            .setContentTitle(gamePreview.getTitle())
-//                            .setContentText("Downloading Game...")
-//                            .setProgress(0, 0, true)
-//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                } else {
-//                    builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
-//                            .setSmallIcon(R.drawable.ic_notification)
-//                            .setContentTitle(gamePreview.getTitle())
-//                            .setContentText("Download completed")
-//                            .setProgress(0, 0, false)
-//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                }
-//
-//                NotificationManagerCompat notificationManager =
-//                        NotificationManagerCompat.from( getActivity() );
-//
-//                // notificationId is a unique int for each notification that you must define
-//                int notificationId = gamePreview.hashCode();
-//                notificationManager.notify(notificationId, builder.build());
