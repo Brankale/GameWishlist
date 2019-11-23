@@ -8,6 +8,5 @@
     <color name="grey">#ededed</color>
     <color name="green">#119c00</color>
     <color name="always_white">#FFFFFF</color>
-    <color name="always_black">#000000</color>
     <color name="out_of_stock">#dddddd</color>
 </resources>
