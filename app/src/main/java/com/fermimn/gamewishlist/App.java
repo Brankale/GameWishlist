@@ -30,6 +30,7 @@ import com.fermimn.gamewishlist.utils.SettingsManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class App extends Application {
 
@@ -57,9 +58,9 @@ public class App extends Application {
     private void scheduleJob() {
         ComponentName componentName = new ComponentName(this, SearchForUpdatesJobService.class);
         JobInfo info = new JobInfo.Builder(SEARCH_FOR_UPDATES_JOB, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPersisted(true)
-                .setPeriodic(3*60*60*1000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)   // requires network
+                .setPersisted(true)                                 // called after device reboot
+                .setPeriodic(TimeUnit.HOURS.toMillis(1))    // update every hour
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
