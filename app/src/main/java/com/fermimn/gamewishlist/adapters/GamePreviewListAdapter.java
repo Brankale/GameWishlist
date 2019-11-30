@@ -5,7 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,13 +75,22 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
         holder.mTitleView.setText( gamePreview.getTitle() );
 
-        holder.mPlatformView.setText( gamePreview.getPlatform() );
-        holder.mPlatformView.setSingleLine(true);
-        holder.mPlatformView.setEllipsize(TextUtils.TruncateAt.END);
 
-        holder.mPublisherView.setText( gamePreview.getPublisher() );
-        holder.mPublisherView.setSingleLine(true);
-        holder.mPublisherView.setEllipsize(TextUtils.TruncateAt.END);
+        holder.mPlatformPublisherView.setSingleLine(true);
+        holder.mPlatformPublisherView.setEllipsize(TextUtils.TruncateAt.END);
+
+        StringBuilder html = new StringBuilder();
+        html.append("<b>")
+                .append( gamePreview.getPlatform() )
+                .append("</b> by <b>")
+                .append( gamePreview.getPublisher() )
+                .append("</b>");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            holder.mPlatformPublisherView.setText( Html.fromHtml(html.toString(), Html.FROM_HTML_MODE_LEGACY) );
+        } else {
+            holder.mPlatformPublisherView.setText( Html.fromHtml(html.toString()) );
+        }
 
         holder.mOutOfStock.setVisibility(View.VISIBLE);
 
@@ -198,8 +210,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
         private final ImageView mCoverView;
         private final TextView mTitleView;
-        private final TextView mPlatformView;
-        private final TextView mPublisherView;
+        private final TextView mPlatformPublisherView;
 
         private final LinearLayout mOutOfStock;
 
@@ -226,8 +237,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
             mCoverView = view.findViewById(R.id.cover);
             mTitleView = view.findViewById(R.id.title);
-            mPlatformView = view.findViewById(R.id.platform);
-            mPublisherView = view.findViewById(R.id.publisher);
+            mPlatformPublisherView = view.findViewById(R.id.platform_publisher);
 
             mNewPriceView = view.findViewById(R.id.new_price);
             mUsedPriceView = view.findViewById(R.id.used_price);
@@ -274,7 +284,6 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             } else {
                 result = false;
             }
-
 
             if (result) {
 

@@ -60,6 +60,9 @@ public class SearchForUpdatesJobService extends JobService {
                             int priceChanges = 0;
                             StringBuilder text = new StringBuilder();
 
+                            // TODO: a game can be out of stock
+                            // TODO: a game can exit the out of stock state
+
                             // the game has been released
                             if (current.getNewPrice() != null && prev.getPreorderPrice() != null) {
                                 text.append(getString(R.string.notif_game_released));
