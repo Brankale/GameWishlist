@@ -137,6 +137,7 @@ public class App extends Application {
         notificationManager.notify(id, builder.build());
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     private static Bitmap getCircleBitmap(Bitmap bitmap) {
         if (bitmap != null) {
             Bitmap output;

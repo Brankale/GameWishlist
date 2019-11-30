@@ -20,7 +20,12 @@ public class SearchForUpdatesJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Log.d(TAG, "Job started");
-        searchForUpdates(jobParameters);
+        // TODO: the app sometime crashes, for the moment I just catch Exception
+        try {
+            searchForUpdates(jobParameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -105,7 +110,6 @@ public class SearchForUpdatesJobService extends JobService {
 
                     Log.d(TAG, "Job finished");
                     jobFinished(params, false);
-
                 }
             }.start();
         }
