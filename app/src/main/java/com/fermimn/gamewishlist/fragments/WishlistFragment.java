@@ -177,17 +177,6 @@ public class WishlistFragment extends Fragment {
                         mSwipeRefreshLayout.setRefreshing(refreshing);
                     }
                 }.execute();
-
-//                new Thread() {
-//                    public void run() {
-//                        for (int i = 0; i < mWishlist.size(); ++i) {
-//                            mViewModel.updateGame( mWishlist.get(i).getId() );
-//                        }
-//
-//                    }
-//                }.start();
-//
-//                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
