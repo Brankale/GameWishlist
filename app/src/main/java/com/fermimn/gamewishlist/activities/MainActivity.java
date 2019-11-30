@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
+            case R.id.action_search:
+                if (mSearchSection.isHidden()) {
+                    switchToSearch();
+                }
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -84,44 +90,54 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressWarnings("unused")
     public void sectionSwitch(View view) {
+        // if search section is hidden
+        if (mSearchSection.isHidden()) {
+            switchToSearch();
+        } else {
+            switchToWishlist();
+        }
+    }
+
+    void switchToSearch() {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String backStackName = "hide_wishlist";
 
-        // if search section is hidden
-        if (mSearchSection.isHidden()) {
+        getSupportFragmentManager().popBackStackImmediate(backStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-            getSupportFragmentManager().popBackStackImmediate(backStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        // show search section
+        transaction.hide(mWishListSection);
+        transaction.addToBackStack(backStackName);
+        transaction.show(mSearchSection);
 
-            // show search section
-            transaction.hide(mWishListSection);
-            transaction.addToBackStack(backStackName);
-            transaction.show(mSearchSection);
-
-            // set action bar title
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle( getString(R.string.section_search) ) ;
-            }
-
-            // set floating button image
-            mImageButton.setImageResource(R.drawable.ic_videogame_asset_black_24dp);
-
-        } else {
-
-            // show wishlist section
-            transaction.show(mWishListSection);
-            transaction.hide(mSearchSection);
-
-            // set action bar title
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle( getString(R.string.section_wishlist) ) ;
-            }
-
-            // set floating button image
-            mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
+        // set action bar title
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle( getString(R.string.section_search) ) ;
         }
+
+        // set floating button image
+        mImageButton.setImageResource(R.drawable.ic_videogame_asset_black_24dp);
+
+        transaction.commit();
+    }
+
+    void switchToWishlist() {
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // show wishlist section
+        transaction.show(mWishListSection);
+        transaction.hide(mSearchSection);
+
+        // set action bar title
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle( getString(R.string.section_wishlist) ) ;
+        }
+
+        // set floating button image
+        mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
 
         transaction.commit();
     }
