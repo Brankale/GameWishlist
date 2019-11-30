@@ -4,7 +4,6 @@
     <string name="app_name">Game Wishlist</string>
     <string name="game_image">Immagine del gioco</string>
     <string name="no_info">n/a</string>
-    <string name="by">&#160;by&#160;</string>
     <string name="search_bar">Cerca un gioco</string>
     <string name="section_switch">Cambia sezione</string>
 
