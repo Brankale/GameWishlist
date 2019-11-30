@@ -14,4 +14,9 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_open_website"
+        android:title="@string/action_open_website"
+        app:showAsAction="never"/>
+
 </menu>

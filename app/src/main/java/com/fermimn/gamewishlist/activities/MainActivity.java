@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
                 if (mSearchSection.isHidden()) {
                     switchToSearch();
                 }
+                return true;
+
+            case R.id.action_open_website:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.site_gamestop)));
+                startActivity(browserIntent);
                 return true;
 
             default:
