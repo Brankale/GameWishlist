@@ -20,4 +20,9 @@
         android:icon="@drawable/ic_remove_black_24dp"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_open_website"
+        android:title="@string/action_open_website"
+        app:showAsAction="never"/>
+
 </menu>

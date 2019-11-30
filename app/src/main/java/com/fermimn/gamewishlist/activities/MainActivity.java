@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_open_website:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.site_gamestop)));
+                Intent browserIntent =
+                        new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.site_gamestop)));
                 startActivity(browserIntent);
                 return true;
 

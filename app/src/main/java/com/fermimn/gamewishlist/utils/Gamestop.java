@@ -28,6 +28,10 @@ public class Gamestop implements Store {
     private static final String SEARCH_URL = WEBSITE_URL + "/SearchResult/QuickSearch?q=";
     private static final String GAME_URL = WEBSITE_URL + "/Platform/Games/";
 
+    public static String getLink(String gameId) {
+        return GAME_URL + gameId;
+    }
+
     /**
      * Search games on Gamestop website
      * @param searchedGame a String with the name of a game
@@ -118,7 +122,7 @@ public class Gamestop implements Store {
         try {
 
             // Get the URL and establish the connection
-            String url = GAME_URL + id;
+            String url = getLink(id);
 
             // Get the HTML
             Log.d(TAG, "[" + id + "] - Downloading Game... [" + url + "]");
