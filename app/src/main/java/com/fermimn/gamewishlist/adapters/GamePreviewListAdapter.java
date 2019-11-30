@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,8 +71,14 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         GamePreview gamePreview = mGamePreviewList.get(position);
 
         holder.mTitleView.setText( gamePreview.getTitle() );
+
         holder.mPlatformView.setText( gamePreview.getPlatform() );
+        holder.mPlatformView.setSingleLine(true);
+        holder.mPlatformView.setEllipsize(TextUtils.TruncateAt.END);
+
         holder.mPublisherView.setText( gamePreview.getPublisher() );
+        holder.mPublisherView.setSingleLine(true);
+        holder.mPublisherView.setEllipsize(TextUtils.TruncateAt.END);
 
         holder.mOutOfStock.setVisibility(View.VISIBLE);
 

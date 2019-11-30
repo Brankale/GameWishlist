@@ -158,6 +158,8 @@ public class Gamestop implements Store {
             // it's not a good practise catching Exception but it's necessary because the HTML
             // can change and the app mustn't crash
             // TODO: return a controlled exception and show an alert dialog message
+            // TODO: catching the exception has caused error in the app because
+            //       nobody knows that it can return null
             e.printStackTrace();
         }
 

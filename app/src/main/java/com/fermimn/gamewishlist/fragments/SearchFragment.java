@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment {
         // all elements in the recyclerview have the same size
         mSearchResults.setHasFixedSize(true);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         mSearchResults.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration =

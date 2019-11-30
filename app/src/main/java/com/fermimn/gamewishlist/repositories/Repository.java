@@ -190,17 +190,20 @@ public class Repository {
                 if (wishlist.get(i).getId().equals(gameId)) {
                     Store store = new Gamestop();
                     Game game = store.downloadGame(gameId);
-                    wishlist.set(i, game);
-                    mWishlist.postValue(wishlist);
 
-                    File xml = new File( getGameXml(game.getId()) );
+                    if (game != null) {
+                        wishlist.set(i, game);
+                        mWishlist.postValue(wishlist);
 
-                    try {
-                        xml.createNewFile();
-                        XmlWriter xw = new XmlWriter();
-                        xw.saveTo(xml, game);
-                    } catch (IOException | XmlPullParserException e) {
-                        e.printStackTrace();
+                        File xml = new File(getGameXml(game.getId()));
+
+                        try {
+                            xml.createNewFile();
+                            XmlWriter xw = new XmlWriter();
+                            xw.saveTo(xml, game);
+                        } catch (IOException | XmlPullParserException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     return game;
