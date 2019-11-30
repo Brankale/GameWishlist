@@ -57,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (mSearchSection.isVisible()) {
+            switchToWishlist();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
@@ -107,13 +116,9 @@ public class MainActivity extends AppCompatActivity {
     void switchToSearch() {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        String backStackName = "hide_wishlist";
-
-        getSupportFragmentManager().popBackStackImmediate(backStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         // show search section
         transaction.hide(mWishListSection);
-        transaction.addToBackStack(backStackName);
         transaction.show(mSearchSection);
 
         // set action bar title
