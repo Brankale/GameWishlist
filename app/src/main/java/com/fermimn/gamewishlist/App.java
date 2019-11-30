@@ -60,7 +60,7 @@ public class App extends Application {
         JobInfo info = new JobInfo.Builder(SEARCH_FOR_UPDATES_JOB, componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)   // requires network
                 .setPersisted(true)                                 // called after device reboot
-                .setPeriodic(TimeUnit.HOURS.toMillis(1))    // update every hour
+                .setPeriodic(TimeUnit.HOURS.toMillis(3))            // update every 3 hours
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
