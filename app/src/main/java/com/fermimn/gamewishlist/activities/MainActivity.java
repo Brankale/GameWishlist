@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -85,12 +86,16 @@ public class MainActivity extends AppCompatActivity {
     public void sectionSwitch(View view) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        String backStackName = "hide_wishlist";
 
         // if search section is hidden
         if (mSearchSection.isHidden()) {
 
+            getSupportFragmentManager().popBackStackImmediate(backStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
             // show search section
             transaction.hide(mWishListSection);
+            transaction.addToBackStack(backStackName);
             transaction.show(mSearchSection);
 
             // set action bar title
