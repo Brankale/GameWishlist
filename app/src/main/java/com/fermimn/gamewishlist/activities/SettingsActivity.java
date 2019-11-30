@@ -65,6 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_apply_changes:
                 showDialog();
+                finish();
                 return true;
 
             default:
