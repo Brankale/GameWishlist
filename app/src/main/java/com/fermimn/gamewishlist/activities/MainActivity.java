@@ -4,12 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,12 +56,27 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+
     @Override
     public void onBackPressed() {
-        if (mSearchSection.isVisible()) {
+        if (mWishListSection.isHidden()) {
             switchToWishlist();
         } else {
-            finish();
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mWishListSection.isHidden()) {
+                switchToWishlist();
+            } else {
+                finish();
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 
