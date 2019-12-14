@@ -527,6 +527,14 @@ public class Gamestop implements Store {
         // init description
         prodDesc.getElementsByClass("prodToTop").remove();
         prodDesc.getElementsByClass("prodSecHead").remove();
+
+        // remove images
+        Elements imgs = prodDesc.getElementsByTag("img");
+        if (imgs != null) {
+            imgs.remove();
+            Log.d(TAG, "removed images from description");
+        }
+
         game.setDescription( prodDesc.outerHtml() );
     }
 
