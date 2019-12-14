@@ -565,8 +565,6 @@ public class GamePageActivity extends AppCompatActivity {
         // Get Views
         LinearLayout promoContainer = findViewById(R.id.promo_container);
 
-        // TODO: set URL to promo Message
-        // TODO: check if message is available
         if (game.getPromo() != null) {
             for (Promo promo : game.getPromo()) {
 
@@ -578,6 +576,7 @@ public class GamePageActivity extends AppCompatActivity {
                 TextView promoHeader = promoView.findViewById(R.id.promo_header);
                 TextView promoValidity = promoView.findViewById(R.id.promo_validity);
                 TextView promoMessage = promoView.findViewById(R.id.promo_message);
+                LinearLayout promoMessageLayout = promoView.findViewById(R.id.promo_message_layout);
 
                 promoHeader.setText( promo.getHeader() );
                 promoValidity.setText( promo.getSubHeader() );
@@ -589,7 +588,9 @@ public class GamePageActivity extends AppCompatActivity {
 
                     promoMessage.setMovementMethod( LinkMovementMethod.getInstance() );
                     promoMessage.setText(link);
-                    promoMessage.setVisibility(View.VISIBLE);
+                    promoMessageLayout.setVisibility(View.VISIBLE);
+                } else {
+                    promoMessageLayout.setVisibility(View.GONE);
                 }
 
                 // add promo to promoContainer
