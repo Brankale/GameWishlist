@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/prefs_category_visual_settings">
+
+        <SwitchPreference
+            android:title="@string/prefs_hq_preview_images"
+            android:summary="@string/prefs_hq_preview_images_summary"
+            android:key="hq_preview_images" />
+
+        <ListPreference
+            android:title="@string/prefs_theme"
+            android:summary="@string/no_info"
+            android:key="themes"
+            android:entries="@array/themes_labels"
+            android:entryValues="@array/themes_codes" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -10,6 +10,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -22,11 +23,11 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.services.SearchForUpdatesJobService;
-import com.fermimn.gamewishlist.utils.SettingsManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -47,9 +48,20 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // set light or dark theme
-        SettingsManager settings = SettingsManager.getInstance(this);
-        AppCompatDelegate.setDefaultNightMode( settings.getDarkMode() );
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String theme = sharedPrefs.getString("themes",  "2");
+        switch (theme) {
+            case "white":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "auto":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
 
         createNotificationChannel();
         scheduleJob();

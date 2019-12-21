@@ -3,6 +3,7 @@ package com.fermimn.gamewishlist.adapters;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -19,13 +20,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.activities.GamePageActivity;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.utils.SettingsManager;
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -176,8 +177,10 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         }
 
         // TODO: hard coded
-        SettingsManager settings = SettingsManager.getInstance(mContext);
-        if (settings.isHighQualityPreview()) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        boolean hqPreviewImages = sharedPrefs.getBoolean("hq_preview_images", false);
+
+        if (hqPreviewImages) {
             Uri uri = gamePreview.getCover();
             if (uri != null) {
                 String result = uri.toString().replace("2med", "3max");
