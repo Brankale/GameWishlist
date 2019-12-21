@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
 
-    <PreferenceCategory android:title="@string/prefs_category_visual_settings">
+    <PreferenceCategory
+        android:title="@string/prefs_category_visual_settings"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:title="@string/prefs_hq_preview_images"
             android:summary="@string/prefs_hq_preview_images_summary"
-            android:key="hq_preview_images" />
+            android:key="hq_preview_images"
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:title="@string/prefs_theme"
-            android:summary="@string/no_info"
+            android:summary="@string/prefs_theme_summary"
             android:key="themes"
             android:entries="@array/themes_labels"
-            android:entryValues="@array/themes_codes" />
+            android:entryValues="@array/themes_codes"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

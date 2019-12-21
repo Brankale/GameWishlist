@@ -71,6 +71,7 @@
     <!-- preferences -->
     <string name="prefs_category_visual_settings">Impostazioni grafiche</string>
     <string name="prefs_theme">Tema</string>
+    <string name="prefs_theme_summary">Imposta il tema dell\'applicazione</string>
     <string name="prefs_hq_preview_images">Anteprime in alta definizione</string>
     <string name="prefs_hq_preview_images_summary">
         Le immagini in alta risoluzione aumentano i tempi di download
