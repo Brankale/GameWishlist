@@ -80,6 +80,7 @@
     <!-- app sections -->
     <string name="section_wishlist">Lista dei desideri</string>
     <string name="section_search">Ricerca</string>
+    <string name="section_settings">Impostazioni</string>
 
     <!-- notification channels -->
     <string name="channel_updates">Updates</string>
