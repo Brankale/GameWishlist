@@ -337,6 +337,7 @@ public class Gamestop implements Store {
                 throw new GameException();
             }
 
+            Element radio = svd.getElementsByTag("input").get(0);
             Element svt = svd.getElementsByClass("singleVariantText").get(0);
             String variant = svt.getElementsByClass("variantName").get(0).text();
 
@@ -346,6 +347,7 @@ public class Gamestop implements Store {
                 case "Nuovo":
                     String price = svt.getElementsByClass("prodPriceCont").get(0).text();
                     game.setNewPrice( stringToPrice(price) );
+                    game.setNewAvailable(!radio.attr("data-int").equals("0"));
 
                     for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
                         price = olderPrice.text();
@@ -357,6 +359,7 @@ public class Gamestop implements Store {
                 case "Usato":
                     price = svt.getElementsByClass("prodPriceCont").get(0).text();
                     game.setUsedPrice( stringToPrice(price) );
+                    game.setUsedAvailable(!radio.attr("data-int").equals("0"));
 
                     for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
                         price = olderPrice.text();
@@ -368,6 +371,7 @@ public class Gamestop implements Store {
                 case "Prenotazione":
                     price = svt.getElementsByClass("prodPriceCont").get(0).text();
                     game.setPreorderPrice( stringToPrice(price) );
+                    game.setPreorderAvailable(true);
 
                     // TODO: this code can be wrong due to the absence of test cases.
                     //       If the app crashes here, the error can be fixed using the crash log.
@@ -382,6 +386,7 @@ public class Gamestop implements Store {
                 case "Digitale":
                     price = svt.getElementsByClass("prodPriceCont").get(0).text();
                     game.setDigitalPrice( stringToPrice(price) );
+                    game.setDigitalAvailable(!radio.attr("data-int").equals("0"));
 
                     // TODO: this code can be wrong due to the absence of test cases.
                     //       If the app crashes here, the error can be fixed using the crash log.

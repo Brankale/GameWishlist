@@ -457,6 +457,12 @@ public class GamePageActivity extends AppCompatActivity {
                 setOldPrices(container, game.getOlderNewPrices());
             }
 
+            // change color based on availability
+            if (!game.isNewAvailable()) {
+                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
+                container.setBackgroundColor(colour);
+            }
+
             // add the container to the parent
             parent.addView(container);
         }
@@ -472,6 +478,12 @@ public class GamePageActivity extends AppCompatActivity {
             setPrice(container, game.getUsedPrice(), R.string.used_price);
             if (game.getOlderUsedPrices() != null) {
                 setOldPrices(container, game.getOlderUsedPrices());
+            }
+
+            // change color based on availability
+            if (!game.isUsedAvailable()) {
+                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
+                container.setBackgroundColor(colour);
             }
 
             // add the container to the parent
@@ -491,6 +503,11 @@ public class GamePageActivity extends AppCompatActivity {
                 setOldPrices(container, game.getOlderDigitalPrices());
             }
 
+            if (!game.isDigitalAvailable()) {
+                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
+                container.setBackgroundColor(colour);
+            }
+
             // add the container to the parent
             parent.addView(container);
         }
@@ -506,6 +523,12 @@ public class GamePageActivity extends AppCompatActivity {
             setPrice(container, game.getPreorderPrice(), R.string.preorder_price);
             if (game.getOlderPreorderPrices() != null) {
                 setOldPrices(container, game.getOlderPreorderPrices());
+            }
+
+            // change color based on availability
+            if (!game.isPreorderAvailable()) {
+                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
+                container.setBackgroundColor(colour);
             }
 
             // add the container to the parent
