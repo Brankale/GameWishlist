@@ -19,7 +19,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gamestop implements Store {
+public class Gamestop {
 
     @SuppressWarnings("unused")
     private static final String TAG = Gamestop.class.getSimpleName();
@@ -37,7 +37,6 @@ public class Gamestop implements Store {
      * @param searchedGame a String with the name of a game
      * @return the list of the games found, null if there have been problems or nothing was found
      */
-    @Override
     public GamePreviewList searchGame(String searchedGame) {
 
         try {
@@ -116,7 +115,6 @@ public class Gamestop implements Store {
      * @param id of the game
      * @return a Game object if found, otherwise null
      */
-    @Override
     public Game downloadGame(String id) {
 
         try {

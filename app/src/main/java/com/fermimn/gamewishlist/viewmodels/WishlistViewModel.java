@@ -14,7 +14,6 @@ import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.repositories.Repository;
 import com.fermimn.gamewishlist.utils.Gamestop;
-import com.fermimn.gamewishlist.utils.Store;
 
 public class WishlistViewModel extends AndroidViewModel {
 
@@ -50,7 +49,7 @@ public class WishlistViewModel extends AndroidViewModel {
 
             new Thread() {
                 public void run() {
-                    Store store = new Gamestop();
+                    Gamestop store = new Gamestop();
                     Game game = store.downloadGame(gamePreview.getId());
                     addGame(game);
                 }

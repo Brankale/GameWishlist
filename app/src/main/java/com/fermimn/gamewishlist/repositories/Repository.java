@@ -17,7 +17,6 @@ import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.repositories.xml.XmlReader;
 import com.fermimn.gamewishlist.repositories.xml.XmlWriter;
 import com.fermimn.gamewishlist.utils.Gamestop;
-import com.fermimn.gamewishlist.utils.Store;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -188,8 +187,8 @@ public class Repository {
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
                 if (wishlist.get(i).getId().equals(gameId)) {
-                    Store store = new Gamestop();
-                    Game game = store.downloadGame(gameId);
+                    Gamestop gamestop = new Gamestop();
+                    Game game = gamestop.downloadGame(gameId);
 
                     if (game != null) {
                         wishlist.set(i, game);

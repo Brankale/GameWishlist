@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Gamestop;
-import com.fermimn.gamewishlist.utils.Store;
 
 public class SearchViewModel extends ViewModel {
 
@@ -38,7 +37,7 @@ public class SearchViewModel extends ViewModel {
         new Thread() {
             @Override
             public void run() {
-                Store store = new Gamestop();
+                Gamestop store = new Gamestop();
                 GamePreviewList searchResults = mSearchResults.getValue();
                 GamePreviewList newResults = store.searchGame(gameTitle);
 
