@@ -5,8 +5,6 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.fermimn.gamewishlist.exceptions.GameException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

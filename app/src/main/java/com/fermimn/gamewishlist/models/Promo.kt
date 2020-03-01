@@ -4,8 +4,6 @@ import java.lang.RuntimeException
 
 class Promo(val header: String) {
 
-    private val TAG: String = Promo::class.java.simpleName
-
     var text: String? = null
     var findMore: String? = null
     var findMoreUrl: String? = null     // a URL that can be associated with "findMore" var
