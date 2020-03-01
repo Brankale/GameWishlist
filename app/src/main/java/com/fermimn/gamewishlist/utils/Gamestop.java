@@ -66,7 +66,9 @@ public class Gamestop {
                 String publisher = game.getElementsByTag("h4").get(0).getElementsByTag("strong").text();
                 String platform = game.getElementsByTag("h4").get(0).textNodes().get(0).text().trim();
 
-                GamePreview gamePreview = new GamePreview(id, title, platform);
+                GamePreview gamePreview = new GamePreview(id);
+                gamePreview.setTitle(title);
+                gamePreview.setPlatform(platform);
                 gamePreview.setPublisher(publisher);
 
                 // get & set prices
@@ -247,7 +249,9 @@ public class Gamestop {
         String platform = prodTitle.getElementsByTag("p").get(0)
                 .getElementsByTag("span").text();
 
-        Game game = new Game(id, title, platform);
+        Game game = new Game(id);
+        game.setTitle(title);
+        game.setPlatform(platform);
         game.setPublisher( prodTitle.getElementsByTag("strong").text() );
         return game;
     }

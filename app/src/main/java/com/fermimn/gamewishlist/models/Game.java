@@ -20,18 +20,6 @@ public class Game extends GamePreview {
     private List<Uri> mGallery;
     private boolean mValidForPromo;
 
-    /**
-     * A game can exist without a price but it must be recognisable through
-     * a title a platform and an ID in order to be managed
-     * @param id of the game associated with store
-     * @param title of the game
-     * @param platform of the game
-     */
-    @Deprecated
-    public Game(String id, String title, String platform) {
-        super(id, title, platform);
-    }
-
     public Game(String id) {
         super(id);
     }

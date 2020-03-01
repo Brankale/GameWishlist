@@ -16,7 +16,7 @@ class Promo(val header: String) {
         }
     }
 
-    fun hasFindMore() : Boolean = findMore != null
+    fun hasFindMore(): Boolean = findMore != null
 
 }
 

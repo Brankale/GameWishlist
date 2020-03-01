@@ -36,38 +36,6 @@ public class GamePreview implements Comparable {
 
     // TODO: a game can be out of stock, so it can have no price
 
-    /**
-     * A game can exist without a price but it must be recognisable through
-     * a title a platform and an ID in order to be managed
-     * @param id of the game associated with store (it must be a number)
-     * @param title of the game (it cannot be an empty string)
-     * @param platform of the game (it cannot be an empty string)
-     */
-    @Deprecated
-    public GamePreview(String id, String title, String platform) {
-
-        // every parameter must be non null
-        if (id == null || title == null || platform == null) {
-            throw new GameException();
-        }
-
-        // strings must be non empty
-        if (title.isEmpty() || platform.isEmpty()) {
-            throw new GameException();
-        }
-
-        // id must be a number
-        try {
-            Integer.parseInt(id);
-        } catch (NumberFormatException e) {
-            throw new GameException();
-        }
-
-        mId = id;
-        mTitle = title;
-        mPlatform = platform;
-    }
-
     public GamePreview(String id) {
         mId = id;
     }
