@@ -38,7 +38,7 @@ public class WishlistViewModel extends AndroidViewModel {
         return mIsUpdating;
     }
 
-    public Game getGame(@Nullable String gameId) {
+    public Game getGame(int gameId) {
         return mRepository.getGame(gameId);
     }
 
@@ -49,8 +49,8 @@ public class WishlistViewModel extends AndroidViewModel {
 
             new Thread() {
                 public void run() {
-                    Gamestop store = new Gamestop();
-                    Game game = store.downloadGame(gamePreview.getId());
+                    Gamestop gamestop = new Gamestop();
+                    Game game = gamestop.downloadGame(gamePreview.getId());
                     addGame(game);
                 }
             }.start();
@@ -62,11 +62,11 @@ public class WishlistViewModel extends AndroidViewModel {
         mIsUpdating.postValue(new Pair<>((GamePreview) game, false));
     }
 
-    public Game updateGame(final String gameId) {
+    public Game updateGame(final int gameId) {
         return mRepository.updateGame(gameId);
     }
 
-    public void removeGame(@Nullable String gameId) {
+    public void removeGame(int gameId) {
         mRepository.removeGame(gameId);
     }
 

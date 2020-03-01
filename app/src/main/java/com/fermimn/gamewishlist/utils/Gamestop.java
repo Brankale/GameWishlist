@@ -28,7 +28,7 @@ public class Gamestop {
     private static final String SEARCH_URL = WEBSITE_URL + "/SearchResult/QuickSearch?q=";
     private static final String GAME_URL = WEBSITE_URL + "/Platform/Games/";
 
-    public static String getLink(String gameId) {
+    public static String getLink(int gameId) {
         return GAME_URL + gameId;
     }
 
@@ -66,7 +66,7 @@ public class Gamestop {
                 String publisher = game.getElementsByTag("h4").get(0).getElementsByTag("strong").text();
                 String platform = game.getElementsByTag("h4").get(0).textNodes().get(0).text().trim();
 
-                GamePreview gamePreview = new GamePreview(id);
+                GamePreview gamePreview = new GamePreview(Integer.parseInt(id));
                 gamePreview.setTitle(title);
                 gamePreview.setPlatform(platform);
                 gamePreview.setPublisher(publisher);
@@ -117,7 +117,7 @@ public class Gamestop {
      * @param id of the game
      * @return a Game object if found, otherwise null
      */
-    public Game downloadGame(String id) {
+    public Game downloadGame(int id) {
 
         try {
 
@@ -236,7 +236,7 @@ public class Gamestop {
      * @param id of the game
      * @return a Game object, null if it hasn't been possible create the game
      */
-    private Game updateMainInfo(Element prodTitle, String id) {
+    private Game updateMainInfo(Element prodTitle, int id) {
 
         // Check if there's a tag with a specific class inside the Element
         prodTitle = getElementByClass(prodTitle, "prodTitle");

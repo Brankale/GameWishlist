@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class GamePreview implements Comparable {
 
-    private final String mId;
+    private final int mId;
     private String mTitle;
     private String mPlatform;
     private String mPublisher;
@@ -36,15 +36,14 @@ public class GamePreview implements Comparable {
 
     // TODO: a game can be out of stock, so it can have no price
 
-    public GamePreview(String id) {
+    public GamePreview(int id) {
         mId = id;
     }
 
     /**
      * @return the ID of the game
      */
-    @NonNull
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
@@ -244,15 +243,11 @@ public class GamePreview implements Comparable {
      * @return true if two GamePreview are identical, false otherwise
      */
     @Override
-    public boolean equals(@Nullable Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof GamePreview)) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GamePreview)) return false;
         GamePreview that = (GamePreview) o;
-        return mId.equals(that.mId);
+        return mId == that.mId;
     }
 
     @Override
@@ -282,7 +277,7 @@ public class GamePreview implements Comparable {
     @Override
     public int compareTo(@NonNull Object o) {
         GamePreview game = (GamePreview) o;
-        return mId.compareTo(game.mId);
+        return Integer.compare(mId, game.mId);
     }
 
 }

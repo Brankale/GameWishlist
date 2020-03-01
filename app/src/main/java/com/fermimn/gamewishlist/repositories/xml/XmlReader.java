@@ -104,7 +104,7 @@ public class XmlReader {
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG) {
                 switch (parser.getName()) {
-                    case GAME:          game = new Game( parser.getAttributeValue(0) );   break;
+                    case GAME:          game = new Game( Integer.parseInt(parser.getAttributeValue(0)) );   break;
                     case TITLE:         game.setTitle( parser.nextText() );                 break;
                     case PLATFORM:      game.setPlatform( parser.nextText() );              break;
                     case PUBLISHER:     game.setPublisher( parser.nextText() );             break;

@@ -199,7 +199,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong( mGamePreviewList.get(position).getId() );
+        return mGamePreviewList.get(position).getId();
     }
 
     public GamePreview getGamePreviewByPosition(int position) {

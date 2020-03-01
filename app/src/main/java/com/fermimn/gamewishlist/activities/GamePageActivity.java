@@ -63,7 +63,7 @@ public class GamePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_page);
 
         // get game ID
-        String gameId = getIntent().getStringExtra("gameID");
+        int gameId = getIntent().getIntExtra("gameID", 0);
 
         // search the game in the wishlist
         mWishListViewModel = ViewModelProviders.of(this).get(WishlistViewModel.class);
@@ -97,7 +97,7 @@ public class GamePageActivity extends AppCompatActivity {
         if (mGame == null) {
             // download the game
             DownloadGame task = new DownloadGame(this);
-            task.execute(gameId);
+            task.execute(Integer.toString(gameId));
         } else {
             // set the UI
             updateUI(mGame);
@@ -201,7 +201,7 @@ public class GamePageActivity extends AppCompatActivity {
         @Override
          protected Game doInBackground(String... strings) {
             Gamestop gamestop = new Gamestop();
-            return gamestop.downloadGame(strings[0]);
+            return gamestop.downloadGame(Integer.parseInt(strings[0]));
         }
 
         @Override

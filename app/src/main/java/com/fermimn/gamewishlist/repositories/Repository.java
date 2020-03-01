@@ -92,11 +92,11 @@ public class Repository {
      * @param gameId the ID of the game
      * @return a Game object if the game is in the wishlist, null otherwise
      */
-    public Game getGame(@Nullable String gameId) {
+    public Game getGame(int gameId) {
         GamePreviewList wishlist = mWishlist.getValue();
         if (wishlist != null) {
             for (GamePreview gamePreview : wishlist) {
-                if (gamePreview.getId().equals(gameId)) {
+                if (gamePreview.getId() == gameId) {
                     return (Game) gamePreview;
                 }
             }
@@ -121,10 +121,10 @@ public class Repository {
     public boolean addGame(@Nullable Game game) {
 
         if (game != null) {
-            boolean result = initGameFolder( game.getId() );
+            boolean result = initGameFolder( Integer.toString(game.getId()) );
             if (result) {
                 // store the game on local memory
-                File xml = new File( getGameXml(game.getId()) );
+                File xml = new File( getGameXml( Integer.toString(game.getId()) ) );
 
                 try {
                     xml.createNewFile();
@@ -147,7 +147,7 @@ public class Repository {
                 return true;
             } else {
                 // remove files if some errors occurred
-                removeGame( game.getId() );
+                removeGame(game.getId());
             }
         }
 
@@ -159,13 +159,13 @@ public class Repository {
      * @param gameId the ID of the game to remove
      * @return true if the game has been removed, false otherwise
      */
-    public boolean removeGame(@Nullable String gameId) {
-        boolean result = deleteFolder( new File( getGameFolder(gameId) ) );
+    public boolean removeGame(int gameId) {
+        boolean result = deleteFolder( new File( getGameFolder(Integer.toString(gameId)) ) );
 
         GamePreviewList wishlist = mWishlist.getValue();
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
-                if (wishlist.get(i).getId().equals(gameId)) {
+                if (wishlist.get(i).getId() == gameId) {
                     wishlist.remove(i);
                     mWishlist.postValue(wishlist);
                     break;
@@ -174,19 +174,19 @@ public class Repository {
         }
 
         if (result) {
-            Log.d(TAG, '[' + getGameFolder(gameId) +  "] - folder deleted successfully");
+            Log.d(TAG, '[' + getGameFolder(Integer.toString(gameId)) +  "] - folder deleted successfully");
             return true;
         } else {
-            Log.e(TAG, '[' + getGameFolder(gameId) +  "] - errors occurred while deleting the folder");
+            Log.e(TAG, '[' + getGameFolder(Integer.toString(gameId)) +  "] - errors occurred while deleting the folder");
             return false;
         }
     }
 
-    public Game updateGame(@Nullable String gameId) {
+    public Game updateGame(int gameId) {
         GamePreviewList wishlist = mWishlist.getValue();
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
-                if (wishlist.get(i).getId().equals(gameId)) {
+                if (wishlist.get(i).getId() == gameId) {
                     Gamestop gamestop = new Gamestop();
                     Game game = gamestop.downloadGame(gameId);
 
@@ -194,7 +194,7 @@ public class Repository {
                         wishlist.set(i, game);
                         mWishlist.postValue(wishlist);
 
-                        File xml = new File(getGameXml(game.getId()));
+                        File xml = new File(getGameXml(Integer.toString(game.getId())));
 
                         try {
                             xml.createNewFile();
@@ -292,12 +292,12 @@ public class Repository {
 
             public void run() {
                 // download cover
-                File cover = new File(getGameFolder(game.getId()), "cover.jpg");
+                File cover = new File(getGameFolder(Integer.toString(game.getId())), "cover.jpg");
                 downloadImage(cover, game.getCover());
 
                 // download gallery
                 if (game.getGallery() != null) {
-                    File galleryFolder = new File( getGalleryFolder(game.getId()) );
+                    File galleryFolder = new File( getGalleryFolder(Integer.toString(game.getId())) );
                     for (Uri uri : game.getGallery()) {
                         String url = uri.toString();
                         String name = url.substring( url.lastIndexOf('/') );

@@ -78,7 +78,7 @@ public class XmlWriter {
         mSerializer.startDocument("UTF-8", true);
 
         mSerializer.startTag(null, GAME);
-        mSerializer.attribute(null, "id", game.getId());
+        mSerializer.attribute(null, "id", Integer.toString(game.getId()));
         addTag(TITLE, game.getTitle());
         addTag(PLATFORM, game.getPlatform());
         addTag(PUBLISHER, game.getPublisher());

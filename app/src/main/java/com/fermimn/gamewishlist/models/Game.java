@@ -20,7 +20,7 @@ public class Game extends GamePreview {
     private List<Uri> mGallery;
     private boolean mValidForPromo;
 
-    public Game(String id) {
+    public Game(int id) {
         super(id);
     }
 
