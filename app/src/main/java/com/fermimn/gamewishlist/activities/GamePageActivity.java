@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.models.Game;
@@ -66,7 +66,8 @@ public class GamePageActivity extends AppCompatActivity {
         int gameId = getIntent().getIntExtra("gameID", 0);
 
         // search the game in the wishlist
-        mWishListViewModel = ViewModelProviders.of(this).get(WishlistViewModel.class);
+
+        mWishListViewModel = new ViewModelProvider(this).get(WishlistViewModel.class);
         mGame = mWishListViewModel.getGame(gameId);
 
         if (mGame == null) {

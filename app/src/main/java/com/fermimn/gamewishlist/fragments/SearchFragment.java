@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,8 +52,8 @@ public class SearchFragment extends Fragment {
         mSearchResults = view.findViewById(R.id.search_results);
 
         // set view model & observers
-        mViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
-        WishlistViewModel wishlistViewModel = ViewModelProviders.of(getActivity()).get(WishlistViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
+        WishlistViewModel wishlistViewModel = new ViewModelProvider(getActivity()).get(WishlistViewModel.class);
 
         mViewModel.getSearchResults().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override

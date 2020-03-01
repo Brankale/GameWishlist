@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +51,7 @@ public class WishlistFragment extends Fragment {
         FragmentActivity activity = getActivity();
         if (activity != null) {
             // attach ViewModel to the Fragment
-            mViewModel = ViewModelProviders.of( getActivity() ).get(WishlistViewModel.class);
+            mViewModel = new ViewModelProvider(getActivity()).get(WishlistViewModel.class);
 
             // init wishlist
             GamePreviewList wishlist = mViewModel.getWishlist().getValue();

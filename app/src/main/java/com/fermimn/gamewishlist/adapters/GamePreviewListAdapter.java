@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -276,7 +276,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         public boolean onLongClick(View view) {
 
             final WishlistViewModel wishListViewModel =
-                    ViewModelProviders.of(mContext).get(WishlistViewModel.class);
+                    new ViewModelProvider(mContext).get(WishlistViewModel.class);
 
             GamePreviewList gamePreviewList = wishListViewModel.getWishlist().getValue();
 
