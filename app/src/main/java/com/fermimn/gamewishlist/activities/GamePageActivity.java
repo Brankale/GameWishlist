@@ -602,11 +602,11 @@ public class GamePageActivity extends AppCompatActivity {
                 LinearLayout promoMessageLayout = promoView.findViewById(R.id.promo_message_layout);
 
                 promoHeader.setText( promo.getHeader() );
-                promoValidity.setText( promo.getSubHeader() );
+                promoValidity.setText( promo.getText() );
 
-                if (promo.hasFindMoreMsg()) {
+                if (promo.hasFindMore()) {
                     String href = promo.getFindMoreUrl();
-                    String message = promo.getFindMoreMsg();
+                    String message = promo.getFindMore();
                     Spanned link = Html.fromHtml("<a href='" + href + "'>" + message + "</a>");
 
                     promoMessage.setMovementMethod( LinkMovementMethod.getInstance() );

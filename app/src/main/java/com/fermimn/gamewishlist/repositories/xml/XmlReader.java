@@ -301,23 +301,20 @@ public class XmlReader {
             throws XmlPullParserException, IOException {
 
         Promo promo = null;
-        String findMore = null;
-        String findMoreUrl = null;
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(PROMO)) ) {
             if (eventType == XmlPullParser.START_TAG) {
                 switch (parser.getName()) {
                     case HEADER:        promo = new Promo( parser.nextText() );     break;
-                    case SUB_HEADER:    promo.setSubHeader( parser.nextText() );    break;
-                    case FIND_MORE:     findMore = parser.nextText();               break;
-                    case FIND_MORE_URL: findMoreUrl = parser.nextText();            break;
+                    case SUB_HEADER:    promo.setText( parser.nextText() );           break;
+                    case FIND_MORE:     promo.setFindMore( parser.nextText() );       break;
+                    case FIND_MORE_URL: promo.setFindMoreUrl( parser.nextText() );      break;
                 }
             }
             eventType = parser.next();
         }
 
-        promo.setFindMoreMsg(findMore, findMoreUrl);
         return promo;
     }
 

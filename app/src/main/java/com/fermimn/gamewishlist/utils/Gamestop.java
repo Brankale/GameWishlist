@@ -499,14 +499,15 @@ public class Gamestop {
             Elements p = prodSinglePromo.getElementsByTag("p");
 
             Promo promo = new Promo(h4.text());
-            promo.setSubHeader( p.get(0).text() );
+            promo.setText( p.get(0).text() );
 
             // if the promotion has other info
             if (p.size() >= 2) {
                 String url = "http://www.gamestop.it" +
                         p.get(1).getElementsByTag("a").attr("href");
 
-                promo.setFindMoreMsg(p.get(1).text(), url);
+                promo.setFindMore(p.get(1).text());
+                promo.setFindMoreUrl(url);
             }
 
             // add the promo

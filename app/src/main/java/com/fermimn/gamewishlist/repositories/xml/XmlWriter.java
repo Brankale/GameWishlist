@@ -158,9 +158,9 @@ public class XmlWriter {
     private void addPromo(Promo promo) throws IOException {
         mSerializer.startTag(null, PROMO);
         addTag(HEADER, promo.getHeader());
-        addTag(SUB_HEADER, promo.getSubHeader());
-        if (promo.hasFindMoreMsg()) {
-            addTag(FIND_MORE, promo.getFindMoreMsg());
+        addTag(SUB_HEADER, promo.getText());
+        if (promo.hasFindMore()) {
+            addTag(FIND_MORE, promo.getFindMore());
             addTag(FIND_MORE_URL, promo.getFindMoreUrl());
         }
         mSerializer.endTag(null, PROMO);
