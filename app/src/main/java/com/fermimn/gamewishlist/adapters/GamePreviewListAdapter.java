@@ -101,7 +101,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mNewPriceView.setText( mDecimalFormat.format( gamePreview.getNewPrice() ));
             holder.mNewPriceView.append(mCurrency);
 
-            if (gamePreview.getOldNewPrices() == null) {
+            if (gamePreview.getOldNewPrices().isEmpty()) {
                 holder.mOlderNewPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderNewPricesView
@@ -121,7 +121,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mUsedPriceView.setText( mDecimalFormat.format( gamePreview.getUsedPrice() ));
             holder.mUsedPriceView.append(mCurrency);
 
-            if (gamePreview.getOldUsedPrices() == null) {
+            if (gamePreview.getOldUsedPrices().isEmpty()) {
                 holder.mOlderUsedPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderUsedPricesView
@@ -142,7 +142,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                     .setText(mDecimalFormat.format( gamePreview.getDigitalPrice() ));
             holder.mDigitalPriceView.append(mCurrency);
 
-            if (gamePreview.getOldDigitalPrices() == null) {
+            if (gamePreview.getOldDigitalPrices().isEmpty()) {
                 holder.mOlderDigitalPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderDigitalPricesView
@@ -163,7 +163,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                     .setText(mDecimalFormat.format( gamePreview.getPreorderPrice() ));
             holder.mPreorderPriceView.append(mCurrency);
 
-            if (gamePreview.getOldPreorderPrices() == null) {
+            if (gamePreview.getOldPreorderPrices().isEmpty()) {
                 holder.mOlderPreorderPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderPreorderPricesView

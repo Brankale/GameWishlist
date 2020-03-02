@@ -74,19 +74,19 @@ public class Gamestop {
 
                 categoryPrices = getCategoryPrices(game, "buyNew");         // new
                 gamePreview.setNewPrice(categoryPrices.first);
-                gamePreview.setOldNewPrices(categoryPrices.second);
+                gamePreview.addOldNewPrices(categoryPrices.second);
 
                 categoryPrices = getCategoryPrices(game, "buyUsed");        // used
                 gamePreview.setUsedPrice(categoryPrices.first);
-                gamePreview.setOldUsedPrices(categoryPrices.second);
+                gamePreview.addOldUsedPrices(categoryPrices.second);
 
                 categoryPrices = getCategoryPrices(game, "buyPresell");     // preorder
                 gamePreview.setPreorderPrice(categoryPrices.first);
-                gamePreview.setOldPreorderPrices(categoryPrices.second);
+                gamePreview.addOldPreorderPrices(categoryPrices.second);
 
                 categoryPrices = getCategoryPrices(game, "buyDLC");         // digital
                 gamePreview.setDigitalPrice(categoryPrices.first);
-                gamePreview.setOldDigitalPrices(categoryPrices.second);
+                gamePreview.addOldDigitalPrices(categoryPrices.second);
 
                 // set the Cover
                 String imageUrl = game.getElementsByClass("prodImg").get(0)

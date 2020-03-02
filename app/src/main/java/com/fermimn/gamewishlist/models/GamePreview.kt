@@ -24,21 +24,17 @@ open class GamePreview (val id: Int) {
         get() = prices.preorder
         set(value) { prices.preorder = value }
 
-    var oldNewPrices: ArrayList<Float>?
+    val oldNewPrices: ArrayList<Float>?
         get() = prices.oldNew
-        set(value) { prices.oldNew = value }
 
-    var oldUsedPrices: ArrayList<Float>?
+    val oldUsedPrices: ArrayList<Float>?
         get() = prices.oldUsed
-        set(value) { prices.oldUsed = value }
 
-    var oldDigitalPrices: ArrayList<Float>?
+    val oldDigitalPrices: ArrayList<Float>?
         get() = prices.oldDigital
-        set(value) { prices.oldDigital = value }
 
-    var oldPreorderPrices: ArrayList<Float>?
+    val oldPreorderPrices: ArrayList<Float>?
         get() = prices.oldPreorder
-        set(value) { prices.oldPreorder = value }
 
     var newAvailable: Boolean
         get() = prices.newAvailable
@@ -70,6 +66,22 @@ open class GamePreview (val id: Int) {
 
     fun addOldPreorderPrice(price: Float) {
         prices.addOldPreorder(price)
+    }
+
+    fun addOldNewPrices(prices: ArrayList<Float>) {
+        this.prices.addOldNew(prices)
+    }
+
+    fun addOldUsedPrices(prices: ArrayList<Float>) {
+        this.prices.addOldUsed(prices)
+    }
+
+    fun addOldDigitalPrices(prices: ArrayList<Float>) {
+        this.prices.addOldDigital(prices)
+    }
+
+    fun addOldPreorderPrices(prices: ArrayList<Float>) {
+        this.prices.addOldPreorder(prices)
     }
 
     final override fun equals(other: Any?): Boolean {

@@ -146,10 +146,10 @@ public class XmlReader {
                     case USED: game.setUsedPrice( Float.parseFloat( parser.nextText() ) ); break;
                     case PREORDER: game.setPreorderPrice( Float.parseFloat( parser.nextText() ) ); break;
                     case DIGITAL: game.setDigitalPrice( Float.parseFloat( parser.nextText() ) ); break;
-                    case OLD_NEW: game.setOldNewPrices( getOlderPrices(parser, OLD_NEW) ); break;
-                    case OLD_USED: game.setOldUsedPrices( getOlderPrices(parser, OLD_USED) ); break;
-                    case OLD_PREORDER: game.setOldPreorderPrices( getOlderPrices(parser, OLD_PREORDER) ); break;
-                    case OLD_DIGITAL: game.setOldDigitalPrices( getOlderPrices(parser, OLD_DIGITAL) ); break;
+                    case OLD_NEW: game.addOldNewPrices( getOlderPrices(parser, OLD_NEW) ); break;
+                    case OLD_USED: game.addOldUsedPrices( getOlderPrices(parser, OLD_USED) ); break;
+                    case OLD_PREORDER: game.addOldPreorderPrices( getOlderPrices(parser, OLD_PREORDER) ); break;
+                    case OLD_DIGITAL: game.addOldDigitalPrices( getOlderPrices(parser, OLD_DIGITAL) ); break;
                 }
             }
             eventType = parser.next();

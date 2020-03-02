@@ -7,35 +7,10 @@ class Price {
     var digital: Float? = null
     var preorder: Float? = null
 
-    // TODO: try to remove setters
-
-    var oldNew: ArrayList<Float>? = null
-        set(value) {
-            if (value != null && value.isNotEmpty()) {
-                field = value
-            }
-        }
-
-    var oldUsed: ArrayList<Float>? = null
-        set(value) {
-            if (value != null && value.isNotEmpty()) {
-                field = value
-            }
-        }
-
-    var oldDigital: ArrayList<Float>? = null
-        set(value) {
-            if (value != null && value.isNotEmpty()) {
-                field = value
-            }
-        }
-
-    var oldPreorder: ArrayList<Float>? = null
-        set(value) {
-            if (value != null && value.isNotEmpty()) {
-                field = value
-            }
-        }
+    val oldNew: ArrayList<Float> by lazy { ArrayList<Float>() }
+    val oldUsed: ArrayList<Float> by lazy { ArrayList<Float>() }
+    val oldDigital: ArrayList<Float> by lazy { ArrayList<Float>() }
+    val oldPreorder: ArrayList<Float> by lazy { ArrayList<Float>() }
 
     var newAvailable: Boolean = false
     var usedAvailable: Boolean = false
@@ -47,36 +22,37 @@ class Price {
     fun hasDigitalPrice(): Boolean = digital != null
     fun hasPreorderPrice(): Boolean = preorder != null
 
-    fun hasOldNewPrices(): Boolean = oldNew?.isNotEmpty() ?: false
-    fun hasOldUsedPrices(): Boolean = oldUsed?.isNotEmpty() ?: false
-    fun hasOldDigitalPrices(): Boolean = oldDigital?.isNotEmpty() ?: false
-    fun hasOldPreorderPrices(): Boolean = oldPreorder?.isNotEmpty() ?: false
+    fun hasOldNewPrices(): Boolean = oldNew.isNotEmpty()
+    fun hasOldUsedPrices(): Boolean = oldUsed.isNotEmpty()
+    fun hasOldDigitalPrices(): Boolean = oldDigital.isNotEmpty()
+    fun hasOldPreorderPrices(): Boolean = oldPreorder.isNotEmpty()
 
-    fun addOldNew(price: Float?) {
-        price?.let {
-            oldNew = oldNew ?: ArrayList()
-            oldNew?.add(it)
+    fun addOldNew(price: Float) { oldNew.add(price) }
+    fun addOldUsed(price: Float) { oldUsed.add(price) }
+    fun addOldDigital(price: Float) { oldDigital.add(price) }
+    fun addOldPreorder(price: Float) { oldPreorder.add(price) }
+
+    fun addOldNew(prices: ArrayList<Float>) {
+        for (price in prices) {
+            addOldNew(price)
         }
     }
 
-    fun addOldUsed(price: Float?) {
-        price?.let {
-            oldUsed = oldUsed ?: ArrayList()
-            oldUsed?.add(it)
+    fun addOldUsed(prices: ArrayList<Float>) {
+        for (price in prices) {
+            addOldUsed(price)
         }
     }
 
-    fun addOldDigital(price: Float?) {
-        price?.let {
-            oldDigital = oldDigital ?: ArrayList()
-            oldDigital?.add(it)
+    fun addOldDigital(prices: ArrayList<Float>) {
+        for (price in prices) {
+            addOldDigital(price)
         }
     }
 
-    fun addOldPreorder(price: Float?) {
-        price?.let {
-            oldPreorder = oldPreorder ?: ArrayList()
-            oldPreorder?.add(it)
+    fun addOldPreorder(prices: ArrayList<Float>) {
+        for (price in prices) {
+            addOldPreorder(price)
         }
     }
 
