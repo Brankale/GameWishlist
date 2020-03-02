@@ -16,7 +16,6 @@ import org.jsoup.select.Elements;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Gamestop {
 
@@ -75,19 +74,19 @@ public class Gamestop {
 
                 categoryPrices = getCategoryPrices(game, "buyNew");         // new
                 gamePreview.setNewPrice(categoryPrices.first);
-                gamePreview.setOlderNewPrices(categoryPrices.second);
+                gamePreview.setOldNewPrices(categoryPrices.second);
 
                 categoryPrices = getCategoryPrices(game, "buyUsed");        // used
                 gamePreview.setUsedPrice(categoryPrices.first);
-                gamePreview.setOlderUsedPrices(categoryPrices.second);
+                gamePreview.setOldUsedPrices(categoryPrices.second);
 
                 categoryPrices = getCategoryPrices(game, "buyPresell");     // preorder
                 gamePreview.setPreorderPrice(categoryPrices.first);
-                gamePreview.setOlderPreorderPrices(categoryPrices.second);
+                gamePreview.setOldPreorderPrices(categoryPrices.second);
 
                 categoryPrices = getCategoryPrices(game, "buyDLC");         // digital
                 gamePreview.setDigitalPrice(categoryPrices.first);
-                gamePreview.setOlderDigitalPrices(categoryPrices.second);
+                gamePreview.setOldDigitalPrices(categoryPrices.second);
 
                 // set the Cover
                 String imageUrl = game.getElementsByClass("prodImg").get(0)
@@ -352,7 +351,7 @@ public class Gamestop {
 
                     for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
                         price = olderPrice.text();
-                        game.addOlderNewPrice( stringToPrice(price) );
+                        game.addOldNewPrice( stringToPrice(price) );
                     }
                     break;
 
@@ -364,7 +363,7 @@ public class Gamestop {
 
                     for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
                         price = olderPrice.text();
-                        game.addOlderUsedPrice( stringToPrice(price) );
+                        game.addOldUsedPrice( stringToPrice(price) );
                     }
                     break;
 
@@ -379,7 +378,7 @@ public class Gamestop {
                     //       So LEAVE this code UNCOMMENTED.
                     for (Element olderPrice : svt.getElementsByClass("olderPrice")) {
                         price = olderPrice.text();
-                        game.addOlderPreorderPrice( stringToPrice(price) );
+                        game.addOldPreorderPrice( stringToPrice(price) );
                     }
                     break;
 
@@ -397,7 +396,7 @@ public class Gamestop {
                     price = svt.text().replaceAll("[^0-9.,]","");
 
                     if (!price.isEmpty()) {
-                        game.addOlderDigitalPrice( stringToPrice(price) );
+                        game.addOldDigitalPrice( stringToPrice(price) );
                     }
                     break;
 

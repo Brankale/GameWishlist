@@ -454,12 +454,12 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getNewPrice(), R.string.new_price);
-            if (game.getOlderNewPrices() != null) {
-                setOldPrices(container, game.getOlderNewPrices());
+            if (game.getOldNewPrices() != null) {
+                setOldPrices(container, game.getOldNewPrices());
             }
 
             // change color based on availability
-            if (!game.isNewAvailable()) {
+            if (!game.getNewAvailable()) {
                 int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
                 container.setBackgroundColor(colour);
             }
@@ -477,12 +477,12 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getUsedPrice(), R.string.used_price);
-            if (game.getOlderUsedPrices() != null) {
-                setOldPrices(container, game.getOlderUsedPrices());
+            if (game.getOldUsedPrices() != null) {
+                setOldPrices(container, game.getOldUsedPrices());
             }
 
             // change color based on availability
-            if (!game.isUsedAvailable()) {
+            if (!game.getUsedAvailable()) {
                 int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
                 container.setBackgroundColor(colour);
             }
@@ -500,11 +500,11 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getDigitalPrice(), R.string.digital_price);
-            if (game.getOlderDigitalPrices() != null) {
-                setOldPrices(container, game.getOlderDigitalPrices());
+            if (game.getOldDigitalPrices() != null) {
+                setOldPrices(container, game.getOldDigitalPrices());
             }
 
-            if (!game.isDigitalAvailable()) {
+            if (!game.getDigitalAvailable()) {
                 int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
                 container.setBackgroundColor(colour);
             }
@@ -522,12 +522,12 @@ public class GamePageActivity extends AppCompatActivity {
 
             // add prices to the container
             setPrice(container, game.getPreorderPrice(), R.string.preorder_price);
-            if (game.getOlderPreorderPrices() != null) {
-                setOldPrices(container, game.getOlderPreorderPrices());
+            if (game.getOldPreorderPrices() != null) {
+                setOldPrices(container, game.getOldPreorderPrices());
             }
 
             // change color based on availability
-            if (!game.isPreorderAvailable()) {
+            if (!game.getPreorderAvailable()) {
                 int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
                 container.setBackgroundColor(colour);
             }

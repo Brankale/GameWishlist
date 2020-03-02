@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.text.TextUtils;
@@ -102,11 +101,11 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mNewPriceView.setText( mDecimalFormat.format( gamePreview.getNewPrice() ));
             holder.mNewPriceView.append(mCurrency);
 
-            if (gamePreview.getOlderNewPrices() == null) {
+            if (gamePreview.getOldNewPrices() == null) {
                 holder.mOlderNewPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderNewPricesView
-                        .setText( mDecimalFormat.format( gamePreview.getOlderNewPrices().get(0) ));
+                        .setText( mDecimalFormat.format( gamePreview.getOldNewPrices().get(0) ));
                 holder.mOlderNewPricesView.append(mCurrency);
                 holder.mOlderNewPricesView.setVisibility(View.VISIBLE);
             }
@@ -122,11 +121,11 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
             holder.mUsedPriceView.setText( mDecimalFormat.format( gamePreview.getUsedPrice() ));
             holder.mUsedPriceView.append(mCurrency);
 
-            if (gamePreview.getOlderUsedPrices() == null) {
+            if (gamePreview.getOldUsedPrices() == null) {
                 holder.mOlderUsedPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderUsedPricesView
-                        .setText( mDecimalFormat.format( gamePreview.getOlderUsedPrices().get(0) ));
+                        .setText( mDecimalFormat.format( gamePreview.getOldUsedPrices().get(0) ));
                 holder.mOlderUsedPricesView.append(mCurrency);
                 holder.mOlderUsedPricesView.setVisibility(View.VISIBLE);
             }
@@ -143,11 +142,11 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                     .setText(mDecimalFormat.format( gamePreview.getDigitalPrice() ));
             holder.mDigitalPriceView.append(mCurrency);
 
-            if (gamePreview.getOlderDigitalPrices() == null) {
+            if (gamePreview.getOldDigitalPrices() == null) {
                 holder.mOlderDigitalPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderDigitalPricesView
-                        .setText(mDecimalFormat.format( gamePreview.getOlderDigitalPrices().get(0) ));
+                        .setText(mDecimalFormat.format( gamePreview.getOldDigitalPrices().get(0) ));
                 holder.mOlderDigitalPricesView.append(mCurrency);
                 holder.mOlderDigitalPricesView.setVisibility(View.VISIBLE);
             }
@@ -164,11 +163,11 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
                     .setText(mDecimalFormat.format( gamePreview.getPreorderPrice() ));
             holder.mPreorderPriceView.append(mCurrency);
 
-            if (gamePreview.getOlderPreorderPrices() == null) {
+            if (gamePreview.getOldPreorderPrices() == null) {
                 holder.mOlderPreorderPricesView.setVisibility(View.GONE);
             } else {
                 holder.mOlderPreorderPricesView
-                        .setText(mDecimalFormat.format( gamePreview.getOlderPreorderPrices().get(0) ));
+                        .setText(mDecimalFormat.format( gamePreview.getOldPreorderPrices().get(0) ));
                 holder.mOlderPreorderPricesView.append(mCurrency);
                 holder.mOlderPreorderPricesView.setVisibility(View.VISIBLE);
             }

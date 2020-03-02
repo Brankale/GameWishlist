@@ -81,10 +81,10 @@ public class XmlWriter {
         addTag(PLATFORM, game.getPlatform());
         addTag(PUBLISHER, game.getPublisher());
         mSerializer.startTag(null, PRICES);
-        addPrices(NEW, game.getNewPrice(), OLD_NEW, game.getOlderNewPrices());
-        addPrices(USED, game.getUsedPrice(), OLD_USED, game.getOlderUsedPrices());
-        addPrices(PREORDER, game.getPreorderPrice(), OLD_PREORDER, game.getOlderPreorderPrices());
-        addPrices(DIGITAL, game.getDigitalPrice(), OLD_DIGITAL, game.getOlderDigitalPrices());
+        addPrices(NEW, game.getNewPrice(), OLD_NEW, game.getOldNewPrices());
+        addPrices(USED, game.getUsedPrice(), OLD_USED, game.getOldUsedPrices());
+        addPrices(PREORDER, game.getPreorderPrice(), OLD_PREORDER, game.getOldPreorderPrices());
+        addPrices(DIGITAL, game.getDigitalPrice(), OLD_DIGITAL, game.getOldDigitalPrices());
         mSerializer.endTag(null, PRICES);
         addPegi(game.getPegi());
         addGenres(game.getGenres());
