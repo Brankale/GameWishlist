@@ -3,7 +3,6 @@ package com.fermimn.gamewishlist.repositories;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;

@@ -1,7 +1,5 @@
 package com.fermimn.gamewishlist.repositories.xml;
 
-import android.net.Uri;
-
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.Promo;
 
@@ -90,7 +88,7 @@ public class XmlWriter {
         mSerializer.endTag(null, PRICES);
         addPegi(game.getPegi());
         addGenres(game.getGenres());
-        addTag(OFFICIAL_SITE, game.getOfficialWebSite());
+        addTag(OFFICIAL_SITE, game.getWebsite());
         addTag(PLAYERS, game.getPlayers());
         addTag(RELEASE_DATE, game.getReleaseDate());
         addTag(DESCRIPTION, game.getDescription());
@@ -98,8 +96,8 @@ public class XmlWriter {
             addTag(COVER, game.getCover().toString());
         }
         addGallery(game.getGallery());
-        addTag(VALID_FOR_PROMO, Boolean.toString(game.isValidForPromotions()));
-        addPromos(game.getPromo());
+        addTag(VALID_FOR_PROMO, Boolean.toString(game.getValidForPromo()));
+        addPromos(game.getPromos());
         mSerializer.endTag(null, GAME);
 
         mSerializer.endDocument();

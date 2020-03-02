@@ -282,8 +282,8 @@ public class GamePageActivity extends AppCompatActivity {
             players.setText( game.getPlayers() );
         }
 
-        if (game.getOfficialWebSite() != null) {
-            String href = game.getOfficialWebSite();
+        if (game.getWebsite() != null) {
+            String href = game.getWebsite();
             String domain = href.split("/")[2];
             Spanned link = Html.fromHtml("<a href='" + href + "'>" + domain + "</a>");
 
@@ -292,7 +292,7 @@ public class GamePageActivity extends AppCompatActivity {
             officialSiteContainer.setVisibility(View.VISIBLE);
         }
 
-        if (game.isValidForPromotions()) {
+        if (game.getValidForPromo()) {
             validForPromotions.setBackgroundColor(getResources().getColor(R.color.green));
             validForPromotionsText.setText(R.string.valid_for_promotions_true);
             validForPromotionsText.setTextColor(getResources().getColor(R.color.always_white));
@@ -589,8 +589,8 @@ public class GamePageActivity extends AppCompatActivity {
         // Get Views
         LinearLayout promoContainer = findViewById(R.id.promo_container);
 
-        if (game.getPromo() != null) {
-            for (Promo promo : game.getPromo()) {
+        if (game.getPromos() != null) {
+            for (Promo promo : game.getPromos()) {
 
                 // Create a promo view
                 View promoView = inflater.inflate(R.layout.partial_section_promo,

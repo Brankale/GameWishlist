@@ -1,7 +1,5 @@
 package com.fermimn.gamewishlist.repositories.xml;
 
-import android.net.Uri;
-
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.Promo;
 
@@ -111,10 +109,10 @@ public class XmlReader {
                     case PRICES:        setPrices(parser, game);                            break;
                     case PEGI:          game.setPegi( getPegi(parser) );                    break;
                     case GENRES:        game.setGenres( getGenres(parser) );                break;
-                    case OFFICIAL_SITE: game.setOfficialWebSite( parser.nextText() );       break;
+                    case OFFICIAL_SITE: game.setWebsite( parser.nextText() );       break;
                     case PLAYERS:       game.setPlayers( parser.nextText() );               break;
                     case RELEASE_DATE:  game.setReleaseDate( parser.nextText() );           break;
-                    case PROMOS:        game.setPromo( getPromos(parser) );                 break;
+                    case PROMOS:        game.setPromos( getPromos(parser) );                 break;
                     case DESCRIPTION:   game.setDescription( parser.nextText() );           break;
                     case COVER:         game.setCover( parser.nextText() );    break;
                     case GALLERY:       game.setGallery( getGallery(parser) );              break;
@@ -193,10 +191,10 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<String> getPegi(XmlPullParser parser)
+    private static ArrayList<String> getPegi(XmlPullParser parser)
             throws XmlPullParserException, IOException {
 
-        List<String> pegi = new ArrayList<>();
+        ArrayList<String> pegi = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(PEGI)) ) {
@@ -219,10 +217,10 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<String> getGenres(XmlPullParser parser)
+    private static ArrayList<String> getGenres(XmlPullParser parser)
             throws XmlPullParserException, IOException {
 
-        List<String> genres = new ArrayList<>();
+        ArrayList<String> genres = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(GENRES)) ) {
@@ -245,10 +243,10 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<String> getGallery(XmlPullParser parser)
+    private static ArrayList<String> getGallery(XmlPullParser parser)
             throws XmlPullParserException, IOException {
 
-        List<String> gallery = new ArrayList<>();
+        ArrayList<String> gallery = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(GALLERY)) ) {
@@ -271,10 +269,10 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<Promo> getPromos(XmlPullParser parser)
+    private static ArrayList<Promo> getPromos(XmlPullParser parser)
             throws XmlPullParserException, IOException {
 
-        List<Promo> promos = new ArrayList<>();
+        ArrayList<Promo> promos = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(PROMOS)) ) {

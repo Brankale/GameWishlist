@@ -1,11 +1,10 @@
 package com.fermimn.gamewishlist.utils;
 
-import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 
-import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.exceptions.GameException;
+import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.models.Promo;
@@ -288,7 +287,7 @@ public class Gamestop {
 
                     // set Official Site attribute
                     case "Sito Ufficiale":
-                        game.setOfficialWebSite( e.child(1).getElementsByTag("a")
+                        game.setWebsite( e.child(1).getElementsByTag("a")
                                 .attr("href") );
                         break;
 
@@ -479,7 +478,7 @@ public class Gamestop {
         // init the gallery
         for (Element e : mediaImages.getElementsByTag("a")) {
             String url = e.attr("href");
-            game.addToGallery(url);
+            game.addImage(url);
         }
     }
 
