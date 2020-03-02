@@ -24,16 +24,16 @@ open class GamePreview (val id: Int) {
         get() = prices.preorder
         set(value) { prices.preorder = value }
 
-    val oldNewPrices: ArrayList<Float>?
+    val oldNewPrices: ArrayList<Float>
         get() = prices.oldNew
 
-    val oldUsedPrices: ArrayList<Float>?
+    val oldUsedPrices: ArrayList<Float>
         get() = prices.oldUsed
 
-    val oldDigitalPrices: ArrayList<Float>?
+    val oldDigitalPrices: ArrayList<Float>
         get() = prices.oldDigital
 
-    val oldPreorderPrices: ArrayList<Float>?
+    val oldPreorderPrices: ArrayList<Float>
         get() = prices.oldPreorder
 
     var newAvailable: Boolean
