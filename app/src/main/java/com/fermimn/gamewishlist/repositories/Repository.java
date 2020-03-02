@@ -297,11 +297,10 @@ public class Repository {
                 // download gallery
                 if (game.getGallery() != null) {
                     File galleryFolder = new File( getGalleryFolder(Integer.toString(game.getId())) );
-                    for (String uri : game.getGallery()) {
-                        String url = uri;
+                    for (String url : game.getGallery()) {
                         String name = url.substring( url.lastIndexOf('/') );
                         File galleryImage = new File(galleryFolder, name);
-                        downloadImage(galleryImage, uri);
+                        downloadImage(galleryImage, url);
                     }
                 }
             }
