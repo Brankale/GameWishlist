@@ -71,7 +71,7 @@ public class Gamestop {
                 gamePreview.setPublisher(publisher);
 
                 // get & set prices
-                Pair<Float, List<Float>> categoryPrices;
+                Pair<Float, ArrayList<Float>> categoryPrices;
 
                 categoryPrices = getCategoryPrices(game, "buyNew");         // new
                 gamePreview.setNewPrice(categoryPrices.first);
@@ -172,7 +172,7 @@ public class Gamestop {
      * @param category is the HTML classes which contains prices of a category
      * @return a Pair: first is the price, second are the olderPrices
      */
-    private Pair<Float, List<Float>> getCategoryPrices(Element element, String category) {
+    private Pair<Float, ArrayList<Float>> getCategoryPrices(Element element, String category) {
 
         // search the category
         Elements e = element.getElementsByClass(category);
@@ -183,7 +183,7 @@ public class Gamestop {
         }
 
         Float price = null;
-        List<Float> olderPrices = new ArrayList<>();
+        ArrayList<Float> olderPrices = new ArrayList<>();
 
         if (!e.isEmpty()) {
             // <em> tag is present only if there are multiple prices

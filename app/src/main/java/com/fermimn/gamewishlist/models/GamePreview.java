@@ -16,26 +16,13 @@ public class GamePreview implements Comparable {
     private String mPlatform;
     private String mPublisher;
     private String mCover;
-
-    private Float mNewPrice;
-    private Float mUsedPrice;
-    private Float mPreorderPrice;
-    private Float mDigitalPrice;
-
-    private boolean mNewAvailable;
-    private boolean mUsedAvailable;
-    private boolean mPreorderAvailable;
-    private boolean mDigitalAvailable;
-
-    private List<Float> mOlderNewPrices;
-    private List<Float> mOlderUsedPrices;
-    private List<Float> mOlderDigitalPrices;
-    private List<Float> mOlderPreorderPrices;
+    private Price mPrices;
 
     // TODO: a game can be out of stock, so it can have no price
 
     public GamePreview(int id) {
         mId = id;
+        mPrices = new Price();
     }
 
     /**
@@ -91,149 +78,121 @@ public class GamePreview implements Comparable {
 
     @Nullable
     public Float getNewPrice() {
-        return mNewPrice;
+        return mPrices.getNew();
     }
 
     public void setNewPrice(@NonNull Float newPrice) {
-        mNewPrice = newPrice;
+        mPrices.setNew(newPrice);
     }
 
     @Nullable
     public Float getUsedPrice() {
-        return mUsedPrice;
+        return mPrices.getUsed();
     }
 
     public void setUsedPrice(@NonNull Float usedPrice) {
-        mUsedPrice = usedPrice;
+        mPrices.setUsed(usedPrice);
     }
 
     @Nullable
     public Float getPreorderPrice() {
-        return mPreorderPrice;
+        return mPrices.getPreorder();
     }
 
     public void setPreorderPrice(@NonNull Float preorderPrice) {
-        mPreorderPrice = preorderPrice;
+        mPrices.setPreorder(preorderPrice);
     }
 
     @Nullable
     public Float getDigitalPrice() {
-        return mDigitalPrice;
+        return mPrices.getDigital();
     }
 
     public void setDigitalPrice(@NonNull Float digitalPrice) {
-        mDigitalPrice = digitalPrice;
+        mPrices.setDigital(digitalPrice);
     }
 
     @Nullable
     public List<Float> getOlderNewPrices() {
-        return mOlderNewPrices;
+        return mPrices.getOldNew();
     }
 
-    public void setOlderNewPrices(@Nullable List<Float> olderNewPrices) {
-        if (olderNewPrices != null && !olderNewPrices.isEmpty()) {
-            mOlderNewPrices = olderNewPrices;
-        }
+    public void setOlderNewPrices(@Nullable ArrayList<Float> olderNewPrices) {
+        mPrices.setOldNew(olderNewPrices);
     }
 
     @Nullable
     public List<Float> getOlderUsedPrices() {
-        return mOlderUsedPrices;
+        return mPrices.getOldUsed();
     }
 
-    public void setOlderUsedPrices(@Nullable List<Float> olderUsedPrices) {
-        if (olderUsedPrices != null && !olderUsedPrices.isEmpty()) {
-            mOlderUsedPrices = olderUsedPrices;
-        }
+    public void setOlderUsedPrices(@Nullable ArrayList<Float> olderUsedPrices) {
+        mPrices.setOldUsed(olderUsedPrices);
     }
 
     @Nullable
     public List<Float> getOlderDigitalPrices() {
-        return mOlderDigitalPrices;
+        return mPrices.getOldDigital();
     }
 
-    public void setOlderDigitalPrices(@Nullable List<Float> olderDigitalPrices) {
-        if (olderDigitalPrices != null && !olderDigitalPrices.isEmpty()) {
-            mOlderDigitalPrices = olderDigitalPrices;
-        }
+    public void setOlderDigitalPrices(@Nullable ArrayList<Float> olderDigitalPrices) {
+        mPrices.setOldDigital(olderDigitalPrices);
     }
     @Nullable
     public List<Float> getOlderPreorderPrices() {
-        return mOlderPreorderPrices;
+        return mPrices.getOldPreorder();
     }
 
-    public void setOlderPreorderPrices(@Nullable List<Float> olderPreorderPrices) {
-        if (olderPreorderPrices != null && !olderPreorderPrices.isEmpty()) {
-            mOlderPreorderPrices = olderPreorderPrices;
-        }
+    public void setOlderPreorderPrices(@Nullable ArrayList<Float> olderPreorderPrices) {
+        mPrices.setOldPreorder(olderPreorderPrices);
     }
 
     public void addOlderNewPrice(@Nullable Float olderNewPrice) {
-        if (olderNewPrice != null) {
-            if (mOlderNewPrices == null){
-                mOlderNewPrices = new ArrayList<>();
-            }
-            mOlderNewPrices.add(olderNewPrice);
-        }
+        mPrices.addOldNew(olderNewPrice);
     }
 
     public void addOlderUsedPrice(@Nullable Float olderUsedPrice) {
-        if (olderUsedPrice != null) {
-            if (mOlderUsedPrices == null) {
-                mOlderUsedPrices = new ArrayList<>();
-            }
-            mOlderUsedPrices.add(olderUsedPrice);
-        }
+        mPrices.addOldUsed(olderUsedPrice);
     }
 
     public void addOlderDigitalPrice(@Nullable Float olderDigitalPrice) {
-        if (olderDigitalPrice != null) {
-            if (mOlderDigitalPrices == null) {
-                mOlderDigitalPrices = new ArrayList<>();
-            }
-            mOlderDigitalPrices.add(olderDigitalPrice);
-        }
+        mPrices.addOldDigital(olderDigitalPrice);
     }
 
     public void addOlderPreorderPrice(@Nullable Float olderPreorderPrice) {
-        if (olderPreorderPrice != null) {
-            if (mOlderPreorderPrices == null) {
-                mOlderPreorderPrices = new ArrayList<>();
-            }
-            mOlderPreorderPrices.add(olderPreorderPrice);
-        }
+        mPrices.addOldPreorder(olderPreorderPrice);
     }
 
     public boolean isNewAvailable() {
-        return mNewAvailable;
+        return mPrices.getNewAvailable();
     }
 
     public void setNewAvailable(boolean mNewAvailable) {
-        this.mNewAvailable = mNewAvailable;
+        mPrices.setNewAvailable(mNewAvailable);
     }
 
     public boolean isUsedAvailable() {
-        return mUsedAvailable;
+        return mPrices.getUsedAvailable();
     }
 
     public void setUsedAvailable(boolean mUsedAvailable) {
-        this.mUsedAvailable = mUsedAvailable;
+        mPrices.setUsedAvailable(mUsedAvailable);
     }
 
     public boolean isPreorderAvailable() {
-        return mPreorderAvailable;
+        return mPrices.getPreorderAvailable();
     }
 
     public void setPreorderAvailable(boolean mPreorderAvailable) {
-        this.mPreorderAvailable = mPreorderAvailable;
+        mPrices.setPreorderAvailable(mPreorderAvailable);
     }
 
     public boolean isDigitalAvailable() {
-        return mDigitalAvailable;
+        return mPrices.getDigitalAvailable();
     }
 
     public void setDigitalAvailable(boolean mDigitalAvailable) {
-        this.mDigitalAvailable = mDigitalAvailable;
+        mPrices.setDigitalAvailable(mDigitalAvailable);
     }
 
     /**
@@ -261,14 +220,14 @@ public class GamePreview implements Comparable {
                 ", mTitle='" + mTitle + '\'' +
                 ", mPublisher='" + mPublisher + '\'' +
                 ", mPlatform='" + mPlatform + '\'' +
-                ", mNewPrice=" + mNewPrice +
-                ", mUsedPrice=" + mUsedPrice +
-                ", mPreorderPrice=" + mPreorderPrice +
-                ", mDigitalPrice=" + mDigitalPrice +
-                ", mOlderNewPrices=" + mOlderNewPrices +
-                ", mOlderUsedPrices=" + mOlderUsedPrices +
-                ", mOlderDigitalPrices=" + mOlderDigitalPrices +
-                ", mOlderPreorderPrices=" + mOlderPreorderPrices +
+                ", mNewPrice=" + mPrices.getNew() +
+                ", mUsedPrice=" + mPrices.getUsed() +
+                ", mPreorderPrice=" + mPrices.getPreorder() +
+                ", mDigitalPrice=" + mPrices.getDigital() +
+                ", mOlderNewPrices=" + mPrices.getOldNew() +
+                ", mOlderUsedPrices=" + mPrices.getOldUsed() +
+                ", mOlderDigitalPrices=" + mPrices.getOldDigital() +
+                ", mOlderPreorderPrices=" + mPrices.getOldPreorder() +
                 '}';
     }
 

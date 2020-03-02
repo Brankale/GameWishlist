@@ -165,10 +165,10 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<Float> getOlderPrices(XmlPullParser parser, String type)
+    private static ArrayList<Float> getOlderPrices(XmlPullParser parser, String type)
             throws XmlPullParserException, IOException  {
 
-        List<Float> olderPrices = new ArrayList<>();
+        ArrayList<Float> olderPrices = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(type)) ) {
