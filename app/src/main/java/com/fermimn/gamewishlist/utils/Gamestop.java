@@ -93,7 +93,7 @@ public class Gamestop {
                 // set the Cover
                 String imageUrl = game.getElementsByClass("prodImg").get(0)
                         .getElementsByTag("img").get(0).attr("data-llsrc");
-                gamePreview.setCover(Uri.parse(imageUrl));
+                gamePreview.setCover(imageUrl);
 
                 // add the game to the array
                 results.add(gamePreview);
@@ -460,7 +460,7 @@ public class Gamestop {
 
         // init cover
         String url = prodImgMax.attr("href");
-        game.setCover( Uri.parse(url) );
+        game.setCover(url);
     }
 
     /**
@@ -479,7 +479,7 @@ public class Gamestop {
         // init the gallery
         for (Element e : mediaImages.getElementsByTag("a")) {
             String url = e.attr("href");
-            game.addToGallery( Uri.parse(url) );
+            game.addToGallery(url);
         }
     }
 

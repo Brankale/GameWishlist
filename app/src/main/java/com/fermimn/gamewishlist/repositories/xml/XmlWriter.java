@@ -135,11 +135,11 @@ public class XmlWriter {
         }
     }
 
-    private void addGallery(List<Uri> gallery) throws IOException {
+    private void addGallery(List<String> gallery) throws IOException {
         if (gallery != null) {
             mSerializer.startTag(null, GALLERY);
-            for (Uri image : gallery) {
-                addTag(IMAGE, image.toString());
+            for (String image : gallery) {
+                addTag(IMAGE, image);
             }
             mSerializer.endTag(null, GALLERY);
         }

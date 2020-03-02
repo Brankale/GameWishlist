@@ -377,7 +377,7 @@ public class GamePageActivity extends AppCompatActivity {
 
         // set listener to the cover
         Bundle coverBundle = new Bundle();
-        coverBundle.putParcelable("cover", game.getCover());
+        coverBundle.putString("cover", game.getCover());
         cover.setTag(coverBundle);
 
         cover.setOnClickListener(new View.OnClickListener() {
@@ -399,7 +399,7 @@ public class GamePageActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
 
-            ArrayList<Uri> images = (ArrayList<Uri>) game.getGallery();
+            ArrayList<String> images = (ArrayList<String>) game.getGallery();
 
             // insert all the images in the gallery
             for (int i = 0; i < images.size(); ++i) {
@@ -418,7 +418,7 @@ public class GamePageActivity extends AppCompatActivity {
 
                 // set tag
                 Bundle galleryBundle = new Bundle();
-                galleryBundle.putParcelableArrayList("gallery", images);
+                galleryBundle.putStringArrayList("gallery", images);
                 galleryBundle.putInt("position", i);
                 imageView.setTag(galleryBundle);
 

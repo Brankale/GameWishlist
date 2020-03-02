@@ -15,7 +15,7 @@ public class GamePreview implements Comparable {
     private String mTitle;
     private String mPlatform;
     private String mPublisher;
-    private Uri mCover;
+    private String mCover;
 
     private Double mNewPrice;
     private Double mUsedPrice;
@@ -73,11 +73,11 @@ public class GamePreview implements Comparable {
     }
 
     /**
-     * @return a Uri representing the cover. The Uri contains a link to an online resource
+     * @return a String representing the cover. The Uri contains a link to an online resource
      * if anything is found offline, otherwise is an offline resource
      */
     @Nullable
-    public Uri getCover() {
+    public String getCover() {
         return mCover;
     }
 
@@ -85,7 +85,7 @@ public class GamePreview implements Comparable {
      * Set the cover with an Uri. The Uri must be a link to an online resource.
      * @param cover a Uri containing a link to an online resource image
      */
-    public void setCover(@NonNull Uri cover) {
+    public void setCover(@NonNull String cover) {
         mCover = cover;
     }
 

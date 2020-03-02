@@ -17,7 +17,7 @@ public class Game extends GamePreview {
     private List<Promo> mPromos;
     private List<String> mGenres;
     private List<String> mPegi;
-    private List<Uri> mGallery;
+    private List<String> mGallery;
     private boolean mValidForPromo;
 
     public Game(int id) {
@@ -213,7 +213,7 @@ public class Game extends GamePreview {
      * @return a List of Uri representing links to offline or online resources
      */
     @Nullable
-    public List<Uri> getGallery() {
+    public List<String> getGallery() {
         return mGallery;
     }
 
@@ -222,7 +222,7 @@ public class Game extends GamePreview {
      * @param gallery a List of Uri representing links to offline or online resources
      */
     @SuppressWarnings("unused")
-    public void setGallery(@Nullable List<Uri> gallery) {
+    public void setGallery(@Nullable List<String> gallery) {
         if (gallery != null && !gallery.isEmpty()) {
             mGallery = gallery;
         }
@@ -232,7 +232,7 @@ public class Game extends GamePreview {
      * Add a Uri representing a link to an offline or online resource
      * @param image a Uri representing a link to an offline or online resource
      */
-    public void addToGallery(@Nullable Uri image) {
+    public void addToGallery(@Nullable String image) {
         // image.toString.isEmpty() can be useful in rare cases
         // example: https://www.gamestop.it/PS3/Games/22408/catherine
         if (image != null && !image.toString().isEmpty()) {

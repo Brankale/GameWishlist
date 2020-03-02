@@ -298,8 +298,8 @@ public class Repository {
                 // download gallery
                 if (game.getGallery() != null) {
                     File galleryFolder = new File( getGalleryFolder(Integer.toString(game.getId())) );
-                    for (Uri uri : game.getGallery()) {
-                        String url = uri.toString();
+                    for (String uri : game.getGallery()) {
+                        String url = uri;
                         String name = url.substring( url.lastIndexOf('/') );
                         File galleryImage = new File(galleryFolder, name);
                         downloadImage(galleryImage, uri);
@@ -312,11 +312,11 @@ public class Repository {
     }
 
     // TODO: this method should be rewritten
-    private void downloadImage(File img, Uri uri) {
+    private void downloadImage(File img, String uri) {
         try {
 
             // download bitmap
-            InputStream is = (InputStream) new URL(uri.toString()).getContent();
+            InputStream is = (InputStream) new URL(uri).getContent();
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             is.close();
 

@@ -116,7 +116,7 @@ public class XmlReader {
                     case RELEASE_DATE:  game.setReleaseDate( parser.nextText() );           break;
                     case PROMOS:        game.setPromo( getPromos(parser) );                 break;
                     case DESCRIPTION:   game.setDescription( parser.nextText() );           break;
-                    case COVER:         game.setCover( Uri.parse( parser.nextText() ) );    break;
+                    case COVER:         game.setCover( parser.nextText() );    break;
                     case GALLERY:       game.setGallery( getGallery(parser) );              break;
                     case VALID_FOR_PROMO:
                         game.setValidForPromo( Boolean.parseBoolean( parser.nextText() ) ); break;
@@ -245,16 +245,16 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<Uri> getGallery(XmlPullParser parser)
+    private static List<String> getGallery(XmlPullParser parser)
             throws XmlPullParserException, IOException {
 
-        List<Uri> gallery = new ArrayList<>();
+        List<String> gallery = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(GALLERY)) ) {
             if (eventType == XmlPullParser.START_TAG) {
                 if (parser.getName().equals(IMAGE)) {
-                    gallery.add( Uri.parse( parser.nextText() ) );
+                    gallery.add( parser.nextText() );
                 }
             }
             eventType = parser.next();
