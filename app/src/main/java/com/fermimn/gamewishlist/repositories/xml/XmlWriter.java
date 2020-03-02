@@ -164,7 +164,7 @@ public class XmlWriter {
         mSerializer.endTag(null, PROMO);
     }
 
-    private void addPrices(String tag, Double price, String innerTag, List<Double> prices) throws IOException {
+    private void addPrices(String tag, Float price, String innerTag, List<Float> prices) throws IOException {
         if (price != null) {
             mSerializer.startTag(null, tag);
             mSerializer.text( Double.toString(price) );
@@ -173,7 +173,7 @@ public class XmlWriter {
         }
     }
 
-    private void addOlderPrices(String tag, List<Double> prices) throws IOException {
+    private void addOlderPrices(String tag, List<Float> prices) throws IOException {
         if (prices != null) {
             mSerializer.startTag(null, tag);
             for (double price : prices) {

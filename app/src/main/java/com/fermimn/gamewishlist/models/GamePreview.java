@@ -17,20 +17,20 @@ public class GamePreview implements Comparable {
     private String mPublisher;
     private String mCover;
 
-    private Double mNewPrice;
-    private Double mUsedPrice;
-    private Double mPreorderPrice;
-    private Double mDigitalPrice;
+    private Float mNewPrice;
+    private Float mUsedPrice;
+    private Float mPreorderPrice;
+    private Float mDigitalPrice;
 
     private boolean mNewAvailable;
     private boolean mUsedAvailable;
     private boolean mPreorderAvailable;
     private boolean mDigitalAvailable;
 
-    private List<Double> mOlderNewPrices;
-    private List<Double> mOlderUsedPrices;
-    private List<Double> mOlderDigitalPrices;
-    private List<Double> mOlderPreorderPrices;
+    private List<Float> mOlderNewPrices;
+    private List<Float> mOlderUsedPrices;
+    private List<Float> mOlderDigitalPrices;
+    private List<Float> mOlderPreorderPrices;
 
     // TODO: a game can be out of stock, so it can have no price
 
@@ -90,85 +90,85 @@ public class GamePreview implements Comparable {
     }
 
     @Nullable
-    public Double getNewPrice() {
+    public Float getNewPrice() {
         return mNewPrice;
     }
 
-    public void setNewPrice(@NonNull Double newPrice) {
+    public void setNewPrice(@NonNull Float newPrice) {
         mNewPrice = newPrice;
     }
 
     @Nullable
-    public Double getUsedPrice() {
+    public Float getUsedPrice() {
         return mUsedPrice;
     }
 
-    public void setUsedPrice(@NonNull Double usedPrice) {
+    public void setUsedPrice(@NonNull Float usedPrice) {
         mUsedPrice = usedPrice;
     }
 
     @Nullable
-    public Double getPreorderPrice() {
+    public Float getPreorderPrice() {
         return mPreorderPrice;
     }
 
-    public void setPreorderPrice(@NonNull Double preorderPrice) {
+    public void setPreorderPrice(@NonNull Float preorderPrice) {
         mPreorderPrice = preorderPrice;
     }
 
     @Nullable
-    public Double getDigitalPrice() {
+    public Float getDigitalPrice() {
         return mDigitalPrice;
     }
 
-    public void setDigitalPrice(@NonNull Double digitalPrice) {
+    public void setDigitalPrice(@NonNull Float digitalPrice) {
         mDigitalPrice = digitalPrice;
     }
 
     @Nullable
-    public List<Double> getOlderNewPrices() {
+    public List<Float> getOlderNewPrices() {
         return mOlderNewPrices;
     }
 
-    public void setOlderNewPrices(@Nullable List<Double> olderNewPrices) {
+    public void setOlderNewPrices(@Nullable List<Float> olderNewPrices) {
         if (olderNewPrices != null && !olderNewPrices.isEmpty()) {
             mOlderNewPrices = olderNewPrices;
         }
     }
 
     @Nullable
-    public List<Double> getOlderUsedPrices() {
+    public List<Float> getOlderUsedPrices() {
         return mOlderUsedPrices;
     }
 
-    public void setOlderUsedPrices(@Nullable List<Double> olderUsedPrices) {
+    public void setOlderUsedPrices(@Nullable List<Float> olderUsedPrices) {
         if (olderUsedPrices != null && !olderUsedPrices.isEmpty()) {
             mOlderUsedPrices = olderUsedPrices;
         }
     }
 
     @Nullable
-    public List<Double> getOlderDigitalPrices() {
+    public List<Float> getOlderDigitalPrices() {
         return mOlderDigitalPrices;
     }
 
-    public void setOlderDigitalPrices(@Nullable List<Double> olderDigitalPrices) {
+    public void setOlderDigitalPrices(@Nullable List<Float> olderDigitalPrices) {
         if (olderDigitalPrices != null && !olderDigitalPrices.isEmpty()) {
             mOlderDigitalPrices = olderDigitalPrices;
         }
     }
     @Nullable
-    public List<Double> getOlderPreorderPrices() {
+    public List<Float> getOlderPreorderPrices() {
         return mOlderPreorderPrices;
     }
 
-    public void setOlderPreorderPrices(@Nullable List<Double> olderPreorderPrices) {
+    public void setOlderPreorderPrices(@Nullable List<Float> olderPreorderPrices) {
         if (olderPreorderPrices != null && !olderPreorderPrices.isEmpty()) {
             mOlderPreorderPrices = olderPreorderPrices;
         }
     }
 
-    public void addOlderNewPrice(@Nullable Double olderNewPrice) {
+    public void addOlderNewPrice(@Nullable Float olderNewPrice) {
         if (olderNewPrice != null) {
             if (mOlderNewPrices == null){
                 mOlderNewPrices = new ArrayList<>();
@@ -177,7 +177,7 @@ public class GamePreview implements Comparable {
         }
     }
 
-    public void addOlderUsedPrice(@Nullable Double olderUsedPrice) {
+    public void addOlderUsedPrice(@Nullable Float olderUsedPrice) {
         if (olderUsedPrice != null) {
             if (mOlderUsedPrices == null) {
                 mOlderUsedPrices = new ArrayList<>();
@@ -186,7 +186,7 @@ public class GamePreview implements Comparable {
         }
     }
 
-    public void addOlderDigitalPrice(@Nullable Double olderDigitalPrice) {
+    public void addOlderDigitalPrice(@Nullable Float olderDigitalPrice) {
         if (olderDigitalPrice != null) {
             if (mOlderDigitalPrices == null) {
                 mOlderDigitalPrices = new ArrayList<>();
@@ -195,7 +195,7 @@ public class GamePreview implements Comparable {
         }
     }
 
-    public void addOlderPreorderPrice(@Nullable Double olderPreorderPrice) {
+    public void addOlderPreorderPrice(@Nullable Float olderPreorderPrice) {
         if (olderPreorderPrice != null) {
             if (mOlderPreorderPrices == null) {
                 mOlderPreorderPrices = new ArrayList<>();

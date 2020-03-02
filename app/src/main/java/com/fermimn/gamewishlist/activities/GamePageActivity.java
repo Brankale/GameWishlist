@@ -538,7 +538,7 @@ public class GamePageActivity extends AppCompatActivity {
     }
 
     // TODO: add documentation
-    private void setPrice(ViewGroup container, Double price, int priceType) {
+    private void setPrice(ViewGroup container, Float price, int priceType) {
 
         DecimalFormat df = new DecimalFormat("#.00");
 
@@ -558,11 +558,11 @@ public class GamePageActivity extends AppCompatActivity {
     }
 
     // TODO: add documentation
-    private void setOldPrices(ViewGroup container, List<Double> oldPrices) {
+    private void setOldPrices(ViewGroup container, List<Float> oldPrices) {
 
         DecimalFormat df = new DecimalFormat("#.00");
 
-        for (Double oldPrice : oldPrices) {
+        for (Float oldPrice : oldPrices) {
 
             // create view
             TextView oldPricesView = new TextView(this);

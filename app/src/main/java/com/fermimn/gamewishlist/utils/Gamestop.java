@@ -71,7 +71,7 @@ public class Gamestop {
                 gamePreview.setPublisher(publisher);
 
                 // get & set prices
-                Pair<Double, List<Double>> categoryPrices;
+                Pair<Float, List<Float>> categoryPrices;
 
                 categoryPrices = getCategoryPrices(game, "buyNew");         // new
                 gamePreview.setNewPrice(categoryPrices.first);
@@ -172,7 +172,7 @@ public class Gamestop {
      * @param category is the HTML classes which contains prices of a category
      * @return a Pair: first is the price, second are the olderPrices
      */
-    private Pair<Double, List<Double>> getCategoryPrices(Element element, String category) {
+    private Pair<Float, List<Float>> getCategoryPrices(Element element, String category) {
 
         // search the category
         Elements e = element.getElementsByClass(category);
@@ -182,8 +182,8 @@ public class Gamestop {
             return new Pair<>(null, null);
         }
 
-        Double price = null;
-        List<Double> olderPrices = new ArrayList<>();
+        Float price = null;
+        List<Float> olderPrices = new ArrayList<>();
 
         if (!e.isEmpty()) {
             // <em> tag is present only if there are multiple prices
@@ -215,7 +215,7 @@ public class Gamestop {
      * @param price the string
      * @return a double that represents the price
      */
-    private static double stringToPrice(String price) {
+    private static float stringToPrice(String price) {
 
         // example string "Nuovo 19.99€"
 
@@ -226,7 +226,7 @@ public class Gamestop {
         // to convert the price in a string that can be parsed
         price = price.replace(',', '.');
 
-        return Double.parseDouble(price);
+        return Float.parseFloat(price);
     }
 
     /**

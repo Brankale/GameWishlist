@@ -142,10 +142,10 @@ public class XmlReader {
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(PRICES)) ) {
             if (eventType == XmlPullParser.START_TAG) {
                 switch (parser.getName()) {
-                    case NEW: game.setNewPrice( Double.parseDouble( parser.nextText() ) ); break;
-                    case USED: game.setUsedPrice( Double.parseDouble( parser.nextText() ) ); break;
-                    case PREORDER: game.setPreorderPrice( Double.parseDouble( parser.nextText() ) ); break;
-                    case DIGITAL: game.setDigitalPrice( Double.parseDouble( parser.nextText() ) ); break;
+                    case NEW: game.setNewPrice( Float.parseFloat( parser.nextText() ) ); break;
+                    case USED: game.setUsedPrice( Float.parseFloat( parser.nextText() ) ); break;
+                    case PREORDER: game.setPreorderPrice( Float.parseFloat( parser.nextText() ) ); break;
+                    case DIGITAL: game.setDigitalPrice( Float.parseFloat( parser.nextText() ) ); break;
                     case OLD_NEW: game.setOlderNewPrices( getOlderPrices(parser, OLD_NEW) ); break;
                     case OLD_USED: game.setOlderUsedPrices( getOlderPrices(parser, OLD_USED) ); break;
                     case OLD_PREORDER: game.setOlderPreorderPrices( getOlderPrices(parser, OLD_PREORDER) ); break;
@@ -165,16 +165,16 @@ public class XmlReader {
      * @throws XmlPullParserException if there are problems while parsing
      * @throws IOException if there are problems while parsing
      */
-    private static List<Double> getOlderPrices(XmlPullParser parser, String type)
+    private static List<Float> getOlderPrices(XmlPullParser parser, String type)
             throws XmlPullParserException, IOException  {
 
-        List<Double> olderPrices = new ArrayList<>();
+        List<Float> olderPrices = new ArrayList<>();
 
         int eventType = parser.next();
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(type)) ) {
             if (eventType == XmlPullParser.START_TAG) {
                 if (parser.getName().equals(PRICE)) {
-                    olderPrices.add( Double.parseDouble( parser.nextText() ) );
+                    olderPrices.add( Float.parseFloat( parser.nextText() ) );
                 }
             }
             eventType = parser.next();
