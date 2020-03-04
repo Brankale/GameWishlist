@@ -7,10 +7,10 @@ class Price {
     var digital: Float? = null
     var preorder: Float? = null
 
-    val oldNew: ArrayList<Float> by lazy { ArrayList<Float>() }
-    val oldUsed: ArrayList<Float> by lazy { ArrayList<Float>() }
-    val oldDigital: ArrayList<Float> by lazy { ArrayList<Float>() }
-    val oldPreorder: ArrayList<Float> by lazy { ArrayList<Float>() }
+    val oldNew: ArrayList<Float> = ArrayList()
+    val oldUsed: ArrayList<Float> = ArrayList()
+    val oldDigital: ArrayList<Float> = ArrayList()
+    val oldPreorder: ArrayList<Float> = ArrayList()
 
     var newAvailable: Boolean = false
     var usedAvailable: Boolean = false
