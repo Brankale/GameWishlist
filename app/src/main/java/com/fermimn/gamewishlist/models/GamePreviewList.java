@@ -7,6 +7,7 @@ import java.util.ArrayList;
 // TODO: need documentation
 // TODO: there are methods that haven't been overridden
 
+@Deprecated
 public class GamePreviewList extends ArrayList<GamePreview> {
 
     @SuppressWarnings("unused")
