@@ -13,6 +13,19 @@ public class GamePreviewList extends ArrayList<GamePreview> {
     @SuppressWarnings("unused")
     private static final String TAG = GamePreviewList.class.getSimpleName();
 
+    public GamePreviewList() {
+        super();
+    }
+
+    public GamePreviewList(ArrayList<GamePreview> gameList) {
+        super();
+        if (gameList != null) {
+            for (GamePreview gamePreview : gameList) {
+                add(gamePreview);
+            }
+        }
+    }
+
     @Override
     public boolean add(GamePreview gamePreview) {
 

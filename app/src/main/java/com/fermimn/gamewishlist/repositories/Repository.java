@@ -186,8 +186,7 @@ public class Repository {
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
                 if (wishlist.get(i).getId() == gameId) {
-                    Gamestop gamestop = new Gamestop();
-                    Game game = gamestop.downloadGame(gameId);
+                    Game game = Gamestop.Companion.getGameById(gameId);
 
                     if (game != null) {
                         wishlist.set(i, game);

@@ -49,8 +49,7 @@ public class WishlistViewModel extends AndroidViewModel {
 
             new Thread() {
                 public void run() {
-                    Gamestop gamestop = new Gamestop();
-                    Game game = gamestop.downloadGame(gamePreview.getId());
+                    Game game = Gamestop.Companion.getGameById(gamePreview.getId());
                     addGame(game);
                 }
             }.start();

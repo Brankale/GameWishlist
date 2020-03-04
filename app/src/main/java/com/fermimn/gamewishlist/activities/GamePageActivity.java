@@ -179,7 +179,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             case R.id.action_open_website:
                 Intent browserIntent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse( Gamestop.getLink( mGame.getId() ) ));
+                        new Intent(Intent.ACTION_VIEW, Uri.parse( Gamestop.Companion.getGamePageUrl( mGame.getId() ) ));
                 startActivity(browserIntent);
                 return true;
 
@@ -201,8 +201,7 @@ public class GamePageActivity extends AppCompatActivity {
 
         @Override
          protected Game doInBackground(String... strings) {
-            Gamestop gamestop = new Gamestop();
-            return gamestop.downloadGame(Integer.parseInt(strings[0]));
+            return Gamestop.Companion.getGameById(Integer.parseInt(strings[0]));
         }
 
         @Override

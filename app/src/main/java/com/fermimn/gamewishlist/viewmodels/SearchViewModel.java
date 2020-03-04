@@ -37,9 +37,8 @@ public class SearchViewModel extends ViewModel {
         new Thread() {
             @Override
             public void run() {
-                Gamestop store = new Gamestop();
                 GamePreviewList searchResults = mSearchResults.getValue();
-                GamePreviewList newResults = store.searchGame(gameTitle);
+                GamePreviewList newResults = new GamePreviewList(Gamestop.Companion.searchGame(gameTitle));
 
                 searchResults.clear();
 

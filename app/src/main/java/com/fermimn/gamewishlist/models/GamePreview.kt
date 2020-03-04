@@ -68,20 +68,28 @@ open class GamePreview (val id: Int) {
         prices.addOldPreorder(price)
     }
 
-    fun addOldNewPrices(prices: ArrayList<Float>) {
-        this.prices.addOldNew(prices)
+    fun addOldNewPrices(prices: ArrayList<Float>?) {
+        prices?.let {
+            this.prices.addOldNew(it)
+        }
     }
 
-    fun addOldUsedPrices(prices: ArrayList<Float>) {
-        this.prices.addOldUsed(prices)
+    fun addOldUsedPrices(prices: ArrayList<Float>?) {
+        prices?.let {
+            this.prices.addOldUsed(it)
+        }
     }
 
-    fun addOldDigitalPrices(prices: ArrayList<Float>) {
-        this.prices.addOldDigital(prices)
+    fun addOldDigitalPrices(prices: ArrayList<Float>?) {
+        prices?.let {
+            this.prices.addOldDigital(it)
+        }
     }
 
-    fun addOldPreorderPrices(prices: ArrayList<Float>) {
-        this.prices.addOldPreorder(prices)
+    fun addOldPreorderPrices(prices: ArrayList<Float>?) {
+        prices?.let {
+            this.prices.addOldPreorder(it)
+        }
     }
 
     final override fun equals(other: Any?): Boolean {
