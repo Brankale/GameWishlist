@@ -337,6 +337,6 @@ class Gamestop {
 
     }
 
-}
+    private class GameInitException(message: String?) : RuntimeException(message)
 
-class GameInitException(message: String?) : RuntimeException(message)
+}

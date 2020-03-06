@@ -16,6 +16,6 @@ class Promo(val header: String) {
 
     fun hasFindMore(): Boolean = findMore != null
 
-}
+    private class PromoException(message: String?) : RuntimeException(message)
 
-private class PromoException(message: String?) : RuntimeException(message)
+}
