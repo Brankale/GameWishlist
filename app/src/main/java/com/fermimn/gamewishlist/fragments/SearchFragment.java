@@ -22,7 +22,6 @@ import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Connectivity;
 import com.fermimn.gamewishlist.viewmodels.SearchViewModel;
-import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 
 public class SearchFragment extends Fragment {
 

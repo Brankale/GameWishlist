@@ -29,13 +29,11 @@ class GamePreviewList : ArrayList<GamePreview>() {
     }
 
     override fun addAll(elements: Collection<GamePreview>): Boolean {
-        val linkedHashSet: LinkedHashSet<GamePreview> = LinkedHashSet(elements)
-        return super.addAll(linkedHashSet)
+        return super.addAll(LinkedHashSet(elements))
     }
 
     override fun addAll(index: Int, elements: Collection<GamePreview>): Boolean {
-        val linkedHashSet: LinkedHashSet<GamePreview> = LinkedHashSet(elements)
-        return super.addAll(index, linkedHashSet)
+        return super.addAll(index, LinkedHashSet(elements))
     }
 
 }
