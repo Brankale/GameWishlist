@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
 
         // set view model & observers
         mViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
-        WishlistViewModel wishlistViewModel = new ViewModelProvider(getActivity()).get(WishlistViewModel.class);
+//        WishlistViewModel wishlistViewModel = new ViewModelProvider(getActivity()).get(WishlistViewModel.class);
 
         mViewModel.getSearchResults().observe(getActivity(), new Observer<GamePreviewList>() {
             @Override

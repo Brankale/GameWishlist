@@ -49,9 +49,11 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         boolean add = true;
 
         GamePreviewList wishlist = mWishListViewModel.getWishlist().getValue();
-        for (GamePreview game : wishlist) {
-            if (game.equals(gamePreview)){
-                add = false;
+        if (wishlist != null) {
+            for (GamePreview game : wishlist) {
+                if (game.equals(gamePreview)) {
+                    add = false;
+                }
             }
         }
 
@@ -71,9 +73,11 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
          boolean add = true;
 
          GamePreviewList wishlist = mWishListViewModel.getWishlist().getValue();
-         for (GamePreview game : wishlist) {
-             if (game.equals(gamePreview)){
-                 add = false;
+         if (wishlist != null) {
+             for (GamePreview game : wishlist) {
+                 if (game.equals(gamePreview)) {
+                     add = false;
+                 }
              }
          }
 

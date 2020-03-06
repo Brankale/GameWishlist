@@ -188,19 +188,17 @@ public class Repository {
                 if (wishlist.get(i).getId() == gameId) {
                     Game game = Gamestop.Companion.getGameById(gameId);
 
-                    if (game != null) {
-                        wishlist.set(i, game);
-                        mWishlist.postValue(wishlist);
+                    wishlist.set(i, game);
+                    mWishlist.postValue(wishlist);
 
-                        File xml = new File(getGameXml(Integer.toString(game.getId())));
+                    File xml = new File(getGameXml(Integer.toString(game.getId())));
 
-                        try {
-                            xml.createNewFile();
-                            XmlWriter xw = new XmlWriter();
-                            xw.saveTo(xml, game);
-                        } catch (IOException | XmlPullParserException e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        xml.createNewFile();
+                        XmlWriter xw = new XmlWriter();
+                        xw.saveTo(xml, game);
+                    } catch (IOException | XmlPullParserException e) {
+                        e.printStackTrace();
                     }
 
                     return game;

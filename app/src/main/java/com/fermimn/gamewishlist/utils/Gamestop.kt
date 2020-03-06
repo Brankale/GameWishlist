@@ -2,7 +2,6 @@ package com.fermimn.gamewishlist.utils
 
 import com.fermimn.gamewishlist.models.Game
 import com.fermimn.gamewishlist.models.GamePreview
-import com.fermimn.gamewishlist.models.Price
 import com.fermimn.gamewishlist.models.Promo
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

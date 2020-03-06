@@ -93,7 +93,7 @@ public class XmlWriter {
         addTag(RELEASE_DATE, game.getReleaseDate());
         addTag(DESCRIPTION, game.getDescription());
         if (game.getCover() != null) {
-            addTag(COVER, game.getCover().toString());
+            addTag(COVER, game.getCover());
         }
         addGallery(game.getGallery());
         addTag(VALID_FOR_PROMO, Boolean.toString(game.getValidForPromo()));

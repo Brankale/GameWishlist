@@ -12,15 +12,6 @@ class Game(id: Int) : GamePreview(id) {
     var gallery: ArrayList<String>? = null
     var validForPromo: Boolean = false
 
-    fun hasPlayers(): Boolean = players?.isNotEmpty() ?: false
-    fun hasReleaseDate(): Boolean = releaseDate?.isNotEmpty() ?: false
-    fun hasDescription(): Boolean = description?.isNotEmpty() ?: false
-    fun hasWebsite(): Boolean = website?.isNotEmpty() ?: false
-    fun hasPromos(): Boolean = promos?.isNotEmpty() ?: false
-    fun hasGenres(): Boolean = genres?.isNotEmpty() ?: false
-    fun hasPegi(): Boolean = pegi?.isNotEmpty() ?: false
-    fun hasGallery(): Boolean = gallery?.isNotEmpty() ?: false
-
     fun addGenre(genre: String) {
         genres = genres ?: ArrayList()
         genres?.add(genre)

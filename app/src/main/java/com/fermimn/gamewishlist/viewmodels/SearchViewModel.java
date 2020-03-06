@@ -48,7 +48,7 @@ public class SearchViewModel extends ViewModel {
                     previousResults.clear();
                 }
 
-                if (results != null) {
+                if (previousResults != null && results != null) {
                     previousResults.addAll(results);
                 }
 

@@ -182,7 +182,7 @@ public class GamePreviewListAdapter extends RecyclerView.Adapter<GamePreviewList
         if (hqPreviewImages) {
             String uri = gamePreview.getCover();
             if (uri != null) {
-                String result = uri.toString().replace("2med", "3max");
+                String result = uri.replace("2med", "3max");
                 Picasso.get().load(result).into(holder.mCoverView);
             }
         } else {

@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void switchToSearch() {
+    private void switchToSearch() {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    void switchToWishlist() {
+    private void switchToWishlist() {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 

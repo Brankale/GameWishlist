@@ -398,7 +398,7 @@ public class GamePageActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
 
-            ArrayList<String> images = (ArrayList<String>) game.getGallery();
+            ArrayList<String> images = game.getGallery();
 
             // insert all the images in the gallery
             for (int i = 0; i < images.size(); ++i) {

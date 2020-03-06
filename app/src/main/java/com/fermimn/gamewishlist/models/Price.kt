@@ -17,16 +17,6 @@ class Price {
     var digitalAvailable: Boolean = false
     var preorderAvailable: Boolean = false
 
-    fun hasNewPrice(): Boolean = new != null
-    fun hasUsedPrice(): Boolean = used != null
-    fun hasDigitalPrice(): Boolean = digital != null
-    fun hasPreorderPrice(): Boolean = preorder != null
-
-    fun hasOldNewPrices(): Boolean = oldNew.isNotEmpty()
-    fun hasOldUsedPrices(): Boolean = oldUsed.isNotEmpty()
-    fun hasOldDigitalPrices(): Boolean = oldDigital.isNotEmpty()
-    fun hasOldPreorderPrices(): Boolean = oldPreorder.isNotEmpty()
-
     fun addOldNew(price: Float) { oldNew.add(price) }
     fun addOldUsed(price: Float) { oldUsed.add(price) }
     fun addOldDigital(price: Float) { oldDigital.add(price) }
