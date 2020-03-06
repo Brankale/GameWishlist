@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.utils.Gamestop;
+
+import java.util.ArrayList;
 
 public class SearchViewModel extends ViewModel {
 
@@ -37,16 +40,19 @@ public class SearchViewModel extends ViewModel {
         new Thread() {
             @Override
             public void run() {
-                GamePreviewList searchResults = mSearchResults.getValue();
-                GamePreviewList newResults = new GamePreviewList(Gamestop.Companion.searchGame(gameTitle));
+                GamePreviewList previousResults = mSearchResults.getValue();
 
-                searchResults.clear();
+                ArrayList<GamePreview> results = Gamestop.Companion.searchGame(gameTitle);
 
-                if (newResults != null) {
-                    searchResults.addAll(newResults);
+                if (previousResults != null) {
+                    previousResults.clear();
                 }
 
-                mSearchResults.postValue(searchResults);
+                if (results != null) {
+                    previousResults.addAll(results);
+                }
+
+                mSearchResults.postValue(previousResults);
                 mIsSearching.postValue(false);
             }
         }.start();
