@@ -1,4 +1,4 @@
-package com.fermimn.gamewishlist.utils;
+package com.fermimn.gamewishlist.experimental;
 
 import android.content.Context;
 import android.graphics.Canvas;

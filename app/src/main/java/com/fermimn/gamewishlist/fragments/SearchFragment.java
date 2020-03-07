@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GamePreviewListAdapter;
 import com.fermimn.gamewishlist.models.GamePreviewList;
-import com.fermimn.gamewishlist.utils.Connectivity;
+import com.fermimn.gamewishlist.utils.Util;
 import com.fermimn.gamewishlist.viewmodels.SearchViewModel;
 
 public class SearchFragment extends Fragment {
@@ -113,7 +113,7 @@ public class SearchFragment extends Fragment {
         public boolean onQueryTextSubmit(String searchedGame) {
 
             // check if internet is available
-            if (!Connectivity.isNetworkAvailable(getActivity())) {
+            if (!Util.isNetworkAvailable(getActivity())) {
                 Toast.makeText(getActivity(), getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show();
                 return false;
             }
