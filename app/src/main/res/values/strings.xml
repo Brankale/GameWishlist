@@ -97,4 +97,9 @@
     <!-- websites -->
     <string name="site_gamestop">https://www.gamestop.it/</string>
 
+
+    <!-- PriceView -->
+    <string name="price_category">%1$s:</string>
+    <string name="price_currency">%1$s€</string>
+
 </resources>

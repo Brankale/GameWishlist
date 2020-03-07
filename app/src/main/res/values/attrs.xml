@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PriceView">
+        <attr name="category" format="string" />
+        <attr name="price" format="float" />
+        <attr name="old_price" format="float" />
+        <attr name="available" format="boolean" />
+    </declare-styleable>
+
+</resources>
