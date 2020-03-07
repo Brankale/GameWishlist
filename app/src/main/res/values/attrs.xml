@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="GamePreviewView">
+        <attr name="id" format="integer" />
+
+        <attr name="title" format="string" />
+        <attr name="platform" format="string" />
+        <attr name="publisher" format="string" />
+        <attr name="cover" format="string" />
+
+        <attr name="price_new" format="float" />
+        <attr name="price_used" format="float" />
+        <attr name="price_preorder" format="float" />
+        <attr name="price_digital" format="float" />
+
+        <attr name="price_old_new" format="float" />
+        <attr name="price_old_used" format="float" />
+        <attr name="price_old_preorder" format="float" />
+        <attr name="price_old_digital" format="float" />
+
+        <attr name="new_available" format="boolean" />
+        <attr name="used_available" format="boolean" />
+        <attr name="preorder_available" format="boolean" />
+        <attr name="digital_available" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="PriceView">
         <attr name="category" format="string" />
         <attr name="price" format="float" />

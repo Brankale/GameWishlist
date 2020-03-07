@@ -52,20 +52,28 @@ open class GamePreview (val id: Int) {
         get() = prices.preorderAvailable
         set(value) { prices.preorderAvailable = value }
 
-    fun addOldNewPrice(price: Float) {
-        prices.addOldNew(price)
+    fun addOldNewPrice(price: Float?) {
+        price?.let {
+            prices.addOldNew(it)
+        }
     }
 
-    fun addOldUsedPrice(price: Float) {
-        prices.addOldUsed(price)
+    fun addOldUsedPrice(price: Float?) {
+        price?.let {
+            prices.addOldUsed(it)
+        }
     }
 
-    fun addOldDigitalPrice(price: Float) {
-        prices.addOldDigital(price)
+    fun addOldDigitalPrice(price: Float?) {
+        price?.let {
+            prices.addOldDigital(it)
+        }
     }
 
-    fun addOldPreorderPrice(price: Float) {
-        prices.addOldPreorder(price)
+    fun addOldPreorderPrice(price: Float?) {
+        price?.let {
+            prices.addOldPreorder(it)
+        }
     }
 
     fun addOldNewPrices(prices: ArrayList<Float>?) {

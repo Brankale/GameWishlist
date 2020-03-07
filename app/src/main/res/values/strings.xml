@@ -102,4 +102,14 @@
     <string name="price_category">%1$s:</string>
     <string name="price_currency">%1$s€</string>
 
+    <!-- Game prices -->
+    <string name="price_new">NUOVO</string>
+    <string name="price_used">USATO</string>
+    <string name="price_preorder">PREORDINA</string>
+    <string name="price_booking">PRENOTAZIONE</string>
+    <string name="price_digital">DIGITALE</string>
+
+    <!-- game preview view -->
+    <string name="game_cover">game cover</string>
+
 </resources>
