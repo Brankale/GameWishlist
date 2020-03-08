@@ -41,13 +41,13 @@
             tools:text="platform by publisher"
             android:textSize="15sp"/>
 
-        <com.example.gamestopapp.custom_views.PriceView
+        <com.fermimn.gamewishlist.custom_views.PriceView
             android:id="@+id/price_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
 
-        <com.example.gamestopapp.custom_views.PriceView
+        <com.fermimn.gamewishlist.custom_views.PriceView
             android:id="@+id/price_second"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

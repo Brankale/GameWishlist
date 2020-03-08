@@ -20,7 +20,7 @@ class PriceView(context: Context?, attrs: AttributeSet?) : LinearLayout(context,
     private val oldPriceView: TextView
 
     init {
-        View.inflate(context, R.layout.partial_game_price, this)
+        View.inflate(context, R.layout.partial_game_price_new, this)
         categoryView = findViewById(R.id.category)
         priceView = findViewById(R.id.price)
         oldPriceView = findViewById(R.id.old_price)

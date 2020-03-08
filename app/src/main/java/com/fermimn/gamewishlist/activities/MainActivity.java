@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.fragments.SearchFragment;
+import com.fermimn.gamewishlist.fragments.SearchFragmentNew;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private ImageButton mImageButton;
-    private SearchFragment mSearchSection;
+    private SearchFragmentNew mSearchSection;
     private WishlistFragment mWishListSection;
 
     @Override
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mImageButton.setImageResource(R.drawable.ic_search_black_24dp);
 
         // add sections
-        mSearchSection = new SearchFragment();
+        mSearchSection = new SearchFragmentNew();
         mWishListSection = new WishlistFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
