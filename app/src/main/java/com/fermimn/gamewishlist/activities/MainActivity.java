@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.fermimn.gamewishlist.R;
-import com.fermimn.gamewishlist.fragments.SearchFragment;
 import com.fermimn.gamewishlist.fragments.SearchFragmentNew;
 import com.fermimn.gamewishlist.fragments.WishlistFragment;
 

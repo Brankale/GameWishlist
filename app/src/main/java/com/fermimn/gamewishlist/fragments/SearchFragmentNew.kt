@@ -77,21 +77,22 @@ class SearchFragmentNew : Fragment() {
     }
 
     private val queryTextListener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
+
         override fun onQueryTextSubmit(searchedGame: String): Boolean {
 
-            // check if internet is available
-            if (!isNetworkAvailable(activity!!)) {
-                Toast.makeText(activity, getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show()
-                return false
+            context?.let {
+                if (isNetworkAvailable(it)) {
+                    viewModel.search(searchedGame)
+                } else {
+                    Toast.makeText(context, getString(R.string.toast_internet_not_available), Toast.LENGTH_SHORT).show()
+                }
             }
 
-            viewModel.search(searchedGame)
             return false
         }
 
-        override fun onQueryTextChange(s: String): Boolean {
-            return false
-        }
+        override fun onQueryTextChange(s: String): Boolean = false
+
     }
 
 }
