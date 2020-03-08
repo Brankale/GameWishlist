@@ -17,7 +17,7 @@ import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
 import com.fermimn.gamewishlist.utils.isNetworkAvailable
 import com.fermimn.gamewishlist.viewmodels.SearchViewModel
 
-class SearchFragmentNew : Fragment() {
+class SearchFragment : Fragment() {
 
     private lateinit var searchView: SearchView
     private lateinit var progressBar: ProgressBar
