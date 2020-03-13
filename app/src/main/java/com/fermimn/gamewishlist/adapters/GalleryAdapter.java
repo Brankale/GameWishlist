@@ -21,9 +21,9 @@ public class GalleryAdapter extends PagerAdapter {
     private static final String TAG = GalleryAdapter.class.getSimpleName();
 
     private final Activity mActivity;
-    private final List<Uri> mGallery;
+    private final List<String> mGallery;
 
-    public GalleryAdapter(Activity activity, List<Uri> gallery) {
+    public GalleryAdapter(Activity activity, List<String> gallery) {
         mActivity = activity;
         mGallery = gallery;
     }

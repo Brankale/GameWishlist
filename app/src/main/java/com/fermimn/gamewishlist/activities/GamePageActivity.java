@@ -626,19 +626,19 @@ public class GamePageActivity extends AppCompatActivity {
         Bundle bundle = (Bundle) view.getTag();
 
         int position = bundle.getInt("position");
-        Uri cover = bundle.getParcelable("cover");
-        ArrayList<Uri> gallery = bundle.getParcelableArrayList("gallery");
+        String cover = bundle.getString("cover");
+        ArrayList<String> gallery = bundle.getStringArrayList("gallery");
 
         // create and start intent
         Intent intent = new Intent(this, GalleryActivity.class);
 
         if (cover == null) {
-            intent.putParcelableArrayListExtra("images", gallery);
+            intent.putStringArrayListExtra("images", gallery);
             intent.putExtra("position", position);
         } else {
-            ArrayList<Uri> coverArray = new ArrayList<>();
+            ArrayList<String> coverArray = new ArrayList<>();
             coverArray.add(cover);
-            intent.putParcelableArrayListExtra("images", coverArray);
+            intent.putStringArrayListExtra("images", coverArray);
             intent.putExtra("position", 0);
         }
 

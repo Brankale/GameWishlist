@@ -29,7 +29,7 @@ public class GalleryActivity extends FragmentActivity {
         // get Intent content
         Intent caller = getIntent();
         int position = caller.getIntExtra("position", 0);
-        ArrayList<Uri> images = caller.getParcelableArrayListExtra("images");
+        ArrayList<String> images = caller.getStringArrayListExtra("images");
 
         // Instantiate a ViewPager and a PagerAdapter
         mViewPager = findViewById(R.id.view_pager);
