@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
-import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.repositories.xml.XmlReader;
 import com.fermimn.gamewishlist.repositories.xml.XmlWriter;
 import com.fermimn.gamewishlist.utils.Gamestop;
@@ -35,7 +35,7 @@ public class Repository {
 
     private static Repository mInstance;
     private final String FILES_DIR;
-    private final MutableLiveData<GamePreviewList> mWishlist;
+    private final MutableLiveData<GamePreviews> mWishlist;
 
     /**
      * Return the instance of Repository
@@ -60,9 +60,9 @@ public class Repository {
      * @return the list of games in the wishlist, an empty list if there are no games
      */
     @NonNull
-    private GamePreviewList initWishlist() {
+    private GamePreviews initWishlist() {
 
-        GamePreviewList wishlist = new GamePreviewList();
+        GamePreviews wishlist = new GamePreviews();
 
         File appDir = new File(FILES_DIR);
         if (appDir.exists()) {
@@ -92,7 +92,7 @@ public class Repository {
      * @return a Game object if the game is in the wishlist, null otherwise
      */
     public Game getGame(int gameId) {
-        GamePreviewList wishlist = mWishlist.getValue();
+        GamePreviews wishlist = mWishlist.getValue();
         if (wishlist != null) {
             for (GamePreview gamePreview : wishlist) {
                 if (gamePreview.getId() == gameId) {
@@ -108,7 +108,7 @@ public class Repository {
      * @return a MutableLiveData containing the list of games in the wishlist
      *         or containing null if there are no games in the wishlist
      */
-    public LiveData<GamePreviewList> getWishlist() {
+    public LiveData<GamePreviews> getWishlist() {
         return mWishlist;
     }
 
@@ -136,9 +136,9 @@ public class Repository {
                 downloadGameImages(game);
 
                 // adding game to the wishlist
-                GamePreviewList wishlist = mWishlist.getValue();
+                GamePreviews wishlist = mWishlist.getValue();
                 if (wishlist == null) {
-                    wishlist = new GamePreviewList();
+                    wishlist = new GamePreviews();
                 }
                 wishlist.add(game);
                 mWishlist.postValue(wishlist);
@@ -161,7 +161,7 @@ public class Repository {
     public boolean removeGame(int gameId) {
         boolean result = deleteFolder( new File( getGameFolder(Integer.toString(gameId)) ) );
 
-        GamePreviewList wishlist = mWishlist.getValue();
+        GamePreviews wishlist = mWishlist.getValue();
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
                 if (wishlist.get(i).getId() == gameId) {
@@ -182,7 +182,7 @@ public class Repository {
     }
 
     public Game updateGame(int gameId) {
-        GamePreviewList wishlist = mWishlist.getValue();
+        GamePreviews wishlist = mWishlist.getValue();
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
                 if (wishlist.get(i).getId() == gameId) {

@@ -37,7 +37,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
-import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.models.Promo;
 import com.fermimn.gamewishlist.utils.Gamestop;
 import com.fermimn.gamewishlist.utils.Util;
@@ -117,7 +117,7 @@ public class GamePageActivity extends AppCompatActivity {
         // show remove button if the game is already in the wishlist
         if (mGame != null) {
             setTitle( mGame.getTitle() );
-            GamePreviewList wishlist = mWishListViewModel.getWishlist().getValue();
+            GamePreviews wishlist = mWishListViewModel.getWishlist().getValue();
             boolean result = false;
             if (wishlist != null) {
                 result = wishlist.contains(mGame);

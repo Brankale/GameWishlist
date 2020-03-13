@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
-import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.repositories.Repository;
 import com.fermimn.gamewishlist.utils.Gamestop;
 
@@ -30,7 +30,7 @@ public class WishlistViewModel extends AndroidViewModel {
         mIsUpdating.setValue(new Pair<GamePreview, Boolean>(null, false));
     }
 
-    public LiveData<GamePreviewList> getWishlist() {
+    public LiveData<GamePreviews> getWishlist() {
         return mRepository.getWishlist();
     }
 

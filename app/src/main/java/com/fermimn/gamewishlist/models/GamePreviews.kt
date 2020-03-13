@@ -2,10 +2,10 @@ package com.fermimn.gamewishlist.models
 
 import android.util.Log
 
-class GamePreviewList : ArrayList<GamePreview>() {
+class GamePreviews : ArrayList<GamePreview>() {
 
     companion object {
-        private val TAG: String = GamePreviewList::class.java.simpleName
+        private val TAG: String = GamePreviews::class.java.simpleName
     }
 
     override fun add(element: GamePreview): Boolean {

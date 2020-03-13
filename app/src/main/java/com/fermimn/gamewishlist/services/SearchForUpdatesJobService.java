@@ -7,7 +7,7 @@ import android.util.Log;
 import com.fermimn.gamewishlist.App;
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.models.Game;
-import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.repositories.Repository;
 
 public class SearchForUpdatesJobService extends JobService {
@@ -39,7 +39,7 @@ public class SearchForUpdatesJobService extends JobService {
     private void searchForUpdates(final JobParameters params) {
 
         final Repository repository = Repository.getInstance(getApplication());
-        final GamePreviewList wishlist = repository.getWishlist().getValue();
+        final GamePreviews wishlist = repository.getWishlist().getValue();
 
         new Thread() {
             @Override

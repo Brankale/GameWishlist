@@ -3,8 +3,8 @@ package com.fermimn.gamewishlist.models
 import androidx.recyclerview.widget.DiffUtil
 
 class GamePreviewDiffUtilCallback(
-        private val oldGamePreviews: GamePreviewList,
-        private val newGamePreviews: GamePreviewList
+        private val oldGamePreviews: GamePreviews,
+        private val newGamePreviews: GamePreviews
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldGamePreviews.size

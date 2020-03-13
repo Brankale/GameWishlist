@@ -20,7 +20,7 @@ import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
 import com.fermimn.gamewishlist.models.Game
 import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.models.GamePreviewDiffUtilCallback
-import com.fermimn.gamewishlist.models.GamePreviewList
+import com.fermimn.gamewishlist.models.GamePreviews
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
 
 class WishlistFragment : Fragment() {
@@ -34,7 +34,7 @@ class WishlistFragment : Fragment() {
     private lateinit var adapter: GamePreviewAdapter
 
     private lateinit var viewModel: WishlistViewModel
-    private val wishlist: GamePreviewList = GamePreviewList()
+    private val wishlist: GamePreviews = GamePreviews()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -106,9 +106,9 @@ class WishlistFragment : Fragment() {
 
     // TODO: remove this thing as soon as possible
     // This class is responsible for crashes during updates
-    private inner class Update : AsyncTask<GamePreviewList?, Int?, Boolean?>() {
+    private inner class Update : AsyncTask<GamePreviews?, Int?, Boolean?>() {
 
-        override fun doInBackground(vararg gamePreviewLists: GamePreviewList?): Boolean? {
+        override fun doInBackground(vararg gamePreviewLists: GamePreviews?): Boolean? {
             for (i in wishlist.indices) {
                 val prev = wishlist[i] as Game
                 viewModel.updateGame(wishlist[i].id)

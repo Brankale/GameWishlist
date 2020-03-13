@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fermimn.gamewishlist.models.GamePreview;
-import com.fermimn.gamewishlist.models.GamePreviewList;
+import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.utils.Gamestop;
 
 import java.util.ArrayList;
@@ -15,13 +15,13 @@ public class SearchViewModel extends ViewModel {
     @SuppressWarnings("unused")
     private static final String TAG = SearchViewModel.class.getSimpleName();
 
-    private MutableLiveData<GamePreviewList> mSearchResults;
+    private MutableLiveData<GamePreviews> mSearchResults;
     private MutableLiveData<Boolean> mIsSearching;
 
-    public LiveData<GamePreviewList> getSearchResults() {
+    public LiveData<GamePreviews> getSearchResults() {
         if (mSearchResults == null) {
             mSearchResults = new MutableLiveData<>();
-            mSearchResults.setValue(new GamePreviewList());
+            mSearchResults.setValue(new GamePreviews());
         }
         return mSearchResults;
     }
@@ -40,7 +40,7 @@ public class SearchViewModel extends ViewModel {
         new Thread() {
             @Override
             public void run() {
-                GamePreviewList previousResults = mSearchResults.getValue();
+                GamePreviews previousResults = mSearchResults.getValue();
 
                 ArrayList<GamePreview> results = Gamestop.Companion.searchGame(gameTitle);
 
