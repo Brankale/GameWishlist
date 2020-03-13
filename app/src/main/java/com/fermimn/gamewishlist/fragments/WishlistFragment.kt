@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fermimn.gamewishlist.App
 import com.fermimn.gamewishlist.R
@@ -18,6 +19,7 @@ import com.fermimn.gamewishlist.custom_views.GamePreviewAdapter
 import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
 import com.fermimn.gamewishlist.models.Game
 import com.fermimn.gamewishlist.models.GamePreview
+import com.fermimn.gamewishlist.models.GamePreviewDiffUtilCallback
 import com.fermimn.gamewishlist.models.GamePreviewList
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
 
@@ -60,9 +62,12 @@ class WishlistFragment : Fragment() {
 
                 val numItems = wishlist.size
 
+                val diffResult = DiffUtil.calculateDiff(GamePreviewDiffUtilCallback(wishlist, newItems))
+
                 wishlist.clear()
                 wishlist.addAll(newItems)
-                adapter.notifyDataSetChanged()
+
+                diffResult.dispatchUpdatesTo(adapter)
 
                 if (wishlist.size > numItems) {
                     recyclerView.smoothScrollToPosition(adapter.itemCount-1)
