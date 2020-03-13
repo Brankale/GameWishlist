@@ -30,7 +30,7 @@ class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(co
     private val infoView: TextView
 
     init {
-        View.inflate(context, R.layout.partial_game_preview_new, this)
+        View.inflate(context, R.layout.partial_game_preview, this)
         coverView = findViewById(R.id.cover)
         titleView = findViewById(R.id.title)
         infoView = findViewById(R.id.platform_publisher)
