@@ -14,7 +14,6 @@
     <string name="description">Descrizione</string>
 
     <!-- game prices -->
-    <string name="out_of_stock">"ESAURITO"</string>
     <string name="new_price">"NUOVO: "</string>
     <string name="used_price">"USATO: "</string>
     <string name="digital_price">"DIGITALE: "</string>
