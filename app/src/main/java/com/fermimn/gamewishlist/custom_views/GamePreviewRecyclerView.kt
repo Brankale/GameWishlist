@@ -2,7 +2,6 @@ package com.fermimn.gamewishlist.custom_views
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
@@ -95,9 +94,9 @@ class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: Array
                                 .setMessage(context.getString(R.string.dialog_remove_game_from_wishlist_text))
                                 // Specifying a listener allows you to take an action before dismissing the dialog.
                                 // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
+                                .setPositiveButton(android.R.string.yes) { _, _ ->
                                     wishlistViewModel.removeGame(gamePreviews[adapterPosition].id)
-                                })
+                                }
                                 // A null listener allows the button to dismiss the dialog and take no further action
                                 .setNegativeButton(android.R.string.no, null)
                                 .show()
@@ -107,9 +106,9 @@ class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: Array
                                 .setMessage(context.getString(R.string.dialog_add_game_to_wishlist_text))
                                 // Specifying a listener allows you to take an action before dismissing the dialog.
                                 // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
+                                .setPositiveButton(android.R.string.yes) { _, _ ->
                                     wishlistViewModel.addGame(gamePreviews[adapterPosition])
-                                })
+                                }
                                 // A null listener allows the button to dismiss the dialog and take no further action
                                 .setNegativeButton(android.R.string.no, null)
                                 .show()

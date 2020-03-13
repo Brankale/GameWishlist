@@ -49,7 +49,7 @@ class WishlistFragmentNew : Fragment() {
             viewModel = ViewModelProvider(it).get(WishlistViewModel::class.java)
             val gameList = viewModel.wishlist.value
             gameList?.let {
-                wishlist.addAll(it)
+                wishlist.addAll(gameList)
             }
 
             adapter = GamePreviewAdapter(it, wishlist)
@@ -104,9 +104,9 @@ class WishlistFragmentNew : Fragment() {
 
         override fun doInBackground(vararg gamePreviewLists: GamePreviewList?): Boolean? {
             for (i in wishlist.indices) {
-                val prev = wishlist.get(i) as Game
-                viewModel.updateGame(wishlist.get(i).id)
-                val current = wishlist.get(i) as Game
+                val prev = wishlist[i] as Game
+                viewModel.updateGame(wishlist[i].id)
+                val current = wishlist[i] as Game
                 if (current != null) {
                     var priceChanges = 0
                     val text = StringBuilder()
@@ -147,7 +147,7 @@ class WishlistFragmentNew : Fragment() {
                             priceChanges++
                         }
                     }
-                    if (text.length != 0) {
+                    if (text.isNotEmpty()) {
                         text.deleteCharAt(text.length - 1)
                         if (priceChanges == 1) {
                             App.sendOnUpdatesChannel(context, current, text.toString(), null)
