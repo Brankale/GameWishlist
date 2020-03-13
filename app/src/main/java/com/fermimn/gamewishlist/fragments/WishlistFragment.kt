@@ -100,6 +100,7 @@ class WishlistFragment : Fragment() {
     }
 
     // TODO: remove this thing as soon as possible
+    // This class is responsible for crashes during updates
     private inner class Update : AsyncTask<GamePreviewList?, Int?, Boolean?>() {
 
         override fun doInBackground(vararg gamePreviewLists: GamePreviewList?): Boolean? {

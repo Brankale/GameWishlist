@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="175dp"
     android:background="?android:attr/selectableItemBackground"
-    android:padding="20dp">
+    android:padding="20dp"
+    tools:ignore="Overdraw">
 
     <ImageView
         android:id="@+id/cover"

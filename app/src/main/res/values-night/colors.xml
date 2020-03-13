@@ -8,5 +8,5 @@
     <color name="grey">#202020</color>
     <color name="green">#119c00</color>
     <color name="always_white">#FFFFFF</color>
-    <color name="price_not_available">#dddddd</color>
+    <color name="price_not_available">#222222</color>
 </resources>
