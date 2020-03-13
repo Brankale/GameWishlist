@@ -83,7 +83,7 @@ class PriceView(context: Context?, attrs: AttributeSet?) : LinearLayout(context,
         if (availability)
             setBackgroundResource(R.color.colorAccent)
         else
-            setBackgroundResource(R.color.price_not_available)
+            setBackgroundResource(R.color.out_of_stock)
     }
 
 }
