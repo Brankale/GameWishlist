@@ -13,45 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class XmlReader {
+public class XmlReader implements Xml {
 
     @SuppressWarnings("unused")
     private static final String TAG = XmlReader.class.getSimpleName();
-
-    private static final String GAME = "game";
-    private static final String TITLE = "title";
-    private static final String PLATFORM = "platform";
-    private static final String PUBLISHER = "publisher";
-    private static final String PEGI = "pegi";
-    private static final String PEGI_TYPE = "type";
-    private static final String GENRES = "genres";
-    private static final String GENRE = "genre";
-    private static final String OFFICIAL_SITE = "officialSite";
-    private static final String PLAYERS = "players";
-    private static final String RELEASE_DATE = "releaseDate";
-    private static final String DESCRIPTION = "description";
-    private static final String COVER = "cover";
-    private static final String GALLERY = "gallery";
-    private static final String IMAGE = "image";
-    private static final String VALID_FOR_PROMO = "validForPromo";
-
-    private static final String PRICES = "prices";
-    private static final String PRICE = "price";
-    private static final String NEW = "newPrice";
-    private static final String USED = "usedPrice";
-    private static final String PREORDER = "preorderPrice";
-    private static final String DIGITAL = "digitalPrice";
-    private static final String OLD_NEW = "olderNewPrices";
-    private static final String OLD_USED = "olderUsedPrices";
-    private static final String OLD_PREORDER = "olderPreorderPrices";
-    private static final String OLD_DIGITAL = "olderDigitalPrices";
-
-    private static final String PROMOS = "promos";
-    private static final String PROMO = "promo";
-    private static final String HEADER = "header";
-    private static final String SUB_HEADER = "subHeader";
-    private static final String FIND_MORE = "findMoreMsg";
-    private static final String FIND_MORE_URL = "findMoreUrl";
 
     /**
      * Get a Game object from an XML file
@@ -108,12 +73,12 @@ public class XmlReader {
                     case PRICES:        setPrices(parser, game);                            break;
                     case PEGI:          game.setPegi( getPegi(parser) );                    break;
                     case GENRES:        game.setGenres( getGenres(parser) );                break;
-                    case OFFICIAL_SITE: game.setWebsite( parser.nextText() );       break;
+                    case OFFICIAL_SITE: game.setWebsite( parser.nextText() );               break;
                     case PLAYERS:       game.setPlayers( parser.nextText() );               break;
                     case RELEASE_DATE:  game.setReleaseDate( parser.nextText() );           break;
-                    case PROMOS:        game.setPromos( getPromos(parser) );                 break;
+                    case PROMOS:        game.setPromos( getPromos(parser) );                break;
                     case DESCRIPTION:   game.setDescription( parser.nextText() );           break;
-                    case COVER:         game.setCover( parser.nextText() );    break;
+                    case COVER:         game.setCover( parser.nextText() );                 break;
                     case GALLERY:       game.setGallery( getGallery(parser) );              break;
                     case VALID_FOR_PROMO:
                         game.setValidForPromo( Boolean.parseBoolean( parser.nextText() ) ); break;
@@ -141,10 +106,22 @@ public class XmlReader {
         while ( !(eventType == XmlPullParser.END_TAG && parser.getName().equals(PRICES)) ) {
             if (eventType == XmlPullParser.START_TAG) {
                 switch (parser.getName()) {
-                    case NEW: game.setNewPrice( Float.parseFloat( parser.nextText() ) ); break;
-                    case USED: game.setUsedPrice( Float.parseFloat( parser.nextText() ) ); break;
-                    case PREORDER: game.setPreorderPrice( Float.parseFloat( parser.nextText() ) ); break;
-                    case DIGITAL: game.setDigitalPrice( Float.parseFloat( parser.nextText() ) ); break;
+                    case NEW:
+                        game.setNewAvailable(Boolean.parseBoolean(parser.getAttributeValue(null, NEW_AVAILABLE)));
+                        game.setNewPrice( Float.parseFloat( parser.nextText() ) );
+                        break;
+                    case USED:
+                        game.setUsedAvailable(Boolean.parseBoolean(parser.getAttributeValue(null, USED_AVAILABLE)));
+                        game.setUsedPrice( Float.parseFloat( parser.nextText() ) );
+                        break;
+                    case PREORDER:
+                        game.setPreorderAvailable(Boolean.parseBoolean(parser.getAttributeValue(null, PREORDER_AVAILABLE)));
+                        game.setPreorderPrice( Float.parseFloat( parser.nextText() ) );
+                        break;
+                    case DIGITAL:
+                        game.setDigitalAvailable(Boolean.parseBoolean(parser.getAttributeValue(null, DIGITAL_AVAILABLE)));
+                        game.setDigitalPrice( Float.parseFloat( parser.nextText() ) );
+                        break;
                     case OLD_NEW: game.addOldNewPrices( getOlderPrices(parser, OLD_NEW) ); break;
                     case OLD_USED: game.addOldUsedPrices( getOlderPrices(parser, OLD_USED) ); break;
                     case OLD_PREORDER: game.addOldPreorderPrices( getOlderPrices(parser, OLD_PREORDER) ); break;

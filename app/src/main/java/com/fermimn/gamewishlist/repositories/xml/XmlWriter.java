@@ -1,5 +1,7 @@
 package com.fermimn.gamewishlist.repositories.xml;
 
+import android.util.Log;
+
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.Promo;
 
@@ -13,45 +15,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
-public class XmlWriter {
+public class XmlWriter implements Xml {
 
     @SuppressWarnings("unused")
     private static final String TAG = XmlWriter.class.getSimpleName();
-
-    private static final String GAME = "game";
-    private static final String TITLE = "title";
-    private static final String PLATFORM = "platform";
-    private static final String PUBLISHER = "publisher";
-    private static final String PEGI = "pegi";
-    private static final String PEGI_TYPE = "type";
-    private static final String GENRES = "genres";
-    private static final String GENRE = "genre";
-    private static final String OFFICIAL_SITE = "officialSite";
-    private static final String PLAYERS = "players";
-    private static final String RELEASE_DATE = "releaseDate";
-    private static final String DESCRIPTION = "description";
-    private static final String COVER = "cover";
-    private static final String GALLERY = "gallery";
-    private static final String IMAGE = "image";
-    private static final String VALID_FOR_PROMO = "validForPromo";
-
-    private static final String PRICES = "prices";
-    private static final String PRICE = "price";
-    private static final String NEW = "newPrice";
-    private static final String USED = "usedPrice";
-    private static final String PREORDER = "preorderPrice";
-    private static final String DIGITAL = "digitalPrice";
-    private static final String OLD_NEW = "olderNewPrices";
-    private static final String OLD_USED = "olderUsedPrices";
-    private static final String OLD_PREORDER = "olderPreorderPrices";
-    private static final String OLD_DIGITAL = "olderDigitalPrices";
-
-    private static final String PROMOS = "promos";
-    private static final String PROMO = "promo";
-    private static final String HEADER = "header";
-    private static final String SUB_HEADER = "subHeader";
-    private static final String FIND_MORE = "findMoreMsg";
-    private static final String FIND_MORE_URL = "findMoreUrl";
 
     private final XmlSerializer mSerializer;
 
@@ -81,10 +48,10 @@ public class XmlWriter {
         addTag(PLATFORM, game.getPlatform());
         addTag(PUBLISHER, game.getPublisher());
         mSerializer.startTag(null, PRICES);
-        addPrices(NEW, game.getNewPrice(), OLD_NEW, game.getOldNewPrices());
-        addPrices(USED, game.getUsedPrice(), OLD_USED, game.getOldUsedPrices());
-        addPrices(PREORDER, game.getPreorderPrice(), OLD_PREORDER, game.getOldPreorderPrices());
-        addPrices(DIGITAL, game.getDigitalPrice(), OLD_DIGITAL, game.getOldDigitalPrices());
+        addPrices(NEW, game.getNewPrice(), OLD_NEW, game.getOldNewPrices(), NEW_AVAILABLE, game.getNewAvailable());
+        addPrices(USED, game.getUsedPrice(), OLD_USED, game.getOldUsedPrices(), USED_AVAILABLE, game.getUsedAvailable());
+        addPrices(PREORDER, game.getPreorderPrice(), OLD_PREORDER, game.getOldPreorderPrices(), PREORDER_AVAILABLE, game.getPreorderAvailable());
+        addPrices(DIGITAL, game.getDigitalPrice(), OLD_DIGITAL, game.getOldDigitalPrices(), DIGITAL_AVAILABLE, game.getDigitalAvailable());
         mSerializer.endTag(null, PRICES);
         addPegi(game.getPegi());
         addGenres(game.getGenres());
@@ -164,9 +131,10 @@ public class XmlWriter {
         mSerializer.endTag(null, PROMO);
     }
 
-    private void addPrices(String tag, Float price, String innerTag, List<Float> prices) throws IOException {
+    private void addPrices(String tag, Float price, String innerTag, List<Float> prices, String attrName, Boolean attrValue) throws IOException {
         if (price != null) {
             mSerializer.startTag(null, tag);
+            mSerializer.attribute(null, attrName, attrValue.toString());
             mSerializer.text( Double.toString(price) );
             mSerializer.endTag(null, tag);
             addOlderPrices(innerTag, prices);
