@@ -6,12 +6,12 @@
     android:layout_height="match_parent">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_to_refresh_new"
+        android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
-            android:id="@+id/wishlist_new"
+            android:id="@+id/wishlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

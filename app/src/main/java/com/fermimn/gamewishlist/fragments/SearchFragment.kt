@@ -28,7 +28,11 @@ class SearchFragment : Fragment() {
     // TODO: find a way to remove this variable
     private var firstStart: Boolean = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
 
         val view = inflater.inflate(R.layout.fragment_search_new, container, false)
 
@@ -66,6 +70,7 @@ class SearchFragment : Fragment() {
                     //       another part of the screen
                     recyclerView.requestFocus()
                 }
+
             })
 
             searchView.setOnQueryTextListener(queryTextListener)

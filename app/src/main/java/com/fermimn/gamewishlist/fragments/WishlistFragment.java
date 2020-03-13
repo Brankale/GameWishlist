@@ -27,6 +27,7 @@ import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviewList;
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 
+@Deprecated
 public class WishlistFragment extends Fragment {
 
     @SuppressWarnings("unused")
