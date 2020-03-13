@@ -459,8 +459,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // change color based on availability
             if (!game.getNewAvailable()) {
-                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
-                container.setBackgroundColor(colour);
+                container.setBackgroundResource(R.color.price_not_available);
             }
 
             // add the container to the parent
@@ -482,8 +481,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // change color based on availability
             if (!game.getUsedAvailable()) {
-                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
-                container.setBackgroundColor(colour);
+                container.setBackgroundResource(R.color.price_not_available);
             }
 
             // add the container to the parent
@@ -504,8 +502,7 @@ public class GamePageActivity extends AppCompatActivity {
             }
 
             if (!game.getDigitalAvailable()) {
-                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
-                container.setBackgroundColor(colour);
+                container.setBackgroundResource(R.color.price_not_available);
             }
 
             // add the container to the parent
@@ -527,8 +524,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             // change color based on availability
             if (!game.getPreorderAvailable()) {
-                int colour = getResources().getColor(getResources().getIdentifier("out_of_stock", "color", getPackageName()));
-                container.setBackgroundColor(colour);
+                container.setBackgroundResource(R.color.price_not_available);
             }
 
             // add the container to the parent
