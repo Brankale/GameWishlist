@@ -21,10 +21,10 @@ import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.models.GamePreviewList
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
 
-class WishlistFragmentNew : Fragment() {
+class WishlistFragment : Fragment() {
 
     companion object {
-        private val TAG: String = WishlistFragmentNew::class.java.simpleName
+        private val TAG: String = WishlistFragment::class.java.simpleName
     }
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -40,7 +40,7 @@ class WishlistFragmentNew : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_wishlist_new, container, false)
+        val view = inflater.inflate(R.layout.fragment_wishlist, container, false)
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         recyclerView = view.findViewById(R.id.wishlist)

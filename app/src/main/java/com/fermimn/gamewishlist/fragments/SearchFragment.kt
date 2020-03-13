@@ -34,7 +34,7 @@ class SearchFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_search_new, container, false)
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
 
         searchView = view.findViewById(R.id.search_bar)
         progressBar = view.findViewById(R.id.progress_bar)
