@@ -9,19 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.fermimn.gamewishlist.App
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.custom_views.GamePreviewAdapter
 import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
-import com.fermimn.gamewishlist.models.Game
 import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.models.GamePreviewDiffUtilCallback
 import com.fermimn.gamewishlist.models.GamePreviews
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
+import java.lang.ref.WeakReference
 
 class WishlistFragment : Fragment() {
 
@@ -90,13 +90,15 @@ class WishlistFragment : Fragment() {
                         Toast.makeText(it, "Downloading: $title", Toast.LENGTH_SHORT).show()
                     } else {
                         // TODO: remove hard-coded text
-                        Toast.makeText(it, "Aggiunto: $title", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(it, "Added: $title", Toast.LENGTH_SHORT).show()
                     }
                 }
             })
 
             swipeRefreshLayout.setOnRefreshListener {
-                Update().execute()
+                activity?.let {
+                    SwipeToRefresh(it, swipeRefreshLayout).execute()
+                }
             }
 
         }
@@ -104,70 +106,36 @@ class WishlistFragment : Fragment() {
         return view
     }
 
-    // TODO: remove this thing as soon as possible
-    // This class is responsible for crashes during updates
-    private inner class Update : AsyncTask<GamePreviews?, Int?, Boolean?>() {
+    private class SwipeToRefresh(
+            fragmentActivity: FragmentActivity,
+            val swipeRefreshLayout: SwipeRefreshLayout
+    ) : AsyncTask<Void?, Void?, Void?>() {
 
-        override fun doInBackground(vararg gamePreviewLists: GamePreviews?): Boolean? {
-            for (i in wishlist.indices) {
-                val prev = wishlist[i] as Game
-                viewModel.updateGame(wishlist[i].id)
-                val current = wishlist[i] as Game
-                if (current != null) {
-                    var priceChanges = 0
-                    val text = StringBuilder()
-
-                    // the game has been released
-                    if (current.newPrice != null && prev.preorderPrice != null) {
-                        text.append(getString(R.string.notif_game_released))
-                    }
-
-                    // lower new price
-                    if (current.newPrice != null && prev.newPrice != null) {
-                        if (current.newPrice!! < prev.newPrice!!) {
-                            text.append(getString(R.string.notif_lower_new_price))
-                            priceChanges++
-                        }
-                    }
-
-                    // lower used price
-                    if (current.usedPrice != null && prev.usedPrice != null) {
-                        if (current.usedPrice!! < prev.usedPrice!!) {
-                            text.append(getString(R.string.notif_lower_used_price))
-                            priceChanges++
-                        }
-                    }
-
-                    // lower digital price
-                    if (current.digitalPrice != null && prev.digitalPrice != null) {
-                        if (current.digitalPrice!! < prev.digitalPrice!!) {
-                            text.append(getString(R.string.notif_lower_digital_price))
-                            priceChanges++
-                        }
-                    }
-
-                    // lower preorder price
-                    if (current.preorderPrice != null && prev.preorderPrice != null) {
-                        if (current.preorderPrice!! < prev.preorderPrice!!) {
-                            text.append(getString(R.string.notif_lower_preorder_price))
-                            priceChanges++
-                        }
-                    }
-                    if (text.isNotEmpty()) {
-                        text.deleteCharAt(text.length - 1)
-                        if (priceChanges == 1) {
-                            App.sendOnUpdatesChannel(context, current, text.toString(), null)
-                        } else {
-                            App.sendOnUpdatesChannel(context, current, getString(R.string.notif_lower_prices), text.toString())
-                        }
-                    }
-                }
-            }
-            return false
+        companion object {
+            private val TAG: String = SwipeToRefresh::class.java.simpleName
         }
 
-        override fun onPostExecute(refreshing: Boolean?) {
-            swipeRefreshLayout.isRefreshing = refreshing ?: false
+        private val activity: WeakReference<FragmentActivity>
+        private val viewModel: WishlistViewModel
+        private val gamePreviews: GamePreviews
+
+        init {
+            activity = WeakReference(fragmentActivity)
+            viewModel = ViewModelProvider(fragmentActivity).get(WishlistViewModel::class.java)
+            gamePreviews = viewModel.wishlist.value ?: GamePreviews()
+        }
+
+        override fun doInBackground(vararg params: Void?): Void? {
+            for (gamePreview in gamePreviews) {
+                Log.d(TAG, "updating game with id [${gamePreview.id}] ...")
+                viewModel.updateGame(gamePreview.id)
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            swipeRefreshLayout.isRefreshing = false
         }
 
     }

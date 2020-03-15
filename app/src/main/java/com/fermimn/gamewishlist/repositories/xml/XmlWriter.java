@@ -1,7 +1,5 @@
 package com.fermimn.gamewishlist.repositories.xml;
 
-import android.util.Log;
-
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.Promo;
 

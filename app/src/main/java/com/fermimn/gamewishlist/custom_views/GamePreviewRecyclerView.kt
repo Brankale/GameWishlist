@@ -63,7 +63,7 @@ class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: Array
         return -1
     }
 
-    inner class GameViewHolder(val view: GamePreviewView):
+    inner class GameViewHolder(private val view: GamePreviewView):
             RecyclerView.ViewHolder(view),
             View.OnClickListener,
             View.OnLongClickListener {
