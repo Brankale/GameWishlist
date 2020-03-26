@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviews;
-import com.fermimn.gamewishlist.utils.Gamestop;
+import com.fermimn.gamewishlist.gamestop.GameStop;
 
 import java.util.ArrayList;
 
@@ -42,13 +42,13 @@ public class SearchViewModel extends ViewModel {
             public void run() {
                 GamePreviews previousResults = mSearchResults.getValue();
 
-                ArrayList<GamePreview> results = Gamestop.Companion.searchGame(gameTitle);
+                ArrayList<GamePreview> results = GameStop.Companion.search(gameTitle);
 
                 if (previousResults != null) {
                     previousResults.clear();
                 }
 
-                if (previousResults != null && results != null) {
+                if (previousResults != null) {
                     previousResults.addAll(results);
                 }
 

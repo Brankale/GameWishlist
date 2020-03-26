@@ -1,66 +1,108 @@
-package com.fermimn.gamewishlist.utils
+package com.fermimn.gamewishlist.gamestop
 
-import com.fermimn.gamewishlist.models.Game
-import com.fermimn.gamewishlist.models.GamePreview
-import com.fermimn.gamewishlist.models.Promo
+import com.fermimn.gamewishlist.models.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.net.URLEncoder
 
-class Gamestop {
+class GameStop {
 
-    companion object {
+    companion object : GameStore {
 
-        private val TAG: String = Gamestop::class.java.simpleName
+        private val TAG: String = GameStop::class.java.simpleName
 
         private const val WEBSITE_URL = "https://www.gamestop.it"
         private const val SEARCH_URL = "$WEBSITE_URL/SearchResult/QuickSearch?q="
         private const val PAGE_URL = "$WEBSITE_URL/Platform/Games/"
 
         fun getGamePageUrl(gameId: Int) : String = "$PAGE_URL/$gameId"
-        private fun getSearchPageUrl(gameTitle: String) : String = "$SEARCH_URL/${URLEncoder.encode(gameTitle, "UTF-8")}"
+        private fun getSearchPageUrl(game: String) : String
+                = "$SEARCH_URL/${URLEncoder.encode(game, "UTF-8")}"
 
-        fun searchGame(title: String) : ArrayList<GamePreview>? {
-            val url: String = getSearchPageUrl(title)
+        /**
+         * @throws ParseItemException if the HTML is malformed
+         */
+        override fun search(game: String): GamePreviews {
+            val url: String = getSearchPageUrl(game)
             val html: Document = Jsoup.connect(url).get()
-            return getGamesFromSearchPage(html)
+            return getSearchResults(html)
         }
 
-        private fun getGamesFromSearchPage(html: Element) : ArrayList<GamePreview>? {
+        override fun getGame(id: Int): Game {
+            TODO("Not yet implemented")
+        }
+
+        /**
+         * @throws ParseItemException if the HTML is malformed
+         */
+        private fun getSearchResults(html: Document) : GamePreviews {
+            val results = GamePreviews()
+
+            val items = getItemList(html)
+            for (item in items) {
+                val gamePreview = parseItem(item)
+                results.add(gamePreview)
+            }
+
+            return results
+        }
+
+        /**
+         * @param html it must be an element with the "productsList" tag or a tag that contains it
+         * @throws ParseItemException if the HTML is malformed
+         */
+        private fun getItemList(html: Element) : Elements {
             try {
-                val productsList: Elements = html.getElementsByClass("prodList")
-                for (productList in productsList) {
-                    val gameElements: Elements = productList.getElementsByClass("singleProduct")
-                    if (gameElements.isNotEmpty()) {
-                        val games = ArrayList<GamePreview>()
-                        for (gameElement in gameElements) {
-                            val game: GamePreview = getGameFromElementSingleProduct(gameElement)
-                            games.add(game)
-                        }
-                        return games
-                    }
-                }
-                return null
-            } catch (ex: Exception) {
-                throw GameInitException(ex.message)
+                val root: Element = html.getElementsByClass("prodList")[0]
+                return root.getElementsByClass("singleProduct")
+            } catch (ex : Exception) {
+                throw ParseItemException()
             }
         }
 
-        private fun getGameFromElementSingleProduct(singleProduct: Element) : GamePreview {
-            val id: Int = singleProduct.getElementsByClass("prodImg")[0].attr("href").split("/")[3].toInt()
-            val gamePreview = GamePreview(id)
+        /**
+         * @param item "singleProduct" html tag
+         * @throws ParseItemException if the HTML is malformed
+         */
+        private fun parseItem(item: Element): GamePreview {
 
-            with (gamePreview) {
-                title = singleProduct.getElementsByTag("h3")[0].text()
-                publisher = singleProduct.getElementsByTag("h4")[0].getElementsByTag("strong").text()
-                platform = singleProduct.getElementsByTag("h4")[0].textNodes()[0].text().trim()
-                cover = singleProduct.getElementsByClass("prodImg")[0].getElementsByTag("img")[0].attr("data-llsrc")
-                initPricesFromElementSingleProduct(singleProduct, gamePreview)
+            fun getId() : Int {
+                return item.getElementsByClass("prodImg")[0].attr("href")
+                        .split("/")[3].toInt()
             }
 
-            return gamePreview
+            fun getTitle() : String = item.getElementsByTag("h3")[0].text()
+
+            fun getPublisher() : String {
+                return item.getElementsByTag("h4")[0]
+                        .getElementsByTag("strong").text()
+            }
+
+            fun getPlatform() : String {
+                return item.getElementsByTag("h4")[0].textNodes()[0].text().trim()
+            }
+
+            fun getCover() : String {
+                return item.getElementsByClass("prodImg")[0]
+                        .getElementsByTag("img")[0].attr("data-llsrc")
+            }
+
+            try {
+                val gamePreview = GamePreview(getId())
+                gamePreview.title = getTitle()
+                gamePreview.platform = getPlatform()
+                gamePreview.publisher = getPublisher()
+                gamePreview.cover = getCover()
+
+                // TODO: don't pass gamePreview to another method
+                initPricesFromElementSingleProduct(item, gamePreview)
+
+                return gamePreview
+            } catch (ex: Exception) {
+                throw ParseItemException()
+            }
         }
 
         private fun initPricesFromElementSingleProduct(singleProduct: Element, gamePreview: GamePreview) {
@@ -113,7 +155,7 @@ class Gamestop {
                     Triple(price, null, available)
                 } else {
                     // if more than one price is present
-                    val price: Float =stringToPrice(em[0].text())
+                    val price: Float = stringToPrice(em[0].text())
                     val oldPrices = ArrayList<Float>()
                     for (i in 1 until em.size) {
                         oldPrices.add(stringToPrice(em[i].text()))
@@ -125,7 +167,7 @@ class Gamestop {
         }
 
         fun getGameById(gameId: Int) : Game {
-            val html: Document = Jsoup.connect( getGamePageUrl(gameId) ).get()
+            val html: Document = Jsoup.connect(getGamePageUrl(gameId)).get()
             return getGameFromGamePage(gameId, html)
         }
 
@@ -142,7 +184,7 @@ class Gamestop {
                 initGamePromos(game, html)
                 return game
             } catch (ex: Exception) {                   // catch Exception because HTML can change
-                throw GameInitException(ex.message)
+                throw ParseItemException()
             }
         }
 
@@ -250,7 +292,7 @@ class Gamestop {
         private fun getOldPricesFromSingleVariantText(svt: Element) : ArrayList<Float> {
             val oldPrices = ArrayList<Float>()
             for (olderPrice in svt.getElementsByClass("olderPrice")) {
-                oldPrices.add( stringToPrice(olderPrice.text()) )
+                oldPrices.add(stringToPrice(olderPrice.text()))
             }
             return oldPrices
         }
@@ -336,6 +378,11 @@ class Gamestop {
 
     }
 
-    private class GameInitException(message: String?) : RuntimeException(message)
+    private class ParseItemException : RuntimeException() {
+
+        override val message: String?
+            get() = "Can't create game. Possibly caused by HTML changes."
+
+    }
 
 }

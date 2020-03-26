@@ -15,7 +15,7 @@ import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.repositories.xml.XmlReader;
 import com.fermimn.gamewishlist.repositories.xml.XmlWriter;
-import com.fermimn.gamewishlist.utils.Gamestop;
+import com.fermimn.gamewishlist.gamestop.GameStop;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -186,7 +186,7 @@ public class Repository {
         if (wishlist != null) {
             for (int i = 0; i < wishlist.size(); ++i) {
                 if (wishlist.get(i).getId() == gameId) {
-                    Game game = Gamestop.Companion.getGameById(gameId);
+                    Game game = GameStop.Companion.getGameById(gameId);
 
                     wishlist.set(i, game);
                     mWishlist.postValue(wishlist);

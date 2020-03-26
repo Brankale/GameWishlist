@@ -39,7 +39,7 @@ import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviews;
 import com.fermimn.gamewishlist.models.Promo;
-import com.fermimn.gamewishlist.utils.Gamestop;
+import com.fermimn.gamewishlist.gamestop.GameStop;
 import com.fermimn.gamewishlist.utils.Util;
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 import com.squareup.picasso.Picasso;
@@ -179,7 +179,7 @@ public class GamePageActivity extends AppCompatActivity {
 
             case R.id.action_open_website:
                 Intent browserIntent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse( Gamestop.Companion.getGamePageUrl( mGame.getId() ) ));
+                        new Intent(Intent.ACTION_VIEW, Uri.parse( GameStop.Companion.getGamePageUrl( mGame.getId() ) ));
                 startActivity(browserIntent);
                 return true;
 
@@ -201,7 +201,7 @@ public class GamePageActivity extends AppCompatActivity {
 
         @Override
          protected Game doInBackground(String... strings) {
-            return Gamestop.Companion.getGameById(Integer.parseInt(strings[0]));
+            return GameStop.Companion.getGameById(Integer.parseInt(strings[0]));
         }
 
         @Override
