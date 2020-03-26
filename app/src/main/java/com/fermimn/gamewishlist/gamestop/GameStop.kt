@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.gamestop
 
+import android.util.Log
 import com.fermimn.gamewishlist.models.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -50,7 +51,7 @@ class GameStop {
         }
 
         /**
-         * @param html it must be an element with the "productsList" tag or a tag that contains it
+         * @param html it must be an element with the "prodList" tag or a tag that contains it
          * @throws ParseItemException if the HTML is malformed
          */
         private fun getItemList(html: Element) : Elements {
