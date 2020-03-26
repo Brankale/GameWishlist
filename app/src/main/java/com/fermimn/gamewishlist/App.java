@@ -165,14 +165,14 @@ public class App extends Application {
                 int right = left + height;
                 srcRect = new Rect(left, 0, right, height);
                 dstRect = new Rect(0, 0, height, height);
-                r = height / 2;
+                r = (float)(height / 2.0);
             }else{
                 output = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
                 int top = (height - width)/2;
                 int bottom = top + width;
                 srcRect = new Rect(0, top, width, bottom);
                 dstRect = new Rect(0, 0, width, width);
-                r = width / 2;
+                r = (float)(width / 2.0);
             }
 
             Canvas canvas = new Canvas(output);
