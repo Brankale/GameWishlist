@@ -5,9 +5,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,16 +15,19 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceManager;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.fermimn.gamewishlist.activities.GamePageActivity;
-import com.fermimn.gamewishlist.models.Game;
-import com.fermimn.gamewishlist.services.SearchForUpdatesJobService;
+import com.fermimn.gamewishlist.models.GamePreview;
+import com.fermimn.gamewishlist.services.UpdateWorker;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -40,9 +40,6 @@ public class App extends Application {
 
     // notification channels
     private static final String CHANNEL_UPDATES_ID = "updates";
-
-    // ID for Job Service
-    private static final int SEARCH_FOR_UPDATES_JOB = 1000;
 
     @Override
     public void onCreate() {
@@ -63,28 +60,21 @@ public class App extends Application {
                 break;
         }
 
-        createNotificationChannel();
-        scheduleJob();
-    }
-
-    private void scheduleJob() {
-        ComponentName componentName = new ComponentName(this, SearchForUpdatesJobService.class);
-        JobInfo info = new JobInfo.Builder(SEARCH_FOR_UPDATES_JOB, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)   // requires network
-                .setPersisted(true)                                 // called after device reboot
-                .setPeriodic(TimeUnit.HOURS.toMillis(3))            // update every 3 hours
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
                 .build();
 
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        if (scheduler != null) {
-            int resultCode = scheduler.schedule(info);
+        PeriodicWorkRequest updateWorkRequest =
+                new PeriodicWorkRequest.Builder(UpdateWorker.class, 3, TimeUnit.HOURS)
+                        .setConstraints(constraints)
+                        .build();
 
-            if (resultCode == JobScheduler.RESULT_SUCCESS) {
-                Log.d(TAG, "Job scheduled");
-            } else {
-                Log.d(TAG, "Job scheduling failed");
-            }
-        }
+        WorkManager.getInstance(this).enqueue(updateWorkRequest);
+
+
+
+        createNotificationChannel();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -106,7 +96,8 @@ public class App extends Application {
         }
     }
 
-    public static void sendOnUpdatesChannel(Context context, Game game, String summary, String text) {
+    // TODO: revise passed parameters
+    public static void sendOnUpdatesChannel(Context context, GamePreview game, String summary, String text) {
 
         // Get info
         int id = game.hashCode();

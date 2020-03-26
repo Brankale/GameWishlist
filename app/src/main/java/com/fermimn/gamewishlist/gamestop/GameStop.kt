@@ -1,6 +1,5 @@
 package com.fermimn.gamewishlist.gamestop
 
-import android.util.Log
 import com.fermimn.gamewishlist.models.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

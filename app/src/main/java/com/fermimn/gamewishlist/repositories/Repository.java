@@ -1,6 +1,6 @@
 package com.fermimn.gamewishlist.repositories;
 
-import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -42,14 +42,14 @@ public class Repository {
      * @param application Application Context
      * @return the instance of Repository
      */
-    public static Repository getInstance(Application application) {
+    public static Repository getInstance(Context application) {
         if (mInstance == null) {
             mInstance = new Repository(application);
         }
         return mInstance;
     }
 
-    private Repository(Application application) {
+    private Repository(Context application) {
         FILES_DIR = application.getFilesDir().getAbsolutePath();
         mWishlist = new MutableLiveData<>();
         mWishlist.setValue( initWishlist() );
