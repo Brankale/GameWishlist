@@ -21,6 +21,7 @@ class GamePreviewRecyclerView(context: Context, attrs: AttributeSet?)
     : RecyclerView(context, attrs) {
 
     companion object {
+        @Suppress("unused")
         private val TAG: String = GamePreviewRecyclerView::class.java.simpleName
     }
 

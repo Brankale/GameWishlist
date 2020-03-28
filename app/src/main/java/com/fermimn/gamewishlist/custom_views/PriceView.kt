@@ -12,6 +12,7 @@ import com.fermimn.gamewishlist.R
 class PriceView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     companion object {
+        @Suppress("unused")
         private val TAG: String = PriceView::class.java.simpleName
     }
 

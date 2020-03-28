@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso
 class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     companion object {
+        @Suppress("unused")
         private val TAG: String = GamePreviewView::class.java.simpleName
     }
 

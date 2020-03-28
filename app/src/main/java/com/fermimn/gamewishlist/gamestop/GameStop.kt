@@ -11,6 +11,7 @@ class GameStop {
 
     companion object : GameStore {
 
+        @Suppress("unused")
         private val TAG: String = GameStop::class.java.simpleName
 
         private const val WEBSITE_URL = "https://www.gamestop.it"
@@ -142,10 +143,12 @@ class GameStop {
                 // <em> tag is present only if there are multiple prices
                 val em: Elements = e[0].getElementsByTag("em")
 
-                // if you can buy the product -> class "megaButton buyTier3 cartAddNoRadio"  (new, used prices)
-                // if you can't buy the product -> class "megaButton buyTier3 buyDisabled"  (new, used prices)
-                // if you can buy the product -> class "megaButton cartAddNoRadio"  (preorder prices)
-                // if you can't buy the product -> class "megaButton buyDisabled"  (preorder prices)
+                // if you can buy the product:
+                //   - class "megaButton buyTier3 cartAddNoRadio" (NEW, USED prices)
+                //   - class "megaButton cartAddNoRadio"          (PREORDER prices)
+                // if you can't buy the product:
+                //   - class "megaButton buyTier3 buyDisabled"    (NEW, USED prices)
+                //   - class "megaButton buyDisabled"             (PREORDER prices)
                 val available = e[0].getElementsByClass("megaButton buyTier3 cartAddNoRadio").size == 1 ||
                                 e[0].getElementsByClass("megaButton cartAddNoRadio").size == 1
 
