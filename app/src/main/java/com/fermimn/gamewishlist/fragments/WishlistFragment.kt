@@ -96,9 +96,7 @@ class WishlistFragment : Fragment() {
             })
 
             swipeRefreshLayout.setOnRefreshListener {
-                activity?.let {
-                    SwipeToRefresh(it, swipeRefreshLayout).execute()
-                }
+                SwipeToRefresh(it, swipeRefreshLayout).execute()
             }
 
         }
@@ -107,21 +105,21 @@ class WishlistFragment : Fragment() {
     }
 
     private class SwipeToRefresh(
-            fragmentActivity: FragmentActivity,
-            val swipeRefreshLayout: SwipeRefreshLayout
+            activity: FragmentActivity,
+            swipeRefreshLayout: SwipeRefreshLayout
     ) : AsyncTask<Void?, Void?, Void?>() {
 
         companion object {
             private val TAG: String = SwipeToRefresh::class.java.simpleName
         }
 
-        private val activity: WeakReference<FragmentActivity>
+        private val swipeRefreshLayout: WeakReference<SwipeRefreshLayout>
+                = WeakReference(swipeRefreshLayout)
         private val viewModel: WishlistViewModel
+                = ViewModelProvider(activity).get(WishlistViewModel::class.java)
         private val gamePreviews: GamePreviews
 
         init {
-            activity = WeakReference(fragmentActivity)
-            viewModel = ViewModelProvider(fragmentActivity).get(WishlistViewModel::class.java)
             gamePreviews = viewModel.wishlist.value ?: GamePreviews()
         }
 
@@ -135,7 +133,7 @@ class WishlistFragment : Fragment() {
         }
 
         override fun onPostExecute(result: Void?) {
-            swipeRefreshLayout.isRefreshing = false
+            swipeRefreshLayout.get()?.isRefreshing = false
         }
 
     }
