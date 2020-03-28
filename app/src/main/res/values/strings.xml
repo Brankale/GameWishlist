@@ -2,88 +2,86 @@
 
     <!-- Generic strings -->
     <string name="app_name">Game Wishlist</string>
-    <string name="game_image">Immagine del gioco</string>
-    <string name="no_info">n/a</string>
-    <string name="search_bar">Cerca un gioco</string>
-    <string name="section_switch">Cambia sezione</string>
+    <string name="game_image">Game image</string>
+    <string name="no_info" translatable="false">n/a</string>
+    <string name="search_bar">Search a game</string>
+    <string name="section_switch">Change section</string>
 
     <!-- game sections -->
-    <string name="info">Informazioni</string>
-    <string name="gallery">Galleria</string>
-    <string name="gallery_image">Immagine della galleria</string>
-    <string name="description">Descrizione</string>
+    <string name="info">Information</string>
+    <string name="gallery">Gallery</string>
+    <string name="gallery_image">Gallery image</string>
+    <string name="description">Description</string>
 
     <!-- game prices -->
-    <string name="new_price">"NUOVO: "</string>
-    <string name="used_price">"USATO: "</string>
-    <string name="digital_price">"DIGITALE: "</string>
-    <string name="preorder_price">"PREORDINA: "</string>
-    <string name="currency">€</string>
+    <string name="new_price">NEW:</string>
+    <string name="used_price">USED:</string>
+    <string name="digital_price">DIGITAL:</string>
+    <string name="preorder_price">PREORDER:</string>
+    <string name="currency" translatable="false">€</string>
 
     <!-- game metadata -->
-    <string name="title">Titolo:</string>
-    <string name="publisher">Publisher:</string>
-    <string name="platform">Piattaforma:</string>
-    <string name="genres">Genere:</string>
-    <string name="release_date">Dato di Rilascio:</string>
-    <string name="players">Giocatori:</string>
-    <string name="official_site">Sito Ufficiale:</string>
-    <string name="valid_for_promotions_true">"VALIDO PER LE PROMOZIONI"</string>
-    <string name="valid_for_promotions_false">"NON VALIDO PER LE PROMOZIONI"</string>
+    <string name="title">Title:</string>
+    <string name="publisher" translatable="false">Publisher:</string>
+    <string name="platform">Platform:</string>
+    <string name="genres">Genre:</string>
+    <string name="release_date">Release Date:</string>
+    <string name="players">Players:</string>
+    <string name="official_site">Website:</string>
+    <string name="valid_for_promotions_true">"VALID FOR PROMO"</string>
+    <string name="valid_for_promotions_false">"NOT VALID FOR PROMO"</string>
 
     <!-- pegi -->
-    <string name="pegi_pegi3">pegi 3</string>
-    <string name="pegi_pegi7">pegi 7</string>
-    <string name="pegi_pegi12">pegi 12</string>
-    <string name="pegi_pegi16">pegi 16</string>
-    <string name="pegi_pegi18">pegi 18</string>
-    <string name="pegi_online">pegi online</string>
-    <string name="pegi_bad_language">pegi bad language</string>
-    <string name="pegi_discrimination">pegi discrimination</string>
-    <string name="pegi_drugs">pegi drugs</string>
-    <string name="pegi_fear">pegi fear</string>
-    <string name="pegi_gambling">pegi gambling</string>
-    <string name="pegi_sex">pegi sex</string>
-    <string name="pegi_violence">pegi violence</string>
+    <string name="pegi_pegi3" translatable="false">pegi 3</string>
+    <string name="pegi_pegi7" translatable="false">pegi 7</string>
+    <string name="pegi_pegi12" translatable="false">pegi 12</string>
+    <string name="pegi_pegi16" translatable="false">pegi 16</string>
+    <string name="pegi_pegi18" translatable="false">pegi 18</string>
+    <string name="pegi_online" translatable="false">pegi online</string>
+    <string name="pegi_bad_language" translatable="false">pegi bad language</string>
+    <string name="pegi_discrimination" translatable="false">pegi discrimination</string>
+    <string name="pegi_drugs" translatable="false">pegi drugs</string>
+    <string name="pegi_fear" translatable="false">pegi fear</string>
+    <string name="pegi_gambling" translatable="false">pegi gambling</string>
+    <string name="pegi_sex" translatable="false">pegi sex</string>
+    <string name="pegi_violence" translatable="false">pegi violence</string>
 
     <!-- dialogs -->
-    <string name="dialog_add_game_to_wishlist_title">Aggiungi gioco</string>
+    <string name="dialog_add_game_to_wishlist_title">Add game</string>
     <string name="dialog_add_game_to_wishlist_text">
-        Vuoi aggiungere il gioco alla lista dei desideri?
+        Do you want to add the game to the wishlist?
     </string>
-    <string name="dialog_remove_game_from_wishlist_title">Rimuovi gioco</string>
+    <string name="dialog_remove_game_from_wishlist_title">Remove game</string>
     <string name="dialog_remove_game_from_wishlist_text">
-        Vuoi rimuovere il gioco dalla lista dei desideri?
+        Do you want to remove the game from the wishlist?
     </string>
 
     <!-- toasts -->
-    <string name="toast_internet_not_available">Non sei connesso a internet</string>
-    <string name="no_games_found">Nessun gioco trovato</string>
+    <string name="toast_internet_not_available">You are not connected to internet</string>
+    <string name="no_games_found">No games found</string>
 
     <!-- actions -->
-    <string name="action_settings">Impostazioni</string>
-    <string name="action_search">Cerca</string>
-    <string name="action_open_website">Vai a Gamestop</string>
-    <string name="action_add_game">Aggiungi a lista dei desideri</string>
-    <string name="action_remove_game">Rimuovi dalla lista dei desideri</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Find</string>
+    <string name="action_open_website">Go to GameStop</string>
+    <string name="action_add_game">Add to the wishlist</string>
+    <string name="action_remove_game">Remove from the wishlist</string>
 
     <!-- preferences -->
-    <string name="prefs_category_visual_settings">Impostazioni grafiche</string>
-    <string name="prefs_theme">Tema</string>
-    <string name="prefs_theme_summary">Imposta il tema dell\'applicazione</string>
-    <string name="prefs_hq_preview_images">Anteprime in alta definizione</string>
-    <string name="prefs_hq_preview_images_summary">
-        Le immagini in alta risoluzione aumentano i tempi di download
-    </string>
+    <string name="prefs_category_visual_settings">Graphic settings</string>
+    <string name="prefs_theme">Theme</string>
+    <string name="prefs_theme_summary">Set the application theme</string>
+    <string name="prefs_hq_preview_images">High resolution cover</string>
+    <string name="prefs_hq_preview_images_summary">"High resolution covers take more time to download     "</string>
 
     <!-- app sections -->
-    <string name="section_wishlist">Lista dei desideri</string>
-    <string name="section_search">Ricerca</string>
-    <string name="section_settings">Impostazioni</string>
+    <string name="section_wishlist">Wishlist</string>
+    <string name="section_search">Search</string>
+    <string name="section_settings">Settings</string>
 
     <!-- notification channels -->
-    <string name="channel_updates">Updates</string>
-    <string name="channel_updates_description">Game prices/info updates</string>
+    <string name="channel_updates" translatable="false">Updates</string>
+    <string name="channel_updates_description" translatable="false">Game prices / info updates</string>
     
     <!-- notification messages -->
     <string name="notif_game_released">The game has been released</string>
@@ -93,19 +91,19 @@
     <string name="notif_lower_preorder_price">PREORDER price is lower</string>
 
     <!-- websites -->
-    <string name="site_gamestop">https://www.gamestop.it/</string>
+    <string name="site_gamestop" translatable="false">https://www.gamestop.it/</string>
 
 
     <!-- PriceView -->
-    <string name="price_category">%1$s:</string>
-    <string name="price_currency">%1$s€</string>
+    <string name="price_category" translatable="false">%1$s:</string>
+    <string name="price_currency" translatable="false">%1$s€</string>
 
     <!-- Game prices -->
-    <string name="price_new">NUOVO</string>
-    <string name="price_used">USATO</string>
-    <string name="price_preorder">PREORDINA</string>
-    <string name="price_booking">PRENOTAZIONE</string>
-    <string name="price_digital">DIGITALE</string>
+    <string name="price_new">NEW</string>
+    <string name="price_used">USED</string>
+    <string name="price_preorder">PREORDER</string>
+    <string name="price_booking">BOOKING</string>
+    <string name="price_digital">DIGITAL</string>
 
     <!-- game preview view -->
     <string name="game_cover">game cover</string>
