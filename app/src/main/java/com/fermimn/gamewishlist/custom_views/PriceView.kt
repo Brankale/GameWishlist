@@ -64,7 +64,7 @@ class PriceView(context: Context?, attrs: AttributeSet?) : LinearLayout(context,
     }
 
     private fun setOldPrices(oldPrices: ArrayList<Float>?) {
-        if (oldPrices != null) {
+        if (oldPrices != null && oldPrices.isNotEmpty()) {
             for (oldPrice in oldPrices) {
                 // TODO: create a TextView for each oldPrice
                 setOldPrice(oldPrice)
