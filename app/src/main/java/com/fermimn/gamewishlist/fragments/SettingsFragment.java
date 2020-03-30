@@ -1,4 +1,4 @@
-package com.fermimn.gamewishlist.activities;
+package com.fermimn.gamewishlist.fragments;
 
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
