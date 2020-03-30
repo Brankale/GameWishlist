@@ -6,7 +6,7 @@
 
     <!-- use always instead of ifRoom, otherwise it can disappear -->
     <item
-        android:id="@+id/search"
+        android:id="@+id/action_search"
         android:icon="@drawable/ic_search_action_bar_24dp"
         android:title="@string/action_search"
         app:actionViewClass="android.widget.SearchView"
