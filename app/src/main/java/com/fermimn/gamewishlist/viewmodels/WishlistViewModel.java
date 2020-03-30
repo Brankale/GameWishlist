@@ -27,7 +27,7 @@ public class WishlistViewModel extends AndroidViewModel {
         super(application);
         mRepository = Repository.getInstance( getApplication() );
         mIsUpdating = new MutableLiveData<>();
-        mIsUpdating.setValue(new Pair<GamePreview, Boolean>(null, false));
+        mIsUpdating.setValue(new Pair<>(null, false));
     }
 
     public LiveData<GamePreviews> getWishlist() {
@@ -58,7 +58,7 @@ public class WishlistViewModel extends AndroidViewModel {
 
     public void addGame(@Nullable Game game) {
         mRepository.addGame(game);
-        mIsUpdating.postValue(new Pair<>((GamePreview) game, false));
+        mIsUpdating.postValue(new Pair<>(game, false));
     }
 
     public Game updateGame(final int gameId) {

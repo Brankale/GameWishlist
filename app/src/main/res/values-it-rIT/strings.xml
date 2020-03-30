@@ -50,6 +50,5 @@
     <string name="prefs_theme_summary">Imposta il tema dell\'applicazione</string>
     <string name="prefs_hq_preview_images">Cover in alta risoluzione</string>
     <string name="prefs_hq_preview_images_summary">Le cover in alta risoluzione richiedono più tempo per essere scaricate</string>
-    <string name="menu_search_title">Cerca</string>
     <string name="searchable_search_hint">Cerca un gioco</string>
 </resources>

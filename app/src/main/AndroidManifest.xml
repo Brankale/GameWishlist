@@ -62,8 +62,10 @@
 
         </activity>
 
-        <provider android:name=".provider.SuggestionProvider"
-            android:authorities="com.fermimn.gamewishlist.provider.SuggestionProvider" />
+        <provider
+            android:name=".provider.SuggestionProvider"
+            android:authorities="com.fermimn.gamewishlist.provider.SuggestionProvider"
+            android:exported="false"/>
 
     </application>
 
