@@ -100,26 +100,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Add code here
-                return false;
-            }
-        });
-
-        return super.onOptionsItemSelected(item);
-    }
-
     /*
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
