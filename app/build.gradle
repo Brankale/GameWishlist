@@ -40,8 +40,6 @@ android {
 }
 
 dependencies {
-
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     def core_version = "1.2.0"
