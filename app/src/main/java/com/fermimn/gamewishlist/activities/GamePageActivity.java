@@ -1,7 +1,6 @@
 package com.fermimn.gamewishlist.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,7 +13,6 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +29,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fermimn.gamewishlist.R;
@@ -74,23 +71,20 @@ public class GamePageActivity extends AppCompatActivity {
             Log.e(TAG, "the passed game is null");
         }
 
-        mWishListViewModel.isUpdating().observe(this, new Observer<Pair<GamePreview, Boolean>>() {
-            @Override
-            public void onChanged(Pair<GamePreview, Boolean> isUpdating) {
-                GamePreview gamePreview = isUpdating.first;
-                boolean isDownloading = isUpdating.second;
+        mWishListViewModel.isUpdating().observe(this, isUpdating -> {
+            GamePreview gamePreview = isUpdating.first;
+            boolean isDownloading = isUpdating.second;
 
-                if (gamePreview == null) {
-                    return;
-                }
+            if (gamePreview == null) {
+                return;
+            }
 
-                if (isDownloading) {
-                    Toast.makeText(GamePageActivity.this, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
-                } else {
-                    // TODO: if the activity is closed the user can't see the message
-                    Toast.makeText(GamePageActivity.this, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
-                    GamePageActivity.this.invalidateOptionsMenu();
-                }
+            if (isDownloading) {
+                Toast.makeText(GamePageActivity.this, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+            } else {
+                // TODO: if the activity is closed the user can't see the message
+                Toast.makeText(GamePageActivity.this, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                GamePageActivity.this.invalidateOptionsMenu();
             }
         });
 
@@ -147,11 +141,7 @@ public class GamePageActivity extends AppCompatActivity {
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                mWishListViewModel.addGame(mGame);
-                            }
-                        })
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> mWishListViewModel.addGame(mGame))
 
                         // A null listener allows the button to dismiss the dialog and take no further action
                         .setNegativeButton(android.R.string.no, null)
@@ -165,11 +155,9 @@ public class GamePageActivity extends AppCompatActivity {
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                mWishListViewModel.removeGame(mGame.getId());
-                                finish();
-                            }
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                            mWishListViewModel.removeGame(mGame.getId());
+                            finish();
                         })
 
                         // A null listener allows the button to dismiss the dialog and take no further action
@@ -379,12 +367,7 @@ public class GamePageActivity extends AppCompatActivity {
         coverBundle.putString("cover", game.getCover());
         cover.setTag(coverBundle);
 
-        cover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery(v);
-            }
-        });
+        cover.setOnClickListener(this::openGallery);
 
         // load cover in the view
         Picasso.get().load(game.getCover()).into(cover);
@@ -422,12 +405,7 @@ public class GamePageActivity extends AppCompatActivity {
                 imageView.setTag(galleryBundle);
 
                 // set listener
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openGallery(v);
-                    }
-                });
+                imageView.setOnClickListener(this::openGallery);
 
                 // load image in the view
                 Picasso.get().load( images.get(i) ).into(imageView);
