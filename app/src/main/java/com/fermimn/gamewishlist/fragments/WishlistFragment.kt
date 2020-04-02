@@ -76,7 +76,6 @@ class WishlistFragment : Fragment() {
                 Log.d(TAG, "wishlist updated")
             })
 
-            // TODO: I don't like this
             // show toast while updating
             viewModel.isUpdating.observe(it, Observer<Pair<GamePreview?, Boolean>> { updatedGame ->
 
@@ -104,6 +103,7 @@ class WishlistFragment : Fragment() {
         return view
     }
 
+    // TODO: stop UpdateWorker while running this
     private class SwipeToRefresh(
             activity: FragmentActivity,
             swipeRefreshLayout: SwipeRefreshLayout

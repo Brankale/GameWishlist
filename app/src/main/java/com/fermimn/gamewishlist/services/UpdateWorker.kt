@@ -11,6 +11,8 @@ import com.fermimn.gamewishlist.models.GamePreviews
 import com.fermimn.gamewishlist.repositories.Repository
 import java.lang.StringBuilder
 
+// TODO: handle worker cancel()
+// TODO: move notification logic away
 class UpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     companion object {
