@@ -19,23 +19,30 @@ class UpdateWorker(context: Context, params: WorkerParameters) : Worker(context,
 
     override fun doWork(): Result {
 
-        Log.d(TAG, "Updating games...")
+        try {
+            Log.d(TAG, "Updating games...")
 
-        val repository = Repository.getInstance(applicationContext)
-        val games = repository.wishlist.value ?: GamePreviews()
+            val repository = Repository.getInstance(applicationContext)
+            val games = repository.wishlist.value ?: GamePreviews()
 
-        for (outdated in games) {
-            Log.d(TAG, "Updating [${outdated.id}]...")
-            val updated = repository.updateGame(outdated.id)
+            for (outdated in games) {
+                Log.d(TAG, "Updating [${outdated.id}]...")
+                val updated = repository.updateGame(outdated.id)
 
-            if (isChanged(outdated, updated)) {
-                Log.d(TAG, "[${updated.id}] has changed. Sending notification...")
-                sendNotification(outdated, updated)
+                if (isChanged(outdated, updated)) {
+                    Log.d(TAG, "[${updated.id}] has changed. Sending notification...")
+                    sendNotification(outdated, updated)
+                }
             }
+
+            Log.d(TAG, "Games updated successfully")
+            return Result.success()
+
+        } catch (ex: Exception) {
+            Log.e(TAG, "exception", ex)
         }
 
-        Log.d(TAG, "Games updated successfully")
-        return Result.success()
+        return Result.failure()
     }
 
     private fun isChanged(prev: GamePreview, curr: GamePreview) : Boolean {
