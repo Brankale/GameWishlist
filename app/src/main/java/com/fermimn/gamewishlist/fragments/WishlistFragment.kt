@@ -69,7 +69,7 @@ class WishlistFragment : Fragment() {
 
                 diffResult.dispatchUpdatesTo(adapter)
 
-                if (wishlist.size > numItems) {
+                if (wishlist.size == numItems+1) {
                     recyclerView.smoothScrollToPosition(adapter.itemCount-1)
                 }
 

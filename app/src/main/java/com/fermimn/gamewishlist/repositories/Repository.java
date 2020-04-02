@@ -52,7 +52,7 @@ public class Repository {
     private Repository(Context application) {
         FILES_DIR = application.getFilesDir().getAbsolutePath();
         mWishlist = new MutableLiveData<>();
-        mWishlist.setValue( initWishlist() );
+        mWishlist.postValue( initWishlist() );
     }
 
     /**
@@ -115,9 +115,8 @@ public class Repository {
     /**
      * Save the game info on local storage
      * @param game the game to save
-     * @return true if the game has been saved, false otherwise
      */
-    public boolean addGame(@Nullable Game game) {
+    public void addGame(@Nullable Game game) {
 
         if (game != null) {
             boolean result = initGameFolder( Integer.toString(game.getId()) );
@@ -143,22 +142,18 @@ public class Repository {
                 wishlist.add(game);
                 mWishlist.postValue(wishlist);
 
-                return true;
             } else {
                 // remove files if some errors occurred
                 removeGame(game.getId());
             }
         }
-
-        return false;
     }
 
     /**
      * Remove the game given its ID
      * @param gameId the ID of the game to remove
-     * @return true if the game has been removed, false otherwise
      */
-    public boolean removeGame(int gameId) {
+    public void removeGame(int gameId) {
         boolean result = deleteFolder( new File( getGameFolder(Integer.toString(gameId)) ) );
 
         GamePreviews wishlist = mWishlist.getValue();
@@ -174,10 +169,8 @@ public class Repository {
 
         if (result) {
             Log.d(TAG, '[' + getGameFolder(Integer.toString(gameId)) +  "] - folder deleted successfully");
-            return true;
         } else {
             Log.e(TAG, '[' + getGameFolder(Integer.toString(gameId)) +  "] - errors occurred while deleting the folder");
-            return false;
         }
     }
 
