@@ -20,6 +20,7 @@ import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
 import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.models.GamePreviewDiffUtilCallback
 import com.fermimn.gamewishlist.models.GamePreviews
+import com.fermimn.gamewishlist.utils.isNetworkAvailable
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
 import java.lang.ref.WeakReference
 
@@ -95,7 +96,16 @@ class WishlistFragment : Fragment() {
             })
 
             swipeRefreshLayout.setOnRefreshListener {
-                SwipeToRefresh(it, swipeRefreshLayout).execute()
+                if (isNetworkAvailable(it)) {
+                    SwipeToRefresh(it, swipeRefreshLayout).execute()
+                } else {
+                    swipeRefreshLayout.isRefreshing = false
+                    Toast.makeText(
+                            it,
+                            resources.getText(R.string.toast_internet_not_available),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
             }
 
         }
