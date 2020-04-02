@@ -373,7 +373,7 @@ public class GamePageActivity extends AppCompatActivity {
         Picasso.get().load(game.getCover()).into(cover);
 
         // Add images to gallery
-        if (game.getGallery() != null) {
+        if (game.getGallery() != null && !game.getGallery().isEmpty()) {
 
             galleryContainer.setVisibility(View.VISIBLE);
 
