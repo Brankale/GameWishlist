@@ -88,7 +88,6 @@ class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(co
     }
 
     private fun setCover(cover: String?) {
-        // check is not necessary but helps to avoid warnings and exceptions
         cover?.let {
             Picasso.get().load(cover).into(coverView)
         }

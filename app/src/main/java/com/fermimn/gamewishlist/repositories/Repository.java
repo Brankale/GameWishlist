@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 
 // TODO: check Singleton
 // DOCS: https://medium.com/p/de6b951dfdb0/responses/show
@@ -74,6 +75,25 @@ public class Repository {
                     if (folder.exists()) {
                         try {
                             Game game = XmlReader.parse(folder);
+
+                            // TODO: need refactoring
+                            // use downloaded images instead of online images
+                            String coverPath = "file:" + getGameFolder(Integer.toString(game.getId())) + "/cover.jpg";
+                            String galleryPath = getGalleryFolder(Integer.toString(game.getId()));
+                            File galleryFolder = new File(galleryPath);
+
+                            // override cover
+                            game.setCover(coverPath);
+
+                            // override gallery
+                            File[] images = galleryFolder.listFiles();
+                            game.setGallery(new ArrayList<>());
+                            if (images != null) {
+                                for (File image : images) {
+                                    game.addImage("file:" + image.getAbsolutePath());
+                                }
+                            }
+
                             wishlist.add(game);
                         } catch (Exception e) {
                             e.printStackTrace();
