@@ -22,6 +22,7 @@ import com.fermimn.gamewishlist.models.GamePreviewDiffUtilCallback
 import com.fermimn.gamewishlist.models.GamePreviews
 import com.fermimn.gamewishlist.utils.isNetworkAvailable
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
+import java.lang.Exception
 import java.lang.ref.WeakReference
 
 class WishlistFragment : Fragment() {
@@ -134,12 +135,16 @@ class WishlistFragment : Fragment() {
         }
 
         override fun doInBackground(vararg params: Void?): Void? {
-            for (gamePreview in gamePreviews) {
-                Log.d(TAG, "updating game with id [${gamePreview.id}] ...")
-                viewModel.updateGame(gamePreview.id)
+            try {
+                for (gamePreview in gamePreviews) {
+                    Log.d(TAG, "updating game with id [${gamePreview.id}] ...")
+                    viewModel.updateGame(gamePreview.id)
+                }
+            } catch (ex: Exception) {
+                Log.e(TAG, "exception", ex)
+            } finally {
+                return null
             }
-
-            return null
         }
 
         override fun onPostExecute(result: Void?) {
