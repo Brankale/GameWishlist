@@ -9,4 +9,8 @@
     <color name="green">#119c00</color>
     <color name="always_white">#FFFFFF</color>
     <color name="out_of_stock">#dddddd</color>
+
+    <!-- white-dark themes colours -->
+    <color name="wd_black">#000</color>
+
 </resources>

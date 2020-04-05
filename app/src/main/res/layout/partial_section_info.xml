@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:divider="?android:attr/listDivider"
+    android:orientation="vertical"
     android:showDividers="middle|end">
 
     <TextView
@@ -13,11 +12,11 @@
         android:paddingTop="30dp"
         android:paddingBottom="10dp"
         android:text="@string/info"
-        android:textColor="@color/black"
+        android:textColor="@color/wd_black"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -27,21 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -51,21 +50,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/publisher"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/publisher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -75,21 +74,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/platform"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/platform"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/genres_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,21 +99,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/genres"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/release_date_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,21 +124,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/release_date"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/releaseDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/players_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -151,21 +150,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/players"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/players"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/official_site_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -177,18 +176,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/official_site"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/officialSite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/no_info"
-            android:textColor="@color/black"
+            android:textColor="@color/wd_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

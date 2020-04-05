@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -237,10 +238,10 @@ public class GamePageActivity extends AppCompatActivity {
         LinearLayout validForPromotions = findViewById(R.id.valid_for_promotions);
         TextView validForPromotionsText = findViewById(R.id.valid_for_promotions_text);
 
-        LinearLayout genresContainer = findViewById(R.id.genres_container);
-        LinearLayout releaseDateContainer = findViewById(R.id.release_date_container);
-        LinearLayout playersContainer = findViewById(R.id.players_container);
-        LinearLayout officialSiteContainer = findViewById(R.id.official_site_container);
+        FrameLayout genresContainer = findViewById(R.id.genres_container);
+        FrameLayout releaseDateContainer = findViewById(R.id.release_date_container);
+        FrameLayout playersContainer = findViewById(R.id.players_container);
+        FrameLayout officialSiteContainer = findViewById(R.id.official_site_container);
 
         // Set data
         title.setText( game.getTitle() );
