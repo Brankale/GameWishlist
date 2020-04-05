@@ -2,6 +2,14 @@ package com.fermimn.gamewishlist.models
 
 class Price {
 
+    companion object {
+        const val UNKNOWN: Int = -1
+        const val NEW: Int = 0
+        const val USED: Int = 1
+        const val DIGITAL = 2
+        const val PREORDER = 3
+    }
+
     var new: Float? = null
     var used: Float? = null
     var digital: Float? = null

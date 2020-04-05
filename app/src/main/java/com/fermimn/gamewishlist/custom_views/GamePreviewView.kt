@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.res.getIntOrThrow
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.models.GamePreview
+import com.fermimn.gamewishlist.models.Price
 import com.squareup.picasso.Picasso
 
 class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -115,33 +116,24 @@ class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(co
             priceSecond.visibility = View.GONE
 
             if (usedPrice != null) {
-                val category = resources.getString(R.string.price_used)
-                priceSecond.bind(category, usedPrice, oldUsedPrices, usedAvailable)
+                priceSecond.bind(Price.USED, usedPrice, oldUsedPrices, usedAvailable)
                 priceSecond.visibility = View.VISIBLE
             }
 
             if (newPrice != null) {
-                val category = resources.getString(R.string.price_new)
-                priceFirst.bind(category, newPrice, oldNewPrices, newAvailable)
+                priceFirst.bind(Price.NEW, newPrice, oldNewPrices, newAvailable)
                 priceFirst.visibility = View.VISIBLE
                 return  // if the game is new, it can't be digital or on preorder
             }
 
             if (preorderPrice != null) {
-                val category =
-                        if (preorderAvailable) {
-                            resources.getString(R.string.price_preorder)
-                        } else {
-                            resources.getString(R.string.price_booking)
-                        }
-                priceFirst.bind(category, preorderPrice, oldPreorderPrices, preorderAvailable)
+                priceFirst.bind(Price.PREORDER, preorderPrice, oldPreorderPrices, preorderAvailable)
                 priceFirst.visibility = View.VISIBLE
                 return  // if the game is on preorder, it can't be new or digital
             }
 
             if (digitalPrice != null) {
-                val category = resources.getString(R.string.price_digital)
-                priceFirst.bind(category, digitalPrice, oldDigitalPrices, digitalAvailable)
+                priceFirst.bind(Price.DIGITAL, digitalPrice, oldDigitalPrices, digitalAvailable)
                 priceFirst.visibility = View.VISIBLE
                 return  // if the game is digital, it can't be new or on preorder
             }

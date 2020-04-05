@@ -2,9 +2,6 @@ package com.fermimn.gamewishlist.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,9 +30,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fermimn.gamewishlist.R;
+import com.fermimn.gamewishlist.custom_views.PriceView;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviews;
+import com.fermimn.gamewishlist.models.Price;
 import com.fermimn.gamewishlist.models.Promo;
 import com.fermimn.gamewishlist.gamestop.GameStop;
 import com.fermimn.gamewishlist.utils.Util;
@@ -43,9 +42,7 @@ import com.fermimn.gamewishlist.viewmodels.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GamePageActivity extends AppCompatActivity {
 
@@ -420,138 +417,54 @@ public class GamePageActivity extends AppCompatActivity {
     // TODO: add documentation
     private void setGamePrices(GamePreview game) {
 
-        LayoutInflater inflater = getLayoutInflater();
         ViewGroup parent = findViewById(R.id.section_prices);
 
-        // set new prices
         if (game.getNewPrice() != null) {
-
-            // create the container
-            ViewGroup container = (ViewGroup) inflater
-                    .inflate(R.layout.partial_price_container, parent, false);
-
-            // add prices to the container
-            setPrice(container, game.getNewPrice(), R.string.new_price);
-            if (game.getOldNewPrices() != null) {
-                setOldPrices(container, game.getOldNewPrices());
-            }
-
-            // change color based on availability
-            if (!game.getNewAvailable()) {
-                container.setBackgroundResource(R.color.out_of_stock);
-            }
-
-            // add the container to the parent
-            parent.addView(container);
+            PriceView view = new PriceView(this, null);
+            view.bind(
+                    Price.NEW,
+                    game.getNewPrice(),
+                    game.getOldNewPrices(),
+                    game.getNewAvailable()
+            );
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            parent.addView(view);
         }
 
-        // set old prices
         if (game.getUsedPrice() != null) {
-
-            // create the container
-            LinearLayout container = (LinearLayout) inflater
-                    .inflate(R.layout.partial_price_container, parent, false);
-
-            // add prices to the container
-            setPrice(container, game.getUsedPrice(), R.string.used_price);
-            if (game.getOldUsedPrices() != null) {
-                setOldPrices(container, game.getOldUsedPrices());
-            }
-
-            // change color based on availability
-            if (!game.getUsedAvailable()) {
-                container.setBackgroundResource(R.color.out_of_stock);
-            }
-
-            // add the container to the parent
-            parent.addView(container);
+            PriceView view = new PriceView(this, null);
+            view.bind(
+                    Price.USED,
+                    game.getUsedPrice(),
+                    game.getOldUsedPrices(),
+                    game.getUsedAvailable()
+            );
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            parent.addView(view);
         }
 
-        // set digital prices
         if (game.getDigitalPrice() != null) {
-
-            // create the container
-            LinearLayout container = (LinearLayout) inflater
-                    .inflate(R.layout.partial_price_container, parent, false);
-
-            // add prices to the container
-            setPrice(container, game.getDigitalPrice(), R.string.digital_price);
-            if (game.getOldDigitalPrices() != null) {
-                setOldPrices(container, game.getOldDigitalPrices());
-            }
-
-            if (!game.getDigitalAvailable()) {
-                container.setBackgroundResource(R.color.out_of_stock);
-            }
-
-            // add the container to the parent
-            parent.addView(container);
+            PriceView view = new PriceView(this, null);
+            view.bind(
+                    Price.DIGITAL,
+                    game.getDigitalPrice(),
+                    game.getOldDigitalPrices(),
+                    game.getDigitalAvailable()
+            );
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            parent.addView(view);
         }
 
-        // set preorder prices
         if (game.getPreorderPrice() != null) {
-
-            // create the container
-            LinearLayout container = (LinearLayout) inflater
-                    .inflate(R.layout.partial_price_container, parent, false);
-
-            // add prices to the container
-            setPrice(container, game.getPreorderPrice(), R.string.preorder_price);
-            if (game.getOldPreorderPrices() != null) {
-                setOldPrices(container, game.getOldPreorderPrices());
-            }
-
-            // change color based on availability
-            if (!game.getPreorderAvailable()) {
-                container.setBackgroundResource(R.color.out_of_stock);
-            }
-
-            // add the container to the parent
-            parent.addView(container);
-        }
-    }
-
-    // TODO: add documentation
-    private void setPrice(ViewGroup container, Float price, int priceType) {
-
-        DecimalFormat df = new DecimalFormat("#.00");
-
-        // create view
-        TextView priceView = new TextView(this);
-
-        // set view parameters
-        priceView.append( getString(priceType) );
-        priceView.append( df.format(price) );
-        priceView.append( getString(R.string.currency) );
-        priceView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        priceView.setTextColor(Color.WHITE);
-        priceView.setTypeface(Typeface.DEFAULT_BOLD);
-
-        // add view to the container
-        container.addView(priceView);
-    }
-
-    // TODO: add documentation
-    private void setOldPrices(ViewGroup container, List<Float> oldPrices) {
-
-        DecimalFormat df = new DecimalFormat("#.00");
-
-        for (Float oldPrice : oldPrices) {
-
-            // create view
-            TextView oldPricesView = new TextView(this);
-
-            // set view parameters
-            oldPricesView.append( df.format(oldPrice) );
-            oldPricesView.append( getString(R.string.currency) );
-            oldPricesView.setPadding( (int) Util.convertDpToPx(this, 7), 0, 0, 0);
-            oldPricesView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            oldPricesView.setTextColor(Color.WHITE);
-            oldPricesView.setTypeface(Typeface.DEFAULT_BOLD);
-            oldPricesView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
-            // add view to the container
-            container.addView(oldPricesView);
+            PriceView view = new PriceView(this, null);
+            view.bind(
+                    Price.PREORDER,
+                    game.getPreorderPrice(),
+                    game.getOldPreorderPrices(),
+                    game.getPreorderAvailable()
+            );
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            parent.addView(view);
         }
     }
 

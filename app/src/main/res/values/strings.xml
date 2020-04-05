@@ -13,13 +13,6 @@
     <string name="gallery_image">Gallery image</string>
     <string name="description">Description</string>
 
-    <!-- game prices -->
-    <string name="new_price">NEW:</string>
-    <string name="used_price">USED:</string>
-    <string name="digital_price">DIGITAL:</string>
-    <string name="preorder_price">PREORDER:</string>
-    <string name="currency" translatable="false">€</string>
-
     <!-- game metadata -->
     <string name="title">Title:</string>
     <string name="publisher" translatable="false">Publisher:</string>
@@ -99,10 +92,10 @@
     <string name="price_currency" translatable="false">%1$s€</string>
 
     <!-- Game prices -->
+    <string name="price_unknown">UNKNOWN</string>
     <string name="price_new">NEW</string>
     <string name="price_used">USED</string>
     <string name="price_preorder">PREORDER</string>
-    <string name="price_booking">BOOKING</string>
     <string name="price_digital">DIGITAL</string>
 
     <!-- game preview view -->

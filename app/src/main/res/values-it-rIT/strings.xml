@@ -10,10 +10,6 @@
     <string name="genres">Genere:</string>
     <string name="platform">Piattaforma:</string>
     <string name="title">Titolo:</string>
-    <string name="preorder_price">PREORDINA:</string>
-    <string name="digital_price">DIGITALE:</string>
-    <string name="used_price">USATO:</string>
-    <string name="new_price">NUOVO:</string>
     <string name="description">Descrizione</string>
     <string name="gallery_image">Immagine della galleria</string>
     <string name="gallery">Galleria</string>
@@ -21,7 +17,6 @@
     <string name="section_switch">Cambia sezione</string>
     <string name="search_bar">Cerca un gioco</string>
     <string name="price_digital">DIGITALE</string>
-    <string name="price_booking">PRENOTAZIONE</string>
     <string name="price_preorder">PREORDINA</string>
     <string name="price_used">USATO</string>
     <string name="price_new">NUOVO</string>
@@ -50,4 +45,5 @@
     <string name="prefs_theme_summary">Imposta il tema dell\'applicazione</string>
     <string name="prefs_hq_preview_images">Cover in alta risoluzione</string>
     <string name="prefs_hq_preview_images_summary">Le cover in alta risoluzione richiedono più tempo per essere scaricate</string>
+    <string name="price_unknown">SCONOSCIUTO</string>
 </resources>

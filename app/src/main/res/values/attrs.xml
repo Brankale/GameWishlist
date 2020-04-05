@@ -26,7 +26,13 @@
     </declare-styleable>
 
     <declare-styleable name="PriceView">
-        <attr name="category" format="string" />
+        <attr name="category">
+            <enum name="UNKNOWN" value="-1" />
+            <enum name="NEW" value="0" />
+            <enum name="USED" value="1" />
+            <enum name="DIGITAL" value="2" />
+            <enum name="PREORDER" value="3" />
+        </attr>
         <attr name="price" format="float" />
         <attr name="old_price" format="float" />
         <attr name="available" format="boolean" />

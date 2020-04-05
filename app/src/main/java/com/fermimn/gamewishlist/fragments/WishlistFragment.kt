@@ -105,7 +105,7 @@ class WishlistFragment : Fragment() {
                             it,
                             resources.getText(R.string.toast_internet_not_available),
                             Toast.LENGTH_SHORT
-                    ).show();
+                    ).show()
                 }
             }
 
