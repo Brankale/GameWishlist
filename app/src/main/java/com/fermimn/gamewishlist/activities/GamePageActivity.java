@@ -419,51 +419,58 @@ public class GamePageActivity extends AppCompatActivity {
 
         ViewGroup parent = findViewById(R.id.section_prices);
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, (int) Util.convertDpToPx(this, 10), 0, 0);
+
         if (game.getNewPrice() != null) {
             PriceView view = new PriceView(this, null);
+            view.setLayoutParams(params);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             view.bind(
                     Price.NEW,
                     game.getNewPrice(),
                     game.getOldNewPrices(),
                     game.getNewAvailable()
             );
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             parent.addView(view);
         }
 
         if (game.getUsedPrice() != null) {
             PriceView view = new PriceView(this, null);
+            view.setLayoutParams(params);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             view.bind(
                     Price.USED,
                     game.getUsedPrice(),
                     game.getOldUsedPrices(),
                     game.getUsedAvailable()
             );
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             parent.addView(view);
         }
 
         if (game.getDigitalPrice() != null) {
             PriceView view = new PriceView(this, null);
+            view.setLayoutParams(params);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             view.bind(
                     Price.DIGITAL,
                     game.getDigitalPrice(),
                     game.getOldDigitalPrices(),
                     game.getDigitalAvailable()
             );
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             parent.addView(view);
         }
 
         if (game.getPreorderPrice() != null) {
             PriceView view = new PriceView(this, null);
+            view.setLayoutParams(params);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             view.bind(
                     Price.PREORDER,
                     game.getPreorderPrice(),
                     game.getOldPreorderPrices(),
                     game.getPreorderAvailable()
             );
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             parent.addView(view);
         }
     }
