@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -208,9 +206,9 @@ public class GamePageActivity extends AppCompatActivity {
         // init game page UI
         setGameImages(game);
         setGameData(game);
-        setGameRating(game);
-        setGamePrices(game);
+        initSectionPrices(game);
         setGamePromo(game);
+        initSectionPegi(game);
 
         // make game page UI visible
         LinearLayout linearLayout = findViewById(R.id.game_page_container);
@@ -295,61 +293,6 @@ public class GamePageActivity extends AppCompatActivity {
     }
 
     // TODO: add documentation
-    private void setGameRating(Game game) {
-
-        if (game.getPegi() != null) {
-
-            HorizontalScrollView pegiContainer = findViewById(R.id.pegi_container);
-            pegiContainer.setVisibility(View.VISIBLE);
-
-            for (String type : game.getPegi()) {
-                switch (type) {
-                    case "pegi3":
-                        findViewById(R.id.pegi_pegi3).setVisibility(View.VISIBLE);
-                        break;
-                    case "pegi7":
-                        findViewById(R.id.pegi_pegi7).setVisibility(View.VISIBLE);
-                        break;
-                    case "pegi12":
-                        findViewById(R.id.pegi_pegi12).setVisibility(View.VISIBLE);
-                        break;
-                    case "pegi16":
-                        findViewById(R.id.pegi_pegi16).setVisibility(View.VISIBLE);
-                        break;
-                    case "pegi18":
-                        findViewById(R.id.pegi_pegi18).setVisibility(View.VISIBLE);
-                        break;
-                    case "bad-language":
-                        findViewById(R.id.pegi_bad_language).setVisibility(View.VISIBLE);
-                        break;
-                    case "discrimination":
-                        findViewById(R.id.pegi_discrimination).setVisibility(View.VISIBLE);
-                        break;
-                    case "drugs":
-                        findViewById(R.id.pegi_drugs).setVisibility(View.VISIBLE);
-                        break;
-                    case "fear":
-                        findViewById(R.id.pegi_fear).setVisibility(View.VISIBLE);
-                        break;
-                    case "gambling":
-                        findViewById(R.id.pegi_gambling).setVisibility(View.VISIBLE);
-                        break;
-                    case "online":
-                        findViewById(R.id.pegi_online).setVisibility(View.VISIBLE);
-                        break;
-                    case "sex":
-                        findViewById(R.id.pegi_sex).setVisibility(View.VISIBLE);
-                        break;
-                    case "violence":
-                        findViewById(R.id.pegi_violence).setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-        }
-
-    }
-
-    // TODO: add documentation
     private void setGameImages(Game game) {
 
         // Get views
@@ -411,8 +354,7 @@ public class GamePageActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: add documentation
-    private void setGamePrices(GamePreview game) {
+    private void initSectionPrices(GamePreview game) {
 
         ViewGroup parent = findViewById(R.id.section_prices);
 
@@ -519,6 +461,78 @@ public class GamePageActivity extends AppCompatActivity {
 
             promoContainer.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initSectionPegi(@NonNull Game game) {
+
+        ViewGroup section = findViewById(R.id.section_pegi);
+        List<String> pegi = game.getPegi();
+
+        if (pegi != null) {
+            for (String type : pegi) {
+                switch (type) {
+                    case "pegi3":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_pegi3, R.string.pegi_pegi3));
+                        break;
+                    case "pegi7":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_pegi7, R.string.pegi_pegi7));
+                        break;
+                    case "pegi12":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_pegi12, R.string.pegi_pegi12));
+                        break;
+                    case "pegi16":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_pegi16, R.string.pegi_pegi16));
+                        break;
+                    case "pegi18":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_pegi18, R.string.pegi_pegi18));
+                        break;
+                    case "bad-language":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_bad_language, R.string.pegi_bad_language));
+                        break;
+                    case "violence":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_violence, R.string.pegi_violence));
+                        break;
+                    case "online":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_online, R.string.pegi_online));
+                        break;
+                    case "sex":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_sex, R.string.pegi_sex));
+                        break;
+                    case "fear":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_fear, R.string.pegi_fear));
+                        break;
+                    case "drugs":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_drugs, R.string.pegi_drugs));
+                        break;
+                    case "discrimination":
+                        section.addView(getPegiImageView(R.drawable.ic_pegi_discrimination, R.string.pegi_discrimination));
+                        break;
+                    case "gambling":
+                        section.addView( getPegiImageView(R.drawable.ic_pegi_gambling, R.string.pegi_gambling));
+                        break;
+                }
+            }
+        }
+    }
+
+    @NonNull
+    private ImageView getPegiImageView(int drawableRes, int descriptionRes) {
+
+        ImageView imageView = new ImageView(this);
+
+        imageView.setImageResource(drawableRes);
+        String description = getResources().getString(descriptionRes);
+        imageView.setContentDescription(description);
+        imageView.setAdjustViewBounds(true);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(0, 0, (int) Util.convertDpToPx(this, 5), 0);
+        imageView.setLayoutParams(layoutParams);
+
+        return imageView;
     }
 
     // TODO: add documentation

@@ -53,7 +53,16 @@
 
             <include layout="@layout/partial_section_valid_for_promo"/>
             <include layout="@layout/partial_section_info"/>
-            <include layout="@layout/partial_section_pegi"/>
+
+            <!-- in theory you should use an HorizonScrollView,
+                 in practise you shouldn't it because it never happened
+                 to have so many pegi to fill the screen horizontally -->
+            <LinearLayout
+                android:id="@+id/section_pegi"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:orientation="horizontal"/>
+
             <include layout="@layout/partial_section_gallery"/>
             <include layout="@layout/partial_section_description"/>
 
