@@ -62,14 +62,7 @@ public class GamePageActivity extends AppCompatActivity {
         // get game ID
         int gameId = getIntent().getIntExtra("gameID", 0);
 
-        // search the game in the wishlist
-
         mWishListViewModel = new ViewModelProvider(this).get(WishlistViewModel.class);
-        mGame = mWishListViewModel.getGame(gameId);
-
-        if (mGame == null) {
-            Log.e(TAG, "the passed game is null");
-        }
 
         mWishListViewModel.isUpdating().observe(this, isUpdating -> {
             GamePreview gamePreview = isUpdating.first;
@@ -87,6 +80,9 @@ public class GamePageActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         });
+
+        // search the game in the wishlist
+        mGame = mWishListViewModel.getGame(gameId);
 
         // if the game is not in the wishlist
         if (mGame == null) {
