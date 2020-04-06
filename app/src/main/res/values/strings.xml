@@ -65,7 +65,7 @@
     <string name="prefs_theme">Theme</string>
     <string name="prefs_theme_summary">Set the application theme</string>
     <string name="prefs_hq_preview_images">High resolution cover</string>
-    <string name="prefs_hq_preview_images_summary">"High resolution covers take more time to download     "</string>
+    <string name="prefs_hq_preview_images_summary">High resolution covers take more time to be downloaded</string>
 
     <!-- app sections -->
     <string name="section_wishlist">Wishlist</string>
