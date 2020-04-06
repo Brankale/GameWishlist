@@ -87,8 +87,8 @@ public class GamePageActivity extends AppCompatActivity {
         // if the game is not in the wishlist
         if (mGame == null) {
             // download the game
-            DownloadGame task = new DownloadGame(this);
-            task.execute(Integer.toString(gameId));
+            DownloadGameAndUpdateUI task = new DownloadGameAndUpdateUI(this);
+            task.execute(gameId);
         } else {
             // set the UI
             updateUI(mGame);
@@ -174,18 +174,17 @@ public class GamePageActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: add documentation
-    private static class DownloadGame extends AsyncTask<String, Integer, Game> {
+    private static class DownloadGameAndUpdateUI extends AsyncTask<Integer, Integer, Game> {
 
         private final WeakReference<GamePageActivity> mGamePageActivity;
 
-        private DownloadGame(GamePageActivity gamePageActivity) {
+        private DownloadGameAndUpdateUI(GamePageActivity gamePageActivity) {
             mGamePageActivity = new WeakReference<>(gamePageActivity);
         }
 
         @Override
-         protected Game doInBackground(String... strings) {
-            return GameStop.Companion.getGameById(Integer.parseInt(strings[0]));
+         protected Game doInBackground(Integer... integers) {
+            return GameStop.Companion.getGameById(integers[0]);
         }
 
         @Override
