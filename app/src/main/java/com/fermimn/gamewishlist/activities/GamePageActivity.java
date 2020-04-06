@@ -80,11 +80,11 @@ public class GamePageActivity extends AppCompatActivity {
             }
 
             if (isDownloading) {
-                Toast.makeText(GamePageActivity.this, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Downloading: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
             } else {
                 // TODO: if the activity is closed the user can't see the message
-                Toast.makeText(GamePageActivity.this, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
-                GamePageActivity.this.invalidateOptionsMenu();
+                Toast.makeText(this, "Added: " + gamePreview.getTitle(), Toast.LENGTH_SHORT).show();
+                invalidateOptionsMenu();
             }
         });
 
