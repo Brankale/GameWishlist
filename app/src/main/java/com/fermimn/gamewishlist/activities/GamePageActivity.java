@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -461,10 +462,11 @@ public class GamePageActivity extends AppCompatActivity {
         }
     }
 
+    @NonNull
     private PriceView createPriceView(
             int category,
-            float price,
-            List<Float> oldPrices,
+            @Nullable Float price,
+            @Nullable List<Float> oldPrices,
             boolean available
     ) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
