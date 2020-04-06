@@ -43,6 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GamePageActivity extends AppCompatActivity {
 
@@ -419,60 +420,64 @@ public class GamePageActivity extends AppCompatActivity {
 
         ViewGroup parent = findViewById(R.id.section_prices);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, (int) Util.convertDpToPx(this, 10), 0, 0);
-
         if (game.getNewPrice() != null) {
-            PriceView view = new PriceView(this, null);
-            view.setLayoutParams(params);
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            view.bind(
+            PriceView priceView = createPriceView(
                     Price.NEW,
                     game.getNewPrice(),
                     game.getOldNewPrices(),
                     game.getNewAvailable()
             );
-            parent.addView(view);
+            parent.addView(priceView);
         }
 
         if (game.getUsedPrice() != null) {
-            PriceView view = new PriceView(this, null);
-            view.setLayoutParams(params);
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            view.bind(
+            PriceView priceView = createPriceView(
                     Price.USED,
                     game.getUsedPrice(),
                     game.getOldUsedPrices(),
                     game.getUsedAvailable()
             );
-            parent.addView(view);
+            parent.addView(priceView);
         }
 
         if (game.getDigitalPrice() != null) {
-            PriceView view = new PriceView(this, null);
-            view.setLayoutParams(params);
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            view.bind(
+            PriceView priceView = createPriceView(
                     Price.DIGITAL,
                     game.getDigitalPrice(),
                     game.getOldDigitalPrices(),
                     game.getDigitalAvailable()
             );
-            parent.addView(view);
+            parent.addView(priceView);
         }
 
         if (game.getPreorderPrice() != null) {
-            PriceView view = new PriceView(this, null);
-            view.setLayoutParams(params);
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            view.bind(
+            PriceView priceView = createPriceView(
                     Price.PREORDER,
                     game.getPreorderPrice(),
                     game.getOldPreorderPrices(),
                     game.getPreorderAvailable()
             );
-            parent.addView(view);
+            parent.addView(priceView);
         }
+    }
+
+    private PriceView createPriceView(
+            int category,
+            float price,
+            List<Float> oldPrices,
+            boolean available
+    ) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(0, (int) Util.convertDpToPx(this, 10), 0, 0);
+
+        PriceView priceView = new PriceView(this, null);
+        priceView.setLayoutParams(layoutParams);
+        priceView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        priceView.bind(category, price, oldPrices, available);
+        return priceView;
     }
 
     // TODO: add documentation

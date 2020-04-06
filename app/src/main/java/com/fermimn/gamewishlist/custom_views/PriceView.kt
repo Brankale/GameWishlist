@@ -54,7 +54,7 @@ class PriceView(context: Context?, attrs: AttributeSet?) : LinearLayout(context,
         return if (price != -1f) price else null
     }
 
-    fun bind(categoryId: Int, price: Float?, oldPrices: ArrayList<Float>?, availability: Boolean) {
+    fun bind(categoryId: Int, price: Float?, oldPrices: List<Float>?, availability: Boolean) {
         setCategory(categoryId)
         setPrice(price)
         setOldPrices(oldPrices)
@@ -79,7 +79,7 @@ class PriceView(context: Context?, attrs: AttributeSet?) : LinearLayout(context,
         priceView.text = resources.getString(R.string.price_currency, price.toString())
     }
 
-    private fun setOldPrices(oldPrices: ArrayList<Float>?) {
+    private fun setOldPrices(oldPrices: List<Float>?) {
         if (oldPrices != null && oldPrices.isNotEmpty()) {
             for (oldPrice in oldPrices) {
                 // TODO: create a TextView for each oldPrice
