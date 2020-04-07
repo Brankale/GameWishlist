@@ -519,8 +519,6 @@ public class GamePageActivity extends AppCompatActivity {
     private ImageView getPegiImageView(int drawableRes, int descriptionRes) {
 
         ImageView imageView = new ImageView(this);
-
-        imageView.setImageResource(drawableRes);
         String description = getResources().getString(descriptionRes);
         imageView.setContentDescription(description);
         imageView.setAdjustViewBounds(true);
@@ -531,6 +529,8 @@ public class GamePageActivity extends AppCompatActivity {
         );
         layoutParams.setMargins(0, 0, (int) Util.convertDpToPx(this, 5), 0);
         imageView.setLayoutParams(layoutParams);
+
+        Picasso.get().load(drawableRes).into(imageView);
 
         return imageView;
     }
