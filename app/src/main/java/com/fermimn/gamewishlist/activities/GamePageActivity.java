@@ -122,53 +122,50 @@ public class GamePageActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
+        int itemId = item.getItemId();
 
-            case R.id.action_add_game:
-                new AlertDialog.Builder(this)
-                        .setTitle( getString(R.string.dialog_add_game_to_wishlist_title) )
-                        .setMessage( getString(R.string.dialog_add_game_to_wishlist_text) )
+        if (itemId == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.action_add_game) {
+            new AlertDialog.Builder(this)
+                    .setTitle( getString(R.string.dialog_add_game_to_wishlist_title) )
+                    .setMessage( getString(R.string.dialog_add_game_to_wishlist_text) )
 
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, (dialog, which) -> mWishListViewModel.addGame(mGame))
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> mWishListViewModel.addGame(mGame))
 
-                        // A null listener allows the button to dismiss the dialog and take no further action
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
-                return true;
+                    // A null listener allows the button to dismiss the dialog and take no further action
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+            return true;
+        } else if (itemId == R.id.action_remove_game) {
+            new AlertDialog.Builder(this)
+                    .setTitle( getString(R.string.dialog_remove_game_from_wishlist_title) )
+                    .setMessage( getString(R.string.dialog_remove_game_from_wishlist_text) )
 
-            case R.id.action_remove_game:
-                new AlertDialog.Builder(this)
-                        .setTitle( getString(R.string.dialog_remove_game_from_wishlist_title) )
-                        .setMessage( getString(R.string.dialog_remove_game_from_wishlist_text) )
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        mWishListViewModel.removeGame(mGame.getId());
+                        finish();
+                    })
 
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                            mWishListViewModel.removeGame(mGame.getId());
-                            finish();
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
-                return true;
-
-            case R.id.action_open_website:
-                Intent browserIntent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse( GameStop.Companion.getGamePageUrl( mGame.getId() ) ));
-                startActivity(browserIntent);
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+                    // A null listener allows the button to dismiss the dialog and take no further action
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+            return true;
+        } else if (itemId == R.id.action_open_website) {
+            Intent browserIntent =
+                    new Intent(Intent.ACTION_VIEW, Uri.parse( GameStop.Companion.getGamePageUrl( mGame.getId() ) ));
+            startActivity(browserIntent);
+            return true;
+        } else {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            return super.onOptionsItemSelected(item);
         }
     }
 
