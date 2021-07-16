@@ -216,18 +216,20 @@ class GameStop {
                     val spans: Elements = element.getElementsByTag("span")
 
                     if (labels.isNotEmpty() && spans.isNotEmpty()) {
-                        val category: String = labels.first().text()
-                        val info: Element = spans.first()
+                        val category: String? = labels.first()?.text()
+                        val info: Element? = spans.first()
 
-                        when (category) {
-                            // use replace to make dates comparable
-                            "Rilascio" -> game.releaseDate = info.text().replace(".", "/")
-                            "Sito Ufficiale" -> game.website = info.getElementsByTag("a").attr("href")
-                            "Giocatori" -> game.players = info.text()
-                            "Genere" -> {
-                                val genres: List<String> = info.text().split("/")
-                                for (genre in genres) {
-                                    game.addGenre(genre)
+                        info?.let {
+                            when (category) {
+                                // use replace to make dates comparable
+                                "Rilascio" -> game.releaseDate = info.text().replace(".", "/")
+                                "Sito Ufficiale" -> game.website = info.getElementsByTag("a").attr("href")
+                                "Giocatori" -> game.players = info.text()
+                                "Genere" -> {
+                                    val genres: List<String> = info.text().split("/")
+                                    for (genre in genres) {
+                                        game.addGenre(genre)
+                                    }
                                 }
                             }
                         }
