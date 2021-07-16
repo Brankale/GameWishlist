@@ -89,28 +89,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
+        int itemId = item.getItemId();
 
-            case R.id.action_search:
-                if (mSearchSection.isHidden()) {
-                    switchToSearch();
-                }
-                return true;
-
-            case R.id.action_open_website:
-                Intent browserIntent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.site_gamestop)));
-                startActivity(browserIntent);
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+        if (itemId == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.action_search) {
+            if (mSearchSection.isHidden()) {
+                switchToSearch();
+            }
+            return true;
+        } else if (itemId == R.id.action_open_website) {
+            Intent browserIntent =
+                    new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.site_gamestop)));
+            startActivity(browserIntent);
+            return true;
+        } else {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            return super.onOptionsItemSelected(item);
         }
     }
 
