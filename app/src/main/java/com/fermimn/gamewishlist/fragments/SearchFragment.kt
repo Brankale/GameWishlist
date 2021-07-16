@@ -46,7 +46,7 @@ class SearchFragment : Fragment() {
 
             viewModel = ViewModelProvider(it).get(SearchViewModel::class.java)
 
-            viewModel.searchResults.observe(it, Observer { searchResults ->
+            viewModel.searchResults.observe(it, { searchResults ->
                 if ( searchResults.isNotEmpty() ) {
                     recyclerView.adapter?.notifyDataSetChanged()
                     recyclerView.scrollToPosition(0)
@@ -58,7 +58,7 @@ class SearchFragment : Fragment() {
                 }
             })
 
-            viewModel.isSearching.observe(it, Observer { isSearching ->
+            viewModel.isSearching.observe(it, { isSearching ->
                 if (isSearching) {
                     progressBar.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE

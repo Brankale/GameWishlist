@@ -19,7 +19,8 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,17 +30,20 @@
         <activity
             android:name=".activities.GamePageActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.MainActivity"/>
+            android:parentActivityName=".activities.MainActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".activities.GalleryActivity"
             android:theme="@style/GalleryTheme"
-            android:parentActivityName=".activities.GamePageActivity"/>
+            android:parentActivityName=".activities.GamePageActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.MainActivity"/>
+            android:parentActivityName=".activities.MainActivity"
+            android:exported="false"/>
 
     </application>
 
