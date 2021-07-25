@@ -19,26 +19,20 @@
         app:subtitleTextColor="#FFF"/>
 
     <FrameLayout
-        tools:context=".activities.MainActivity"
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/container">
+        android:layout_height="match_parent">
 
-        <!-- TODO: try to use floating action button -->
-        <!-- TODO: fix ripple effect -->
-        <ImageButton
-            android:id="@+id/button"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
-            android:layout_gravity="bottom|end"
-            android:elevation="10dp"
-            android:background="@drawable/shape_round_button"
-            android:onClick="sectionSwitch"
-            android:scaleType="fitCenter"
-            android:padding="12dp"
-            android:contentDescription="@string/section_switch" />
+            android:contentDescription="@string/section_switch"
+            android:backgroundTint="@color/white_dark"
+            app:borderWidth="0dp"
+            tools:srcCompat="@tools:sample/avatars"/>
 
     </FrameLayout>
 

@@ -13,4 +13,6 @@
     <!-- white-dark themes colours -->
     <color name="wd_black">#FFF</color>
 
+    <color name="white_dark">#202020</color>
+
 </resources>

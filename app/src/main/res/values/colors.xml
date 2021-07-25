@@ -13,4 +13,6 @@
     <!-- white-dark themes colours -->
     <color name="wd_black">#000</color>
 
+    <color name="white_dark">#FFF</color>
+
 </resources>
