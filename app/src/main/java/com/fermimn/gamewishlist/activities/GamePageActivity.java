@@ -135,10 +135,10 @@ public class GamePageActivity extends AppCompatActivity {
 
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> mWishListViewModel.addGame(mGame))
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> mWishListViewModel.addGame(mGame))
 
                     // A null listener allows the button to dismiss the dialog and take no further action
-                    .setNegativeButton(android.R.string.no, null)
+                    .setNegativeButton(android.R.string.cancel, null)
                     .show();
             return true;
         } else if (itemId == R.id.action_remove_game) {
@@ -148,13 +148,13 @@ public class GamePageActivity extends AppCompatActivity {
 
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                         mWishListViewModel.removeGame(mGame.getId());
                         finish();
                     })
 
                     // A null listener allows the button to dismiss the dialog and take no further action
-                    .setNegativeButton(android.R.string.no, null)
+                    .setNegativeButton(android.R.string.cancel, null)
                     .show();
             return true;
         } else if (itemId == R.id.action_open_website) {
