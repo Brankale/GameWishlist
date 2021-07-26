@@ -30,6 +30,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.custom_views.PriceView;
+import com.fermimn.gamewishlist.databinding.ActivityGamePageBinding;
+import com.fermimn.gamewishlist.databinding.PartialGalleryImageBinding;
+import com.fermimn.gamewishlist.databinding.PartialGamePreviewBinding;
+import com.fermimn.gamewishlist.databinding.PartialSectionGalleryBinding;
+import com.fermimn.gamewishlist.databinding.PartialSectionPromoBinding;
 import com.fermimn.gamewishlist.models.Game;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviews;
@@ -49,13 +54,16 @@ public class GamePageActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     private static final String TAG = GamePageActivity.class.getSimpleName();
 
+    private ActivityGamePageBinding binding;
+
     private Game mGame;
     private WishlistViewModel mWishListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_page);
+        binding = ActivityGamePageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // get game ID
         int gameId = getIntent().getIntExtra("gameID", 0);
@@ -197,7 +205,7 @@ public class GamePageActivity extends AppCompatActivity {
     private void updateUI(Game game) {
 
         // set action bar
-        Toolbar toolbar = findViewById(R.id.action_bar);
+        Toolbar toolbar = binding.actionBar;
         setSupportActionBar(toolbar);
 
         // init game page UI
@@ -208,7 +216,7 @@ public class GamePageActivity extends AppCompatActivity {
         initSectionPegi(game);
 
         // make game page UI visible
-        LinearLayout linearLayout = findViewById(R.id.game_page_container);
+        LinearLayout linearLayout = binding.gamePageContainer;
         linearLayout.setVisibility(View.VISIBLE);
     }
 
@@ -216,21 +224,21 @@ public class GamePageActivity extends AppCompatActivity {
     private void setGameData(Game game) {
 
         // Get views
-        TextView title = findViewById(R.id.title);
-        TextView publisher = findViewById(R.id.publisher);
-        TextView platform = findViewById(R.id.platform);
-        TextView genres = findViewById(R.id.genres);
-        TextView releaseDate = findViewById(R.id.releaseDate);
-        TextView players = findViewById(R.id.players);
-        TextView officialSite = findViewById(R.id.officialSite);
-        TextView description = findViewById(R.id.description);
-        LinearLayout validForPromotions = findViewById(R.id.valid_for_promotions);
-        TextView validForPromotionsText = findViewById(R.id.valid_for_promotions_text);
+        TextView title = binding.sectionInfo.title;
+        TextView publisher = binding.sectionInfo.publisher;
+        TextView platform = binding.sectionInfo.platform;
+        TextView genres = binding.sectionInfo.genres;
+        TextView releaseDate = binding.sectionInfo.releaseDate;
+        TextView players = binding.sectionInfo.players;
+        TextView officialSite = binding.sectionInfo.officialSite;
+        TextView description = binding.sectionDescription.description;
+        LinearLayout validForPromotions = binding.sectionValidForPromo.validForPromotions;
+        TextView validForPromotionsText = binding.sectionValidForPromo.validForPromotionsText;
 
-        FrameLayout genresContainer = findViewById(R.id.genres_container);
-        FrameLayout releaseDateContainer = findViewById(R.id.release_date_container);
-        FrameLayout playersContainer = findViewById(R.id.players_container);
-        FrameLayout officialSiteContainer = findViewById(R.id.official_site_container);
+        FrameLayout genresContainer = binding.sectionInfo.genresContainer;
+        FrameLayout releaseDateContainer = binding.sectionInfo.releaseDateContainer;
+        FrameLayout playersContainer = binding.sectionInfo.playersContainer;
+        FrameLayout officialSiteContainer = binding.sectionInfo.officialSiteContainer;
 
         // Set data
         title.setText( game.getTitle() );
@@ -293,9 +301,10 @@ public class GamePageActivity extends AppCompatActivity {
     private void setGameImages(Game game) {
 
         // Get views
-        ImageView cover = findViewById(R.id.cover);
-        LinearLayout gallery = findViewById(R.id.gallery);
-        LinearLayout galleryContainer = findViewById(R.id.gallery_container);
+        ImageView cover = binding.cover;
+
+        LinearLayout gallery = binding.sectionGallery.gallery;
+        LinearLayout galleryContainer = binding.sectionGallery.galleryContainer;
 
         // set listener to the cover
         Bundle coverBundle = new Bundle();
@@ -353,7 +362,7 @@ public class GamePageActivity extends AppCompatActivity {
 
     private void initSectionPrices(GamePreview game) {
 
-        ViewGroup parent = findViewById(R.id.section_prices);
+        ViewGroup parent = binding.sectionPrices;
 
         if (game.getNewPrice() != null) {
             PriceView priceView = createPriceView(
@@ -422,20 +431,23 @@ public class GamePageActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
 
         // Get Views
-        LinearLayout promoContainer = findViewById(R.id.promo_container);
+        LinearLayout promoContainer = binding.promoContainer;
 
         if (game.getPromos() != null) {
             for (Promo promo : game.getPromos()) {
 
                 // Create a promo view
-                View promoView = inflater.inflate(R.layout.partial_section_promo,
-                        promoContainer, false);
+                PartialSectionPromoBinding promoBinding =
+                        PartialSectionPromoBinding.inflate(inflater);
+
+//                View promoView = inflater.inflate(R.layout.partial_section_promo,
+//                        promoContainer, false);
 
                 // init promo view
-                TextView promoHeader = promoView.findViewById(R.id.promo_header);
-                TextView promoValidity = promoView.findViewById(R.id.promo_validity);
-                TextView promoMessage = promoView.findViewById(R.id.promo_message);
-                LinearLayout promoMessageLayout = promoView.findViewById(R.id.promo_message_layout);
+                TextView promoHeader = promoBinding.promoHeader;
+                TextView promoValidity = promoBinding.promoValidity;
+                TextView promoMessage = promoBinding.promoMessage;
+                LinearLayout promoMessageLayout = promoBinding.promoMessageLayout;
 
                 promoHeader.setText( promo.getHeader() );
                 promoValidity.setText( promo.getText() );
@@ -453,7 +465,7 @@ public class GamePageActivity extends AppCompatActivity {
                 }
 
                 // add promo to promoContainer
-                promoContainer.addView(promoView);
+                promoContainer.addView(promoBinding.getRoot());
             }
 
             promoContainer.setVisibility(View.VISIBLE);
@@ -462,7 +474,7 @@ public class GamePageActivity extends AppCompatActivity {
 
     private void initSectionPegi(@NonNull Game game) {
 
-        ViewGroup section = findViewById(R.id.section_pegi);
+        ViewGroup section = binding.sectionPegi;
         List<String> pegi = game.getPegi();
 
         if (pegi != null) {

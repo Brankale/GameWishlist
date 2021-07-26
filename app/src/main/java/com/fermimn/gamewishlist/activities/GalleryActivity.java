@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GalleryAdapter;
+import com.fermimn.gamewishlist.databinding.ActivityGalleryBinding;
 
 import java.util.ArrayList;
 
@@ -18,12 +20,13 @@ public class GalleryActivity extends FragmentActivity {
     @SuppressWarnings("unused")
     private static final String TAG = GalleryActivity.class.getSimpleName();
 
-    private ViewPager mViewPager;
+    private ActivityGalleryBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery);
+        binding = ActivityGalleryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // get Intent content
         Intent caller = getIntent();
@@ -31,20 +34,19 @@ public class GalleryActivity extends FragmentActivity {
         ArrayList<String> images = caller.getStringArrayListExtra("images");
 
         // Instantiate a ViewPager and a PagerAdapter
-        mViewPager = findViewById(R.id.view_pager);
         PagerAdapter pagerAdapter = new GalleryAdapter(this, images);
-        mViewPager.setAdapter(pagerAdapter);
+        binding.viewPager.setAdapter(pagerAdapter);
 
         if (savedInstanceState == null) {
-            mViewPager.setCurrentItem(position);
+            binding.viewPager.setCurrentItem(position);
         } else {
-            mViewPager.setCurrentItem( savedInstanceState.getInt("position") );
+            binding.viewPager.setCurrentItem( savedInstanceState.getInt("position") );
         }
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt("position", mViewPager.getCurrentItem());
+        outState.putInt("position", binding.viewPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 

@@ -13,14 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.custom_views.GamePreviewAdapter
 import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
+import com.fermimn.gamewishlist.databinding.FragmentSearchBinding
 import com.fermimn.gamewishlist.utils.isNetworkAvailable
 import com.fermimn.gamewishlist.viewmodels.SearchViewModel
 
 class SearchFragment : Fragment() {
 
-    private lateinit var searchView: SearchView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var recyclerView: GamePreviewRecyclerView
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: SearchViewModel
 
@@ -32,12 +32,8 @@ class SearchFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
-        val view = inflater.inflate(R.layout.fragment_search, container, false)
-
-        searchView = view.findViewById(R.id.search_bar)
-        progressBar = view.findViewById(R.id.progress_bar)
-        recyclerView = view.findViewById(R.id.search_results)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         val fragmentActivity: FragmentActivity? = activity
 
@@ -47,8 +43,8 @@ class SearchFragment : Fragment() {
 
             viewModel.searchResults.observe(it, { searchResults ->
                 if ( searchResults.isNotEmpty() ) {
-                    recyclerView.adapter?.notifyDataSetChanged()
-                    recyclerView.scrollToPosition(0)
+                    binding.searchResults.adapter?.notifyDataSetChanged()
+                    binding.searchResults.scrollToPosition(0)
                 } else {
                     if (!firstStart) {
                         Toast.makeText(it, getString(R.string.no_games_found), Toast.LENGTH_SHORT).show()
@@ -59,25 +55,30 @@ class SearchFragment : Fragment() {
 
             viewModel.isSearching.observe(it, { isSearching ->
                 if (isSearching) {
-                    progressBar.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.searchResults.visibility = View.GONE
                 } else {
-                    progressBar.visibility = View.GONE
-                    recyclerView.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                    binding.searchResults.visibility = View.VISIBLE
 
                     // TODO: search view must lose the focus every time the user click
                     //       another part of the screen
-                    recyclerView.requestFocus()
+                    binding.searchResults.requestFocus()
                 }
 
             })
 
-            searchView.setOnQueryTextListener(queryTextListener)
+            binding.searchBar.setOnQueryTextListener(queryTextListener)
 
-            recyclerView.adapter = GamePreviewAdapter(activity, viewModel.searchResults.value)
+            binding.searchResults.adapter = GamePreviewAdapter(activity, viewModel.searchResults.value)
         }
 
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private val queryTextListener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {

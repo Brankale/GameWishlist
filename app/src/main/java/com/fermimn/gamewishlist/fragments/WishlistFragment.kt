@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.custom_views.GamePreviewAdapter
 import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
+import com.fermimn.gamewishlist.databinding.FragmentWishlistBinding
 import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.models.GamePreviewDiffUtilCallback
 import com.fermimn.gamewishlist.models.GamePreviews
@@ -31,10 +32,10 @@ class WishlistFragment : Fragment() {
         private val TAG: String = WishlistFragment::class.java.simpleName
     }
 
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var recyclerView: GamePreviewRecyclerView
-    private lateinit var adapter: GamePreviewAdapter
+    private var _binding: FragmentWishlistBinding? = null
+    private val binding get() = _binding!!
 
+    private lateinit var adapter: GamePreviewAdapter
     private lateinit var viewModel: WishlistViewModel
     private val wishlist: GamePreviews = GamePreviews()
 
@@ -43,11 +44,8 @@ class WishlistFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
-        val view = inflater.inflate(R.layout.fragment_wishlist, container, false)
-
-        swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
-        recyclerView = view.findViewById(R.id.wishlist)
+        _binding = FragmentWishlistBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(WishlistViewModel::class.java)
@@ -57,7 +55,7 @@ class WishlistFragment : Fragment() {
             }
 
             adapter = GamePreviewAdapter(it, wishlist)
-            recyclerView.adapter = adapter
+            binding.wishlist.adapter = adapter
 
             // update wishlist when the user add/remove a game
             viewModel.wishlist.observe(it, Observer { newItems ->
@@ -72,14 +70,14 @@ class WishlistFragment : Fragment() {
                 diffResult.dispatchUpdatesTo(adapter)
 
                 if (wishlist.size == numItems+1) {
-                    recyclerView.smoothScrollToPosition(adapter.itemCount-1)
+                    binding.wishlist.smoothScrollToPosition(adapter.itemCount-1)
                 }
 
                 Log.d(TAG, "wishlist updated")
             })
 
             // show toast while updating
-            viewModel.isUpdating.observe(it, Observer<Pair<GamePreview?, Boolean>> { updatedGame ->
+            viewModel.isUpdating.observe(it, { updatedGame ->
 
                 Log.d(TAG, "updating wishlist...")
 
@@ -96,11 +94,11 @@ class WishlistFragment : Fragment() {
                 }
             })
 
-            swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeToRefresh.setOnRefreshListener {
                 if (isNetworkAvailable(it)) {
-                    SwipeToRefresh(it, swipeRefreshLayout).execute()
+                    SwipeToRefresh(it, binding.swipeToRefresh).execute()
                 } else {
-                    swipeRefreshLayout.isRefreshing = false
+                    binding.swipeToRefresh.isRefreshing = false
                     Toast.makeText(
                             it,
                             resources.getText(R.string.toast_internet_not_available),
@@ -112,6 +110,11 @@ class WishlistFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     // TODO: stop UpdateWorker while running this

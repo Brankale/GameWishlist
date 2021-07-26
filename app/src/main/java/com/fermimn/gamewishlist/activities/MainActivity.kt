@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import com.fermimn.gamewishlist.R
+import com.fermimn.gamewishlist.databinding.ActivityMainBinding
 import com.fermimn.gamewishlist.fragments.SearchFragment
 import com.fermimn.gamewishlist.fragments.WishlistFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,23 +20,24 @@ class MainActivity : AppCompatActivity() {
         val TAG: String = MainActivity::class.java.simpleName
     }
 
-    private lateinit var switchButton: FloatingActionButton
+    private lateinit var binding: ActivityMainBinding
+
     private lateinit var sectionSearch: SearchFragment
     private lateinit var sectionWishlist: WishlistFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        switchButton = findViewById(R.id.fab)
         val icon = AppCompatResources.getDrawable(this, R.drawable.ic_search_black_24dp)
-        switchButton.setImageDrawable(icon)
+        binding.switchButton.setImageDrawable(icon)
         setListeners()
 
         // set action bar
         // DOCS: https://developer.android.com/training/appbar/setting-up
         // DOCS: https://developer.android.com/training/appbar/actions
-        val toolbar = findViewById<Toolbar>(R.id.action_bar)
+        val toolbar = binding.actionBar;
         toolbar.title = getString(R.string.section_wishlist)
         setSupportActionBar(toolbar)
 
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        switchButton.setOnClickListener {
+        binding.switchButton.setOnClickListener {
             sectionSwitch()
         }
     }
@@ -114,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
         // set floating button image
         val icon = AppCompatResources.getDrawable(this, R.drawable.ic_videogame_asset_black_24dp)
-        switchButton.setImageDrawable(icon)
+        binding.switchButton.setImageDrawable(icon)
 
         transaction.commit()
     }
@@ -132,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 
         // set floating button image
         val icon = AppCompatResources.getDrawable(this, R.drawable.ic_search_black_24dp)
-        switchButton.setImageDrawable(icon)
+        binding.switchButton.setImageDrawable(icon)
 
         transaction.commit()
     }

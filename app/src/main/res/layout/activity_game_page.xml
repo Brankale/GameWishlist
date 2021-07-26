@@ -49,22 +49,33 @@
                 android:id="@+id/promo_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"/>
 
-            <include layout="@layout/partial_section_valid_for_promo"/>
-            <include layout="@layout/partial_section_info"/>
+            <include
+                android:id="@+id/section_valid_for_promo"
+                layout="@layout/partial_section_valid_for_promo"/>
 
-            <!-- in theory you should use an HorizonScrollView,
-                 in practise you shouldn't it because it never happened
-                 to have so many pegi to fill the screen horizontally -->
+            <include
+                android:id="@+id/section_info"
+                layout="@layout/partial_section_info"/>
+
+            <!-- in theory you should use an HorizonScrollView, in
+                 practise you shouldn't because it never happens to
+                 have so many imgs to fill the screen horizontally -->
             <LinearLayout
                 android:id="@+id/section_pegi"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:orientation="horizontal"/>
 
-            <include layout="@layout/partial_section_gallery"/>
-            <include layout="@layout/partial_section_description"/>
+            <include
+                android:id="@+id/section_gallery"
+                layout="@layout/partial_section_gallery"/>
+
+            <include
+                android:id="@+id/section_description"
+                layout="@layout/partial_section_description"/>
 
         </LinearLayout>
 
