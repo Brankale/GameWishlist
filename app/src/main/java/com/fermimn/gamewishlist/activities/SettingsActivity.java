@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.fermimn.gamewishlist.R;
+import com.fermimn.gamewishlist.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
