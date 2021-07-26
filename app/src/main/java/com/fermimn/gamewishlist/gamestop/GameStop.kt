@@ -1,5 +1,6 @@
 package com.fermimn.gamewishlist.gamestop
 
+import android.util.Log
 import com.fermimn.gamewishlist.models.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -343,11 +344,79 @@ class GameStop {
             game.cover = prodImgMax?.attr("href")
         }
 
+        /**
+         * What we know about gallery:
+         *
+         * Low res images always start with an even number
+         * High res images always start with an odd number
+         *
+         * Cover:
+         * low res:  2med.jpg
+         * high res: 3max.jpg
+         *
+         * Gallery:
+         * low res: <even number> + srcmin + <number of the image>
+         * high res: <odd number> + srcmax + <number of the image>
+         *
+         *
+         * NB:
+         * <even number> starts from 4
+         * <odd number> starts from 5
+         * <number of the image> starts from 1
+         * The low res version of an image is the odd number - 1
+         *
+         *
+         * html example:
+         * <a class="gallery" href="https://static-it.gamestop.it/images/products/154167/11scrmax4.jpg">
+         *     <span>
+         *         <img src="https://static-it.gamestop.it/images/products/154167/10scrmin4.jpg" alt="screen shot min">
+         *     </span>
+         * </a>
+         *
+         * NB: the high res version is in the "href" attribute of <a> tag
+         * NB: the low res version is in the "src" attribute of <img> tag
+         *
+         *
+         * Malformed HTML notes:
+         * Sometimes only the low res version is available.
+         * In these cases "href" attribute is not set.
+         *
+         * examples of malformed htmls are:
+         * - new super mario bros 2
+         * - catherine (PS3/Xbox360 Edition)
+         *
+         * malformed html example:
+         *
+         * <a class="gallery">
+         *     <span>
+         *         <img src="https://static-it.gamestop.it/images/products/154167/6scrmin1.jpg" alt="screen shot min">
+         *     </span>
+         * </a>
+         * <a class="gallery" href="https://static-it.gamestop.it/images/products/154167/7scrmax2.jpg">
+         *     <span>
+         *         <img alt="screen shot min">
+         *     </span>
+         * </a>
+         *
+         * NB: As we can see in the first <a> tag "href" is not set and the
+         *     low res version is available, but the same image is present
+         *     in the next <a> tag only in high res version.
+         *
+         * Assumption: if "href" is not set we can skip the <a> tag because
+         *             the next one will have the same image
+         *
+         */
         private fun initGameGallery(game: Game, html: Element) {
             val mediaImages: Element? = getElementByClass(html, "mediaImages")
             mediaImages?.let {
                 for (element in it.getElementsByTag("a")) {
-                    game.addImage( element.attr("href") )
+                    val link = element.attr("href")
+                    // malformed html check: skip <a> tag
+                    if (link.isNotEmpty()) {
+                        game.addImage(link)
+                    } else {
+                        Log.w("Malformed HTML", "skip tag <a>")
+                    }
                 }
             }
         }
@@ -385,7 +454,7 @@ class GameStop {
 
     private class ParseItemException : RuntimeException() {
 
-        override val message: String?
+        override val message: String
             get() = "Can't create game. Possibly caused by HTML changes."
 
     }
