@@ -11,8 +11,8 @@ Add your favorite games to the list to be notified when a game is released or wh
 
 ## ⚠ Warnings ⚠ 
 - This is not an official app
-- This app is available ONLY for Android 5.0 and above (not working on Android 12)
-- At the moment ONLY Gamestop italy is supported
+- This app is available for Android 5.0 and above
+- Currently ONLY Gamestop italy is supported
 - This app does make use of a html parser written by myself but superseeded by [this](https://github.com/Brankale/gamestop_website_scraper) stand-alone version. However this new version is still work in progress and currently I don't have any plan to continue it.
 
 ## Features:
