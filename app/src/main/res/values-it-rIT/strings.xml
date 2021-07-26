@@ -43,7 +43,7 @@
     <string name="dialog_remove_game_from_wishlist_text">Vuoi rimuovere il gioco dalla lista dei desideri?</string>
     <string name="game_cover">Cover del gioco</string>
     <string name="prefs_theme_summary">Imposta il tema dell\'applicazione</string>
-    <string name="prefs_hq_preview_images">Cover in alta risoluzione</string>
-    <string name="prefs_hq_preview_images_summary">Le cover in alta risoluzione richiedono più tempo per essere scaricate</string>
+    <string name="prefs_hq_preview_images">Immagini in alta risoluzione</string>
+    <string name="prefs_hq_preview_images_summary">Maggiore consumo di dati</string>
     <string name="price_unknown">SCONOSCIUTO</string>
 </resources>
