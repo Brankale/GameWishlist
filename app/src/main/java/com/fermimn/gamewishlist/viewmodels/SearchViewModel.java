@@ -1,12 +1,14 @@
 package com.fermimn.gamewishlist.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.fermimn.gamewishlist.gamestop.GameStop;
 import com.fermimn.gamewishlist.models.GamePreview;
 import com.fermimn.gamewishlist.models.GamePreviews;
-import com.fermimn.gamewishlist.gamestop.GameStop;
 
 import java.util.ArrayList;
 
@@ -42,18 +44,27 @@ public class SearchViewModel extends ViewModel {
             public void run() {
                 GamePreviews previousResults = mSearchResults.getValue();
 
-                ArrayList<GamePreview> results = GameStop.Companion.search(gameTitle);
+                try {
+                    ArrayList<GamePreview> results = GameStop.Companion.search(gameTitle);
 
-                if (previousResults != null) {
-                    previousResults.clear();
+                    if (previousResults != null) {
+                        previousResults.clear();
+                    }
+
+                    if (previousResults != null) {
+                        previousResults.addAll(results);
+                    }
+
+                    mSearchResults.postValue(previousResults);
+                    mIsSearching.postValue(false);
+                } catch (RuntimeException ex) {
+                    mIsSearching.postValue(false);
+                    // TODO: show error message
+                    // TODO: when there are parsing errors games in the wishlist
+                    //       must not be updated
+                    Log.e(TAG, "Parsing error possibly due to HTML changes");
                 }
 
-                if (previousResults != null) {
-                    previousResults.addAll(results);
-                }
-
-                mSearchResults.postValue(previousResults);
-                mIsSearching.postValue(false);
             }
         }.start();
     }
