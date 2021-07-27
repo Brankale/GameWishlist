@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.activities.GamePageActivity
+import com.fermimn.gamewishlist.activities.GamePageActivityKt
 import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
 
@@ -77,7 +78,7 @@ class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: Array
 
         override fun onClick(view: View?) {
             gamePreviews?.let {
-                val intent = Intent(context, GamePageActivity::class.java)
+                val intent = Intent(context, GamePageActivityKt::class.java)
                 intent.putExtra("gameID", it[adapterPosition].id)
                 context?.startActivity(intent)
             }

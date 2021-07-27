@@ -1,15 +1,12 @@
 package com.fermimn.gamewishlist.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import com.fermimn.gamewishlist.R;
 import com.fermimn.gamewishlist.adapters.GalleryAdapter;
 import com.fermimn.gamewishlist.databinding.ActivityGalleryBinding;
 
