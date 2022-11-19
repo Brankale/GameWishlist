@@ -1,76 +1,67 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
+
     defaultConfig {
-        applicationId "com.fermimn.gamewishlist"
-        minSdkVersion 21
-        targetSdkVersion 33
+        applicationId "com.github.brankale.gamestop_app"
+        minSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
-
-            // Enables code shrinking, obfuscation, and optimization for only
-            // your project's release build type.
             minifyEnabled true
-
-            // Enables resource shrinking, which is performed by the
-            // Android Gradle plugin.
             shrinkResources true
-
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
-//            minifyEnabled true
-//            shrinkResources true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
     compileOptions {
-        sourceCompatibility = 11
-        targetCompatibility = 11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "androidx.core:core-ktx:1.8.0"
-
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-
-    // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
-    // UI
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.google.android.material:material:1.7.0'
 
-    // Work Manager
-    implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha03'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation files('libs/GameStopWebScraper-1.0.jar')
+    // Preferences
+    implementation "androidx.preference:preference-ktx:1.2.0"
 
-    // Test libraries
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // Unit testing
     testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
 
-    // external lib
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    // UI testing
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    // 3rd Party libraries -----------------------------
+
+    // Image handling
+    //noinspection GradleDependency
+    implementation 'com.squareup.picasso:picasso:2.8'
+
+    // HTML parsing
     implementation 'org.jsoup:jsoup:1.15.3'
-}
-repositories {
-    mavenCentral()
 }
