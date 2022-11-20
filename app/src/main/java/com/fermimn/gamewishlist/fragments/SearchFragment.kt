@@ -4,20 +4,27 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.components.BaseFragment
 import com.fermimn.gamewishlist.custom_views.GamePreviewAdapter
 import com.fermimn.gamewishlist.databinding.FragmentSearchBinding
 import com.fermimn.gamewishlist.utils.isNetworkAvailable
 import com.fermimn.gamewishlist.viewmodels.SearchViewModel
+import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
+@AndroidEntryPoint
+class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     // TODO: find a way to remove this variable
     private var firstStart: Boolean = true
 
     override fun getFragmentView(): Int = R.layout.fragment_search
-    override fun getViewModel(): Class<SearchViewModel> = SearchViewModel::class.java
+
+    private val viewModel: SearchViewModel by lazy {
+        ViewModelProvider(this)[SearchViewModel::class.java]
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

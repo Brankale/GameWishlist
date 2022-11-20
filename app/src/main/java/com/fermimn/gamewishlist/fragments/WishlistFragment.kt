@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fermimn.gamewishlist.R
+import com.fermimn.gamewishlist.components.BaseFragment
 import com.fermimn.gamewishlist.custom_views.GamePreviewAdapter
 import com.fermimn.gamewishlist.custom_views.GamePreviewRecyclerView
 import com.fermimn.gamewishlist.databinding.FragmentWishlistBinding
@@ -26,36 +28,32 @@ import com.fermimn.gamewishlist.viewmodels.WishlistViewModel
 import java.lang.Exception
 import java.lang.ref.WeakReference
 
-class WishlistFragment : Fragment() {
+class WishlistFragment : BaseFragment<FragmentWishlistBinding>() {
 
     companion object {
         private val TAG: String = WishlistFragment::class.java.simpleName
     }
 
-    private var _binding: FragmentWishlistBinding? = null
-    private val binding get() = _binding!!
+    override fun getFragmentView(): Int = R.layout.fragment_wishlist
 
     private lateinit var adapter: GamePreviewAdapter
-    private lateinit var viewModel: WishlistViewModel
     private val wishlist: GamePreviews = GamePreviews()
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentWishlistBinding.inflate(inflater, container, false)
-        val view = binding.root
+    private val viewModel: WishlistViewModel by lazy {
+        ViewModelProvider(this)[WishlistViewModel::class.java]
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            viewModel = ViewModelProvider(it).get(WishlistViewModel::class.java)
             val gameList = viewModel.wishlist.value
             gameList?.let {
                 wishlist.addAll(gameList)
             }
 
-            adapter = GamePreviewAdapter(it, wishlist)
-            binding.wishlist.adapter = adapter
+//            adapter = GamePreviewAdapter(it, wishlist)
+//            binding.wishlist.adapter = adapter
 
             // update wishlist when the user add/remove a game
             viewModel.wishlist.observe(it, Observer { newItems ->
@@ -67,7 +65,7 @@ class WishlistFragment : Fragment() {
                 wishlist.clear()
                 wishlist.addAll(newItems)
 
-                diffResult.dispatchUpdatesTo(adapter)
+//                diffResult.dispatchUpdatesTo(adapter)
 
                 if (wishlist.size == numItems+1) {
                     binding.wishlist.smoothScrollToPosition(adapter.itemCount-1)
@@ -100,21 +98,14 @@ class WishlistFragment : Fragment() {
                 } else {
                     binding.swipeToRefresh.isRefreshing = false
                     Toast.makeText(
-                            it,
-                            resources.getText(R.string.toast_internet_not_available),
-                            Toast.LENGTH_SHORT
+                        it,
+                        resources.getText(R.string.toast_internet_not_available),
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             }
 
         }
-
-        return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     // TODO: stop UpdateWorker while running this
@@ -155,6 +146,7 @@ class WishlistFragment : Fragment() {
         }
 
     }
+
 
 }
 

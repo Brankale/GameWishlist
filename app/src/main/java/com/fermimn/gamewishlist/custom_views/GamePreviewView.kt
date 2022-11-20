@@ -14,7 +14,11 @@ import androidx.core.content.res.getIntOrThrow
 import com.fermimn.gamewishlist.R
 import com.fermimn.gamewishlist.models.GamePreview
 import com.fermimn.gamewishlist.models.Price
+import com.github.brankale.models.Availability
+import com.github.brankale.models.Game
+import com.github.brankale.models.ItemCondition
 import com.squareup.picasso.Picasso
+import java.lang.IllegalArgumentException
 
 class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -49,25 +53,28 @@ class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(co
         val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.GamePreviewView, 0, 0)
 
         val id: Int = typedArray.getIntOrThrow(R.styleable.GamePreviewView_cover)
-        val gamePreview = GamePreview(id)
+        val gamePreview = Game.Builder(id)
+            .name(typedArray.getString(R.styleable.GamePreviewView_title) ?: "")
+            .publisher(typedArray.getString(R.styleable.GamePreviewView_publisher))
+            .build()
 
-        gamePreview.cover = typedArray.getString(R.styleable.GamePreviewView_cover)
-        gamePreview.title = typedArray.getString(R.styleable.GamePreviewView_title)
-        gamePreview.platform = typedArray.getString(R.styleable.GamePreviewView_platform)
-        gamePreview.publisher = typedArray.getString(R.styleable.GamePreviewView_publisher)
+//        gamePreview.cover = typedArray.getString(R.styleable.GamePreviewView_cover)
+//        gamePreview.name =
+//        gamePreview.platform = typedArray.getString(R.styleable.GamePreviewView_platform)
+//        gamePreview.publisher = typedArray.getString(R.styleable.GamePreviewView_publisher)
 
-        gamePreview.newPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_new)
-        gamePreview.usedPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_used)
-        gamePreview.preorderPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_preorder)
-        gamePreview.digitalPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_digital)
-        gamePreview.addOldNewPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_new) )
-        gamePreview.addOldUsedPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_used) )
-        gamePreview.addOldPreorderPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_preorder) )
-        gamePreview.addOldDigitalPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_digital) )
-        gamePreview.newAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_new, false)
-        gamePreview.usedAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_used, false)
-        gamePreview.preorderAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_preorder, false)
-        gamePreview.digitalAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_digital, false)
+//        gamePreview.newPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_new)
+//        gamePreview.usedPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_used)
+//        gamePreview.preorderPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_preorder)
+//        gamePreview.digitalPrice = getFloat(typedArray, R.styleable.GamePreviewView_price_digital)
+//        gamePreview.addOldNewPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_new) )
+//        gamePreview.addOldUsedPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_used) )
+//        gamePreview.addOldPreorderPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_preorder) )
+//        gamePreview.addOldDigitalPrice( getFloat(typedArray, R.styleable.GamePreviewView_price_old_digital) )
+//        gamePreview.newAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_new, false)
+//        gamePreview.usedAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_used, false)
+//        gamePreview.preorderAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_preorder, false)
+//        gamePreview.digitalAvailable = typedArray.getBoolean(R.styleable.GamePreviewView_price_digital, false)
 
         typedArray.recycle()
 
@@ -79,12 +86,12 @@ class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(co
         return if (price != -1f) price else null
     }
 
-    fun bind(gamePreview: GamePreview) {
+    fun bind(gamePreview: com.github.brankale.models.Game) {
         with (gamePreview) {
-            setCover(cover)
-            setTitle(title)
-            setPlatformAndPublisher(platform, publisher)
-            setPrices(gamePreview)
+//            setCover(coverUrl)
+            setTitle(name)
+            setPlatformAndPublisher("N.D.", publisher)
+            setPrices(prices)
         }
     }
 
@@ -110,32 +117,39 @@ class GamePreviewView(context: Context?, attrs: AttributeSet?) : LinearLayout(co
         }
     }
 
-    private fun setPrices(gamePreview: GamePreview) {
-        with (gamePreview) {
-            priceFirst.visibility = View.GONE
-            priceSecond.visibility = View.GONE
+    private fun setPrices(prices: List<com.github.brankale.models.Price>?) {
+        priceFirst.visibility = View.GONE
+        priceSecond.visibility = View.GONE
 
-            if (usedPrice != null) {
-                priceSecond.bind(Price.USED, usedPrice, oldUsedPrices, usedAvailable)
-                priceSecond.visibility = View.VISIBLE
-            }
+        when (prices?.size) {
+            1 -> setPriceView(priceFirst, prices[0])
+            2 -> setPriceView(priceSecond, prices[1])
+            else -> throw IllegalArgumentException()
+        }
+    }
 
-            if (newPrice != null) {
-                priceFirst.bind(Price.NEW, newPrice, oldNewPrices, newAvailable)
-                priceFirst.visibility = View.VISIBLE
-                return  // if the game is new, it can't be digital or on preorder
-            }
-
-            if (preorderPrice != null) {
-                priceFirst.bind(Price.PREORDER, preorderPrice, oldPreorderPrices, preorderAvailable)
-                priceFirst.visibility = View.VISIBLE
-                return  // if the game is on preorder, it can't be new or digital
-            }
-
-            if (digitalPrice != null) {
-                priceFirst.bind(Price.DIGITAL, digitalPrice, oldDigitalPrices, digitalAvailable)
-                priceFirst.visibility = View.VISIBLE
-                return  // if the game is digital, it can't be new or on preorder
+    private fun setPriceView(view: PriceView, price: com.github.brankale.models.Price) {
+        view.visibility = View.VISIBLE
+        with (price) {
+            when (condition) {
+                ItemCondition.NEW ->
+                    when (availability) {
+                        Availability.PREORDER -> view.bind(Price.USED, price.price.toFloat(), null, true)
+                        Availability.IN_STOCK -> view.bind(Price.USED, price.price.toFloat(), null, true)
+                        Availability.OUT_OF_STOCK -> view.bind(Price.USED, price.price.toFloat(), null, false)
+                        else -> {
+                            // do nothing
+                        }
+                    }
+                ItemCondition.USED ->
+                    when (availability) {
+                        Availability.IN_STOCK -> view.bind(Price.USED, price.price.toFloat(), null, true)
+                        Availability.OUT_OF_STOCK -> view.bind(Price.USED, price.price.toFloat(), null, false)
+                        else -> throw IllegalArgumentException()
+                    }
+                else -> {
+                    // do nothing
+                }
             }
         }
     }

@@ -13,7 +13,9 @@ import com.fermimn.gamewishlist.databinding.ActivityMainBinding
 import com.fermimn.gamewishlist.fragments.SearchFragment
 import com.fermimn.gamewishlist.fragments.WishlistFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     companion object {

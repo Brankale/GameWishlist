@@ -33,6 +33,9 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.HiltAndroidApp;
+
+@HiltAndroidApp
 public class App extends Application {
 
     @SuppressWarnings("unused")

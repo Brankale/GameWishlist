@@ -37,7 +37,7 @@ class GamePreviewRecyclerView(context: Context, attrs: AttributeSet?)
 
 }
 
-class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: ArrayList<GamePreview>?)
+class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: List<com.github.brankale.models.Game>?)
     : RecyclerView.Adapter<GamePreviewAdapter.GameViewHolder>() {
 
     init {
@@ -69,7 +69,7 @@ class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: Array
             View.OnClickListener,
             View.OnLongClickListener {
 
-        fun bind(gamePreview : GamePreview) {
+        fun bind(gamePreview : com.github.brankale.models.Game) {
             view.bind(gamePreview)
             view.setOnClickListener(this)
             view.setOnLongClickListener(this)
@@ -83,42 +83,47 @@ class GamePreviewAdapter(val context: FragmentActivity?, val gamePreviews: Array
             }
         }
 
-        override fun onLongClick(view: View?): Boolean {
-            if (context != null && gamePreviews != null) {
-                val wishlistViewModel = ViewModelProvider(context).get(WishlistViewModel::class.java)
-                val wishlist = wishlistViewModel.wishlist.value
-
-                if (wishlist != null) {
-                    if (wishlist.contains(gamePreviews[adapterPosition])) {
-                        AlertDialog.Builder(context)
-                                .setTitle(context.getString(R.string.dialog_remove_game_from_wishlist_title))
-                                .setMessage(context.getString(R.string.dialog_remove_game_from_wishlist_text))
-                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton(android.R.string.yes) { _, _ ->
-                                    wishlistViewModel.removeGame(gamePreviews[adapterPosition].id)
-                                }
-                                // A null listener allows the button to dismiss the dialog and take no further action
-                                .setNegativeButton(android.R.string.no, null)
-                                .show()
-                    } else {
-                        AlertDialog.Builder(context)
-                                .setTitle(context.getString(R.string.dialog_add_game_to_wishlist_title))
-                                .setMessage(context.getString(R.string.dialog_add_game_to_wishlist_text))
-                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton(android.R.string.yes) { _, _ ->
-                                    wishlistViewModel.addGame(gamePreviews[adapterPosition])
-                                }
-                                // A null listener allows the button to dismiss the dialog and take no further action
-                                .setNegativeButton(android.R.string.no, null)
-                                .show()
-                    }
-                }
-            }
-
+        override fun onLongClick(v: View?): Boolean {
+            // do nothing
             return true
         }
+
+//        override fun onLongClick(view: View?): Boolean {
+//            if (context != null && gamePreviews != null) {
+//                val wishlistViewModel = ViewModelProvider(context).get(WishlistViewModel::class.java)
+//                val wishlist = wishlistViewModel.wishlist.value
+//
+//                if (wishlist != null) {
+//                    if (wishlist.contains(gamePreviews[adapterPosition])) {
+//                        AlertDialog.Builder(context)
+//                                .setTitle(context.getString(R.string.dialog_remove_game_from_wishlist_title))
+//                                .setMessage(context.getString(R.string.dialog_remove_game_from_wishlist_text))
+//                                // Specifying a listener allows you to take an action before dismissing the dialog.
+//                                // The dialog is automatically dismissed when a dialog button is clicked.
+//                                .setPositiveButton(android.R.string.yes) { _, _ ->
+//                                    wishlistViewModel.removeGame(gamePreviews[adapterPosition].id)
+//                                }
+//                                // A null listener allows the button to dismiss the dialog and take no further action
+//                                .setNegativeButton(android.R.string.no, null)
+//                                .show()
+//                    } else {
+//                        AlertDialog.Builder(context)
+//                                .setTitle(context.getString(R.string.dialog_add_game_to_wishlist_title))
+//                                .setMessage(context.getString(R.string.dialog_add_game_to_wishlist_text))
+//                                // Specifying a listener allows you to take an action before dismissing the dialog.
+//                                // The dialog is automatically dismissed when a dialog button is clicked.
+//                                .setPositiveButton(android.R.string.yes) { _, _ ->
+//                                    wishlistViewModel.addGame(gamePreviews[adapterPosition])
+//                                }
+//                                // A null listener allows the button to dismiss the dialog and take no further action
+//                                .setNegativeButton(android.R.string.no, null)
+//                                .show()
+//                    }
+//                }
+//            }
+//
+//            return true
+//        }
 
     }
 
