@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 
 abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment() {
 
+    protected val consoleTag: String = javaClass.simpleName
+
     protected lateinit var binding: VDB
     protected lateinit var viewModel: VM
 
