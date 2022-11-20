@@ -33,8 +33,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
                 binding.searchResults.scrollToPosition(0)
             } else {
                 if (!firstStart) {
-                    Toast.makeText(context, getString(R.string.no_games_found), Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, getString(R.string.no_games_found), Toast.LENGTH_SHORT).show()
                     firstStart = false
                 }
             }
