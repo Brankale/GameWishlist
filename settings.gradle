@@ -1,1 +1,46 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+    plugins {
+        id 'com.google.dagger.hilt.android' version '2.44' apply false
+    }
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
 include ':app'
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+    versionCatalogs {
+        libs {
+            library("core-ktx", "androidx.core:core-ktx:1.9.0")
+            library("appcompat", "androidx.appcompat:appcompat:1.5.1")
+            library("lifecycle-viewmodel-ktx", "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+            library("swiperefreshlayout", "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+            library("work-runtime-ktx", "androidx.work:work-runtime-ktx:2.7.1")
+            library("preference-ktx", "androidx.preference:preference-ktx:1.2.0")
+
+            bundle("androidx", ["core-ktx", "appcompat", "lifecycle-viewmodel-ktx",
+                                   "swiperefreshlayout", "work-runtime-ktx", "preference-ktx"])
+
+            library("gson", "com.google.code.gson:gson:2.10")
+
+            library("hilt-android", "com.google.dagger:hilt-android:2.44")
+            library("hilt-compiler", "com.google.dagger:hilt-compiler:2.44")
+            bundle("hilt", ["hilt-android", "hilt-compiler"])
+
+            library("material", "com.google.android.material:material:1.7.0")
+
+            library("picasso", "com.squareup.picasso:picasso:2.8")
+            library("jsoup", "org.jsoup:jsoup:1.15.3")
+        }
+    }
+}
